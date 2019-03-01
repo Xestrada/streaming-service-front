@@ -8,9 +8,9 @@ import {
   Nav,
   NavItem,
   NavLink} from 'reactstrap';
-  import './footer.scss';
-  import { Media } from 'reactstrap';
-  import './style.scss';
+import './footer.scss';
+import { Media } from 'reactstrap';
+
 
 export default class Example extends React.Component {
   constructor(props) {
@@ -19,7 +19,7 @@ export default class Example extends React.Component {
     this.state = {
       isOpen: false
     };
-    
+
     this.toggle = this.toggle.bind(this);
   }
   toggle() {
@@ -35,15 +35,15 @@ export default class Example extends React.Component {
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
-            <Media href="https://facebook.com">
-            <Media object src= {img} className='img' alt="Generic placeholder image" />
-            ></Media>
-            <Media href="https://twitter.com">
-            <Media object src= {img} className='img' alt="Generic placeholder image" />
-            ></Media>
-            <Media href="https://google.com">
-            <Media object src= {img} className='img' alt="Generic placeholder image" />
-            ></Media>
+              <Media href="https://facebook.com">
+              <Media object src= {img} className='img' alt="Generic placeholder image" />
+              ></Media>
+              <Media href="https://twitter.com">
+              <Media object src= {img} className='img' alt="Generic placeholder image" />
+              ></Media>
+              <Media href="https://google.com">
+              <Media object src= {img} className='img' alt="Generic placeholder image" />
+              ></Media>
               <NavItem>
                 <NavLink href="/privacyPolicy">Privacy Policy</NavLink>
               </NavItem>
