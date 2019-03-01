@@ -1,5 +1,4 @@
 import React from 'react';
-import img from './JPEG_example_flower.jpg';
 import {
   Collapse,
   Navbar,
@@ -7,9 +6,10 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink} from 'reactstrap';
+  NavLink,
+  Media} from 'reactstrap';
+import img from './JPEG_example_flower.jpg';
 import './footer.scss';
-import { Media } from 'reactstrap';
 
 
 export default class Example extends React.Component {
