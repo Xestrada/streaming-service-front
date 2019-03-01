@@ -31,7 +31,7 @@ export default class Example extends React.Component {
     return (
       <div>
         <Navbar color="light" light expand="md">
-        <NavbarBrand className="Navbar" href="/">Contact us at your@email.com or XXX-XXX-XXXX</NavbarBrand>
+        <NavbarBrand href="/">Contact us at your@email.com or XXX-XXX-XXXX</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
