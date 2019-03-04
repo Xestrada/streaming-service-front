@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from './redux/actions';
+import Header from '../common/header';
+import Footer from '../common/footer';
+import './home.scss';
 
 export class Home extends Component {
   static propTypes = {
@@ -12,7 +15,12 @@ export class Home extends Component {
 
   render() {
     return (
-      <h1>Hello There</h1>
+      <div className = "home-root">
+      <Header />
+      <div className = "main">
+      </div>
+      <Footer />
+    </div>
     );
   }
 }
