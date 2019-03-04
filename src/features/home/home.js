@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from './redux/actions';
 import Header from '../common/header';
+import Footer from '../common/footer';
 import './home.scss';
 
 export class Home extends Component {
@@ -18,6 +19,7 @@ export class Home extends Component {
       <Header />
       <div className = "main">
       </div>
+      <Footer />
     </div>
     );
   }
