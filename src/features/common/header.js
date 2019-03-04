@@ -30,7 +30,7 @@ export default class Header extends React.Component{
         this.toggle = this.toggle.bind(this);
       }
 
-      toggle() {
+    toggle() {
         this.setState({
           isOpen: !this.state.isOpen
         });
