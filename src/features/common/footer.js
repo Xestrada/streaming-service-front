@@ -37,13 +37,13 @@ export default class Example extends React.Component {
             <Nav className="ml-auto" navbar>
               <Media href="https://facebook.com">
               <Media object src= {img} className='img' alt="Generic placeholder image" />
-              ></Media>
+              </Media>
               <Media href="https://twitter.com">
               <Media object src= {img} className='img' alt="Generic placeholder image" />
-              ></Media>
+              </Media>
               <Media href="https://google.com">
               <Media object src= {img} className='img' alt="Generic placeholder image" />
-              ></Media>
+              </Media>
               <NavItem>
                 <NavLink href="/privacyPolicy">Privacy Policy</NavLink>
               </NavItem>
