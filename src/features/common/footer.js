@@ -8,7 +8,7 @@ import {
   NavItem,
   NavLink,
   Media} from 'reactstrap';
-import img from './JPEG_example_flower.jpg';
+import img from '../../imagesJPEG_example_flower.jpg';
 import './footer.scss';
 
 
