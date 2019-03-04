@@ -15,18 +15,18 @@ import './footer.scss';
 export default class Example extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       isOpen: false
     };
-
     this.toggle = this.toggle.bind(this);
   }
+  
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen
     });
   }
+  
   render() {
     return (
       <div>
@@ -36,18 +36,17 @@ export default class Example extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <Media href="https://facebook.com">
-              <Media object src= {img} className='img' alt="Generic placeholder image" />
+                <Media object src= {img} className='img' alt="Generic placeholder image" />
               </Media>
               <Media href="https://twitter.com">
-              <Media object src= {img} className='img' alt="Generic placeholder image" />
+                <Media object src= {img} className='img' alt="Generic placeholder image" />
               </Media>
               <Media href="https://google.com">
-              <Media object src= {img} className='img' alt="Generic placeholder image" />
+                <Media object src= {img} className='img' alt="Generic placeholder image" />
               </Media>
               <NavItem>
                 <NavLink href="/privacyPolicy">Privacy Policy</NavLink>
-              </NavItem>
-              
+              </NavItem> 
             </Nav>
           </Collapse>
         </Navbar>
