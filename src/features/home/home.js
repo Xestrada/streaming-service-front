@@ -10,9 +10,9 @@ export class Home extends Component {
 
     render() {
         return (
-            <div className="home-root">
+            <div className='home-root'>
                 <Header />
-                <div className="main" />
+                <div className='main' />
                 <Footer />
             </div>
         );
