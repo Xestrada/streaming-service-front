@@ -13,8 +13,8 @@ export default class App extends Component {
 
   render() {
       return (
-          <div className="home-app">
-              <div className="page-container">{...this.props}</div>
+          <div className='home-app'>
+              <div className='page-container'>{...this.props}</div>
           </div>
       );
   }

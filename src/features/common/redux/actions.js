@@ -1,1 +1,2 @@
-export { actors, dismissActorsError } from './actors';
+export { getActors, dismissActorsError } from './actors';
+export { getMovies, dismissMoviesError } from './movies';

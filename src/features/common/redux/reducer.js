@@ -8,19 +8,21 @@
 
 import initialState from './initialState';
 import { reducer as actorsReducer } from './actors';
+import { reducer as moviesReducer } from './movies';
 
 const reducers = [
-  actorsReducer,
+    actorsReducer,
+    moviesReducer,
 ];
 
 export default function reducer(state = initialState, action) {
-  let newState;
-  switch (action.type) {
+    let newState;
+    switch (action.type) {
     // Handle cross-topic actions here
     default:
-      newState = state;
-      break;
-  }
-  /* istanbul ignore next */
-  return reducers.reduce((s, r) => r(s, action), newState);
+        newState = state;
+        break;
+    }
+    /* istanbul ignore next */
+    return reducers.reduce((s, r) => r(s, action), newState);
 }
