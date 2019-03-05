@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Button } from 'reactstrap';
 import * as actions from '../common/redux/actions';
 import Header from '../common/header';
 import Footer from '../common/footer';
@@ -19,28 +20,49 @@ export class Home extends Component {
 
         };
 
+        this.getMovieList = this.getMovieList.bind(this);
+        this.getActorList = this.getActorList.bind(this);
+
     }
 
-    componentDidMount() {
+    getMovieList() {
         const { actions } = this.props;
         const { getMovies } = actions;
         getMovies();
     }
 
+    getActorList() {
+        const { actions } = this.props;
+        const { getActors } = actions;
+        getActors();
+    }
+
 
     render() {
         const { common } = this.props;
-        const { movies } = common;
+        const { movies, actors } = common;
+        const movieButton = (<Button color='primary' onClick={this.getMovieList}> Movie List </Button>);
+        const actorButton = (<Button color='secondary' onClick={this.getActorList}> Actor List </Button>);
 
-        const movieTable = movies !== undefined ? movies.map(item => (
-            <h1>{item.title}</h1>
-        )) : null;
+        const movieTable = (movies !== undefined) ? movies.map(item => (
+            <h2>{item.title}</h2>),
+        ) : null;
+
+        const actorTable = actors != null ? [] : null;
+
+        if (actors != null) {
+            actorTable.push(<h1>Actors: </h1>);
+            for (let i = 0; i < 100; i += 1) {
+                actorTable.push(<h2>{actors[i].first_name}</h2>);
+            }
+        }
 
         return (
             <div className='home-root'>
                 <Header />
                 <div className='main'>
-                    {movieTable}
+                    {(movieTable) || movieButton}
+                    {actorTable || actorButton}
                 </div>
                 <Footer />
             </div>
