@@ -119,6 +119,9 @@ module.exports = {
               
             },
             loader: require.resolve('eslint-loader'),
+            options: {
+              emitWarning: true,
+            },
           },
         ],
         include: paths.appSrc,
