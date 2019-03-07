@@ -11,6 +11,8 @@ const initialState = {
     actorsError: null,
     moviesPending: false,
     moviesError: null,
+    tvShowsPending: false,
+    tvShowsError: null,
 };
 
 export default initialState;

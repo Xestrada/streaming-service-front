@@ -9,10 +9,12 @@
 import initialState from './initialState';
 import { reducer as actorsReducer } from './actors';
 import { reducer as moviesReducer } from './movies';
+import { reducer as tvShowsReducer } from './tvShows';
 
 const reducers = [
     actorsReducer,
     moviesReducer,
+    tvShowsReducer,
 ];
 
 export default function reducer(state = initialState, action) {
