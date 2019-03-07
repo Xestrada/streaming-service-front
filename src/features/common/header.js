@@ -11,11 +11,6 @@ import {
     DropdownToggle,
     DropdownMenu,
     DropdownItem,
-    Button,
-    Form,
-    FormGroup,
-    Label,
-    Input,
 } from 'reactstrap';
 import './header.scss';
 
@@ -105,28 +100,37 @@ export default class Header extends React.Component {
 
                         <Nav className='ml-auto' navbar>
 
+                            <Nav className='searchbar'>
+                                <input className='search_input' type='text' name='' placeholder='Search...' />
+                                <a href='/' className='search_icon'><i className='fas fa-search' /></a>
+                            </Nav>
                             <UncontrolledDropdown nav inNavbar>
 
                                 <DropdownToggle className='color-me' nav caret>
                   Login
                                 </DropdownToggle>
 
-                                <DropdownMenu right>
-                                    <Form inline>
-
-                                        <FormGroup className='mb-2 mr-sm-2 mb-sm-0'>
-                                            <Label for='exampleEmail' className='mr-sm-2'>Email</Label>
-                                            <Input type='email' name='email' id='exampleEmail' placeholder='something@idk.cool' />
-                                        </FormGroup>
-
-                                        <FormGroup className='mb-2 mr-sm-2 mb-sm-0'>
-                                            <Label for='examplePassword' className='mr-sm-2'>Password</Label>
-                                            <Input type='password' name='password' id='examplePassword' placeholder="don't tell!" />
-                                        </FormGroup>
-
-                                        <Button>Submit</Button>
-
-                                    </Form>
+                                <DropdownMenu background='blue' right>
+                                    <div className='container'>
+                                        <div className='row'>
+                                            <div className='col-md-offset-5 col-md-3'>
+                                                <div className='form-login'>
+                                                    <h4>Welcome back.</h4>
+                                                    <input type='text' id='userName' className='form-control input-sm chat-input' placeholder='username' />
+                                                    <input type='text' id='userPassword' className='form-control input-sm chat-input' placeholder='password' />
+                                                    <div className='wrapper'>
+                                                        <span className='group-btn'>
+                                                            <a href='/' className='btn btn-primary btn-md'>
+login
+                                                                {' '}
+                                                                <i className='fas fa-sign-in-alt' />
+                                                            </a>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </DropdownMenu>
 
                             </UncontrolledDropdown>
