@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Button } from 'reactstrap';
 import * as actions from '../common/redux/actions';
 import Header from '../common/header';
 import Footer from '../common/footer';
@@ -78,6 +77,7 @@ export class Home extends Component {
         return (
             <div className='home-root'>
                 <Header />
+                <br />
                 <div className='main'>
                     {tvBoxes}
 
