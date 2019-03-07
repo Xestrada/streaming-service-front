@@ -1,0 +1,13 @@
+.contentBox{
+    margin: 0;
+    display: inline-block;
+    .imgDiv{
+        display: block;
+        width: 8em;
+    }
+    .centerText {
+        margin: auto;
+        text-align: center;
+    }
+
+}

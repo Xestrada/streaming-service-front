@@ -6,6 +6,8 @@ import { Button } from 'reactstrap';
 import * as actions from '../common/redux/actions';
 import Header from '../common/header';
 import Footer from '../common/footer';
+import ContentBox from '../common/contenBox';
+import emptyImg from '../../images/noimage.png';
 import './home.scss';
 
 export class Home extends Component {
@@ -61,8 +63,9 @@ export class Home extends Component {
             <div className='home-root'>
                 <Header />
                 <div className='main'>
-                    {(movieTable) || movieButton}
+                    {movieTable || movieButton}
                     {actorTable || actorButton}
+                    <ContentBox image={emptyImg} url='' title='Test' />
                 </div>
                 <Footer />
             </div>
