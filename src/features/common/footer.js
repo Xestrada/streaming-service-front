@@ -9,7 +9,9 @@ import {
     NavLink,
     Media,
 } from 'reactstrap';
-import img from '../../images/JPEG_example_flower.jpg';
+import facebook from '../../images/facebooklogo.png';
+import twitter from '../../images/twitterlogo.jpg';
+import googleplus from '../../images/googlepluslogo.png';
 import './footer.scss';
 
 
@@ -30,29 +32,26 @@ export default class Example extends React.Component {
 
 
     render() {
-        const { isOpen } = this.state;
         return (
-            <div>
-                <Navbar color='dark' light expand='md'>
-                    <NavbarBrand href='/'>Contact us at your@email.com or XXX-XXX-XXXX</NavbarBrand>
-                    <NavbarToggler onClick={this.toggle} />
-                    <Collapse isOpen={isOpen} navbar>
-                        <Nav className='ml-auto' navbar>
-                            <Media href='https://facebook.com'>
-                                <Media object src={img} className='img' alt='Generic placeholder image' />
-                            </Media>
-                            <Media href='https://twitter.com'>
-                                <Media object src={img} className='img' alt='Generic placeholder image' />
-                            </Media>
-                            <Media href='https://google.com'>
-                                <Media object src={img} className='img' alt='Generic placeholder image' />
-                            </Media>
-                            <NavItem>
-                                <NavLink href='/privacyPolicy'>Privacy Policy</NavLink>
-                            </NavItem>
-                        </Nav>
-                    </Collapse>
-                </Navbar>
+            <div className='dark'>
+                <h1 className='relative'>Contact us at your@email.com or XXX-XXX-XXXX</h1>
+                <div className='d-flex justify-content-center'>
+                    <Media href='https://facebook.com'>
+                        <Media object src={facebook} className='img' alt='Generic placeholder image' />
+                    </Media>
+                    <Media href='https://twitter.com'>
+                        <Media object src={twitter} className='img' alt='Generic placeholder image' />
+                    </Media>
+                    <Media href='https://google.com'>
+                        <Media object src={googleplus} className='img' alt='Generic placeholder image' />
+                    </Media>
+                </div>
+                <div className='d-flex justify-content-center'>
+                    <NavItem>
+                        <NavLink href='/privacyPolicy'>Privacy Policy</NavLink>
+                    </NavItem>
+                </div>
+
             </div>
         );
     }
