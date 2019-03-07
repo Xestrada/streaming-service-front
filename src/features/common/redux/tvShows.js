@@ -13,28 +13,22 @@ export function getTV() {
             type: COMMON_TV_SHOWS_BEGIN,
         });
 
-        return (dispatch) => { // optionally you can have getState as the second argument
-            dispatch({
-                type: COMMON_TV_SHOWS_BEGIN,
-            });
 
-            return fetch('https://ss-media-middle.herokuapp.com/tv_shows')
-                .then(response => response.json())
-                .then((createdJson) => {
-                    dispatch({
-                        type: COMMON_TV_SHOWS_SUCCESS,
-                        data: createdJson,
-                    });
-                })
-                .catch((error) => {
-                    dispatch({
-                        type: COMMON_TV_SHOWS_FAILURE,
-                        data: error,
-                    });
-                    console.log('Error: ', error);
+        return fetch('https://ss-media-middle.herokuapp.com/tv_shows')
+            .then(response => response.json())
+            .then((createdJson) => {
+                dispatch({
+                    type: COMMON_TV_SHOWS_SUCCESS,
+                    data: createdJson,
                 });
-
-        };
+            })
+            .catch((error) => {
+                dispatch({
+                    type: COMMON_TV_SHOWS_FAILURE,
+                    data: error,
+                });
+                console.log('Error: ', error);
+            });
     };
 }
 

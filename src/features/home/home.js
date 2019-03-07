@@ -24,7 +24,12 @@ export class Home extends Component {
 
         this.getMovieList = this.getMovieList.bind(this);
         this.getActorList = this.getActorList.bind(this);
+        this.getTVList = this.getTVList.bind(this);
 
+    }
+
+    componentDidMount() {
+        this.getTVList();
     }
 
     getMovieList() {
@@ -39,33 +44,43 @@ export class Home extends Component {
         getActors();
     }
 
+    getTVList() {
+        const { actions } = this.props;
+        const { getTV } = actions;
+        getTV();
+    }
+
 
     render() {
         const { common } = this.props;
-        const { movies, actors } = common;
-        const movieButton = (<Button color='primary' onClick={this.getMovieList}> Movie List </Button>);
-        const actorButton = (<Button color='secondary' onClick={this.getActorList}> Actor List </Button>);
+        const { tvShows } = common;
+        // const { movies, actors, tvShows } = common;
+        // const movieButton = (<Button color='primary' onClick={this.getMovieList}> Movie List </Button>);
+        // const actorButton = (<Button color='secondary' onClick={this.getActorList}> Actor List </Button>);
 
-        const movieTable = (movies !== undefined) ? movies.map(item => (
-            <h2>{item.title}</h2>),
-        ) : null;
+        // const movieTable = (movies !== undefined) ? movies.map(item => (
+        //     <h2>{item.title}</h2>),
+        // ) : null;
 
-        const actorTable = actors != null ? [] : null;
+        const tvBoxes = (tvShows !== undefined) ? tvShows.map(tv => (
+            <ContentBox title={tv.title} url={tv.url} image={emptyImg} />
+        )) : null;
 
-        if (actors != null) {
-            actorTable.push(<h1>Actors: </h1>);
-            for (let i = 0; i < 100; i += 1) {
-                actorTable.push(<h2>{actors[i].first_name}</h2>);
-            }
-        }
+        // const actorTable = actors != null ? [] : null;
+
+        // if (actors != null) {
+        //     actorTable.push(<h1>Actors: </h1>);
+        //     for (let i = 0; i < 100; i += 1) {
+        //         actorTable.push(<h2>{actors[i].first_name}</h2>);
+        //     }
+        // }
 
         return (
             <div className='home-root'>
                 <Header />
                 <div className='main'>
-                    {movieTable || movieButton}
-                    {actorTable || actorButton}
-                    <ContentBox image={emptyImg} url='' title='Test' />
+                    {tvBoxes}
+
                 </div>
                 <Footer />
             </div>
