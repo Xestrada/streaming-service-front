@@ -46,7 +46,7 @@ export default class Example extends React.Component {
                         <Media object src={googleplus} className='img' alt='Generic placeholder image' />
                     </Media>
                 </div>
-                <div className='d-flex justify-content-center'>
+                <div className='relative'>
                     <NavItem>
                         <NavLink href='/privacyPolicy'>Privacy Policy</NavLink>
                     </NavItem>
