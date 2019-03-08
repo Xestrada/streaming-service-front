@@ -116,9 +116,18 @@ export default class Header extends React.Component {
                                             <div className='row'>
                                                 <div className='col-md-offset-5 col-md-3'>
                                                     <div className='form-login'>
-                                                        <h4>Welcome back.</h4>
+                                                        <h4>Member Login</h4>
                                                         <input type='text' id='userName' className='form-control input-sm chat-input' placeholder='username' />
                                                         <input type='text' id='userPassword' className='form-control input-sm chat-input' placeholder='password' />
+                                                        <label>
+                                                            <input type='checkbox' name='remember' value='1' />
+                                                            <span className='remember'>Remember me</span>
+                                                        </label>
+                                                        <div className='clr v-lg' />
+                                                        <a className='link-forget' href='/'>Forgot password?</a>
+                                                        <div className='clr v-lg' />
+                                                        <a className='link-signup' href='/'>Sign up</a>
+                                                        <div className='clr' />
                                                         <div className='wrapper'>
                                                             <span className='group-btn'>
                                                                 <a href='/' className='btn btn-primary btn-md'>
