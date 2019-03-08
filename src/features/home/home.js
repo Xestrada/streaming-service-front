@@ -62,24 +62,22 @@ export class Home extends Component {
         // ) : null;
 
         const tvBoxes = (tvShows !== undefined) ? tvShows.map(tv => (
-            <ContentBox title={tv.title} url={tv.url} image={emptyImg} />
+            <ContentBox title={tv.title} url={tv.url} image={emptyImg} key={tv.id} />
         )) : null;
 
-        // const actorTable = actors != null ? [] : null;
+        const loadingGrid = [];
 
-        // if (actors != null) {
-        //     actorTable.push(<h1>Actors: </h1>);
-        //     for (let i = 0; i < 100; i += 1) {
-        //         actorTable.push(<h2>{actors[i].first_name}</h2>);
-        //     }
-        // }
+
+        for (let i = 0; i < 20; i += 1) {
+            loadingGrid.push(<i className='fa fa-spinner fa-spin loadIcon' key={i} />);
+        }
 
         return (
             <div className='home-root'>
                 <Header />
                 <br />
                 <div className='main'>
-                    {tvBoxes}
+                    {tvBoxes || loadingGrid}
 
                 </div>
                 <Footer />
