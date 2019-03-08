@@ -13,6 +13,8 @@ const initialState = {
     moviesError: null,
     tvShowsPending: false,
     tvShowsError: null,
+  searchPending: false,
+  searchError: null,
 };
 
 export default initialState;

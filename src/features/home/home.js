@@ -24,11 +24,12 @@ export class Home extends Component {
         this.getMovieList = this.getMovieList.bind(this);
         this.getActorList = this.getActorList.bind(this);
         this.getTVList = this.getTVList.bind(this);
+        this.getRecentlyAdded = this.getRecentlyAdded.bind(this);
 
     }
 
     componentDidMount() {
-        this.getTVList();
+        this.getRecentlyAdded();
     }
 
     getMovieList() {
@@ -49,10 +50,17 @@ export class Home extends Component {
         getTV();
     }
 
+    getRecentlyAdded() {
+        const { actions } = this.props;
+        const { getRecents } = actions;
+        getRecents();
+    }
+
 
     render() {
         const { common } = this.props;
-        const { tvShows } = common;
+        const { recents } = common;
+        console.log(recents);
         // const { movies, actors, tvShows } = common;
         // const movieButton = (<Button color='primary' onClick={this.getMovieList}> Movie List </Button>);
         // const actorButton = (<Button color='secondary' onClick={this.getActorList}> Actor List </Button>);
@@ -61,8 +69,8 @@ export class Home extends Component {
         //     <h2>{item.title}</h2>),
         // ) : null;
 
-        const tvBoxes = (tvShows !== undefined) ? tvShows.map(tv => (
-            <ContentBox title={tv.title} url={tv.url} image={emptyImg} key={tv.id} />
+        const boxes = (recents !== undefined) ? recents.map(content => (
+            <ContentBox title={content.title} url={content.url} image={emptyImg} key={content.id} />
         )) : null;
 
         const loadingGrid = [];
@@ -77,7 +85,7 @@ export class Home extends Component {
                 <Header />
                 <br />
                 <div className='main'>
-                    {tvBoxes || loadingGrid}
+                    {boxes || loadingGrid}
 
                 </div>
                 <Footer />
