@@ -99,11 +99,12 @@ export default class Header extends React.Component {
                         </Nav>
 
                         <Nav className='ml-auto' navbar>
+                            <Nav className='searchbar'>
+                                <input className='search_input' type='text' name='' placeholder='Search...' />
+                                <a href='/' className='search_icon'><i className='fas fa-search' /></a>
+                            </Nav>
                             <Nav className='spacing'>
-                                <Nav className='searchbar'>
-                                    <input className='search_input' type='text' name='' placeholder='Search...' />
-                                    <a href='/' className='search_icon'><i className='fas fa-search' /></a>
-                                </Nav>
+
                                 <UncontrolledDropdown nav inNavbar>
 
                                     <DropdownToggle className='color-me' nav caret>
