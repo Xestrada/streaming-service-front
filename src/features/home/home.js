@@ -29,7 +29,7 @@ export class Home extends Component {
     }
 
     componentDidMount() {
-        this.getRecentlyAdded();
+        this.getRecentlyAdded(1);
     }
 
     getMovieList() {
@@ -50,17 +50,16 @@ export class Home extends Component {
         getTV();
     }
 
-    getRecentlyAdded() {
+    getRecentlyAdded(pageNum) {
         const { actions } = this.props;
         const { getRecents } = actions;
-        getRecents();
+        getRecents(pageNum);
     }
 
 
     render() {
         const { common } = this.props;
         const { recents } = common;
-        console.log(recents);
         // const { movies, actors, tvShows } = common;
         // const movieButton = (<Button color='primary' onClick={this.getMovieList}> Movie List </Button>);
         // const actorButton = (<Button color='secondary' onClick={this.getActorList}> Actor List </Button>);
