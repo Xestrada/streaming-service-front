@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Button } from 'reactstrap';
 import * as actions from '../common/redux/actions';
 import Header from '../common/header';
 import Footer from '../common/footer';
@@ -18,18 +19,21 @@ export class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            page: 1,
         };
 
         this.getMovieList = this.getMovieList.bind(this);
         this.getActorList = this.getActorList.bind(this);
         this.getTVList = this.getTVList.bind(this);
         this.getRecentlyAdded = this.getRecentlyAdded.bind(this);
+        this.nextPage = this.nextPage.bind(this);
+        this.backPage = this.backPage.bind(this);
 
     }
 
     componentDidMount() {
-        this.getRecentlyAdded(1);
+        const { page } = this.state;
+        this.getRecentlyAdded(page);
     }
 
     getMovieList() {
@@ -56,9 +60,22 @@ export class Home extends Component {
         getRecents(pageNum);
     }
 
+    nextPage() {
+        const { page } = this.state;
+        this.getRecentlyAdded(page + 1);
+        this.setState(prevState => ({ page: prevState.page + 1 }));
+    }
+
+    backPage() {
+        const { page } = this.state;
+        this.getRecentlyAdded(page - 1);
+        this.setState(prevState => ({ page: prevState.page - 1 }));
+    }
+
 
     render() {
         const { common } = this.props;
+        const { page } = this.state;
         const { recents } = common;
         // const { movies, actors, tvShows } = common;
         // const movieButton = (<Button color='primary' onClick={this.getMovieList}> Movie List </Button>);
@@ -84,8 +101,14 @@ export class Home extends Component {
                 <Header />
                 <br />
                 <div className='main'>
+
                     {boxes || loadingGrid}
 
+                </div>
+                <div className='buttonHolder'>
+                    {page !== 1 ? <Button color='primary' onClick={this.backPage} className='paginateButton'> Back </Button>
+                        : null}
+                    <Button color='primary' onClick={this.nextPage} className='paginateButton'> Next </Button>
                 </div>
                 <Footer />
             </div>
