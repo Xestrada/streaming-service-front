@@ -76,7 +76,7 @@ export class Home extends Component {
     render() {
         const { common } = this.props;
         const { page } = this.state;
-        const { recents } = common;
+        const { recents, maxPages } = common;
         // const { movies, actors, tvShows } = common;
         // const movieButton = (<Button color='primary' onClick={this.getMovieList}> Movie List </Button>);
         // const actorButton = (<Button color='secondary' onClick={this.getActorList}> Actor List </Button>);
@@ -108,7 +108,9 @@ export class Home extends Component {
                 <div className='buttonHolder'>
                     {page !== 1 ? <Button color='primary' onClick={this.backPage} className='paginateButton'> Back </Button>
                         : null}
-                    <Button color='primary' onClick={this.nextPage} className='paginateButton'> Next </Button>
+                    {maxPages !== undefined && page < maxPages
+                        ? <Button color='primary' onClick={this.nextPage} className='paginateButton'> Next </Button>
+                        : null}
                 </div>
                 <Footer />
             </div>

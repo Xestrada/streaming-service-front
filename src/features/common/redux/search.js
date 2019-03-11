@@ -8,14 +8,19 @@ import {
 // Rekit uses redux-thunk for async actions by default: https://github.com/gaearon/redux-thunk
 // If you prefer redux-saga, you can use rekit-plugin-redux-saga: https://github.com/supnate/rekit-plugin-redux-saga
 export function getRecents(pageNum) {
-    console.log(pageNum);
     return (dispatch) => { // optionally you can have getState as the second argument
         dispatch({
             type: COMMON_SEARCH_BEGIN,
         });
 
         return fetch(`https://ss-media-middle.herokuapp.com/recently_added/page=${pageNum}`)
-            .then(response => response.json())
+            .then((response) => {
+                dispatch({
+                    type: 'Header Data',
+                    maxPages: response.headers.get('max_pages'),
+                });
+                return response.json();
+            })
             .then((createdJson) => {
                 dispatch({
                     type: COMMON_SEARCH_SUCCESS,
@@ -72,6 +77,11 @@ export function reducer(state, action) {
         return {
             ...state,
             searchError: null,
+        };
+    case 'Header Data':
+        return {
+            ...state,
+            maxPages: action.maxPages,
         };
 
     default:
