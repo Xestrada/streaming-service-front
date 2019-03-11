@@ -86,7 +86,7 @@ export class Home extends Component {
         // ) : null;
 
         const boxes = (recents !== undefined) ? recents.map(content => (
-            <ContentBox title={content.title} url={content.url} image={emptyImg} key={content.id} />
+            <ContentBox title={content.title} url={content.url} image={content.image_url} key={content.id} />
         )) : null;
 
         const loadingGrid = [];
