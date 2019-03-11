@@ -107,10 +107,15 @@ export class Home extends Component {
                 </div>
                 <div className='buttonHolder'>
                     {page !== 1 ? <Button color='primary' onClick={this.backPage} className='paginateButton'> Back </Button>
-                        : null}
+                        : <Button color='primary' onClick={this.backPage} className='paginateButton' disabled> Back </Button>}
+                    <h6 className='pageCounter'>
+                        {page}
+                        /
+                        {maxPages}
+                    </h6>
                     {maxPages !== undefined && page < maxPages
                         ? <Button color='primary' onClick={this.nextPage} className='paginateButton'> Next </Button>
-                        : null}
+                        : <Button color='primary' onClick={this.nextPage} className='paginateButton' disabled> Next </Button>}
                 </div>
                 <Footer />
             </div>

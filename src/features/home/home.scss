@@ -19,9 +19,18 @@
 }
 
 .buttonHolder {
+  display: grid;
+  grid-template-columns: auto 10% auto;
   text-align: center;
+  justify-items: center;
 
-  .paginateButton {
-    margin-left: 5em;
+  .pageCounter {
+    display: inline;
+    grid-column-start: 2;
+    grid-column-end: 2;
+  }
+
+  .paginateButton{
+    width: 5em;
   }
 }
