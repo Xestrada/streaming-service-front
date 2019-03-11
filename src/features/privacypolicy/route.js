@@ -2,11 +2,11 @@
 // Learn more from: http://rekit.js.org/docs/routing.html
 
 import {
-    About,
+    PrivacyPolicy,
 } from '.';
 
 export default {
-    name: 'About',
-    path: '/about',
-    component: About,
+    name: 'PrivacyPolicy',
+    path: '/privacypolicy',
+    component: PrivacyPolicy,
 };

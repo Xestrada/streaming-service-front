@@ -2,11 +2,11 @@
 // Learn more from: http://rekit.js.org/docs/routing.html
 
 import {
-    About,
+    TVshows,
 } from '.';
 
 export default {
-    name: 'About',
-    path: '/about',
-    component: About,
+    name: 'TVshows',
+    path: '/TVshows',
+    component: TVshows,
 };

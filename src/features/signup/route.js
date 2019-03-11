@@ -2,11 +2,11 @@
 // Learn more from: http://rekit.js.org/docs/routing.html
 
 import {
-    About,
+    Signup,
 } from '.';
 
 export default {
-    name: 'About',
-    path: '/about',
-    component: About,
+    name: 'Signup',
+    path: '/signup',
+    component: Signup,
 };

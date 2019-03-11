@@ -1,1 +1,1 @@
-export { default as About } from './about';
+export { default as Subscriptions } from './subscriptions';
