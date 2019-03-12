@@ -37,6 +37,36 @@ export function getRecents(pageNum) {
     };
 }
 
+export function searchBy(filter, query, pageNum) {
+    return (dispatch) => { // optionally you can have getState as the second argument
+        dispatch({
+            type: COMMON_SEARCH_BEGIN,
+        });
+
+        return fetch(`https://ss-media-middle.herokuapp.com/${filter}=${query}/page=${pageNum}`)
+            .then((response) => {
+                dispatch({
+                    type: 'Header Data',
+                    maxPages: response.headers.get('max_pages'),
+                });
+                return response.json();
+            })
+            .then((createdJson) => {
+                dispatch({
+                    type: COMMON_SEARCH_SUCCESS,
+                    data: createdJson,
+                });
+            })
+            .catch((error) => {
+                dispatch({
+                    type: COMMON_SEARCH_FAILURE,
+                    data: error,
+                });
+                console.log('Error: ', error);
+            });
+    };
+}
+
 // Async action saves request error by default, this method is used to dismiss the error info.
 // If you don't want errors to be saved in Redux store, just ignore this method.
 export function dismissSearchError() {
