@@ -23,7 +23,6 @@ export default class Header extends React.Component {
         };
 
         this.toggle = this.toggle.bind(this);
-        this.testFunc = this.testFunc.bind(this);
     }
 
     toggle() {
