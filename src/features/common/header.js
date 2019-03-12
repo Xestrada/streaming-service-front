@@ -13,7 +13,6 @@ import {
     DropdownItem,
 } from 'reactstrap';
 import './header.scss';
-import SearchBar from './SearchBar';
 
 export default class Header extends React.Component {
     constructor(props) {
@@ -33,12 +32,7 @@ export default class Header extends React.Component {
         }));
     }
 
-    testFunc() {
-        console.log('Ran function');
-    }
-
     render() {
-        const filters = ['All', 'Movies', 'TV Shows', 'Actors', 'Genre'];
         const { isOpen } = this.state;
         return (
             <div>
@@ -156,7 +150,6 @@ login
                     </Collapse>
 
                 </Navbar>
-                <SearchBar filters={filters} searchFunc={() => this.testFunc} />
             </div>
         );
     }
