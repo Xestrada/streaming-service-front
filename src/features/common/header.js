@@ -24,6 +24,7 @@ export default class Header extends React.Component {
         };
 
         this.toggle = this.toggle.bind(this);
+        this.testFunc = this.testFunc.bind(this);
     }
 
     toggle() {
@@ -32,7 +33,12 @@ export default class Header extends React.Component {
         }));
     }
 
+    testFunc() {
+        console.log('Ran function');
+    }
+
     render() {
+        const filters = ['All', 'Movies', 'TV Shows', 'Actors', 'Genre'];
         const { isOpen } = this.state;
         return (
             <div>
@@ -99,10 +105,6 @@ export default class Header extends React.Component {
 
                         </Nav>
                         <Nav className='ml-auto' navbar>
-                            <Nav className='searchbar'>
-                                <input className='search_input' type='text' name='' placeholder='Search...' />
-                                <a href='/' className='search_icon'><i className='fas fa-search' /></a>
-                            </Nav>
                             <Nav className='spacing'>
 
                                 <UncontrolledDropdown nav inNavbar>
@@ -154,7 +156,7 @@ login
                     </Collapse>
 
                 </Navbar>
-                <SearchBar />
+                <SearchBar filters={filters} searchFunc={() => this.testFunc} />
             </div>
         );
     }
