@@ -11,136 +11,146 @@ import {
     DropdownToggle,
     DropdownMenu,
     DropdownItem,
-    Button, 
-    Form, 
-    FormGroup, 
-    Label, 
-    Input
-     } from 'reactstrap';
+} from 'reactstrap';
 import './header.scss';
 
-export default class Header extends React.Component{
+export default class Header extends React.Component {
     constructor(props) {
         super(props);
-    
+
         this.state = {
-          isOpen: false
+            isOpen: false,
         };
 
         this.toggle = this.toggle.bind(this);
-      }
+        this.testFunc = this.testFunc.bind(this);
+    }
 
-      toggle() {
-        this.setState({
-          isOpen: !this.state.isOpen
-        });
-      }
+    toggle() {
+        this.setState(prevState => ({
+            isOpen: !prevState.isOpen,
+        }));
+    }
 
     render() {
-      return (
-        <div>
-        <Navbar color="dark" light expand="md">
+        const { isOpen } = this.state;
+        return (
+            <div>
+                <Navbar color='dark' light expand='md'>
 
-          <NavbarBrand className="color-me" href="/">Company 48</NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
+                    <NavbarBrand className='color-me' href='/'>Company 48</NavbarBrand>
+                    <NavbarToggler onClick={this.toggle} />
 
-          <Collapse isOpen={this.state.isOpen} navbar>
+                    <Collapse isOpen={isOpen} navbar>
 
-            <Nav className="mr-auto" navbar>
+                        <Nav className='mr-auto' navbar>
 
-              <NavItem >
-                <NavLink className="color-me" href="/components/">Movies</NavLink>
-              </NavItem>
+                            <NavItem>
+                                <NavLink className='color-me' href='/components/'>Movies</NavLink>
+                            </NavItem>
 
-              <NavItem>
-                <NavLink className="color-me" href="/components/">TV Shows</NavLink>
-              </NavItem>
+                            <NavItem>
+                                <NavLink className='color-me' href='/components/'>TV Shows</NavLink>
+                            </NavItem>
 
-              <NavItem>
-                <NavLink className="color-me" href="/components/">Subscription</NavLink>
-              </NavItem>
+                            <NavItem>
+                                <NavLink className='color-me' href='/components/'>Subscription</NavLink>
+                            </NavItem>
 
-              <UncontrolledDropdown nav inNavbar>
+                            <UncontrolledDropdown nav inNavbar>
 
-                <DropdownToggle className="color-me" nav caret>
+                                <DropdownToggle className='color-me' nav caret>
                     Genres
-                </DropdownToggle>
-                
-                <DropdownMenu right>
+                                </DropdownToggle>
 
-                  <DropdownItem>
+                                <DropdownMenu right>
+
+                                    <DropdownItem>
                     COMEDY
-                  </DropdownItem>
+                                    </DropdownItem>
 
-                  <DropdownItem>
+                                    <DropdownItem>
                     SCI-FI
-                  </DropdownItem>
+                                    </DropdownItem>
 
-                  <DropdownItem>
+                                    <DropdownItem>
                     HORROR
-                  </DropdownItem>
+                                    </DropdownItem>
 
-                  <DropdownItem>
+                                    <DropdownItem>
                     ROMANCE
-                  </DropdownItem>
+                                    </DropdownItem>
 
-                  <DropdownItem>
+                                    <DropdownItem>
                     ACTION
-                  </DropdownItem>
+                                    </DropdownItem>
 
-                  <DropdownItem>
+                                    <DropdownItem>
                     ANIMATION
-                  </DropdownItem>
+                                    </DropdownItem>
 
-                </DropdownMenu>
+                                </DropdownMenu>
 
-              </UncontrolledDropdown>
+                            </UncontrolledDropdown>
 
-              <NavItem>
-                <NavLink className="color-me" href="/components/">About</NavLink>
-              </NavItem>
+                            <NavItem>
+                                <NavLink className='color-me' href='/components/'>About</NavLink>
+                            </NavItem>
 
-            </Nav>
+                        </Nav>
+                        <Nav className='ml-auto' navbar>
+                            <Nav className='spacing'>
 
-            <Nav className="ml-auto" navbar>
+                                <UncontrolledDropdown nav inNavbar>
 
-              <UncontrolledDropdown nav inNavbar>
-
-                <DropdownToggle className="color-me" nav caret>
+                                    <DropdownToggle className='color-me' nav caret>
                   Login
-                </DropdownToggle>
+                                    </DropdownToggle>
 
-                <DropdownMenu right>
-                    <Form inline>
+                                    <DropdownMenu style={{ padding: 0 }} right>
+                                        <div className='container'>
+                                            <div className='row'>
+                                                <div className='col-md-offset-5 col-md-3'>
+                                                    <div className='form-login'>
+                                                        <h4>Member Login</h4>
+                                                        <input type='text' id='userName' className='form-control input-sm chat-input' placeholder='username' />
+                                                        <input type='text' id='userPassword' className='form-control input-sm chat-input' placeholder='password' />
+                                                        <label>
+                                                            <input type='checkbox' name='remember' value='1' />
+                                                            <span className='remember'>Remember me</span>
+                                                        </label>
+                                                        <div className='clr v-lg' />
+                                                        <a className='link-forget' href='/'>Forgot password?</a>
+                                                        <div className='clr v-lg' />
+                                                        <a className='link-signup' href='/'>Sign up</a>
+                                                        <div className='clr' />
+                                                        <div className='wrapper'>
+                                                            <span className='group-btn'>
+                                                                <a href='/' className='btn btn-primary btn-md'>
+login
+                                                                    {' '}
+                                                                    <i className='fas fa-sign-in-alt' />
+                                                                </a>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </DropdownMenu>
 
-                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                            <Label for="exampleEmail" className="mr-sm-2">Email</Label>
-                            <Input type="email" name="email" id="exampleEmail" placeholder="something@idk.cool" />
-                        </FormGroup>
+                                </UncontrolledDropdown>
 
-                        <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                             <Label for="examplePassword" className="mr-sm-2">Password</Label>
-                             <Input type="password" name="password" id="examplePassword" placeholder="don't tell!" />
-                        </FormGroup>
+                                <NavItem>
+                                    <NavLink className='color-me' href='/components/'>Sign Up</NavLink>
+                                </NavItem>
+                            </Nav>
+                        </Nav>
 
-                    <Button>Submit</Button>
+                    </Collapse>
 
-                    </Form>
-                </DropdownMenu>
-
-              </UncontrolledDropdown>
-
-              <NavItem>
-                <NavLink className="color-me" href="/components/">Sign Up</NavLink>
-              </NavItem>
-
-              </Nav>
-
-          </Collapse>
-          
-        </Navbar>
-        
-        </div>
-      );
+                </Navbar>
+            </div>
+        );
     }
-  }
+}
