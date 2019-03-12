@@ -8,6 +8,7 @@ import Header from '../common/header';
 import Footer from '../common/footer';
 import ContentBox from '../common/contenBox';
 import SearchBar from '../common/SearchBar';
+import emptyImg from '../../images/noimage.png';
 import './home.scss';
 
 export class Home extends Component {
@@ -66,14 +67,35 @@ export class Home extends Component {
     }
 
     setSearchParams(filter, query) {
+        const filterURL = this.createSearchURL(filter);
         this.setState({
-            filter,
+            filter: filterURL,
             query,
-        }, () => this.search());
+            page: 1,
+            searchFunc: p => this.search(p),
+        }, () => this.search(1));
     }
 
-    search() {
+    createSearchURL(filter) {
+        switch (filter) {
+        case 'All':
+            return 'all';
+        case 'Movies':
+            return 'movies/all';
+        case 'TV Shows':
+            return 'tv_shows/all';
+        case 'Actors':
+            return 'actors/full';
+        default:
+            return 'All';
+        }
+    }
 
+    search(pageNum) {
+        const { actions } = this.props;
+        const { filter, query } = this.state;
+        const { searchBy } = actions;
+        searchBy(filter, query, pageNum);
     }
 
     nextPage() {
@@ -92,16 +114,16 @@ export class Home extends Component {
     render() {
         const { common } = this.props;
         const { page } = this.state;
-        const { recents, maxPages, searchError } = common;
+        const { data, maxPages, searchError } = common;
 
         const error = searchError !== undefined ? (<h1>Error</h1>) : null;
 
-        const boxes = (recents !== undefined) ? recents.map(content => (
-            <ContentBox title={content.title} url={content.url} image={content.image_url} key={content.id} />
+        const boxes = (data !== undefined) ? data.map(content => (
+            <ContentBox title={content.title || content.full_name} url={content.url} image={content.image_url || emptyImg} key={content.id} />
         )) : null;
 
         const loadingGrid = [];
-        const searchFilters = ['All', 'Movies', 'TV Shows', 'Actors', 'Users'];
+        const searchFilters = ['All', 'Movies', 'TV Shows', 'Actors'];
 
 
         for (let i = 0; i < 20; i += 1) {
@@ -112,7 +134,7 @@ export class Home extends Component {
             <div className='home-root'>
                 <Header />
                 <br />
-                <SearchBar filters={searchFilters} searchFunc={() => this.setSearchParams} />
+                <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />
                 <br />
                 <br />
                 <div className='main'>

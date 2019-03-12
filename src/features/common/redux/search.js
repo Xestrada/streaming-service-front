@@ -42,7 +42,6 @@ export function searchBy(filter, query, pageNum) {
         dispatch({
             type: COMMON_SEARCH_BEGIN,
         });
-
         return fetch(`https://ss-media-middle.herokuapp.com/${filter}=${query}/page=${pageNum}`)
             .then((response) => {
                 dispatch({
@@ -91,7 +90,7 @@ export function reducer(state, action) {
             ...state,
             searchPending: false,
             searchError: null,
-            recents: action.data.recently_added,
+            data: action.data[Object.keys(action.data)[0]],
         };
 
     case COMMON_SEARCH_FAILURE:
