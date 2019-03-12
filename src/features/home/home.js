@@ -7,7 +7,6 @@ import * as actions from '../common/redux/actions';
 import Header from '../common/header';
 import Footer from '../common/footer';
 import ContentBox from '../common/contenBox';
-import emptyImg from '../../images/noimage.png';
 import './home.scss';
 
 export class Home extends Component {
@@ -77,13 +76,6 @@ export class Home extends Component {
         const { common } = this.props;
         const { page } = this.state;
         const { recents, maxPages } = common;
-        // const { movies, actors, tvShows } = common;
-        // const movieButton = (<Button color='primary' onClick={this.getMovieList}> Movie List </Button>);
-        // const actorButton = (<Button color='secondary' onClick={this.getActorList}> Actor List </Button>);
-
-        // const movieTable = (movies !== undefined) ? movies.map(item => (
-        //     <h2>{item.title}</h2>),
-        // ) : null;
 
         const boxes = (recents !== undefined) ? recents.map(content => (
             <ContentBox title={content.title} url={content.url} image={content.image_url} key={content.id} />
