@@ -1,77 +1,36 @@
-@import '../../styles/mixins';
+.main{
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-template-rows: auto auto auto auto auto;
+  grid-column-gap: 5em;
+  grid-row-gap: 2em;
+  margin: auto;
+  justify-content: center;
+  width: 100%;
 
-.home-default-page {
-  text-align: center;
-  .app {
+  .loadIcon {
+    width: 10em;
+    height: 15em;
     text-align: center;
+    vertical-align: middle;
+    line-height: 15em;
   }
 
-  .app-logo {
-    animation: app-logo-spin infinite 10s linear;
-    height: 80px;
+}
+
+.buttonHolder {
+  display: grid;
+  grid-template-columns: auto 10% auto;
+  text-align: center;
+  justify-items: center;
+
+  .pageCounter {
+    display: inline;
+    grid-column-start: 2;
+    grid-column-end: 2;
   }
 
-  .rekit-logo {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    opacity: 0.08;
-    height: 190px;
-  }
-
-  .app-header {
-    background-color: #222;
-    height: 150px;
-    padding: 20px;
-    color: white;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .app-title {
-    font-size: 1.5em;
-  }
-
-  .app-intro {
-    font-size: large;
-  }
-
-  ul,
-  li {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  ul {
-    margin-top: 20px;
-  }
-  li {
-    margin-top: 10px;
-  }
-
-  a {
-    color: #0288d1;
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  p.memo {
-    width: 500px;
-    color: #999;
-    font-size: 12px;
-    line-height: 150%;
-    margin: auto;
-  }
-
-  @keyframes app-logo-spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+  .paginateButton{
+    width: 5em;
   }
 }
