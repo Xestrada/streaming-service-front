@@ -105,8 +105,8 @@ export class Home extends Component {
     }
 
     backPage() {
-        const { page } = this.state;
-        this.getRecentlyAdded(page - 1);
+        const { page, searchFunc } = this.state;
+        searchFunc(page - 1);
         this.setState(prevState => ({ page: prevState.page - 1 }));
     }
 
