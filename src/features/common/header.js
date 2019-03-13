@@ -7,19 +7,27 @@ import {
     Nav,
     NavItem,
     NavLink,
-    UncontrolledDropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
+    Button,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
 } from 'reactstrap';
+import PropTypes from 'prop-types';
 import './header.scss';
 
 export default class Header extends React.Component {
+    static propTypes = {
+        buttonLabel: PropTypes.func.isRequired,
+        className: PropTypes.string.isRequired,
+    };
+
     constructor(props) {
         super(props);
 
         this.state = {
             isOpen: false,
+            modal: false,
         };
 
         this.toggle = this.toggle.bind(this);
@@ -28,11 +36,15 @@ export default class Header extends React.Component {
     toggle() {
         this.setState(prevState => ({
             isOpen: !prevState.isOpen,
+            modal: !prevState.isOpen,
         }));
     }
 
     render() {
         const { isOpen } = this.state;
+        const { modal } = this.state;
+        const { buttonLabel } = this.props;
+        const { className } = this.props;
         return (
             <div>
                 <Navbar color='dark' light expand='md'>
@@ -56,42 +68,6 @@ export default class Header extends React.Component {
                                 <NavLink className='color-me' href='/components/'>Subscription</NavLink>
                             </NavItem>
 
-                            <UncontrolledDropdown nav inNavbar>
-
-                                <DropdownToggle className='color-me' nav caret>
-                    Genres
-                                </DropdownToggle>
-
-                                <DropdownMenu right>
-
-                                    <DropdownItem>
-                    COMEDY
-                                    </DropdownItem>
-
-                                    <DropdownItem>
-                    SCI-FI
-                                    </DropdownItem>
-
-                                    <DropdownItem>
-                    HORROR
-                                    </DropdownItem>
-
-                                    <DropdownItem>
-                    ROMANCE
-                                    </DropdownItem>
-
-                                    <DropdownItem>
-                    ACTION
-                                    </DropdownItem>
-
-                                    <DropdownItem>
-                    ANIMATION
-                                    </DropdownItem>
-
-                                </DropdownMenu>
-
-                            </UncontrolledDropdown>
-
                             <NavItem>
                                 <NavLink className='color-me' href='/components/'>About</NavLink>
                             </NavItem>
@@ -100,45 +76,32 @@ export default class Header extends React.Component {
                         <Nav className='ml-auto' navbar>
                             <Nav className='spacing'>
 
-                                <UncontrolledDropdown nav inNavbar>
-
-                                    <DropdownToggle className='color-me' nav caret>
-                  Login
-                                    </DropdownToggle>
-
-                                    <DropdownMenu style={{ padding: 0 }} right>
-                                        <div className='container'>
-                                            <div className='row'>
-                                                <div className='col-md-offset-5 col-md-3'>
-                                                    <div className='form-login'>
-                                                        <h4>Member Login</h4>
-                                                        <input type='text' id='userName' className='form-control input-sm chat-input' placeholder='username' />
-                                                        <input type='text' id='userPassword' className='form-control input-sm chat-input' placeholder='password' />
-                                                        <label>
-                                                            <input type='checkbox' name='remember' value='1' />
-                                                            <span className='remember'>Remember me</span>
-                                                        </label>
-                                                        <div className='clr v-lg' />
-                                                        <a className='link-forget' href='/'>Forgot password?</a>
-                                                        <div className='clr v-lg' />
-                                                        <a className='link-signup' href='/'>Sign up</a>
-                                                        <div className='clr' />
-                                                        <div className='wrapper'>
-                                                            <span className='group-btn'>
-                                                                <a href='/' className='btn btn-primary btn-md'>
+                                <Button className='color-me' color='white' onClick={this.toggle}>
+                                    {buttonLabel}
+Login
+                                </Button>
+                                <Modal isOpen={modal} toggle={this.toggle} className={className}>
+                                    <ModalHeader toggle={this.toggle}><h2 className='centerModalHeader'>Member Login</h2></ModalHeader>
+                                    <ModalBody className='modalBody'>
+                                        <input type='text' id='userName' className='form-control' placeholder='username' />
+                                        <input type='password' id='userPassword' className='form-control input-sm chat-input' placeholder='password' />
+                                        <label>
+                                            <input type='checkbox' name='remember' value='1' />
+                                            <span className='remember'>Remember me</span>
+                                        </label>
+                                    </ModalBody>
+                                    <ModalFooter>
+                                        <span className='group-btn'>
+                                            <a href='/' className='btn btn-primary btn-md'>
 login
-                                                                    {' '}
-                                                                    <i className='fas fa-sign-in-alt' />
-                                                                </a>
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </DropdownMenu>
-
-                                </UncontrolledDropdown>
+                                                {' '}
+                                                <i className='fas fa-sign-in-alt' />
+                                            </a>
+                                        </span>
+                                        {' '}
+                                        <Button color='secondary' onClick={this.toggle}>Cancel</Button>
+                                    </ModalFooter>
+                                </Modal>
 
                                 <NavItem>
                                     <NavLink className='color-me' href='/components/'>Sign Up</NavLink>
