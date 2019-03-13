@@ -45,7 +45,7 @@ export default class Example extends React.Component {
               <Media object src= {img} className='img' alt="Generic placeholder image" />
               ></Media>
               <NavItem>
-                <NavLink href="/privacyPolicy">Privacy Policy</NavLink>
+                <NavLink href="/privacypolicy">Privacy Policy</NavLink>
               </NavItem>
               
             </Nav>
