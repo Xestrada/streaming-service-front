@@ -3,10 +3,10 @@
 
 import {
     PrivacyPolicy,
-} from '.';
+} from './';
 
 export default {
     name: 'PrivacyPolicy',
-    path: '/privacypolicy',
-    component: PrivacyPolicy,
+    path: 'privacy',
+    component: PrivacyPolicy
 };
