@@ -96,7 +96,7 @@ export default class Header extends React.Component {
                                 </Modal>
 
                                 <NavItem>
-                                    <NavLink className='color-me' href='/components/'>Sign Up</NavLink>
+                                    <NavLink className='color-me' href='/signup'>Sign Up</NavLink>
                                 </NavItem>
                             </Nav>
                         </Nav>
