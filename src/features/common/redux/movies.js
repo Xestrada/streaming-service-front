@@ -86,6 +86,7 @@ export function reducer(state, action) {
             ...state,
             moviesPending: true,
             moviesError: null,
+            movies: [],
         };
 
     case COMMON_MOVIES_SUCCESS:

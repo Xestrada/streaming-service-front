@@ -82,6 +82,7 @@ export function reducer(state, action) {
             ...state,
             searchPending: true,
             searchError: null,
+            data: [],
         };
 
     case COMMON_SEARCH_SUCCESS:

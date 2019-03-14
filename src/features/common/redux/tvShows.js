@@ -86,6 +86,7 @@ export function reducer(state, action) {
             ...state,
             tvShowsPending: true,
             tvShowsError: null,
+            tvShows: [],
         };
 
     case COMMON_TV_SHOWS_SUCCESS:
