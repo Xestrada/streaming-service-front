@@ -18,7 +18,17 @@ export default class ContentBox extends React.Component {
       return (
           <div className='contentBox'>
               <img src={image} alt='default' className='imgDiv' />
-              <Link to={`/media/${title}`}><h6 className='centerText'>{title}</h6></Link>
+              <Link to={
+                  {
+                      pathname: `/media/${title}`,
+                      state: {
+                          title,
+                      },
+                  }
+              }
+              >
+                  <h6 className='centerText'>{title}</h6>
+              </Link>
           </div>
       );
   }
