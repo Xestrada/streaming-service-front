@@ -78,8 +78,6 @@ class Movies extends Component {
         const { actions } = this.props;
         const { filter, query } = this.state;
         const { searchMovies } = actions;
-        console.log(this.state);
-        console.log(actions);
         searchMovies(filter, query, pageNum);
     }
 

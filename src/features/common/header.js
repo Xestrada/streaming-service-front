@@ -13,14 +13,9 @@ import {
     ModalBody,
     ModalFooter,
 } from 'reactstrap';
-import PropTypes from 'prop-types';
 import './header.scss';
 
 export default class Header extends React.Component {
-    static propTypes = {
-        buttonLabel: PropTypes.func.isRequired,
-        className: PropTypes.string.isRequired,
-    };
 
     constructor(props) {
         super(props);
@@ -43,8 +38,6 @@ export default class Header extends React.Component {
     render() {
         const { isOpen } = this.state;
         const { modal } = this.state;
-        const { buttonLabel } = this.props;
-        const { className } = this.props;
         return (
             <div>
                 <Navbar color='dark' light expand='md'>
@@ -77,10 +70,9 @@ export default class Header extends React.Component {
                             <Nav className='spacing'>
 
                                 <Button className='color-me' color='white' onClick={this.toggle}>
-                                    {buttonLabel}
-Login
+                                    Login
                                 </Button>
-                                <Modal isOpen={modal} toggle={this.toggle} className={className}>
+                                <Modal isOpen={modal} toggle={this.toggle}>
                                     <ModalHeader toggle={this.toggle}><h2 className='centerModalHeader'>Member Login</h2></ModalHeader>
                                     <ModalBody className='modalBody'>
                                         <input type='text' id='userName' className='form-control' placeholder='username' />
@@ -93,7 +85,7 @@ Login
                                     <ModalFooter>
                                         <span className='group-btn'>
                                             <a href='/' className='btn btn-primary btn-md'>
-login
+                                                login
                                                 {' '}
                                                 <i className='fas fa-sign-in-alt' />
                                             </a>
