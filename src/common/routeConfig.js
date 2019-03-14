@@ -22,7 +22,7 @@ const childRoutes = [
     signUpRoute,
     moviesRoute,
     aboutRoute,
-  mediaRoute,
+    mediaRoute,
 ];
 
 const routes = [{
