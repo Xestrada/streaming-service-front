@@ -6,7 +6,7 @@ import {
 } from '.';
 
 export default {
-    path: 'media',
+    path: 'media/:title',
     name: 'Media',
     childRoutes: [
         { path: 'default-page', name: 'Default page', component: Media, isIndex: true },
