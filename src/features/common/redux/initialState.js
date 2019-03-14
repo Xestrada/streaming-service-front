@@ -11,6 +11,10 @@ const initialState = {
     actorsError: null,
     moviesPending: false,
     moviesError: null,
+    tvShowsPending: false,
+    tvShowsError: null,
+  searchPending: false,
+  searchError: null,
 };
 
 export default initialState;

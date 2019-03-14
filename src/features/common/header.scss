@@ -1,91 +1,25 @@
 .color-me{
-          color: white !important;
+    color: white !important;
 }
-
-.searchbar{
-margin-bottom: auto;
-margin-top: auto;
-margin-left: 20em;
-height: 45px;
-background-color: #353b48;
-border-radius: 30px;
-padding: 10px;
+.centerModalHeader{
+    margin-left: 4em;
 }
-
-.search_input{
-color: white;
-border: 0;
-outline: 0;
-background: none;
-width: 0;
-caret-color:transparent;
-line-height: 40px;
-transition: width 0.4s linear;
+.modalBody{
+    margin-right: 5em ;
+    margin-left: 5em;
 }
-
-.searchbar:hover > .search_input{
-padding: 0 10px;
-width: 170px;
-caret-color:red;
-transition: width 0.4s linear;
-}
-
-.searchbar:hover > .search_icon{
-background: white;
-color: #e74c3c;
-}
-
-.search_icon{
-height: 30px;
-width: 30px;
-float: right;
-display: flex;
-justify-content: center;
-align-items: center;
-border-radius: 50%;
-color:white;
-}
-
+ 
 .container {
-    position: fixed;
-    padding-left: 0px !important;
-}
-
-.form-login {
-    background-color: #EDEDED;
-    padding-top: 10px;
-    padding-bottom: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-    border-radius: 15px;
-    border-color:#d2d2d2;
-    border-width: 5px;
-    box-shadow:0 1px 0 #cfcfcf;
-}
-
-h4 { 
- border:0 solid #fff; 
- border-bottom-width:1px;
- padding-bottom:10px;
- text-align: center;
-}
-
-.form-control {
-    border-radius: 10px;
-}
-
-.wrapper {
-    padding-top: 10px;
-    text-align: center;
+position: fixed;
 }
 
 .spacing{
-    justify-content: space-between;
-    text-align: center;
-    margin-top: 0.18em;
-    margin-right: 2em;
+justify-content: space-between;
+text-align: center;
+margin-top: 0.18em;
+margin-right: 2em;
 }
 .remember{
-    font-size: 15px;
-    margin: 0 5px;
+font-size: 15px;
+margin: 0 5px;
 }
