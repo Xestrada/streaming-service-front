@@ -57,19 +57,19 @@ export default class Header extends React.Component {
                         <Nav className='mr-auto' navbar>
 
                             <NavItem>
-                                <NavLink className='color-me' href='/components/'>Movies</NavLink>
+                                <NavLink className='color-me' href='/movies'>Movies</NavLink>
                             </NavItem>
 
                             <NavItem>
-                                <NavLink className='color-me' href='/components/'>TV Shows</NavLink>
+                                <NavLink className='color-me' href='/tvshows'>TV Shows</NavLink>
                             </NavItem>
 
                             <NavItem>
-                                <NavLink className='color-me' href='/components/'>Subscription</NavLink>
+                                <NavLink className='color-me' href='/subscriptions'>Subscriptions</NavLink>
                             </NavItem>
 
                             <NavItem>
-                                <NavLink className='color-me' href='/components/'>About</NavLink>
+                                <NavLink className='color-me' href='/about'>About</NavLink>
                             </NavItem>
 
                         </Nav>
