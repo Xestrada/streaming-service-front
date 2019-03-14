@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../common/header';
 import Footer from '../common/footer';
-import './TVshows.scss';
+import './tvShows.scss';
 
 class TVshows extends Component {
 

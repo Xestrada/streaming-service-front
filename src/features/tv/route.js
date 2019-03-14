@@ -7,6 +7,6 @@ import {
 
 export default {
     name: 'TVshows',
-    path: '/TVshows',
+    path: '/tvshows',
     component: TVshows,
 };
