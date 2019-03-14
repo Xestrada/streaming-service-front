@@ -7,6 +7,6 @@ import {
 
 export default {
     name: 'Movies',
-    path: '/about',
+    path: '/movies',
     component: Movies,
 };

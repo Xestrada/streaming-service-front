@@ -10,6 +10,7 @@ class About extends Component {
         return (
             <div>
                 <Header />
+                We're all about getting paid
                 <Footer />
             </div>
         );

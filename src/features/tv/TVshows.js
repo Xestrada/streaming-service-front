@@ -10,6 +10,7 @@ class TVshows extends Component {
         return (
             <div>
                 <Header />
+                Tv
                 <Footer />
             </div>
         );

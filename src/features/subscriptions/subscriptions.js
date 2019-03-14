@@ -10,6 +10,7 @@ class Subscriptions extends Component {
         return (
             <div>
                 <Header />
+                Subs
                 <Footer />
             </div>
         );

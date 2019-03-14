@@ -1,1 +1,1 @@
-export { default as TVshows } from './TVshows';
+export { default as TVshows } from './tvShows';

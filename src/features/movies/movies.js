@@ -10,6 +10,7 @@ class Movies extends Component {
         return (
             <div>
                 <Header />
+                movies
                 <Footer />
             </div>
         );
