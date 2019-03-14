@@ -1,10 +1,5 @@
 import React from 'react';
 import {
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    NavbarBrand,
-    Nav,
     NavItem,
     NavLink,
     Media,
@@ -15,7 +10,7 @@ import googleplus from '../../images/googlepluslogo.png';
 import './footer.scss';
 
 
-export default class Example extends React.Component {
+export default class Footer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -30,11 +25,10 @@ export default class Example extends React.Component {
         }));
     }
 
-
     render() {
         return (
             <div className='dark'>
-                <h1 className='relative'>Contact us at your@email.com or XXX-XXX-XXXX</h1>
+                <h1 className='relative'>Contact us at fake@email.com or 123-456-7890</h1>
                 <div className='d-flex justify-content-center'>
                     <Media href='https://facebook.com'>
                         <Media object src={facebook} className='img' alt='Generic placeholder image' />
@@ -48,7 +42,7 @@ export default class Example extends React.Component {
                 </div>
                 <div className='relative'>
                     <NavItem>
-                        <NavLink href='/privacyPolicy'>Privacy Policy</NavLink>
+                        <NavLink href='/privacy'>Privacy Policy</NavLink>
                     </NavItem>
                 </div>
 

@@ -23,7 +23,6 @@ export default class SearchBar extends React.Component {
     }
 
     handleKeyPress(e) {
-        console.log(e.target.value)
         if (e.key === 'Enter') {
             this.setState({
                 query: e.target.value,
