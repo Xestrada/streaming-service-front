@@ -8,7 +8,7 @@ import Footer from '../common/footer';
 
 export class Media extends Component {
   static propTypes = {
-      media: PropTypes.object.isRequired,
+      common: PropTypes.object.isRequired,
       actions: PropTypes.object.isRequired,
       location: PropTypes.object.isRequired,
   };
