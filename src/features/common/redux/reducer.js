@@ -11,12 +11,14 @@ import { reducer as actorsReducer } from './actors';
 import { reducer as moviesReducer } from './movies';
 import { reducer as tvShowsReducer } from './tvShows';
 import { reducer as searchReducer } from './search';
+import { reducer as mediaReducer } from './media';
 
 const reducers = [
     actorsReducer,
     moviesReducer,
     tvShowsReducer,
     searchReducer,
+  mediaReducer,
 ];
 
 export default function reducer(state = initialState, action) {
