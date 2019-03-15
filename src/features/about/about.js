@@ -10,7 +10,15 @@ class About extends Component {
         return (
             <div>
                 <Header />
-                We're all about getting paid
+                <div>
+                    <img className='aboutImage' src='https://i.imgur.com/h93RfrU.jpg' alt='' />
+                    <div className='text-imageCentered'>About Us</div>
+                    <img className='logoImage' src='https://i.imgur.com/6mIyNnf.png' alt='' />
+                </div>
+                <div className='container'>
+                    <h2 className='textCenter'>THE BUSINESS OF GOOD STREAMING SERVICE</h2>
+                    <p>Video Vault also known as VV is one of the most trusted media stream service to its members, international subscriber. Created this website with end-user in mind that provides worldwide audiences with an digital media and social viewing experience. VV give the worldwide audience to enjoy the video anywhere and anytime they want with the time they choose. It can also interact with different members in the website to have discussion of their favorite TV shows or Movies.  </p>
+                </div>
                 <Footer />
             </div>
         );
