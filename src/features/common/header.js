@@ -5,7 +5,7 @@ import {
     Collapse,
     Navbar,
     NavbarToggler,
-    NavbarBrand,
+    NavLink,
     Nav,
     NavItem,
     Button,
@@ -51,6 +51,7 @@ export class Header extends React.Component {
         const { actions } = this.props;
         const { authen } = actions;
         authen();
+        this.toggle();
     }
 
     updateState(name, value) {
@@ -69,7 +70,8 @@ export class Header extends React.Component {
             <div>
                 <Navbar color='dark' light expand='md'>
 
-                    <Link className='color-me' to='/'>Company 48</Link>
+                    <Link className='color-me brand' to='/'>Company 48</Link>
+
                     <NavbarToggler onClick={this.toggle} />
 
                     <Collapse isOpen={isOpen} navbar>
@@ -77,26 +79,26 @@ export class Header extends React.Component {
                         <Nav className='mr-auto' navbar>
 
                             <NavItem>
-                                <Link className='color-me' to='/movies'>Movies</Link>
+                                <Link className='color-me link' to='/movies'>Movies</Link>
                             </NavItem>
 
                             <NavItem>
-                                <Link className='color-me' to='/tvshows'>TV Shows</Link>
+                                <Link className='color-me link' to='/tvshows'>TV Shows</Link>
                             </NavItem>
 
                             <NavItem>
-                                <Link className='color-me' to='/subscriptions'>Subscriptions</Link>
+                                <Link className='color-me link' to='/subscriptions'>Subscriptions</Link>
                             </NavItem>
 
                             <NavItem>
-                                <Link className='color-me' to='/about'>About</Link>
+                                <Link className='color-me link' to='/about'>About</Link>
                             </NavItem>
 
                         </Nav>
                         <Nav className='ml-auto' navbar>
                             <Nav className='spacing'>
 
-                                <Button className='color-me' color='white' onClick={this.toggle}>
+                                <Button className='color-me link' color='white' onClick={this.toggle}>
                                     Login
                                 </Button>
                                 <Modal isOpen={modal} toggle={this.toggle}>
@@ -118,9 +120,8 @@ export class Header extends React.Component {
                                     </ModalFooter>
                                 </Modal>
 
-                                <NavItem>
-                                    <Link className='color-me' to='/signup'>Sign Up</Link>
-                                </NavItem>
+                                <Link className='color-me link' to='/signup'>Sign Up</Link>
+                                
                             </Nav>
                         </Nav>
 
