@@ -123,10 +123,13 @@ export class Header extends React.Component {
                             <NavItem>
                                 <Link className='color-me link' to='/tvshows'>TV Shows</Link>
                             </NavItem>
+                            {common.authen ? (
+                                <NavItem>
+                                    <Link className='color-me link' to='/subscriptions'>Subscriptions</Link>
+                                </NavItem>
+                            )
+                                : null}
 
-                            <NavItem>
-                                <Link className='color-me link' to='/subscriptions'>Subscriptions</Link>
-                            </NavItem>
 
                             <NavItem>
                                 <Link className='color-me link' to='/about'>About</Link>
