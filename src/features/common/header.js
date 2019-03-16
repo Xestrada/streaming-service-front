@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
 import {
     Collapse,
     Navbar,
@@ -6,16 +8,22 @@ import {
     NavbarBrand,
     Nav,
     NavItem,
-    NavLink,
     Button,
     Modal,
     ModalHeader,
     ModalBody,
     ModalFooter,
 } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import './header.scss';
+import { connect } from 'react-redux';
+import * as actions from './redux/actions';
 
-export default class Header extends React.Component {
+export class Header extends React.Component {
+    static propTypes = {
+        actions: PropTypes.object.isRequired,
+        common: PropTypes.object.isRequired,
+    };
 
     constructor(props) {
         super(props);
@@ -23,9 +31,13 @@ export default class Header extends React.Component {
         this.state = {
             isOpen: false,
             modal: false,
+            username: '',
+            pass: '',
         };
 
         this.toggle = this.toggle.bind(this);
+        this.login = this.login.bind(this);
+        this.updateState = this.updateState.bind(this);
     }
 
     toggle() {
@@ -35,14 +47,29 @@ export default class Header extends React.Component {
         }));
     }
 
+    login() {
+        const { actions } = this.props;
+        const { authen } = actions;
+        authen();
+    }
+
+    updateState(name, value) {
+        this.setState({
+            [name]: value,
+        });
+    }
+
     render() {
         const { isOpen } = this.state;
         const { modal } = this.state;
+        const { common } = this.props;
+        console.log(common.authen);
+
         return (
             <div>
                 <Navbar color='dark' light expand='md'>
 
-                    <NavbarBrand className='color-me' href='/'>Company 48</NavbarBrand>
+                    <Link className='color-me' to='/'>Company 48</Link>
                     <NavbarToggler onClick={this.toggle} />
 
                     <Collapse isOpen={isOpen} navbar>
@@ -50,19 +77,19 @@ export default class Header extends React.Component {
                         <Nav className='mr-auto' navbar>
 
                             <NavItem>
-                                <NavLink className='color-me' href='/movies'>Movies</NavLink>
+                                <Link className='color-me' to='/movies'>Movies</Link>
                             </NavItem>
 
                             <NavItem>
-                                <NavLink className='color-me' href='/tvshows'>TV Shows</NavLink>
+                                <Link className='color-me' to='/tvshows'>TV Shows</Link>
                             </NavItem>
 
                             <NavItem>
-                                <NavLink className='color-me' href='/subscriptions'>Subscriptions</NavLink>
+                                <Link className='color-me' to='/subscriptions'>Subscriptions</Link>
                             </NavItem>
 
                             <NavItem>
-                                <NavLink className='color-me' href='/about'>About</NavLink>
+                                <Link className='color-me' to='/about'>About</Link>
                             </NavItem>
 
                         </Nav>
@@ -83,20 +110,16 @@ export default class Header extends React.Component {
                                         </label>
                                     </ModalBody>
                                     <ModalFooter>
-                                        <span className='group-btn'>
-                                            <a href='/' className='btn btn-primary btn-md'>
+                                        <Button className='btn btn-primary btn-md' color='primary' onClick={this.login}>
                                                 login
-                                                {' '}
-                                                <i className='fas fa-sign-in-alt' />
-                                            </a>
-                                        </span>
-                                        {' '}
+                                            <i className='fas fa-sign-in-alt' />
+                                        </Button>
                                         <Button color='secondary' onClick={this.toggle}>Cancel</Button>
                                     </ModalFooter>
                                 </Modal>
 
                                 <NavItem>
-                                    <NavLink className='color-me' href='/signup'>Sign Up</NavLink>
+                                    <Link className='color-me' to='/signup'>Sign Up</Link>
                                 </NavItem>
                             </Nav>
                         </Nav>
@@ -108,3 +131,20 @@ export default class Header extends React.Component {
         );
     }
 }
+
+/* istanbul ignore next */
+function mapStateToProps(state) {
+    return {
+        header: state.header,
+        common: state.common,
+    };
+}
+
+/* istanbul ignore next */
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({ ...actions }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
