@@ -51,7 +51,8 @@ export class Header extends React.Component {
     login() {
         const { actions } = this.props;
         const { authen } = actions;
-        authen();
+        const { username, pass } = this.state;
+        authen(username, pass);
         this.toggle();
     }
 
