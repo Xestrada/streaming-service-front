@@ -11,7 +11,6 @@
     margin-right: 1rem;
     font-size: 1.25rem;
     line-height: inherit;
-    white-space: nowwrap;
 }
 
 .link {
@@ -23,6 +22,10 @@
     vertical-align: middle;
 }
 
+.user {
+    width: 3rem;
+}
+
 .centerModalHeader{
     margin-left: 4em;
 }
@@ -32,16 +35,16 @@
 }
  
 .container {
-position: fixed;
+    position: fixed;
 }
 
 .spacing{
-justify-content: space-between;
-text-align: center;
-margin-top: 0.18em;
-margin-right: 2em;
+    justify-content: space-between;
+    text-align: center;
+    margin-top: 0.18em;
+    margin-right: 2em;
 }
 .remember{
-font-size: 15px;
-margin: 0 5px;
+    font-size: 15px;
+    margin: 0 5px;
 }
