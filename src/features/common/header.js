@@ -51,9 +51,13 @@ export class Header extends React.Component {
     login() {
         const { actions } = this.props;
         const { authen } = actions;
-        const { username, pass } = this.state;
-        authen(username, pass);
-        this.toggle();
+        this.setState(prevState => ({
+            isOpen: !prevState.isOpen,
+            modal: !prevState.isOpen,
+        }), () => {
+            const { username, pass } = this.state;
+            authen(username, pass);
+        });
     }
 
     updateState(name, value) {
@@ -71,8 +75,8 @@ export class Header extends React.Component {
             <Modal isOpen={modal} toggle={this.toggle}>
                 <ModalHeader toggle={this.toggle}><h2 className='centerModalHeader'>Member Login</h2></ModalHeader>
                 <ModalBody className='modalBody'>
-                    <input type='text' id='userName' className='form-control' placeholder='username' />
-                    <input type='password' id='userPassword' className='form-control input-sm chat-input' placeholder='password' />
+                    <input type='text' id='userName' className='form-control' placeholder='username' onKeyDown={e => this.updateState('username', e.target.value)} />
+                    <input type='password' id='userPassword' className='form-control input-sm chat-input' placeholder='password' onKeyDown={e => this.updateState('pass', e.target.value)} />
                     <label>
                         <input type='checkbox' name='remember' value='1' />
                         <span className='remember'>Remember me</span>
