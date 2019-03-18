@@ -17,6 +17,8 @@ const initialState = {
   searchError: null,
   mediaPending: false,
   mediaError: null,
+  authenPending: false,
+  authenError: null,
 };
 
 export default initialState;

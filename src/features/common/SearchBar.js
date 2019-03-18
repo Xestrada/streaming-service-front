@@ -55,10 +55,10 @@ export default class SearchBar extends React.Component {
                         <div className='input-group'>
                             <div className='input-group-btn search-panel'>
                                 <Input
-                                  type='select'
-                                  name='select'
-                                  id='exampleSelect'
-                                  onChange={e => this.changeState('filter', e.target.value)}
+                                  type='select' // eslint-disable-line indent
+                                  name='select' // eslint-disable-line indent
+                                  id='exampleSelect' // eslint-disable-line indent
+                                  onChange={e => this.changeState('filter', e.target.value)} // eslint-disable-line indent
                                 >
                                     {searchOptions}
                                 </Input>

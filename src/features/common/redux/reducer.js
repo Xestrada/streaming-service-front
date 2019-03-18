@@ -12,6 +12,7 @@ import { reducer as moviesReducer } from './movies';
 import { reducer as tvShowsReducer } from './tvShows';
 import { reducer as searchReducer } from './search';
 import { reducer as mediaReducer } from './media';
+import { reducer as authenReducer } from './authen';
 
 const reducers = [
     actorsReducer,
@@ -19,6 +20,7 @@ const reducers = [
     tvShowsReducer,
     searchReducer,
   mediaReducer,
+  authenReducer,
 ];
 
 export default function reducer(state = initialState, action) {
