@@ -35,12 +35,21 @@ export class Media extends Component {
 
       const { title } = this.state;
       const { common } = this.props;
-      const { data, maxPages, mediaError } = common;
+      const { media, mediaError } = common;
+      const error = mediaError !== undefined ? <h1>Error</h1> : null;
+      const mediaElems = media !== undefined ? (
+          <div className='mediaBody'>
+              <h1>{media.title || title}</h1>
+              <img src={media.image_url} alt='Cover art' className='boxArt' />
+              <p>{media.description}</p>
+              <span>{media.year}</span>
+          </div>
+      ) : null;
 
       return (
           <div className='media-default-page'>
               <Header />
-              {title}
+              {mediaElems || error}
               <Footer />
           </div>
       );
@@ -51,6 +60,7 @@ export class Media extends Component {
 function mapStateToProps(state) {
     return {
         media: state.media,
+        common: state.common,
     };
 }
 
