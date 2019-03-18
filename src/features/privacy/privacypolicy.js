@@ -10,7 +10,9 @@ class PrivacyPolicy extends Component {
         return (
             <div>
                 <Header />
-                We're gonna sell all your data lol
+                <div>
+                    {"We're gonna sell all your data lol"}
+                </div>
                 <Footer />
             </div>
         );
