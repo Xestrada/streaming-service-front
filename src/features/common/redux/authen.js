@@ -13,8 +13,6 @@ export function authen(username, pass) {
             type: COMMON_AUTHEN_BEGIN,
         });
 
-        console.log(`${username} ${pass}`);
-
         return new Promise((resolve, reject) => {
 
             const doRequest = Promise.resolve();

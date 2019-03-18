@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import {
     Collapse,
+    Dropdown,
+    DropdownItem,
+    DropdownMenu,
+    DropdownToggle,
     Navbar,
     NavbarToggler,
     Nav,
@@ -32,14 +36,22 @@ export class Header extends React.Component {
         this.state = {
             isOpen: false,
             modal: false,
+            userDropdown: false,
             username: '',
             pass: '',
         };
 
         this.navToggle = this.navToggle.bind(this);
         this.modalToggle = this.modalToggle.bind(this);
+        this.dropdownToggle = this.dropdownToggle.bind(this);
         this.login = this.login.bind(this);
         this.updateState = this.updateState.bind(this);
+    }
+
+    dropdownToggle() {
+        this.setState(prevState => ({
+            userDropdown: !prevState.userDropdown,
+        }));
     }
 
     navToggle() {
@@ -72,7 +84,7 @@ export class Header extends React.Component {
     }
 
     render() {
-        const { modal, username, pass, isOpen } = this.state;
+        const { modal, username, pass, isOpen, userDropdown } = this.state;
         const { common } = this.props;
 
         const modalElem = (
@@ -97,9 +109,17 @@ export class Header extends React.Component {
         );
 
         const sideHead = common.authen ? (
-            <Media right>
-                <img className='user' src={userImg} alt='Placeholder' />
-            </Media>
+            <Dropdown isOpen={userDropdown} toggle={this.dropdownToggle} direction='down'>
+                <DropdownToggle>
+                    <Media right>
+                        <img className='user' src={userImg} alt='Placeholder' />
+                    </Media>
+                </DropdownToggle>
+                <DropdownMenu right>
+                    <DropdownItem>Account</DropdownItem>
+                    <DropdownItem>Sign Out</DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
         ) : (
             <div>
                 <Button className='color-me link' color='white' onClick={this.modalToggle}>
