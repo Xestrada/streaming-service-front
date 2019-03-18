@@ -36,15 +36,21 @@ export class Header extends React.Component {
             pass: '',
         };
 
-        this.toggle = this.toggle.bind(this);
+        this.navToggle = this.navToggle.bind(this);
+        this.modalToggle = this.modalToggle.bind(this);
         this.login = this.login.bind(this);
         this.updateState = this.updateState.bind(this);
     }
 
-    toggle() {
+    navToggle() {
         this.setState(prevState => ({
             isOpen: !prevState.isOpen,
-            modal: !prevState.isOpen,
+        }));
+    }
+
+    modalToggle() {
+        this.setState(prevState => ({
+            modal: !prevState.modal,
         }));
     }
 
@@ -52,8 +58,7 @@ export class Header extends React.Component {
         const { actions } = this.props;
         const { authen } = actions;
         this.setState(prevState => ({
-            isOpen: !prevState.isOpen,
-            modal: !prevState.isOpen,
+            modal: !prevState.modal,
         }), () => {
             const { username, pass } = this.state;
             authen(username, pass);
@@ -67,13 +72,12 @@ export class Header extends React.Component {
     }
 
     render() {
-        const { isOpen } = this.state;
-        const { modal, username, pass } = this.state;
+        const { modal, username, pass, isOpen } = this.state;
         const { common } = this.props;
 
         const modalElem = (
-            <Modal isOpen={modal} toggle={this.toggle}>
-                <ModalHeader toggle={this.toggle} className='centerModalHeader'>Member Login</ModalHeader>
+            <Modal isOpen={modal} toggle={this.modalToggle}>
+                <ModalHeader toggle={this.modalToggle} className='centerModalHeader'>Member Login</ModalHeader>
                 <ModalBody className='modalBody'>
                     <input value={username} type='text' id='userName' className='form-control' placeholder='username' onChange={e => this.updateState('username', e.target.value)} />
                     <input value={pass} type='password' id='userPassword' className='form-control input-sm chat-input' placeholder='password' onChange={e => this.updateState('pass', e.target.value)} />
@@ -87,7 +91,7 @@ export class Header extends React.Component {
                         login
                         <i className='fas fa-sign-in-alt' />
                     </Button>
-                    <Button color='secondary' onClick={this.toggle}>Cancel</Button>
+                    <Button color='secondary' onClick={this.modalToggle}>Cancel</Button>
                 </ModalFooter>
             </Modal>
         );
@@ -98,7 +102,7 @@ export class Header extends React.Component {
             </Media>
         ) : (
             <div>
-                <Button className='color-me link' color='white' onClick={this.toggle}>
+                <Button className='color-me link' color='white' onClick={this.modalToggle}>
                 Login
                 </Button>
 
@@ -115,7 +119,7 @@ export class Header extends React.Component {
 
                     <Link className='color-me brand' to='/'>Company 48</Link>
 
-                    <NavbarToggler onClick={this.toggle} />
+                    <NavbarToggler onClick={this.navToggle} />
 
                     <Collapse isOpen={isOpen} navbar>
 
