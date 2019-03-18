@@ -68,15 +68,15 @@ export class Header extends React.Component {
 
     render() {
         const { isOpen } = this.state;
-        const { modal } = this.state;
+        const { modal, username, pass } = this.state;
         const { common } = this.props;
 
         const modalElem = (
             <Modal isOpen={modal} toggle={this.toggle}>
-                <ModalHeader toggle={this.toggle}><h2 className='centerModalHeader'>Member Login</h2></ModalHeader>
+                <ModalHeader toggle={this.toggle} className='centerModalHeader'>Member Login</ModalHeader>
                 <ModalBody className='modalBody'>
-                    <input type='text' id='userName' className='form-control' placeholder='username' onKeyDown={e => this.updateState('username', e.target.value)} />
-                    <input type='password' id='userPassword' className='form-control input-sm chat-input' placeholder='password' onKeyDown={e => this.updateState('pass', e.target.value)} />
+                    <input value={username} type='text' id='userName' className='form-control' placeholder='username' onChange={e => this.updateState('username', e.target.value)} />
+                    <input value={pass} type='password' id='userPassword' className='form-control input-sm chat-input' placeholder='password' onChange={e => this.updateState('pass', e.target.value)} />
                     <label>
                         <input type='checkbox' name='remember' value='1' />
                         <span className='remember'>Remember me</span>

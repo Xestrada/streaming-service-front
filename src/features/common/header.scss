@@ -27,7 +27,12 @@
 }
 
 .centerModalHeader{
-    margin-left: 4em;
+
+    h5 {
+        width: 100%;
+        text-align: center;
+        font-size: 1.8rem;
+    }
 }
 .modalBody{
     margin-right: 5em ;
