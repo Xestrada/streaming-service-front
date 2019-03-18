@@ -15,6 +15,8 @@ const initialState = {
     tvShowsError: null,
   searchPending: false,
   searchError: null,
+  signupPending: false,
+  signupError: null,
 };
 
 export default initialState;

@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as actions from '../common/redux/actions';
 import { Navbar, Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import Header from '../common/header';
 import Footer from '../common/footer';
@@ -28,6 +31,9 @@ class Signup extends Component {
     }
 
     signUp() {
+        const { actions } = this.props;
+        const { signup } = actions;
+        signup();
 
     }
 
@@ -88,4 +94,20 @@ class Signup extends Component {
     }
 }
 
-export default Signup;
+/* istanbul ignore next */
+function mapStateToProps(state) {
+    return {
+        home: state.home,
+        common: state.common,
+    };
+}
+
+/* istanbul ignore next */
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({ ...actions }, dispatch),
+    };
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);
