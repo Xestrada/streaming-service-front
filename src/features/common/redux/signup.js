@@ -4,19 +4,39 @@ import {
   COMMON_SIGNUP_FAILURE,
   COMMON_SIGNUP_DISMISS_ERROR,
 } from './constants';
-import { request } from 'https';
 
 // Rekit uses redux-thunk for async actions by default: https://github.com/gaearon/redux-thunk
 // If you prefer redux-saga, you can use rekit-plugin-redux-saga: https://github.com/supnate/rekit-plugin-redux-saga
-export function signup(email, username, pass, cc, exp) {
+export function signup(newUser = {}) {
   return (dispatch) => { // optionally you can have getState as the second argument
     dispatch({
       type: COMMON_SIGNUP_BEGIN,
     });
 
-    return fetch('https://videovaultuser.herokuapp.com/signup')
-    .then((response) => {
-        console.log(response);
+    const values = JSON.stringify(newUser);
+
+    return fetch('https://videovaultusers.herokuapp.com/signup', {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: values,
+    })
+    .then(response => {
+      dispatch({
+        type: COMMON_SIGNUP_SUCCESS,
+        data: true,
+      });
+      console.log(response.status);
+    })
+    .catch (error => {
+      dispatch({
+        type: COMMON_SIGNUP_FAILURE,
+        error,
+        data: false,
+      });
+      console.log(error);
     });
   };
 }
@@ -45,6 +65,7 @@ export function reducer(state, action) {
         ...state,
         signupPending: false,
         signupError: null,
+        signedUp: true,
       };
 
     case COMMON_SIGNUP_FAILURE:
@@ -52,7 +73,8 @@ export function reducer(state, action) {
       return {
         ...state,
         signupPending: false,
-        signupError: action.data.error,
+        signupError: action.error.error,
+        signedUp: false,
       };
 
     case COMMON_SIGNUP_DISMISS_ERROR:
