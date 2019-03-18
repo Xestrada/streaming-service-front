@@ -20,6 +20,7 @@ export function authen(username, pass) {
                 (res) => {
                     dispatch({
                         type: COMMON_AUTHEN_SUCCESS,
+                        data: true,
                     });
                     resolve(res);
                 },
@@ -33,6 +34,20 @@ export function authen(username, pass) {
                 },
             );
         });
+    };
+}
+
+export function signOut() {
+    return (dispatch) => { // optionally you can have getState as the second argument
+        dispatch({
+            type: COMMON_AUTHEN_BEGIN,
+        });
+
+        dispatch({
+            type: COMMON_AUTHEN_SUCCESS,
+            data: false,
+        });
+
     };
 }
 
@@ -60,7 +75,7 @@ export function reducer(state, action) {
             ...state,
             authenPending: false,
             authenError: null,
-            authen: true,
+            authen: action.data,
         };
 
     case COMMON_AUTHEN_FAILURE:

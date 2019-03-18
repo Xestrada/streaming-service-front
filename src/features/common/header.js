@@ -45,6 +45,7 @@ export class Header extends React.Component {
         this.modalToggle = this.modalToggle.bind(this);
         this.dropdownToggle = this.dropdownToggle.bind(this);
         this.login = this.login.bind(this);
+        this.signOut = this.signOut.bind(this);
         this.updateState = this.updateState.bind(this);
     }
 
@@ -75,6 +76,12 @@ export class Header extends React.Component {
             const { username, pass } = this.state;
             authen(username, pass);
         });
+    }
+
+    signOut() {
+        const { actions } = this.props;
+        const { signOut } = actions;
+        signOut();
     }
 
     updateState(name, value) {
@@ -117,7 +124,7 @@ export class Header extends React.Component {
                 </DropdownToggle>
                 <DropdownMenu right>
                     <DropdownItem>Account</DropdownItem>
-                    <DropdownItem>Sign Out</DropdownItem>
+                    <DropdownItem onClick={this.signOut}>Sign Out</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
         ) : (
