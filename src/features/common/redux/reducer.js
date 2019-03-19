@@ -11,6 +11,7 @@ import { reducer as actorsReducer } from './actors';
 import { reducer as moviesReducer } from './movies';
 import { reducer as tvShowsReducer } from './tvShows';
 import { reducer as searchReducer } from './search';
+import { reducer as signupReducer } from './signup';
 import { reducer as mediaReducer } from './media';
 import { reducer as authenReducer } from './authen';
 
@@ -19,6 +20,7 @@ const reducers = [
     moviesReducer,
     tvShowsReducer,
     searchReducer,
+    signupReducer,
     mediaReducer,
     authenReducer,
 ];
