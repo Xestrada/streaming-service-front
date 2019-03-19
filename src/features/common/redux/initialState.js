@@ -13,12 +13,12 @@ const initialState = {
     moviesError: null,
     tvShowsPending: false,
     tvShowsError: null,
-  searchPending: false,
-  searchError: null,
-  mediaPending: false,
-  mediaError: null,
-  authenPending: false,
-  authenError: null,
+    searchPending: false,
+    searchError: null,
+    mediaPending: false,
+    mediaError: null,
+    authenPending: false,
+    authenError: null,
 };
 
 export default initialState;

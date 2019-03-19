@@ -13,27 +13,22 @@ export function authen(username, pass) {
             type: COMMON_AUTHEN_BEGIN,
         });
 
-        return new Promise((resolve, reject) => {
-
-            const doRequest = Promise.resolve();
-            doRequest.then(
-                (res) => {
-                    dispatch({
-                        type: COMMON_AUTHEN_SUCCESS,
-                        data: true,
-                    });
-                    resolve(res);
-                },
-                // Use rejectHandler as the second argument so that render errors won't be caught.
-                (err) => {
-                    dispatch({
-                        type: COMMON_AUTHEN_FAILURE,
-                        data: { error: err },
-                    });
-                    reject(err);
-                },
-            );
-        });
+        return fetch(`https://videovaultusers.herokuapp.com/login/email=${username}/password=${pass}`)
+            .then(response => response.body.json(),
+            ).then((createdJson) => {
+                dispatch({
+                    type: COMMON_AUTHEN_SUCCESS,
+                    data: true,
+                });
+                console.log(createdJson);
+            })
+            .catch((error) => {
+                dispatch({
+                    type: COMMON_AUTHEN_FAILURE,
+                    data: error,
+                });
+                console.log('Error: ', error);
+            });
     };
 }
 
@@ -84,6 +79,7 @@ export function reducer(state, action) {
             ...state,
             authenPending: false,
             authenError: action.data.error,
+            authen: false,
         };
 
     case COMMON_AUTHEN_DISMISS_ERROR:
