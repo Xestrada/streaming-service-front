@@ -46,12 +46,35 @@ class Subscriptions extends Component {
         )) : null;
 
         return (
+            <body className='background-color'>
             <div>
                 {redir}
                 <Header />
+                <div className='container'>
+                <div className='slots-header'>
+                <h1>Slots</h1>
                 {subbedTV}
+                </div>
+                </div>
+
+                <div className='container'>
+                <div className='rented-header'>
+                <h1>Rented</h1>
+                </div>
+                </div>
+                <div className='container'>
+                <div className='rMovies-header'>
+                <h1>Rated Movies</h1>
+                </div>
+                </div>
+                <div className='container'>
+                <div className='rTv-header'>
+                <h1>Rated TV Shows</h1>
+                </div>
+                </div>
                 <Footer />
             </div>
+            </body>
         );
     }
 }
