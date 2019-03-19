@@ -21,10 +21,14 @@ class Subscriptions extends Component {
         super(props);
 
         this.getUserShows = this.getUserShows.bind(this);
+        this.getRatedMovies = this.getRatedMovies.bind(this);
+        this.getRatedTV = this.getRatedTV.bind(this);
     }
 
     componentDidMount() {
         this.getUserShows();
+        this.getRatedMovies();
+        this.getRatedTV();
     }
 
     getUserShows() {
@@ -34,23 +38,93 @@ class Subscriptions extends Component {
         getSubs(userData.id);
     }
 
+    getRatedMovies() {
+        const { actions, common } = this.props;
+        const { ratedMovies } = actions;
+        const { userData } = common;
+        ratedMovies(userData.id);
+    }
+
+    getRatedTV() {
+        const { actions, common } = this.props;
+        const { ratedTv } = actions;
+        const { userData } = common;
+        ratedTv(userData.id);
+    }
+
 
     render() {
 
         const { common } = this.props;
-        const { authen, subs } = common;
+        const {
+            authen,
+            subs,
+            userData,
+            ratedMovies,
+            ratedTV,
+            rented,
+            ratedTvPending,
+            ratedMoviesPending,
+            subsPending,
+        } = common;
 
-        const redir = !authen ? (<Redirect to='/' />) : null;
+        const redir = (!authen || userData == null) ? (<Redirect to='/' />) : null;
+
         const subbedTV = subs !== undefined ? subs.map(content => (
-            <ContentBox title={content.tv_show_title} url={`/media/${content.tv_show_title}`} image={emptyImg} />
+            <div className='media'>
+                <ContentBox title={content.tv_show_title} url={`/media/${content.tv_show_title}`} image={content.image_url || emptyImg} />
+            </div>
         )) : null;
 
+        const ratedMoviesList = (ratedMovies !== undefined) ? ratedMovies.map(movie => (
+            <ContentBox title={movie.movie_title} url={`/media/${movie.movie_title}`} image={movie.image_url || emptyImg} />
+        )) : null;
+
+        const ratedTVList = (ratedTV !== undefined) ? ratedTV.map(content => (
+            <ContentBox title={content.tv_show_title} url={`/media/${content.tv_show_title}`} image={content.image_url || emptyImg} />
+        )) : null;
+
+        const rentedList = rented !== undefined ? (<br />) : null;
+
+        const empty = (<h2>No Content</h2>);
+
+        const loading = <i className='fa fa-spinner fa-spin loadIcon loadingSpinner' />;
+
         return (
-            <div>
-                {redir}
-                <Header />
-                {subbedTV}
-                <Footer />
+            <div className='background-color'>
+                <div>
+                    {redir}
+                    <Header />
+                    <div className='gridContainer'>
+                        <h1>Slots</h1>
+                        <div className='section'>
+                            {subsPending ? loading : (subbedTV || empty)}
+                        </div>
+                    </div>
+
+                    <div className='gridContainer'>
+                        <h1>Rented</h1>
+                        <div className='section'>
+                            {rentedList || empty}
+                        </div>
+                    </div>
+
+                    <div className='gridContainer'>
+                        <h1>Rated Movies</h1>
+                        <div className='section'>
+                            {ratedMoviesPending ? loading : (ratedMoviesList || empty)}
+                        </div>
+                    </div>
+
+                    <div className='gridContainer'>
+                        <h1>Rated TV Shows</h1>
+                        <div className='section'>
+                            {ratedTvPending ? loading : (ratedTVList || empty)}
+                        </div>
+                    </div>
+
+                    <Footer />
+                </div>
             </div>
         );
     }
