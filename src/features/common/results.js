@@ -39,6 +39,7 @@ export default class Results extends Component {
                         ? <Button color='primary' onClick={nextPage} className='paginateButton'> Next </Button>
                         : <Button color='primary' onClick={nextPage} className='paginateButton' disabled> Next </Button>}
                 </div>
+                <br />
             </div>
         );
     }
