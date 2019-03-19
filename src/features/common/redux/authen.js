@@ -14,7 +14,7 @@ export function authen(username, pass) {
         });
 
         return fetch(`https://videovaultusers.herokuapp.com/login/email=${username}/password=${pass}`)
-            .then(response => response.body.json(),
+            .then(response => response,
             ).then((createdJson) => {
                 dispatch({
                     type: COMMON_AUTHEN_SUCCESS,
