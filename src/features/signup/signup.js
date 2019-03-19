@@ -49,9 +49,9 @@ class Signup extends Component {
 
         const { username, password, email, card_num, exp, name } = this.state;
         const { common } = this.props;
-        const { signedUp } = common;
+        const { authen } = common;
 
-        const redir = signedUp !== undefined && signedUp ? (<Redirect to='/subscriptions' />) : null;
+        const redir = authen !== undefined && authen ? (<Redirect to='/subscriptions' />) : null;
 
         return (
             <div>

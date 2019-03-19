@@ -23,13 +23,20 @@ export function signup(newUser = {}) {
             },
             body: values,
         })
-            .then((response) => {
-                console.log(response);
-                dispatch({
-                    type: COMMON_SIGNUP_SUCCESS,
-                    data: true,
-                });
-                console.log(response.status);
+            .then(response => response.json()).then((createdJson) => {
+                console.log(createdJson);
+                if (createdJson.username !== undefined) {
+                    dispatch({
+                        type: COMMON_SIGNUP_SUCCESS,
+                        data: true,
+                        userData: createdJson,
+                    });
+                } else {
+                    dispatch({
+                        type: COMMON_SIGNUP_FAILURE,
+                        data: false,
+                    });
+                }
             })
             .catch((error) => {
                 dispatch({
@@ -66,8 +73,8 @@ export function reducer(state, action) {
             ...state,
             signupPending: false,
             signupError: null,
-            signedUp: true,
             authen: true,
+            userData: action.userData,
         };
 
     case COMMON_SIGNUP_FAILURE:
@@ -76,7 +83,8 @@ export function reducer(state, action) {
             ...state,
             signupPending: false,
             signupError: action.error.error,
-            signedUp: false,
+            authen: false,
+            userData: null,
         };
 
     case COMMON_SIGNUP_DISMISS_ERROR:

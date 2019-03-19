@@ -91,15 +91,14 @@ class Header extends React.Component {
     render() {
         const { modal, username, pass, isOpen, userDropdown } = this.state;
         const { common } = this.props;
-        const { authen, error, authenPending, userData } = common;
-        console.log(userData);
+        const { authen, authenError, authenPending } = common;
 
         if (authen && modal) this.modalToggle();
 
-        const errorElem = error !== undefined ? (
+        const errorElem = authenError !== null ? (
             <div>
-                {error.invalid_email ? (<Alert color='danger'>Invalid Email</Alert>) : null}
-                {error.invalid_password ? <Alert color='danger'>Invalid Password</Alert> : null}
+                {authenError.invalid_email ? (<Alert color='danger'>Invalid Email</Alert>) : null}
+                {authenError.invalid_password ? <Alert color='danger'>Invalid Password</Alert> : null}
             </div>
         ) : null;
 
