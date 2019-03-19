@@ -97,9 +97,9 @@ class TVshows extends Component {
     render() {
         const { common } = this.props;
         const { page } = this.state;
-        const { tvShows, maxPages, searchError } = common;
+        const { tvShows, maxPages, tvShowsError, tvShowsPending } = common;
 
-        const error = searchError !== undefined ? (<h1>Error</h1>) : null;
+        const error = tvShowsError !== undefined ? tvShowsError : null;
 
         const boxes = (tvShows !== undefined) ? tvShows.map(content => (
             <ContentBox title={content.title || content.full_name} url={content.url} image={content.image_url || emptyImg} key={content.id} />
@@ -121,7 +121,7 @@ class TVshows extends Component {
                 <br />
                 <br />
                 <br />
-                <Results errpr={error} boxes={boxes} page={page} loadingGrid={loadingGrid} maxPages={maxPages} nextPage={this.nextPage} backPage={this.backPage} />
+                <Results loading={tvShowsPending} error={error} boxes={boxes} page={page} loadingGrid={loadingGrid} maxPages={maxPages} nextPage={this.nextPage} backPage={this.backPage} />
                 <Footer />
             </div>
         );

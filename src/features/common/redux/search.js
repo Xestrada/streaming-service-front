@@ -81,7 +81,7 @@ export function reducer(state, action) {
         return {
             ...state,
             searchPending: true,
-            searchError: null,
+            searchError: undefined,
             data: [],
         };
 
@@ -90,7 +90,7 @@ export function reducer(state, action) {
         return {
             ...state,
             searchPending: false,
-            searchError: null,
+            searchError: undefined,
             data: action.data[Object.keys(action.data)[0]],
         };
 

@@ -97,9 +97,9 @@ class Movies extends Component {
     render() {
         const { common } = this.props;
         const { page } = this.state;
-        const { movies, maxPages, searchError } = common;
+        const { movies, maxPages, moviesError, moviesPending } = common;
 
-        const error = searchError !== undefined ? (<h1>Error</h1>) : null;
+        const error = moviesError !== undefined ? moviesError : null;
 
         const boxes = (movies !== undefined) ? movies.map(content => (
             <ContentBox title={content.title || content.full_name} url={content.url} image={content.image_url || emptyImg} key={content.id} />
@@ -121,7 +121,7 @@ class Movies extends Component {
                 <br />
                 <br />
                 <br />
-                <Results errpr={error} boxes={boxes} page={page} loadingGrid={loadingGrid} maxPages={maxPages} nextPage={this.nextPage} backPage={this.backPage} />
+                <Results loading={moviesPending} error={error} boxes={boxes} page={page} loadingGrid={loadingGrid} maxPages={maxPages} nextPage={this.nextPage} backPage={this.backPage} />
                 <Footer />
             </div>
         );

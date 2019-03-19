@@ -114,9 +114,9 @@ export class Home extends Component {
     render() {
         const { common } = this.props;
         const { page } = this.state;
-        const { data, maxPages, searchError } = common;
+        const { data, maxPages, searchError, searchPending } = common;
 
-        const error = searchError !== undefined ? (<h1>Error</h1>) : null;
+        const error = searchError !== undefined ? searchError : null;
 
         const boxes = (data !== undefined) ? data.map(content => (
             <ContentBox title={content.title || content.full_name} url={content.url} image={content.image_url || emptyImg} key={content.id} />
@@ -138,7 +138,7 @@ export class Home extends Component {
                 <br />
                 <br />
                 <br />
-                <Results errpr={error} boxes={boxes} page={page} loadingGrid={loadingGrid} maxPages={maxPages} nextPage={this.nextPage} backPage={this.backPage} />
+                <Results loading={searchPending} error={error} boxes={boxes} page={page} loadingGrid={loadingGrid} maxPages={maxPages} nextPage={this.nextPage} backPage={this.backPage} />
                 <Footer />
             </div>
         );

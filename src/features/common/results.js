@@ -6,22 +6,24 @@ export default class Results extends Component {
     static propTypes = {
         boxes: PropTypes.object.isRequired,
         loadingGrid: PropTypes.object.isRequired,
-        error: PropTypes.object.isRequired,
+        error: PropTypes.object,
         backPage: PropTypes.func.isRequired,
         nextPage: PropTypes.func.isRequired,
         page: PropTypes.number.isRequired,
         maxPages: PropTypes.number.isRequired,
+        loading: PropTypes.bool.isRequired,
     };
 
     render() {
 
-        const { error, boxes, loadingGrid, backPage, nextPage, maxPages, page } = this.props;
+        const { error, boxes, loadingGrid, backPage, nextPage, maxPages, page, loading } = this.props;
 
         return (
             <div>
                 <div className='main'>
-
-                    {error !== null ? (boxes || loadingGrid) : error}
+                    {loading && loadingGrid}
+                    {error !== null && error}
+                    {boxes}
 
                 </div>
                 <div className='buttonHolder'>
@@ -42,3 +44,7 @@ export default class Results extends Component {
     }
 
 }
+
+Results.defaultProps = {
+    error: null,
+};
