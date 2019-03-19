@@ -56,7 +56,17 @@ class Subscriptions extends Component {
     render() {
 
         const { common } = this.props;
-        const { authen, subs, userData, ratedMovies, ratedTV, rented } = common;
+        const {
+            authen,
+            subs,
+            userData,
+            ratedMovies,
+            ratedTV,
+            rented,
+            ratedTvPending,
+            ratedMoviesPending,
+            subsPending,
+        } = common;
 
         const redir = (!authen || userData == null) ? (<Redirect to='/' />) : null;
 
@@ -78,6 +88,8 @@ class Subscriptions extends Component {
 
         const empty = (<h2>No Content</h2>);
 
+        const loading = <i className='fa fa-spinner fa-spin loadIcon loadingSpinner' />;
+
         return (
             <div className='background-color'>
                 <div>
@@ -86,14 +98,13 @@ class Subscriptions extends Component {
                     <div className='gridContainer'>
                         <h1>Slots</h1>
                         <div className='section'>
-                            {subbedTV || empty}
+                            {subsPending ? loading : (subbedTV || empty)}
                         </div>
                     </div>
 
                     <div className='gridContainer'>
                         <h1>Rented</h1>
                         <div className='section'>
-
                             {rentedList || empty}
                         </div>
                     </div>
@@ -101,16 +112,14 @@ class Subscriptions extends Component {
                     <div className='gridContainer'>
                         <h1>Rated Movies</h1>
                         <div className='section'>
-
-                            {ratedMoviesList || empty}
+                            {ratedMoviesPending ? loading : (ratedMoviesList || empty)}
                         </div>
                     </div>
 
                     <div className='gridContainer'>
                         <h1>Rated TV Shows</h1>
                         <div className='section'>
-
-                            {ratedTVList || empty}
+                            {ratedTvPending ? loading : (ratedTVList || empty)}
                         </div>
                     </div>
 

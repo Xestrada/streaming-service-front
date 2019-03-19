@@ -13,11 +13,20 @@
         margin-bottom: 2rem;
     }
 
+    h2 {
+        color: white;
+        font-style: italic;
+    }
+
     .section{
         display: grid;
         grid-gap: 1em 2em;
         grid-template-columns: auto auto auto auto auto;
         justify-content: space-evenly;
+
+        .loadingSpinner {
+            color: white;
+        }
     }
 }
 
