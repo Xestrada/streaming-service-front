@@ -13,8 +13,6 @@ export function getSubs(id) {
             type: COMMON_SUBS_BEGIN,
         });
 
-        console.log(id);
-
         return fetch(`https://videovaultusers.herokuapp.com/user=${id}/slots`)
             .then(response => response.json())
             .then((createdJson) => {

@@ -38,43 +38,43 @@ class Subscriptions extends Component {
     render() {
 
         const { common } = this.props;
-        const { authen, subs } = common;
+        const { authen, subs, userData } = common;
 
-        const redir = !authen ? (<Redirect to='/' />) : null;
+        const redir = (!authen || userData == null) ? (<Redirect to='/' />) : null;
         const subbedTV = subs !== undefined ? subs.map(content => (
-            <ContentBox title={content.tv_show_title} url={`/media/${content.tv_show_title}`} image={emptyImg} />
+            <ContentBox title={content.tv_show_title} url={`/media/${content.tv_show_title}`} image={content.image_url || emptyImg} />
         )) : null;
 
         return (
-            <body className='background-color'>
-            <div>
-                {redir}
-                <Header />
-                <div className='container'>
-                <div className='slots-header'>
-                <h1>Slots</h1>
-                {subbedTV}
-                </div>
-                </div>
+            <div className='background-color'>
+                <div>
+                    {redir}
+                    <Header />
+                    <div className='container'>
+                        <div className='slots-header'>
+                            <h1>Slots</h1>
+                            {subbedTV}
+                        </div>
+                    </div>
 
-                <div className='container'>
-                <div className='rented-header'>
-                <h1>Rented</h1>
+                    <div className='container'>
+                        <div className='rented-header'>
+                            <h1>Rented</h1>
+                        </div>
+                    </div>
+                    <div className='container'>
+                        <div className='rMovies-header'>
+                            <h1>Rated Movies</h1>
+                        </div>
+                    </div>
+                    <div className='container'>
+                        <div className='rTv-header'>
+                            <h1>Rated TV Shows</h1>
+                        </div>
+                    </div>
+                    <Footer />
                 </div>
-                </div>
-                <div className='container'>
-                <div className='rMovies-header'>
-                <h1>Rated Movies</h1>
-                </div>
-                </div>
-                <div className='container'>
-                <div className='rTv-header'>
-                <h1>Rated TV Shows</h1>
-                </div>
-                </div>
-                <Footer />
             </div>
-            </body>
         );
     }
 }
