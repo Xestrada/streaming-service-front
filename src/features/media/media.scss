@@ -10,6 +10,7 @@
     background: linear-gradient(to top, #434343, #000000); 
   }
 .movie-container{
+    position: relative;
     background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
     min-width: 1024;
     min-height: 100%;
@@ -24,14 +25,14 @@
     color: white;
     font-size: 2em;
     position: absolute;
-    left: 17.5em;
-    top: 3.2em;
+    left: 12.5em;
+    top: 0.5em;
 }
 
 .movie-container h2{
     position: absolute;
-    top:49.3em;
-    left: 11.7em;
+    top: 45em;
+    left: 1em;
     font-size: 1em;
     font-weight: bold;
     color: #838584;
@@ -40,20 +41,20 @@
     color: #ff6900;
     font-size: 1.5em;
     position: absolute;
-    bottom: 21em;
-    left: 23.5em;
+    bottom: 34em;
+    left: 17em;
 }
 
 .movie-container h4{
     color: #ff6900;
     font-size: 1.5em;
     position: absolute;
-    bottom: 11em;
-    left: 23.5em;
+    bottom: 22em;
+    left: 17em;
 }
 .movie-container h5{
     position: relative;
-    top:37em;
+    top:38em;
     margin-top: 1em;
     margin-left: 1em;
     font-size: 1em;
@@ -63,7 +64,7 @@
 
 .movie-container p{
     position: absolute;
-    top: 51em;
+    top: 47em;
     color: white;
     width: 75%;
     margin-left: 1em;
@@ -76,8 +77,8 @@
 
 .movie-container img{
     position:absolute;
-    bottom: 5em;
-    left: 11.5em;
+    bottom: 25em;
+    left: 1em;
     height:511px;
     width: 360px;
     background: center;
@@ -90,6 +91,6 @@
 }
 .play-video{
     position: absolute;
-    top:39em;
-    right:60em;
+    top:34em;
+    right: 48em;
 }
