@@ -24,7 +24,6 @@ export function signup(newUser = {}) {
             body: values,
         })
             .then(response => response.json()).then((createdJson) => {
-                console.log(createdJson);
                 if (createdJson.username !== undefined) {
                     dispatch({
                         type: COMMON_SIGNUP_SUCCESS,
@@ -34,6 +33,7 @@ export function signup(newUser = {}) {
                 } else {
                     dispatch({
                         type: COMMON_SIGNUP_FAILURE,
+                        error: createdJson,
                         data: false,
                     });
                 }
@@ -82,7 +82,7 @@ export function reducer(state, action) {
         return {
             ...state,
             signupPending: false,
-            signupError: action.error.error,
+            signupError: action.error,
             authen: false,
             userData: null,
         };
