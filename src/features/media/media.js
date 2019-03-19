@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Button } from 'reactstrap';
 import * as actions from '../common/redux/actions';
 import Header from '../common/header';
 import Footer from '../common/footer';
+import './media.scss';
 
 export class Media extends Component {
   static propTypes = {
@@ -39,19 +41,43 @@ export class Media extends Component {
       const error = mediaError !== undefined ? <h1>Error</h1> : null;
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
-              <h1>{media.title || title}</h1>
+              <h1>
+                  {media.title || title}
+                  {' '}
+                  <span>
+(
+                      {media.year}
+)
+                  </span>
+
+              </h1>
+              <h3>TRAILER</h3>
+              <h4>CAST</h4>
               <img src={media.image_url} alt='Cover art' className='boxArt' />
+              <Button color='primary' className='play-video'>
+              PLAY VIDEO
+                  {' '}
+                  <i className='fas fa-play' />
+                  {' '}
+              </Button>
+              <h2>SYNOPSIS</h2>
               <p>{media.description}</p>
-              <span>{media.year}</span>
+              <h5>RUNTIME</h5>
+              <h5>AGE RATING</h5>
+              <h5>DIRECTOR</h5>
           </div>
       ) : null;
 
       return (
-          <div className='media-default-page'>
-              <Header />
-              {mediaElems || error}
-              <Footer />
-          </div>
+          <body className='background-color'>
+              <div className='media-default-page'>
+                  <Header />
+                  <div className='movie-container'>
+                      {mediaElems || error}
+                  </div>
+                  <Footer />
+              </div>
+          </body>
       );
   }
 }
