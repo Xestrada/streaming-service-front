@@ -47,7 +47,7 @@ class Signup extends Component {
 
     render() {
 
-        const { username, password, email, card_num, exp, name } = this.state;
+        const { username, password, email, card_num, exp, name } = this.state; //eslint-disable-line
         const { common } = this.props;
         const { authen } = common;
 

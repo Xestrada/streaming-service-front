@@ -21,6 +21,8 @@ const initialState = {
     mediaError: null,
     authenPending: false,
     authenError: null,
+    subsPending: false,
+    subsError: null,
 };
 
 export default initialState;

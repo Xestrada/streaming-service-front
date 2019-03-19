@@ -14,6 +14,7 @@ import { reducer as searchReducer } from './search';
 import { reducer as signupReducer } from './signup';
 import { reducer as mediaReducer } from './media';
 import { reducer as authenReducer } from './authen';
+import { reducer as subsReducer } from './subs';
 
 const reducers = [
     actorsReducer,
@@ -23,6 +24,7 @@ const reducers = [
     signupReducer,
     mediaReducer,
     authenReducer,
+    subsReducer,
 ];
 
 export default function reducer(state = initialState, action) {
