@@ -93,17 +93,26 @@ class Header extends React.Component {
     render() {
         const { modal, username, pass, isOpen, userDropdown } = this.state;
         const { common } = this.props;
+        const { authen, error } = common;
+
+        const errorElem = error !== undefined ? (
+            <div>
+                <h5>{error.invalid_email ? '-Invalid Email' : ''}</h5>
+                <h5>{error.invalid_password ? '-Invalid Password' : ''}</h5>
+            </div>
+        ) : null;
 
         const modalElem = (
             <Modal isOpen={modal} toggle={this.modalToggle}>
                 <ModalHeader toggle={this.modalToggle} className='centerModalHeader'>Member Login</ModalHeader>
                 <ModalBody className='modalBody'>
-                    <input value={username} type='text' id='userName' className='form-control' placeholder='username' onChange={e => this.updateState('username', e.target.value)} />
+                    {errorElem}
+                    <input value={username} type='text' id='userName' className='form-control' placeholder='email' onChange={e => this.updateState('username', e.target.value)} />
                     <input value={pass} type='password' id='userPassword' className='form-control input-sm chat-input' placeholder='password' onChange={e => this.updateState('pass', e.target.value)} />
-                    <label>
+                    {/* <label>
                         <input type='checkbox' name='remember' value='1' />
                         <span className='remember'>Remember me</span>
-                    </label>
+                    </label> */}
                 </ModalBody>
                 <ModalFooter>
                     <Button className='btn btn-primary btn-md' color='primary' onClick={this.login}>
@@ -115,7 +124,7 @@ class Header extends React.Component {
             </Modal>
         );
 
-        const sideHead = common.authen ? (
+        const sideHead = authen ? (
             <Dropdown isOpen={userDropdown} toggle={this.dropdownToggle} direction='down'>
                 <DropdownToggle>
                     <Media right>
@@ -159,7 +168,7 @@ class Header extends React.Component {
                             <NavItem>
                                 <Link className='color-me link' to='/tvshows'>TV Shows</Link>
                             </NavItem>
-                            {common.authen ? (
+                            {authen ? (
                                 <NavItem>
                                     <Link className='color-me link' to='/subscriptions'>Subscriptions</Link>
                                 </NavItem>

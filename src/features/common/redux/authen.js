@@ -14,18 +14,26 @@ export function authen(username, pass) {
         });
 
         return fetch(`https://videovaultusers.herokuapp.com/login/email=${username}/password=${pass}`)
-            .then(response => response,
-            ).then((createdJson) => {
-                dispatch({
-                    type: COMMON_AUTHEN_SUCCESS,
-                    data: true,
-                });
-                console.log(createdJson);
+            .then(response => response.json())
+            .then((createdJson) => {
+                if (createdJson.login_successful) {
+                    dispatch({
+                        type: COMMON_AUTHEN_SUCCESS,
+                        data: true,
+                    });
+                } else {
+                    dispatch({
+                        type: COMMON_AUTHEN_FAILURE,
+                        data: false,
+                        error: createdJson,
+                    });
+                }
             })
             .catch((error) => {
                 dispatch({
                     type: COMMON_AUTHEN_FAILURE,
-                    data: error,
+                    data: false,
+                    error,
                 });
                 console.log('Error: ', error);
             });
@@ -62,6 +70,7 @@ export function reducer(state, action) {
             ...state,
             authenPending: true,
             authenError: null,
+            error: undefined,
         };
 
     case COMMON_AUTHEN_SUCCESS:
@@ -71,6 +80,7 @@ export function reducer(state, action) {
             authenPending: false,
             authenError: null,
             authen: action.data,
+            error: undefined,
         };
 
     case COMMON_AUTHEN_FAILURE:
@@ -80,6 +90,7 @@ export function reducer(state, action) {
             authenPending: false,
             authenError: action.data.error,
             authen: false,
+            error: action.error,
         };
 
     case COMMON_AUTHEN_DISMISS_ERROR:
