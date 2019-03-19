@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import {
+    Alert,
     Collapse,
     Dropdown,
     DropdownItem,
@@ -70,12 +71,9 @@ class Header extends React.Component {
     login() {
         const { actions } = this.props;
         const { authen } = actions;
-        this.setState(prevState => ({
-            modal: !prevState.modal,
-        }), () => {
-            const { username, pass } = this.state;
-            authen(username, pass);
-        });
+        const { username, pass } = this.state;
+        authen(username, pass);
+
     }
 
     signOut() {
@@ -93,12 +91,14 @@ class Header extends React.Component {
     render() {
         const { modal, username, pass, isOpen, userDropdown } = this.state;
         const { common } = this.props;
-        const { authen, error } = common;
+        const { authen, error, authenPending } = common;
+
+        if (authen && modal) this.modalToggle();
 
         const errorElem = error !== undefined ? (
             <div>
-                <h5>{error.invalid_email ? '-Invalid Email' : ''}</h5>
-                <h5>{error.invalid_password ? '-Invalid Password' : ''}</h5>
+                {error.invalid_email ? (<Alert color='danger'>Invalid Email</Alert>) : null}
+                {error.invalid_password ? <Alert color='danger'>Invalid Password</Alert> : null}
             </div>
         ) : null;
 
@@ -109,12 +109,9 @@ class Header extends React.Component {
                     {errorElem}
                     <input value={username} type='text' id='userName' className='form-control' placeholder='email' onChange={e => this.updateState('username', e.target.value)} />
                     <input value={pass} type='password' id='userPassword' className='form-control input-sm chat-input' placeholder='password' onChange={e => this.updateState('pass', e.target.value)} />
-                    {/* <label>
-                        <input type='checkbox' name='remember' value='1' />
-                        <span className='remember'>Remember me</span>
-                    </label> */}
                 </ModalBody>
                 <ModalFooter>
+                    {authenPending && <i className='fa fa-spinner fa-spin loadIcon' />}
                     <Button className='btn btn-primary btn-md' color='primary' onClick={this.login}>
                         login
                         <i className='fas fa-sign-in-alt' />
