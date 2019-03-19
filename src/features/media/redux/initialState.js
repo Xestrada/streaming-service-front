@@ -5,20 +5,7 @@
 // a quick view about what data is used for the feature, at any time.
 
 // NOTE: initialState constant is necessary so that Rekit could auto add initial state when creating async actions.
-
 const initialState = {
-    actorsPending: false,
-    actorsError: null,
-    moviesPending: false,
-    moviesError: null,
-    tvShowsPending: false,
-    tvShowsError: null,
-  searchPending: false,
-  searchError: null,
-  mediaPending: false,
-  mediaError: null,
-  authenPending: false,
-  authenError: null,
 };
 
 export default initialState;
