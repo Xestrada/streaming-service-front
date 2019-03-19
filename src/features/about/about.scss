@@ -1,0 +1,50 @@
+.logoImage{
+    position: absolute;
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.aboutImage{
+    position: relative;
+    min-height:100%;
+    min-width: 1024px;
+    height: 30em;
+    width: 100%;
+    background: center;
+    background-size: cover;
+    margin-bottom: 1.5em;
+    opacity: .85;
+}
+
+.text-imageCentered {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: whitesmoke;
+    font-size: 5em;
+  }
+
+  .textCenter{
+      text-align: center;
+      font-size: 1.5em;
+  }
+
+  .bannerBox{
+    background-color: black;
+    opacity: 0.5;
+    width: 40%;
+    margin: auto;
+    border-radius: 10px;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .bannerBox h1{
+      font-size: 66px;
+      opacity: 1;
+      font-weight: bold;
+      color:white;
+      text-align: center;
+  }
