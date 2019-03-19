@@ -5,4 +5,3 @@ export { searchBy, getRecents, dismissSearchError } from './search';
 export { signup, dismissSignupError } from './signup';
 export { getMedia, dismissMediaError } from './media';
 export { authen, signOut, dismissAuthenError } from './authen';
-export { getRecents, searchBy } from './search';

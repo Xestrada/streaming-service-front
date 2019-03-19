@@ -19,10 +19,10 @@ import {
     ModalFooter,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import './header.scss';
 import { connect } from 'react-redux';
 import * as actions from './redux/actions';
 import userImg from '../../images/blank-user.jpg';
+import './header.scss';
 
 export class Header extends React.Component {
     static propTypes = {
