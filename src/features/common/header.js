@@ -24,7 +24,7 @@ import * as actions from './redux/actions';
 import userImg from '../../images/blank-user.jpg';
 import './header.scss';
 
-export class Header extends React.Component {
+class Header extends React.Component {
     static propTypes = {
         actions: PropTypes.object.isRequired,
         common: PropTypes.object.isRequired,

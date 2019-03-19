@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Button } from 'reactstrap';
 import * as actions from '../common/redux/actions';
 import Header from '../common/header';
+import Results from '../common/results';
 import Footer from '../common/footer';
 import ContentBox from '../common/contenBox';
 import SearchBar from '../common/SearchBar';
@@ -120,23 +120,7 @@ class TVshows extends Component {
                 <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />
                 <br />
                 <br />
-                <div className='main'>
-
-                    {error !== null ? (boxes || loadingGrid) : error}
-
-                </div>
-                <div className='buttonHolder'>
-                    {page !== 1 ? <Button color='primary' onClick={this.backPage} className='paginateButton'> Back </Button>
-                        : <Button color='primary' onClick={this.backPage} className='paginateButton' disabled> Back </Button>}
-                    <h6 className='pageCounter'>
-                        {page}
-                        /
-                        {maxPages}
-                    </h6>
-                    {maxPages !== undefined && page < maxPages
-                        ? <Button color='primary' onClick={this.nextPage} className='paginateButton'> Next </Button>
-                        : <Button color='primary' onClick={this.nextPage} className='paginateButton' disabled> Next </Button>}
-                </div>
+                <Results errpr={error} boxes={boxes} page={page} loadingGrid={loadingGrid} maxPages={maxPages} nextPage={this.nextPage} backPage={this.backPage} />
                 <Footer />
             </div>
         );
