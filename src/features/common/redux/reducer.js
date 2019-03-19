@@ -18,7 +18,7 @@ const reducers = [
     moviesReducer,
     tvShowsReducer,
     searchReducer,
-  signupReducer,
+    signupReducer,
 ];
 
 export default function reducer(state = initialState, action) {

@@ -13,10 +13,10 @@ const initialState = {
     moviesError: null,
     tvShowsPending: false,
     tvShowsError: null,
-  searchPending: false,
-  searchError: null,
-  signupPending: false,
-  signupError: null,
+    searchPending: false,
+    searchError: null,
+    signupPending: false,
+    signupError: null,
 };
 
 export default initialState;
