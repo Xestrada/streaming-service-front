@@ -67,6 +67,7 @@ export function reducer(state, action) {
             signupPending: false,
             signupError: null,
             signedUp: true,
+            authen: true,
         };
 
     case COMMON_SIGNUP_FAILURE:
