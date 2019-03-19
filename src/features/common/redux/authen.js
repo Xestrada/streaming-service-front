@@ -16,10 +16,12 @@ export function authen(username, pass) {
         return fetch(`https://videovaultusers.herokuapp.com/login/email=${username}/password=${pass}`)
             .then(response => response.json())
             .then((createdJson) => {
-                if (createdJson.login_successful) {
+                console.log(createdJson);
+                if (createdJson.username !== undefined) {
                     dispatch({
                         type: COMMON_AUTHEN_SUCCESS,
                         data: true,
+                        userData: createdJson,
                     });
                 } else {
                     dispatch({
@@ -49,6 +51,7 @@ export function signOut() {
         dispatch({
             type: COMMON_AUTHEN_SUCCESS,
             data: false,
+            userData: null,
         });
 
     };
@@ -81,6 +84,7 @@ export function reducer(state, action) {
             authenError: null,
             authen: action.data,
             error: undefined,
+            userData: action.userData,
         };
 
     case COMMON_AUTHEN_FAILURE:
