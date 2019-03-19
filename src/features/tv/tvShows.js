@@ -120,6 +120,7 @@ class TVshows extends Component {
                 <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />
                 <br />
                 <br />
+                <br />
                 <Results errpr={error} boxes={boxes} page={page} loadingGrid={loadingGrid} maxPages={maxPages} nextPage={this.nextPage} backPage={this.backPage} />
                 <Footer />
             </div>

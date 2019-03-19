@@ -28,8 +28,9 @@ export default class Results extends Component {
                     {page !== 1 ? <Button color='primary' onClick={backPage} className='paginateButton'> Back </Button>
                         : <Button color='primary' onClick={backPage} className='paginateButton' disabled> Back </Button>}
                     <h6 className='pageCounter'>
+                        page:
                         {page}
-                    /
+                        /
                         {maxPages}
                     </h6>
                     {maxPages !== undefined && page < maxPages
