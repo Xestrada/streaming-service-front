@@ -72,10 +72,12 @@
   background: center;
 }
 .advertise-text{
+  position: absolute;
   font-weight: bold;
   word-wrap: break-word;
   color:white;
-  transform: translate(25em, -35em);
+  bottom: 16em;
+  left: 27em;
 }
 
 .advertise-text h1{
@@ -89,5 +91,7 @@
 }
 
 .moveCarousel{
-  transform: translate(0em, -7em);
+  position: relative;
+  margin-top: 1em; 
+  margin-bottom: 1em; 
 }
