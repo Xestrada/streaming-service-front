@@ -129,7 +129,7 @@ class Header extends React.Component {
                     </Media>
                 </DropdownToggle>
                 <DropdownMenu right>
-                    <DropdownItem>Account</DropdownItem>
+                    <DropdownItem><Link to='/account'>Account</Link></DropdownItem>
                     <DropdownItem onClick={this.signOut}>Sign Out</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
