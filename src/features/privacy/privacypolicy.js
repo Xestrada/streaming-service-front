@@ -25,13 +25,13 @@ class PrivacyPolicy extends Component {
             <div>
                 <Header />
                 Account settings
-                <div className='positioning'>
+                <div>
                     <UncontrolledDropdown direction='right'>
                         <DropdownToggle caret>
                         Change Password
                         </DropdownToggle>
                         <DropdownMenu>
-                            <Form>
+                            <Form className='positioning'>
                                 <FormGroup row>
                                     <Label for='oldpassword' sm={3}>Old Password: </Label>
                                     <Col sm={8}>
@@ -110,7 +110,7 @@ class PrivacyPolicy extends Component {
                                 </Input>
                             </FormGroup>
                             <FormGroup check row>
-                                <Col sm={{ size: 10, offset: 5 }}>
+                                <Col sm={{ size: 5, offset: 2 }}>
                                     <Button>Submit</Button>
                                 </Col>
                             </FormGroup>
@@ -133,7 +133,7 @@ class PrivacyPolicy extends Component {
                                 </Input>
                             </FormGroup>
                             <FormGroup check row>
-                                <Col sm={{ size: 10, offset: 5 }}>
+                                <Col sm={{ size: 5, offset: 2 }}>
                                     <Button>Submit</Button>
                                 </Col>
                             </FormGroup>
