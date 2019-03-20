@@ -34,13 +34,13 @@ export class Media extends Component {
   }
 
   render() {
-
       const { title } = this.state;
       const { common } = this.props;
       const { media, mediaError } = common;
       const error = mediaError !== undefined ? <h1>Error</h1> : null;
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
+              {console.log(media)}
               <h1>
                   {media.title || title}
                   {' '}
@@ -48,12 +48,14 @@ export class Media extends Component {
 (
                       {media.year}
 )
-                  </span>
 
+                  </span>
               </h1>
               <h3>TRAILER</h3>
               <h4>CAST</h4>
               <img src={media.image_url} alt='Cover art' className='boxArt' />
+              {media.season_info === undefined && <Button color='danger' className='rent-button'>Rent</Button>}
+              {media.season_info !== undefined && <Button color='danger' className='subscribe-button'>Subscribe</Button>}
               <Button color='primary' className='play-video'>
               PLAY VIDEO
                   {' '}

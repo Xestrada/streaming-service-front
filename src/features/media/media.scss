@@ -79,8 +79,8 @@
     position:absolute;
     bottom: 25em;
     left: 1em;
-    height:511px;
-    width: 360px;
+    height: 56%;
+    width: 32%;
     background: center;
 }
 
@@ -91,6 +91,18 @@
 }
 .play-video{
     position: absolute;
-    top:34em;
-    right: 48em;
+    top: 58%;
+    right: 86%;
+}
+
+.rent-button{
+    position: absolute;
+    top: 58%;
+    right: 79%;
+}
+
+.subscribe-button{
+    position: absolute;
+    top: 58%;
+    right: 76%;
 }
