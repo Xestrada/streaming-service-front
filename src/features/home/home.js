@@ -1,7 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import {
+    Button,
+    Carousel,
+    CarouselItem,
+    CarouselControl,
+    CarouselIndicators,
+    CarouselCaption,
+} from 'reactstrap';
 import * as actions from '../common/redux/actions';
 import Header from '../common/header';
 import Results from '../common/results';
@@ -10,6 +19,23 @@ import ContentBox from '../common/contenBox';
 import SearchBar from '../common/SearchBar';
 import emptyImg from '../../images/noimage.png';
 import './home.scss';
+
+const items = [
+    {
+        src: 'https://images.justwatch.com/backdrop/8628877/s1440/silicon-valley',
+        caption: 'SILICON VALLEY',
+        header: 'Slide 1 Header',
+    },
+    {
+        src: 'https://i.redd.it/9kzcg7xk4q321.png',
+        header: 'Slide 2 Header',
+    },
+    {
+        src: 'https://www.dreadcentral.com/wp-content/uploads/2018/06/pyewacketbanner1200x627.jpg',
+        header: 'Slide 3 Header',
+    },
+];
+
 
 export class Home extends Component {
     static propTypes = {
@@ -24,6 +50,7 @@ export class Home extends Component {
             filter: 'all',
             query: '',
             searchFunc: p => this.getRecentlyAdded(p),
+            activeIndex: 0,
         };
 
         this.getMovieList = this.getMovieList.bind(this);
@@ -35,12 +62,26 @@ export class Home extends Component {
         this.nextPage = this.nextPage.bind(this);
         this.backPage = this.backPage.bind(this);
 
+        this.next = this.next.bind(this);
+        this.previous = this.previous.bind(this);
+        this.goToIndex = this.goToIndex.bind(this);
+        this.onExiting = this.onExiting.bind(this);
+        this.onExited = this.onExited.bind(this);
     }
 
     componentDidMount() {
         const { page, searchFunc } = this.state;
         searchFunc(page);
     }
+
+    onExiting() {
+        this.animating = true;
+    }
+
+    onExited() {
+        this.animating = false;
+    }
+
 
     getMovieList() {
         const { actions } = this.props;
@@ -74,6 +115,25 @@ export class Home extends Component {
             page: 1,
             searchFunc: p => this.search(p),
         }, () => this.search(1));
+    }
+
+    next() {
+        if (this.animating) return;
+        const { activeIndex } = this.state;
+        const nextIndex = activeIndex === items.length - 1 ? 0 : activeIndex + 1;
+        this.setState({ activeIndex: nextIndex });
+    }
+
+    previous() {
+        if (this.animating) return;
+        const { activeIndex } = this.state;
+        const nextIndex = activeIndex === 0 ? items.length - 1 : activeIndex - 1;
+        this.setState({ activeIndex: nextIndex });
+    }
+
+    goToIndex(newIndex) {
+        if (this.animating) return;
+        this.setState({ activeIndex: newIndex });
     }
 
     createSearchURL(filter) {
@@ -125,6 +185,14 @@ export class Home extends Component {
         const loadingGrid = [];
         const searchFilters = ['All', 'Movies', 'TV Shows', 'Actors'];
 
+        const { activeIndex } = this.state;
+
+        const slides = items.map(item => (
+            <CarouselItem onExiting={this.onExiting} onExited={this.onExited} key={item.src}>
+                <img src={item.src} alt={item.altText} />
+                <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
+            </CarouselItem>
+        ));
 
         for (let i = 0; i < 20; i += 1) {
             loadingGrid.push(<i className='fa fa-spinner fa-spin loadIcon' key={i} />);

@@ -34,3 +34,64 @@
     width: 5em;
   }
 }
+
+.background-color {
+  background: #000000;  
+  background: -webkit-linear-gradient(to top, #434343, #000000);  
+  background: linear-gradient(to top, #434343, #000000); 
+}
+
+.carousel-caption h3 {
+  font-size: 66px;
+  font-weight: bold;
+  -webkit-text-stroke-width: 2px;
+  -webkit-text-stroke-color: black;
+  color:red;
+}
+
+.carousel-caption p {
+  opacity: 0;
+}
+.carousel-item > img { 
+  position: relative;
+  min-height: 100%;
+  min-width: 1024px;
+  height: 35em;
+  width: 90%;
+  margin-left: 5em; 
+
+  background: center;
+  background-size: cover;
+}
+
+.home-image{
+  min-height: 50%;
+  min-width: 1024px;
+  opacity: 0.4;
+  width: 100%;
+  background: center;
+}
+.advertise-text{
+  position: absolute;
+  font-weight: bold;
+  word-wrap: break-word;
+  color:white;
+  bottom: 16em;
+  left: 27em;
+}
+
+.advertise-text h1{
+  font-size: 3em;
+  height: 0%;
+}
+
+.advertise-text p{
+  font-size: 2em;
+  margin-left: 5em; 
+}
+
+.moveCarousel{
+  position: relative;
+  margin-top: 1em; 
+  margin-bottom: 1em; 
+}
