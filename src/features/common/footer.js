@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    NavItem,
     Media,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
@@ -41,9 +40,7 @@ export default class Footer extends React.Component {
                     </Media>
                 </div>
                 <div className='relative'>
-                    <NavItem>
-                        <Link to='/privacy'>Privacy Policy</Link>
-                    </NavItem>
+                    <Link to='/privacy'>Privacy Policy</Link>
                 </div>
 
             </div>

@@ -10,6 +10,7 @@ import signUpRoute from '../features/signup/route';
 import moviesRoute from '../features/movies/route';
 import aboutRoute from '../features/about/route';
 import mediaRoute from '../features/media/route';
+import accountRoute from '../features/account/route';
 
 // NOTE: DO NOT CHANGE the 'childRoutes' name and the declaration pattern.
 // This is used for Rekit cmds to register routes config for new features, and remove config when remove features, etc.
@@ -23,6 +24,7 @@ const childRoutes = [
     moviesRoute,
     aboutRoute,
     mediaRoute,
+    accountRoute,
 ];
 
 const routes = [{
