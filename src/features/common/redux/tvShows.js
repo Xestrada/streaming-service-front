@@ -85,7 +85,7 @@ export function reducer(state, action) {
         return {
             ...state,
             tvShowsPending: true,
-            tvShowsError: null,
+            tvShowsError: undefined,
             tvShows: [],
         };
 
@@ -94,7 +94,7 @@ export function reducer(state, action) {
         return {
             ...state,
             tvShowsPending: false,
-            tvShowsError: null,
+            tvShowsError: undefined,
             tvShows: action.data,
         };
 

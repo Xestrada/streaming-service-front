@@ -1,110 +1,97 @@
 import {
-    COMMON_AUTHEN_BEGIN,
-    COMMON_AUTHEN_SUCCESS,
-    COMMON_AUTHEN_FAILURE,
-    COMMON_AUTHEN_DISMISS_ERROR,
+    COMMON_SIGNUP_BEGIN,
+    COMMON_SIGNUP_SUCCESS,
+    COMMON_SIGNUP_FAILURE,
+    COMMON_SIGNUP_DISMISS_ERROR,
 } from './constants';
 
 // Rekit uses redux-thunk for async actions by default: https://github.com/gaearon/redux-thunk
 // If you prefer redux-saga, you can use rekit-plugin-redux-saga: https://github.com/supnate/rekit-plugin-redux-saga
-export function authen(username, pass) {
+export function signup(newUser = {}) {
     return (dispatch) => { // optionally you can have getState as the second argument
         dispatch({
-            type: COMMON_AUTHEN_BEGIN,
+            type: COMMON_SIGNUP_BEGIN,
         });
 
-        return fetch(`https://videovaultusers.herokuapp.com/login/email=${username}/password=${pass}`)
-            .then(response => response.json())
-            .then((createdJson) => {
+        const values = JSON.stringify(newUser);
+
+        return fetch('https://videovaultusers.herokuapp.com/signup', {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: values,
+        })
+            .then(response => response.json()).then((createdJson) => {
                 if (createdJson.username !== undefined) {
                     dispatch({
-                        type: COMMON_AUTHEN_SUCCESS,
+                        type: COMMON_SIGNUP_SUCCESS,
+                        data: true,
                         userData: createdJson,
                     });
                 } else {
                     dispatch({
-                        type: COMMON_AUTHEN_FAILURE,
+                        type: COMMON_SIGNUP_FAILURE,
                         error: createdJson,
+                        data: false,
                     });
                 }
             })
             .catch((error) => {
                 dispatch({
-                    type: COMMON_AUTHEN_FAILURE,
+                    type: COMMON_SIGNUP_FAILURE,
                     error,
+                    data: false,
                 });
+                console.log(error);
             });
-    };
-}
-
-export function signOut() {
-    return (dispatch) => { // optionally you can have getState as the second argument
-        dispatch({
-            type: COMMON_AUTHEN_BEGIN,
-        });
-
-        dispatch({
-            type: 'Sign Out',
-            data: false,
-            userData: null,
-        });
-
     };
 }
 
 // Async action saves request error by default, this method is used to dismiss the error info.
 // If you don't want errors to be saved in Redux store, just ignore this method.
-export function dismissAuthenError() {
+export function dismissSignupError() {
     return {
-        type: COMMON_AUTHEN_DISMISS_ERROR,
+        type: COMMON_SIGNUP_DISMISS_ERROR,
     };
 }
 
 export function reducer(state, action) {
     switch (action.type) {
-    case COMMON_AUTHEN_BEGIN:
+    case COMMON_SIGNUP_BEGIN:
         // Just after a request is sent
         return {
             ...state,
-            authenPending: true,
-            authenError: null,
+            signupPending: true,
+            signupError: null,
         };
 
-    case COMMON_AUTHEN_SUCCESS:
+    case COMMON_SIGNUP_SUCCESS:
         // The request is success
         return {
             ...state,
-            authenPending: false,
-            authenError: null,
+            signupPending: false,
+            signupError: null,
             authen: true,
             userData: action.userData,
         };
 
-    case COMMON_AUTHEN_FAILURE:
+    case COMMON_SIGNUP_FAILURE:
         // The request is failed
         return {
             ...state,
-            authenPending: false,
-            authenError: action.error,
+            signupPending: false,
+            signupError: action.error,
             authen: false,
             userData: null,
         };
 
-    case COMMON_AUTHEN_DISMISS_ERROR:
+    case COMMON_SIGNUP_DISMISS_ERROR:
         // Dismiss the request failure error
         return {
             ...state,
-            authenError: null,
-        };
-
-    case 'Sign Out':
-        // Dismiss the request failure error
-        return {
-            ...state,
-            authenError: null,
-            authenPending: false,
-            authen: false,
-            userData: null,
+            signupError: null,
         };
 
     default:

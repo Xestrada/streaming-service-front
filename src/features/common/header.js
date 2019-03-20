@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import {
+    Alert,
     Collapse,
     Dropdown,
     DropdownItem,
@@ -19,12 +20,12 @@ import {
     ModalFooter,
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import './header.scss';
 import { connect } from 'react-redux';
 import * as actions from './redux/actions';
 import userImg from '../../images/blank-user.jpg';
+import './header.scss';
 
-export class Header extends React.Component {
+class Header extends React.Component {
     static propTypes = {
         actions: PropTypes.object.isRequired,
         common: PropTypes.object.isRequired,
@@ -70,12 +71,9 @@ export class Header extends React.Component {
     login() {
         const { actions } = this.props;
         const { authen } = actions;
-        this.setState(prevState => ({
-            modal: !prevState.modal,
-        }), () => {
-            const { username, pass } = this.state;
-            authen(username, pass);
-        });
+        const { username, pass } = this.state;
+        authen(username, pass);
+
     }
 
     signOut() {
@@ -93,19 +91,27 @@ export class Header extends React.Component {
     render() {
         const { modal, username, pass, isOpen, userDropdown } = this.state;
         const { common } = this.props;
+        const { authen, authenError, authenPending } = common;
+
+        if (authen && modal) this.modalToggle();
+
+        const errorElem = authenError !== null ? (
+            <div>
+                {authenError.invalid_email ? (<Alert color='danger'>Invalid Email</Alert>) : null}
+                {authenError.invalid_password ? <Alert color='danger'>Invalid Password</Alert> : null}
+            </div>
+        ) : null;
 
         const modalElem = (
             <Modal isOpen={modal} toggle={this.modalToggle}>
                 <ModalHeader toggle={this.modalToggle} className='centerModalHeader'>Member Login</ModalHeader>
                 <ModalBody className='modalBody'>
-                    <input value={username} type='text' id='userName' className='form-control' placeholder='username' onChange={e => this.updateState('username', e.target.value)} />
+                    {errorElem}
+                    <input value={username} type='text' id='userName' className='form-control' placeholder='email' onChange={e => this.updateState('username', e.target.value)} />
                     <input value={pass} type='password' id='userPassword' className='form-control input-sm chat-input' placeholder='password' onChange={e => this.updateState('pass', e.target.value)} />
-                    <label>
-                        <input type='checkbox' name='remember' value='1' />
-                        <span className='remember'>Remember me</span>
-                    </label>
                 </ModalBody>
                 <ModalFooter>
+                    {authenPending && <i className='fa fa-spinner fa-spin loadIcon' />}
                     <Button className='btn btn-primary btn-md' color='primary' onClick={this.login}>
                         login
                         <i className='fas fa-sign-in-alt' />
@@ -115,7 +121,7 @@ export class Header extends React.Component {
             </Modal>
         );
 
-        const sideHead = common.authen ? (
+        const sideHead = authen ? (
             <Dropdown isOpen={userDropdown} toggle={this.dropdownToggle} direction='down'>
                 <DropdownToggle>
                     <Media right>
@@ -123,7 +129,7 @@ export class Header extends React.Component {
                     </Media>
                 </DropdownToggle>
                 <DropdownMenu right>
-                    <DropdownItem>Account</DropdownItem>
+                    <DropdownItem><Link to='/account'>Account</Link></DropdownItem>
                     <DropdownItem onClick={this.signOut}>Sign Out</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
@@ -159,7 +165,7 @@ export class Header extends React.Component {
                             <NavItem>
                                 <Link className='color-me link' to='/tvshows'>TV Shows</Link>
                             </NavItem>
-                            {common.authen ? (
+                            {authen ? (
                                 <NavItem>
                                     <Link className='color-me link' to='/subscriptions'>Subscriptions</Link>
                                 </NavItem>
