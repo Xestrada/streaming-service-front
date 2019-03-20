@@ -4,16 +4,18 @@ import Header from '../common/header';
 import Footer from '../common/footer';
 import './account.scss';
 
-class Account extends Component {
+export default class Account extends Component {
     constructor(props) {
         super(props);
-        this.toggle = this.toggle.bind(this);
+
         this.state = {
             collapse: false,
             password: '',
             card_num: '',
             exp: '',
         };
+
+        this.toggle = this.toggle.bind(this);
     }
 
     toggle() {
@@ -128,5 +130,3 @@ class Account extends Component {
         );
     }
 }
-
-export default Account;
