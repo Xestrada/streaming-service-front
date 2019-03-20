@@ -23,12 +23,19 @@ class Subscriptions extends Component {
         this.getUserShows = this.getUserShows.bind(this);
         this.getRatedMovies = this.getRatedMovies.bind(this);
         this.getRatedTV = this.getRatedTV.bind(this);
+
+
     }
 
-    componentDidMount() {
-        this.getUserShows();
-        this.getRatedMovies();
-        this.getRatedTV();
+    componentDidMount() { //eslint-disable-line
+        const { common } = this.props;
+        const { authen } = common;
+        if (authen) {
+            this.getUserShows();
+            this.getRatedMovies();
+            this.getRatedTV();
+        }
+
     }
 
     getUserShows() {
@@ -59,7 +66,6 @@ class Subscriptions extends Component {
         const {
             authen,
             subs,
-            userData,
             ratedMovies,
             ratedTV,
             rented,
@@ -67,8 +73,6 @@ class Subscriptions extends Component {
             ratedMoviesPending,
             subsPending,
         } = common;
-
-        const redir = (!authen || userData == null) ? (<Redirect to='/' />) : null;
 
         const subbedTV = subs !== undefined ? subs.map(content => (
             <div className='media'>
@@ -85,6 +89,8 @@ class Subscriptions extends Component {
         )) : null;
 
         const rentedList = rented !== undefined ? (<br />) : null;
+
+        const redir = authen ? null : (<Redirect to='/' />);
 
         const empty = (<h2>No Content</h2>);
 
