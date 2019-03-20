@@ -1,21 +1,35 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
 import {
+    Alert,
     Collapse,
+    Dropdown,
+    DropdownItem,
+    DropdownMenu,
+    DropdownToggle,
     Navbar,
     NavbarToggler,
-    NavbarBrand,
     Nav,
     NavItem,
-    NavLink,
     Button,
+    Media,
     Modal,
     ModalHeader,
     ModalBody,
     ModalFooter,
 } from 'reactstrap';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as actions from './redux/actions';
+import userImg from '../../images/blank-user.jpg';
 import './header.scss';
 
-export default class Header extends React.Component {
+class Header extends React.Component {
+    static propTypes = {
+        actions: PropTypes.object.isRequired,
+        common: PropTypes.object.isRequired,
+    };
 
     constructor(props) {
         super(props);
@@ -23,82 +37,152 @@ export default class Header extends React.Component {
         this.state = {
             isOpen: false,
             modal: false,
+            userDropdown: false,
+            username: '',
+            pass: '',
         };
 
-        this.toggle = this.toggle.bind(this);
+        this.navToggle = this.navToggle.bind(this);
+        this.modalToggle = this.modalToggle.bind(this);
+        this.dropdownToggle = this.dropdownToggle.bind(this);
+        this.login = this.login.bind(this);
+        this.signOut = this.signOut.bind(this);
+        this.updateState = this.updateState.bind(this);
     }
 
-    toggle() {
+    dropdownToggle() {
         this.setState(prevState => ({
-            isOpen: !prevState.isOpen,
-            modal: !prevState.isOpen,
+            userDropdown: !prevState.userDropdown,
         }));
     }
 
+    navToggle() {
+        this.setState(prevState => ({
+            isOpen: !prevState.isOpen,
+        }));
+    }
+
+    modalToggle() {
+        this.setState(prevState => ({
+            modal: !prevState.modal,
+        }));
+    }
+
+    login() {
+        const { actions } = this.props;
+        const { authen } = actions;
+        const { username, pass } = this.state;
+        authen(username, pass);
+
+    }
+
+    signOut() {
+        const { actions } = this.props;
+        const { signOut } = actions;
+        signOut();
+    }
+
+    updateState(name, value) {
+        this.setState({
+            [name]: value,
+        });
+    }
+
     render() {
-        const { isOpen } = this.state;
-        const { modal } = this.state;
+        const { modal, username, pass, isOpen, userDropdown } = this.state;
+        const { common } = this.props;
+        const { authen, authenError, authenPending } = common;
+
+        if (authen && modal) this.modalToggle();
+
+        const errorElem = authenError !== null ? (
+            <div>
+                {authenError.invalid_email ? (<Alert color='danger'>Invalid Email</Alert>) : null}
+                {authenError.invalid_password ? <Alert color='danger'>Invalid Password</Alert> : null}
+            </div>
+        ) : null;
+
+        const modalElem = (
+            <Modal isOpen={modal} toggle={this.modalToggle}>
+                <ModalHeader toggle={this.modalToggle} className='centerModalHeader'>Member Login</ModalHeader>
+                <ModalBody className='modalBody'>
+                    {errorElem}
+                    <input value={username} type='text' id='userName' className='form-control' placeholder='email' onChange={e => this.updateState('username', e.target.value)} />
+                    <input value={pass} type='password' id='userPassword' className='form-control input-sm chat-input' placeholder='password' onChange={e => this.updateState('pass', e.target.value)} />
+                </ModalBody>
+                <ModalFooter>
+                    {authenPending && <i className='fa fa-spinner fa-spin loadIcon' />}
+                    <Button className='btn btn-primary btn-md' color='primary' onClick={this.login}>
+                        login
+                        <i className='fas fa-sign-in-alt' />
+                    </Button>
+                    <Button color='secondary' onClick={this.modalToggle}>Cancel</Button>
+                </ModalFooter>
+            </Modal>
+        );
+
+        const sideHead = authen ? (
+            <Dropdown isOpen={userDropdown} toggle={this.dropdownToggle} direction='down'>
+                <DropdownToggle>
+                    <Media right>
+                        <img className='user' src={userImg} alt='Placeholder' />
+                    </Media>
+                </DropdownToggle>
+                <DropdownMenu right>
+                    <DropdownItem><Link to='/account'>Account</Link></DropdownItem>
+                    <DropdownItem onClick={this.signOut}>Sign Out</DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
+        ) : (
+            <div>
+                <Button className='color-me link' color='white' onClick={this.modalToggle}>
+                Login
+                </Button>
+
+                <Link className='color-me link' to='/signup'>Sign Up</Link>
+            </div>
+        );
+
         return (
             <div>
+
+                {modalElem}
+
                 <Navbar color='dark' light expand='md'>
 
-                    <NavbarBrand className='color-me' href='/'>Company 48</NavbarBrand>
-                    <NavbarToggler onClick={this.toggle} />
+                    <Link className='color-me brand' to='/'>Company 48</Link>
+
+                    <NavbarToggler onClick={this.navToggle} />
 
                     <Collapse isOpen={isOpen} navbar>
 
                         <Nav className='mr-auto' navbar>
 
                             <NavItem>
-                                <NavLink className='color-me' href='/movies'>Movies</NavLink>
+                                <Link className='color-me link' to='/movies'>Movies</Link>
                             </NavItem>
 
                             <NavItem>
-                                <NavLink className='color-me' href='/tvshows'>TV Shows</NavLink>
+                                <Link className='color-me link' to='/tvshows'>TV Shows</Link>
                             </NavItem>
+                            {authen ? (
+                                <NavItem>
+                                    <Link className='color-me link' to='/subscriptions'>Subscriptions</Link>
+                                </NavItem>
+                            )
+                                : null}
+
 
                             <NavItem>
-                                <NavLink className='color-me' href='/subscriptions'>Subscriptions</NavLink>
-                            </NavItem>
-
-                            <NavItem>
-                                <NavLink className='color-me' href='/about'>About</NavLink>
+                                <Link className='color-me link' to='/about'>About</Link>
                             </NavItem>
 
                         </Nav>
                         <Nav className='ml-auto' navbar>
-                            <Nav className='spacing'>
+                            <Nav className='spacing' />
 
-                                <Button className='color-me' color='white' onClick={this.toggle}>
-                                    Login
-                                </Button>
-                                <Modal isOpen={modal} toggle={this.toggle}>
-                                    <ModalHeader toggle={this.toggle}><h2 className='centerModalHeader'>Member Login</h2></ModalHeader>
-                                    <ModalBody className='modalBody'>
-                                        <input type='text' id='userName' className='form-control' placeholder='username' />
-                                        <input type='password' id='userPassword' className='form-control input-sm chat-input' placeholder='password' />
-                                        <label>
-                                            <input type='checkbox' name='remember' value='1' />
-                                            <span className='remember'>Remember me</span>
-                                        </label>
-                                    </ModalBody>
-                                    <ModalFooter>
-                                        <span className='group-btn'>
-                                            <a href='/' className='btn btn-primary btn-md'>
-                                                login
-                                                {' '}
-                                                <i className='fas fa-sign-in-alt' />
-                                            </a>
-                                        </span>
-                                        {' '}
-                                        <Button color='secondary' onClick={this.toggle}>Cancel</Button>
-                                    </ModalFooter>
-                                </Modal>
+                            {sideHead}
 
-                                <NavItem>
-                                    <NavLink className='color-me' href='/signup'>Sign Up</NavLink>
-                                </NavItem>
-                            </Nav>
                         </Nav>
 
                     </Collapse>
@@ -108,3 +192,20 @@ export default class Header extends React.Component {
         );
     }
 }
+
+/* istanbul ignore next */
+function mapStateToProps(state) {
+    return {
+        header: state.header,
+        common: state.common,
+    };
+}
+
+/* istanbul ignore next */
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({ ...actions }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

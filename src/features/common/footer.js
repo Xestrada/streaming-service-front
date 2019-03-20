@@ -1,9 +1,8 @@
 import React from 'react';
 import {
-    NavItem,
-    NavLink,
     Media,
 } from 'reactstrap';
+import { Link } from 'react-router-dom';
 import facebook from '../../images/facebooklogo.png';
 import twitter from '../../images/twitterlogo.jpg';
 import googleplus from '../../images/googlepluslogo.png';
@@ -41,9 +40,7 @@ export default class Footer extends React.Component {
                     </Media>
                 </div>
                 <div className='relative'>
-                    <NavItem>
-                        <NavLink href='/privacy'>Privacy Policy</NavLink>
-                    </NavItem>
+                    <Link to='/privacy'>Privacy Policy</Link>
                 </div>
 
             </div>

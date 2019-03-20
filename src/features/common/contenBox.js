@@ -1,29 +1,68 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as actions from './redux/actions';
 import './contentBox.scss';
 
-export default class ContentBox extends React.Component {
+class ContentBox extends React.Component {
 
   static propTypes = {
       image: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
-      url: PropTypes.string.isRequired,
+      common: PropTypes.object.isRequired,
   };
-
-  constructor(props) {
-      super(props);
-
-
-  }
 
 
   render() {
 
+      const { image, title, common } = this.props;
+      const { authen } = common;
+
+      const link = (authen !== undefined && authen) ? (
+          <Link to={
+              {
+                  pathname: `/media/${title}`,
+                  state: {
+                      title,
+                  },
+              }
+          }
+          >
+              <h6 className='centerText'>
+                  {title}
+              </h6>
+          </Link>
+      )
+          : (
+              <h6 className='centerText'>
+                  {title}
+              </h6>
+          );
+
       return (
-          <div className = 'contentBox'>
-              <img src={this.props.image} alt = 'default' className = 'imgDiv' />
-              <a href={this.props.url}><h6 className='centerText'>{this.props.title}</h6></a>
+          <div className='contentBox'>
+              <img src={image} alt='default' className='imgDiv' />
+              {link}
           </div>
       );
   }
 }
+
+/* istanbul ignore next */
+function mapStateToProps(state) {
+    return {
+        header: state.header,
+        common: state.common,
+    };
+}
+
+/* istanbul ignore next */
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators({ ...actions }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContentBox);
