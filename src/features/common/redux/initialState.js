@@ -21,6 +21,12 @@ const initialState = {
     mediaError: null,
     authenPending: false,
     authenError: null,
+    subsPending: false,
+    subsError: null,
+  ratedMoviesPending: false,
+  ratedMoviesError: null,
+  ratedTvPending: false,
+  ratedTvError: null,
 };
 
 export default initialState;

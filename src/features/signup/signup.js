@@ -44,14 +44,13 @@ class Signup extends Component {
 
     }
 
-
     render() {
 
-        const { username, password, email, card_num, exp, name } = this.state;
+        const { username, password, email, card_num, exp, name } = this.state; //eslint-disable-line
         const { common } = this.props;
-        const { signedUp } = common;
+        const { authen } = common;
 
-        const redir = signedUp !== undefined && signedUp ? (<Redirect to='/subscriptions' />) : null;
+        const redir = authen !== undefined && authen ? (<Redirect to='/subscriptions' />) : null;
 
         return (
             <div>
@@ -84,6 +83,7 @@ class Signup extends Component {
                             <Label for='examplePassword' sm={3}>Password</Label>
                             <Col sm={9}>
                                 <Input value={password} type='password' name='password' id='examplePassword' placeholder='your password' onChange={e => this.changeState('password', e.target.value)} />
+
                             </Col>
                         </FormGroup>
                         <FormGroup row>
@@ -110,6 +110,7 @@ class Signup extends Component {
         );
     }
 }
+
 
 /* istanbul ignore next */
 function mapStateToProps(state) {

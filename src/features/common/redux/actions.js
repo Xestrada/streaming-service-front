@@ -5,3 +5,6 @@ export { searchBy, getRecents, dismissSearchError } from './search';
 export { signup, dismissSignupError } from './signup';
 export { getMedia, dismissMediaError } from './media';
 export { authen, signOut, dismissAuthenError } from './authen';
+export { getSubs, dismissSubsError } from './subs';
+export { ratedMovies, dismissRatedMoviesError } from './ratedMovies';
+export { ratedTv, dismissRatedTvError } from './ratedTv';

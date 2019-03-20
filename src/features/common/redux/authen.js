@@ -16,15 +16,14 @@ export function authen(username, pass) {
         return fetch(`https://videovaultusers.herokuapp.com/login/email=${username}/password=${pass}`)
             .then(response => response.json())
             .then((createdJson) => {
-                if (createdJson.login_successful) {
+                if (createdJson.username !== undefined) {
                     dispatch({
                         type: COMMON_AUTHEN_SUCCESS,
-                        data: true,
+                        userData: createdJson,
                     });
                 } else {
                     dispatch({
                         type: COMMON_AUTHEN_FAILURE,
-                        data: false,
                         error: createdJson,
                     });
                 }
@@ -32,10 +31,8 @@ export function authen(username, pass) {
             .catch((error) => {
                 dispatch({
                     type: COMMON_AUTHEN_FAILURE,
-                    data: false,
                     error,
                 });
-                console.log('Error: ', error);
             });
     };
 }
@@ -47,8 +44,9 @@ export function signOut() {
         });
 
         dispatch({
-            type: COMMON_AUTHEN_SUCCESS,
+            type: 'Sign Out',
             data: false,
+            userData: null,
         });
 
     };
@@ -70,7 +68,6 @@ export function reducer(state, action) {
             ...state,
             authenPending: true,
             authenError: null,
-            error: undefined,
         };
 
     case COMMON_AUTHEN_SUCCESS:
@@ -79,8 +76,8 @@ export function reducer(state, action) {
             ...state,
             authenPending: false,
             authenError: null,
-            authen: action.data,
-            error: undefined,
+            authen: true,
+            userData: action.userData,
         };
 
     case COMMON_AUTHEN_FAILURE:
@@ -88,9 +85,9 @@ export function reducer(state, action) {
         return {
             ...state,
             authenPending: false,
-            authenError: action.data.error,
+            authenError: action.error,
             authen: false,
-            error: action.error,
+            userData: null,
         };
 
     case COMMON_AUTHEN_DISMISS_ERROR:
@@ -98,6 +95,16 @@ export function reducer(state, action) {
         return {
             ...state,
             authenError: null,
+        };
+
+    case 'Sign Out':
+        // Dismiss the request failure error
+        return {
+            ...state,
+            authenError: null,
+            authenPending: false,
+            authen: false,
+            userData: null,
         };
 
     default:

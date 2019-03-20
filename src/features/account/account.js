@@ -4,15 +4,22 @@ import Header from '../common/header';
 import Footer from '../common/footer';
 import './account.scss';
 
-class Account extends Component {
+export default class Account extends Component {
     constructor(props) {
         super(props);
-        this.toggle = this.toggle.bind(this);
+
         this.state = {
             dropdownOpen: false,
             password: '',
             card_num: '',
+<<<<<<< HEAD
             exp: '' };
+=======
+            exp: '',
+        };
+
+        this.toggle = this.toggle.bind(this);
+>>>>>>> bf3dca38733774c7afc47a597c89595abd8a3522
     }
 
     toggle() {
@@ -162,5 +169,3 @@ class Account extends Component {
         );
     }
 }
-
-export default Account;

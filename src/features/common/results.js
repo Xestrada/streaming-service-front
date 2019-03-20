@@ -4,14 +4,14 @@ import PropTypes from 'prop-types';
 
 export default class Results extends Component {
     static propTypes = {
-        boxes: PropTypes.object.isRequired,
-        loadingGrid: PropTypes.object.isRequired,
+        boxes: PropTypes.object,
+        loadingGrid: PropTypes.object,
         error: PropTypes.object,
-        backPage: PropTypes.func.isRequired,
-        nextPage: PropTypes.func.isRequired,
-        page: PropTypes.number.isRequired,
-        maxPages: PropTypes.number.isRequired,
-        loading: PropTypes.bool.isRequired,
+        backPage: PropTypes.func,
+        nextPage: PropTypes.func,
+        page: PropTypes.number,
+        maxPages: PropTypes.number,
+        loading: PropTypes.bool,
     };
 
     render() {
@@ -39,6 +39,7 @@ export default class Results extends Component {
                         ? <Button color='primary' onClick={nextPage} className='paginateButton'> Next </Button>
                         : <Button color='primary' onClick={nextPage} className='paginateButton' disabled> Next </Button>}
                 </div>
+                <br />
             </div>
         );
     }
@@ -47,4 +48,11 @@ export default class Results extends Component {
 
 Results.defaultProps = {
     error: null,
+    boxes: {},
+    loadingGrid: {},
+    loading: false,
+    backPage: () => {},
+    nextPage: () => {},
+    page: 0,
+    maxPages: 0,
 };
