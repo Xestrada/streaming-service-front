@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Col, Collapse, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Col, Collapse, Button, Form, FormGroup, Label, Input, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import Header from '../common/header';
 import Footer from '../common/footer';
 import './account.scss';
@@ -9,23 +9,57 @@ class Account extends Component {
         super(props);
         this.toggle = this.toggle.bind(this);
         this.state = {
-            collapse: false,
+            dropdownOpen: false,
             password: '',
             card_num: '',
-            exp: '',
-        };
+            exp: '' };
     }
 
     toggle() {
-        this.setState(state => ({ collapse: !state.collapse }));
+        this.setState(prevState => ({
+            dropdownOpen: !prevState.dropdownOpen }));
     }
 
     render() {
-        const { collapse, password, card_num, exp } = this.state;
+        const { dropdownOpen, password, card_num, exp } = this.state;
         return (
             <div>
                 <Header />
                 Account settings
+                <div>
+                    <Dropdown isOpen={dropdownOpen} toggle={this.toggle}>
+                        <DropdownToggle caret>
+                        Change Password
+                        </DropdownToggle>
+                        <DropdownMenu>
+                            <Form>
+                                <FormGroup row>
+                                    <Label for='oldpassword' sm={3}>Old Password: </Label>
+                                    <Col sm={8}>
+                                        <Input value={password} type='password' name='password' id='password' placeholder='your password' onChange={e => this.changeState('password', e.target.value)} />
+                                    </Col>
+                            </FormGroup>
+                            <FormGroup row>
+                                <Label for='newpassword' sm={3}>New Password: </Label>
+                                <Col sm={8}>
+                                    <Input value={password} type='password' name='password' id='password' placeholder='your password' onChange={e => this.changeState('password', e.target.value)} />
+                                </Col>
+                            </FormGroup>
+                            <FormGroup row>
+                                <Label for='newpassword' sm={3}>Retype New Password: </Label>
+                                <Col sm={8}>
+                                    <Input value={password} type='password' name='password' id='password' placeholder='your password' onChange={e => this.changeState('password', e.target.value)} />
+                                </Col>
+                            </FormGroup>
+                            <FormGroup check row>
+                                <Col sm={{ size: 10, offset: 5 }}>
+                                    <Button onClick={this.signUp}>Submit</Button>
+                                </Col>
+                            </FormGroup>
+                        </Form>
+                        </DropdownMenu>
+                    </Dropdown>
+                </div>
                 <div>
                     <Button color='dark' onClick={this.toggle} style={{ marginBottom: '1rem' }}>Change Password</Button>
                     <Collapse isOpen={collapse}>
