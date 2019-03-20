@@ -44,7 +44,6 @@ class Signup extends Component {
 
     }
 
-
     render() {
 
         const { username, password, email, card_num, exp, name } = this.state; //eslint-disable-line
@@ -84,6 +83,7 @@ class Signup extends Component {
                             <Label for='examplePassword' sm={3}>Password</Label>
                             <Col sm={9}>
                                 <Input value={password} type='password' name='password' id='examplePassword' placeholder='your password' onChange={e => this.changeState('password', e.target.value)} />
+
                             </Col>
                         </FormGroup>
                         <FormGroup row>
@@ -110,6 +110,7 @@ class Signup extends Component {
         );
     }
 }
+
 
 /* istanbul ignore next */
 function mapStateToProps(state) {
