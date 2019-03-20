@@ -176,7 +176,7 @@ export class Home extends Component {
         const { page } = this.state;
         const { data, maxPages, searchError, searchPending } = common;
 
-        const error = searchError !== undefined ? searchError : null;
+        const error = searchError !== undefined ? (<h1>Error</h1>) : null;
 
         const boxes = (data !== undefined) ? data.map(content => (
             <ContentBox title={content.title || content.full_name} url={content.url} image={content.image_url || emptyImg} key={content.id} />
@@ -199,16 +199,36 @@ export class Home extends Component {
         }
 
         return (
-            <div className='home-root'>
-                <Header />
-                <br />
-                <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />
-                <br />
-                <br />
-                <br />
-                <Results loading={searchPending} error={error} boxes={boxes} page={page} loadingGrid={loadingGrid} maxPages={maxPages} nextPage={this.nextPage} backPage={this.backPage} />
-                <Footer />
-            </div>
+            <body className='background-color'>
+                <div className='home-root'>
+                    <Header />
+                    <div>
+                        <img className='home-image' src='https://www.whateverison.com/wp-content/uploads/2018/09/movies.jpg' alt='' />
+                        <div className='advertise-text'>
+                            <h1>Variety TV Shows and Movies</h1>
+                            <p>Only $10 for a month</p>
+                            <Link to='/signup'>
+                                <Button style={{ marginLeft: '14.5em' }} color='primary' className='signup-button'> SIGN UP NOW</Button>
+                            </Link>
+                        </div>
+                    </div>
+                    <div className='moveCarousel'>
+                        <Carousel activeIndex={activeIndex} next={this.next} previous={this.previous}>
+                            <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
+                            {slides}
+                            <CarouselControl direction='prev' directionText='Previous' onClickHandler={this.previous} />
+                            <CarouselControl direction='next' directionText='Next' onClickHandler={this.next} />
+                        </Carousel>
+                    </div>
+                    <br />
+                    <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />
+                    <br />
+                    <br />
+                    <br />
+                    <Results loading={searchPending} error={error} boxes={boxes} page={page} loadingGrid={loadingGrid} maxPages={maxPages} nextPage={this.nextPage} backPage={this.backPage} />
+                    <Footer />
+                </div>
+            </body>
         );
     }
 
