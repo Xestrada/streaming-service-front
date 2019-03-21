@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { Button } from 'reactstrap';
 import Header from '../common/header';
 import Results from '../common/results';
 import Footer from '../common/footer';
@@ -35,6 +37,7 @@ export class SubInit extends Component {
       this.backPage = this.backPage.bind(this);
       this.chosenContains = this.chosenContains.bind(this);
       this.selectFilm = this.selectFilm.bind(this);
+      this.selectSlots = this.selectSlots.bind(this);
   }
 
   componentDidMount() {
@@ -129,16 +132,27 @@ export class SubInit extends Component {
       return chosenFilms.includes(num);
   }
 
+  selectSlots() {
+      const { actions, common } = this.props;
+      const { addInitialSubs } = actions;
+      const { userData } = common;
+      const { chosenFilms } = this.state;
+      addInitialSubs({
+          user_id: userData.id,
+          tv_show_id: chosenFilms.toString(),
+      });
+  }
+
 
   render() {
       const { common } = this.props;
-      const { page, savedElems } = this.state;
-      const { tvShows, maxPages, tvShowsError, tvShowsPending } = common;
+      const { page, savedElems, chosenFilms } = this.state;
+      const { tvShows, maxPages, tvShowsError, tvShowsPending, initialSub } = common;
 
       const error = tvShowsError !== undefined ? (<h1>Error</h1>) : null;
 
       const boxes = (tvShows !== undefined) ? tvShows.map(content => (
-          <div className={this.chosenContains(content.id) ? 'chosen' : ''} onClick={() => this.selectFilm(content.id, content.title, content.image_url)}>
+          <div className={this.chosenContains(content.id) ? 'chosen' : ''} onClick={() => this.selectFilm(content.id, content.title, content.image_url)}> {/*eslint-disable-line*/}
               <ContentBox shouldLink={false} title={content.title || content.full_name} url={`/media/${content.title}`} image={content.image_url || emptyImg} key={content.id} />
           </div>
       )) : null;
@@ -150,6 +164,12 @@ export class SubInit extends Component {
       const loadingGrid = [];
       const searchFilters = ['All', 'Movies', 'TV Shows', 'Actors'];
 
+      const redir = initialSub !== undefined ? null : (<Redirect to='/' />);
+
+      const subRedir = initialSub ? (<Redirect to='/' />) : null;
+
+      const selectButton = chosenFilms.length === 10 ? (<Button color='primary' onClick={this.selectSlots}>Subscribe</Button>) : null;
+
 
       for (let i = 0; i < 20; i += 1) {
           loadingGrid.push(<i className='fa fa-spinner fa-spin loadIcon' key={i} />);
@@ -157,6 +177,8 @@ export class SubInit extends Component {
 
       return (
           <div className='home-root'>
+              {redir}
+              {subRedir}
               <Header />
               <br />
               <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />
@@ -172,6 +194,7 @@ export class SubInit extends Component {
                       {selectedList}
                   </div>
               </div>
+              {selectButton}
               <Footer />
           </div>
       );

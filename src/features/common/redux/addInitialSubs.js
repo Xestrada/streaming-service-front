@@ -1,22 +1,23 @@
 import {
-    COMMON_SIGNUP_BEGIN,
-    COMMON_SIGNUP_SUCCESS,
-    COMMON_SIGNUP_FAILURE,
-    COMMON_SIGNUP_DISMISS_ERROR,
+    COMMON_ADD_INITIAL_SUBS_BEGIN,
+    COMMON_ADD_INITIAL_SUBS_SUCCESS,
+    COMMON_ADD_INITIAL_SUBS_FAILURE,
+    COMMON_ADD_INITIAL_SUBS_DISMISS_ERROR,
 } from './constants';
 
 // Rekit uses redux-thunk for async actions by default: https://github.com/gaearon/redux-thunk
 // If you prefer redux-saga, you can use rekit-plugin-redux-saga: https://github.com/supnate/rekit-plugin-redux-saga
-export function signup(newUser = {}) {
+export function addInitialSubs(data = {}) {
     return (dispatch) => { // optionally you can have getState as the second argument
         dispatch({
-            type: COMMON_SIGNUP_BEGIN,
+            type: COMMON_ADD_INITIAL_SUBS_BEGIN,
         });
 
-        const values = JSON.stringify(newUser);
+        const values = JSON.stringify(data);
+        console.log(values);
 
-        return fetch('https://videovaultusers.herokuapp.com/signup', {
-            method: 'POST',
+        return fetch('https://videovaultusers.herokuapp.com/resub', {
+            method: 'PUT',
             mode: 'cors',
             headers: {
                 'Content-Type': 'application/json',
@@ -24,15 +25,16 @@ export function signup(newUser = {}) {
             body: values,
         })
             .then(response => response.json()).then((createdJson) => {
-                if (createdJson.username !== undefined) {
+              console.log(createdJson);
+                if (createdJson.success !== undefined && createdJson.success) {
                     dispatch({
-                        type: COMMON_SIGNUP_SUCCESS,
+                        type: COMMON_ADD_INITIAL_SUBS_SUCCESS,
                         data: true,
                         userData: createdJson,
                     });
                 } else {
                     dispatch({
-                        type: COMMON_SIGNUP_FAILURE,
+                        type: COMMON_ADD_INITIAL_SUBS_FAILURE,
                         error: createdJson,
                         data: false,
                     });
@@ -40,7 +42,7 @@ export function signup(newUser = {}) {
             })
             .catch((error) => {
                 dispatch({
-                    type: COMMON_SIGNUP_FAILURE,
+                    type: COMMON_ADD_INITIAL_SUBS_FAILURE,
                     error,
                     data: false,
                 });
@@ -51,48 +53,45 @@ export function signup(newUser = {}) {
 
 // Async action saves request error by default, this method is used to dismiss the error info.
 // If you don't want errors to be saved in Redux store, just ignore this method.
-export function dismissSignupError() {
+export function dismissAddInitialSubsError() {
     return {
-        type: COMMON_SIGNUP_DISMISS_ERROR,
+        type: COMMON_ADD_INITIAL_SUBS_DISMISS_ERROR,
     };
 }
 
 export function reducer(state, action) {
     switch (action.type) {
-    case COMMON_SIGNUP_BEGIN:
+    case COMMON_ADD_INITIAL_SUBS_BEGIN:
         // Just after a request is sent
         return {
             ...state,
-            signupPending: true,
-            signupError: null,
+            addInitialSubsPending: true,
+            addInitialSubsError: null,
         };
 
-    case COMMON_SIGNUP_SUCCESS:
+    case COMMON_ADD_INITIAL_SUBS_SUCCESS:
         // The request is success
         return {
             ...state,
-            signupPending: false,
-            signupError: null,
-            authen: true,
-            userData: action.userData,
-            initialSub: false,
+            addInitialSubsPending: false,
+            addInitialSubsError: null,
+            initialSub: true,
         };
 
-    case COMMON_SIGNUP_FAILURE:
+    case COMMON_ADD_INITIAL_SUBS_FAILURE:
         // The request is failed
         return {
             ...state,
-            signupPending: false,
-            signupError: action.error,
-            authen: false,
-            userData: null,
+            addInitialSubsPending: false,
+            addInitialSubsError: action.data.error,
+            initialSub: false,
         };
 
-    case COMMON_SIGNUP_DISMISS_ERROR:
+    case COMMON_ADD_INITIAL_SUBS_DISMISS_ERROR:
         // Dismiss the request failure error
         return {
             ...state,
-            signupError: null,
+            addInitialSubsError: null,
         };
 
     default:

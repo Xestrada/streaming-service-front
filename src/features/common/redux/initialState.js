@@ -33,6 +33,8 @@ const initialState = {
     getFriendsError: null,
     addSlotPending: false,
     addSlotError: null,
+    addInitialSubsPending: false,
+    addInitialSubsError: null,
 };
 
 export default initialState;
