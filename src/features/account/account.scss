@@ -1,9 +1,16 @@
 .title{
     font-size: 2rem;
     padding-left: 2%;
+    padding-bottom: 2%;
 }
 .positioning{
     padding-left: 4%;
-    padding-top: 1%;
     padding-bottom: 1%;
+}
+.middle{
+    justify-content: center;
+    align-items: center;
+    border-color: transparent;
+    width: 35%;
+    padding-bottom: 2%;
 }
