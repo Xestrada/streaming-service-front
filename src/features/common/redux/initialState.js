@@ -23,10 +23,12 @@ const initialState = {
     authenError: null,
     subsPending: false,
     subsError: null,
-  ratedMoviesPending: false,
-  ratedMoviesError: null,
-  ratedTvPending: false,
-  ratedTvError: null,
+    ratedMoviesPending: false,
+    ratedMoviesError: null,
+    ratedTvPending: false,
+    ratedTvError: null,
+    getRentedPending: false,
+    getRentedError: null,
 };
 
 export default initialState;

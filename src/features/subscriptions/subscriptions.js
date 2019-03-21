@@ -23,6 +23,7 @@ class Subscriptions extends Component {
         this.getUserShows = this.getUserShows.bind(this);
         this.getRatedMovies = this.getRatedMovies.bind(this);
         this.getRatedTV = this.getRatedTV.bind(this);
+        this.getRentedMovies = this.getRentedMovies.bind(this);
 
 
     }
@@ -34,6 +35,7 @@ class Subscriptions extends Component {
             this.getUserShows();
             this.getRatedMovies();
             this.getRatedTV();
+            this.getRentedMovies();
         }
 
     }
@@ -59,6 +61,14 @@ class Subscriptions extends Component {
         ratedTv(userData.id);
     }
 
+    getRentedMovies() {
+        const { actions, common } = this.props;
+        console.log(actions);
+        const { getRented } = actions;
+        const { userData } = common;
+        getRented(userData.id);
+    }
+
 
     render() {
 
@@ -68,7 +78,8 @@ class Subscriptions extends Component {
             subs,
             ratedMovies,
             ratedTV,
-            rented,
+            rentedMovies,
+            getRentedPending,
             ratedTvPending,
             ratedMoviesPending,
             subsPending,
@@ -88,7 +99,9 @@ class Subscriptions extends Component {
             <ContentBox title={content.tv_show_title} url={`/media/${content.tv_show_title}`} image={content.image_url || emptyImg} />
         )) : null;
 
-        const rentedList = rented !== undefined ? (<br />) : null;
+        const rentedList = rentedMovies !== undefined ? rentedMovies.map(movie => (
+            <ContentBox title={movie.title} url={`/media/${movie.title}`} image={movie.image_url || emptyImg} />
+        )) : null;
 
         const redir = authen ? null : (<Redirect to='/' />);
 
@@ -102,6 +115,12 @@ class Subscriptions extends Component {
                     {redir}
                     <Header />
                     <div className='gridContainer'>
+                        <h1>Friends</h1>
+                        <div className='section'>
+                            {subsPending ? loading : (subbedTV || empty)}
+                        </div>
+                    </div>
+                    <div className='gridContainer'>
                         <h1>Slots</h1>
                         <div className='section'>
                             {subsPending ? loading : (subbedTV || empty)}
@@ -111,7 +130,7 @@ class Subscriptions extends Component {
                     <div className='gridContainer'>
                         <h1>Rented</h1>
                         <div className='section'>
-                            {rentedList || empty}
+                            {getRentedPending ? loading : (rentedList || empty)}
                         </div>
                     </div>
 
