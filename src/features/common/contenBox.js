@@ -21,7 +21,7 @@ class ContentBox extends React.Component {
       const { image, title, common, url } = this.props;
       const { authen } = common;
 
-      const link = (authen !== undefined && authen) ? (
+      const link = (
           <Link to={
               {
                   pathname: url,
@@ -35,12 +35,7 @@ class ContentBox extends React.Component {
                   {title}
               </h6>
           </Link>
-      )
-          : (
-              <h6 className='centerText'>
-                  {title}
-              </h6>
-          );
+      );
 
       return (
           <div className='contentBox'>

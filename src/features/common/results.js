@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 export default class Results extends Component {
     static propTypes = {
         boxes: PropTypes.object,
-        loadingGrid: PropTypes.object,
+        loadingGrid: PropTypes.array,
         error: PropTypes.object,
         backPage: PropTypes.func,
         nextPage: PropTypes.func,
@@ -49,7 +49,7 @@ export default class Results extends Component {
 Results.defaultProps = {
     error: null,
     boxes: {},
-    loadingGrid: {},
+    loadingGrid: [],
     loading: false,
     backPage: () => {},
     nextPage: () => {},
