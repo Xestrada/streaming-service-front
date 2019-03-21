@@ -15,7 +15,7 @@
     min-width: 1024;
     min-height: 100%;
     width: 75%;
-    height: 58em;
+    height: 80em;
 
     margin:auto;
   
@@ -25,14 +25,14 @@
     color: white;
     font-size: 2em;
     position: absolute;
-    left: 12.5em;
-    top: 0.5em;
+    left: 45%;
+    top: 1%;
 }
 
 .movie-container h2{
     position: absolute;
-    top: 45em;
-    left: 1em;
+    top: 68%;
+    left: 3%;
     font-size: 1em;
     font-weight: bold;
     color: #838584;
@@ -41,20 +41,20 @@
     color: #ff6900;
     font-size: 1.5em;
     position: absolute;
-    bottom: 34em;
-    left: 17em;
+    bottom: 90%;
+    left: 45%;
 }
 
 .movie-container h4{
     color: #ff6900;
     font-size: 1.5em;
     position: absolute;
-    bottom: 22em;
-    left: 17em;
+    top: 35%;
+    left: 45%;
 }
 .movie-container h5{
     position: relative;
-    top:38em;
+    top: 48em;
     margin-top: 1em;
     margin-left: 1em;
     font-size: 1em;
@@ -64,7 +64,7 @@
 
 .movie-container p{
     position: absolute;
-    top: 47em;
+    top: 70%;
     color: white;
     width: 75%;
     margin-left: 1em;
@@ -77,10 +77,10 @@
 
 .movie-container img{
     position:absolute;
-    bottom: 25em;
-    left: 1em;
-    height: 56%;
-    width: 32%;
+    bottom: 46%;
+    left: 1%;
+    height: 53%;
+    width: 42%;
     background: center;
 }
 
@@ -91,18 +91,38 @@
 }
 .play-video{
     position: absolute;
-    top: 58%;
-    right: 86%;
+    top: 55%;
+    right: 84%;
 }
 
 .rent-button{
     position: absolute;
-    top: 58%;
-    right: 79%;
+    top: 55%;
+    right: 70%;
 }
 
 .subscribe-button{
     position: absolute;
-    top: 58%;
-    right: 76%;
+    top: 55%;
+    right: 70%;
 }
+
+.season-position{
+    margin-left: 35%
+}
+
+.episdoes-position{
+    margin-left: 50%; 
+}
+#overflowBox {
+   
+    position:absolute;
+    top: 11%;
+    left: 45%;
+    padding-top: 2%;
+    padding-right: 20%;
+    width: 40%;
+    height: 10%;
+    overflow-y: scroll;
+    border: 1px inset gray;
+  }
