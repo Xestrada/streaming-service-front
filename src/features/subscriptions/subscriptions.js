@@ -114,7 +114,7 @@ class Subscriptions extends Component {
         )) : null;
 
         const friendsList = friends !== undefined ? friends.map(friend => (
-            <ContentBox title={friend.username} url={`/user/${friend.username}`} image={emptyImg} />
+            <ContentBox title={friend.username} url={`/user/${friend.username}/${friend.id}`} image={emptyImg} />
         )) : null;
 
         const redir = authen ? null : (<Redirect to='/' />);
