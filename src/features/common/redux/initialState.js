@@ -31,6 +31,8 @@ const initialState = {
     getRentedError: null,
     getFriendsPending: false,
     getFriendsError: null,
+    addSlotPending: false,
+    addSlotError: null,
 };
 
 export default initialState;

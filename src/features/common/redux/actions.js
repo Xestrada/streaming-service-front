@@ -10,3 +10,4 @@ export { ratedMovies, dismissRatedMoviesError } from './ratedMovies';
 export { ratedTv, dismissRatedTvError } from './ratedTv';
 export { getRented, dismissGetRentedError } from './getRented';
 export { getFriends, dismissGetFriendsError } from './getFriends';
+export { addSlot, dismissAddSlotError } from './addSlot';
