@@ -85,7 +85,7 @@ export function reducer(state, action) {
         return {
             ...state,
             moviesPending: true,
-            moviesError: null,
+            moviesError: undefined,
             movies: [],
         };
 
@@ -94,7 +94,7 @@ export function reducer(state, action) {
         return {
             ...state,
             moviesPending: false,
-            moviesError: null,
+            moviesError: undefined,
             movies: action.data,
         };
 

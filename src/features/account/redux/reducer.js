@@ -7,28 +7,8 @@
 // https://medium.com/@nate_wang/a-new-approach-for-managing-redux-actions-91c26ce8b5da.
 
 import initialState from './initialState';
-import { reducer as actorsReducer } from './actors';
-import { reducer as moviesReducer } from './movies';
-import { reducer as tvShowsReducer } from './tvShows';
-import { reducer as searchReducer } from './search';
-import { reducer as signupReducer } from './signup';
-import { reducer as mediaReducer } from './media';
-import { reducer as authenReducer } from './authen';
-import { reducer as subsReducer } from './subs';
-import { reducer as ratedMoviesReducer } from './ratedMovies';
-import { reducer as ratedTvReducer } from './ratedTv';
 
 const reducers = [
-    actorsReducer,
-    moviesReducer,
-    tvShowsReducer,
-    searchReducer,
-    signupReducer,
-    mediaReducer,
-    authenReducer,
-    subsReducer,
-  ratedMoviesReducer,
-  ratedTvReducer,
 ];
 
 export default function reducer(state = initialState, action) {
@@ -39,6 +19,5 @@ export default function reducer(state = initialState, action) {
         newState = state;
         break;
     }
-    /* istanbul ignore next */
     return reducers.reduce((s, r) => r(s, action), newState);
 }
