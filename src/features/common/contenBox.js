@@ -12,14 +12,15 @@ class ContentBox extends React.Component {
       image: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
+      shouldLink: PropTypes.bool,
   };
 
 
   render() {
 
-      const { image, title, url } = this.props;
+      const { image, title, url, shouldLink } = this.props;
 
-      const link = (
+      const link = shouldLink ? (
           <Link to={
               {
                   pathname: url,
@@ -33,6 +34,10 @@ class ContentBox extends React.Component {
                   {title}
               </h6>
           </Link>
+      ) : (
+          <h6 className='centerText'>
+              {title}
+          </h6>
       );
 
       return (
@@ -58,5 +63,9 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({ ...actions }, dispatch),
     };
 }
+
+ContentBox.defaultProps = {
+    shouldLink: true,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContentBox);
