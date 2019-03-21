@@ -102,7 +102,7 @@ class Movies extends Component {
         const error = moviesError !== undefined ? moviesError : null;
 
         const boxes = (movies !== undefined) ? movies.map(content => (
-            <ContentBox title={content.title || content.full_name} url={content.url} image={content.image_url || emptyImg} key={content.id} />
+            <ContentBox title={content.title || content.full_name} url={`/media/${content.title}`} image={content.image_url || emptyImg} key={content.id} />
         )) : null;
 
         const loadingGrid = [];

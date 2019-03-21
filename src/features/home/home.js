@@ -179,7 +179,7 @@ export class Home extends Component {
         const error = searchError !== undefined ? (<h1>Error</h1>) : null;
 
         const boxes = (data !== undefined) ? data.map(content => (
-            <ContentBox title={content.title || content.full_name} url={content.url} image={content.image_url || emptyImg} key={content.id} />
+            <ContentBox title={content.title || content.full_name} url={`/media/${content.title}`} image={content.image_url || emptyImg} key={content.id} />
         )) : null;
 
         const loadingGrid = [];
