@@ -12,18 +12,19 @@ class ContentBox extends React.Component {
       image: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
       common: PropTypes.object.isRequired,
+      url: PropTypes.string.isRequired,
   };
 
 
   render() {
 
-      const { image, title, common } = this.props;
+      const { image, title, common, url } = this.props;
       const { authen } = common;
 
       const link = (authen !== undefined && authen) ? (
           <Link to={
               {
-                  pathname: `/media/${title}`,
+                  pathname: url,
                   state: {
                       title,
                   },
