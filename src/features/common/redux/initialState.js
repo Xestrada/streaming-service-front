@@ -29,6 +29,8 @@ const initialState = {
     ratedTvError: null,
     getRentedPending: false,
     getRentedError: null,
+    getFriendsPending: false,
+    getFriendsError: null,
 };
 
 export default initialState;

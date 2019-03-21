@@ -24,6 +24,7 @@ class Subscriptions extends Component {
         this.getRatedMovies = this.getRatedMovies.bind(this);
         this.getRatedTV = this.getRatedTV.bind(this);
         this.getRentedMovies = this.getRentedMovies.bind(this);
+        this.getUserFriends = this.getUserFriends.bind(this);
 
 
     }
@@ -36,6 +37,7 @@ class Subscriptions extends Component {
             this.getRatedMovies();
             this.getRatedTV();
             this.getRentedMovies();
+            this.getUserFriends();
         }
 
     }
@@ -63,10 +65,16 @@ class Subscriptions extends Component {
 
     getRentedMovies() {
         const { actions, common } = this.props;
-        console.log(actions);
         const { getRented } = actions;
         const { userData } = common;
         getRented(userData.id);
+    }
+
+    getUserFriends() {
+        const { actions, common } = this.props;
+        const { getFriends } = actions;
+        const { userData } = common;
+        getFriends(userData.id);
     }
 
 
@@ -75,6 +83,8 @@ class Subscriptions extends Component {
         const { common } = this.props;
         const {
             authen,
+            friends,
+            getFriendsPending,
             subs,
             ratedMovies,
             ratedTV,
@@ -103,6 +113,10 @@ class Subscriptions extends Component {
             <ContentBox title={movie.title} url={`/media/${movie.title}`} image={movie.image_url || emptyImg} />
         )) : null;
 
+        const friendsList = friends !== undefined ? friends.map(friend => (
+            <ContentBox title={friend.username} url={`/user/${friend.username}`} image={emptyImg} />
+        )) : null;
+
         const redir = authen ? null : (<Redirect to='/' />);
 
         const empty = (<h2>No Content</h2>);
@@ -117,7 +131,7 @@ class Subscriptions extends Component {
                     <div className='gridContainer'>
                         <h1>Friends</h1>
                         <div className='section'>
-                            {subsPending ? loading : (subbedTV || empty)}
+                            {getFriendsPending ? loading : (friendsList || empty)}
                         </div>
                     </div>
                     <div className='gridContainer'>

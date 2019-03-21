@@ -18,6 +18,7 @@ import { reducer as subsReducer } from './subs';
 import { reducer as ratedMoviesReducer } from './ratedMovies';
 import { reducer as ratedTvReducer } from './ratedTv';
 import { reducer as getRentedReducer } from './getRented';
+import { reducer as getFriendsReducer } from './getFriends';
 
 const reducers = [
     actorsReducer,
@@ -31,6 +32,7 @@ const reducers = [
     ratedMoviesReducer,
     ratedTvReducer,
     getRentedReducer,
+    getFriendsReducer,
 ];
 
 export default function reducer(state = initialState, action) {
