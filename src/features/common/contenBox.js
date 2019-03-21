@@ -11,15 +11,13 @@ class ContentBox extends React.Component {
   static propTypes = {
       image: PropTypes.string.isRequired,
       title: PropTypes.string.isRequired,
-      common: PropTypes.object.isRequired,
       url: PropTypes.string.isRequired,
   };
 
 
   render() {
 
-      const { image, title, common, url } = this.props;
-      const { authen } = common;
+      const { image, title, url } = this.props;
 
       const link = (
           <Link to={
