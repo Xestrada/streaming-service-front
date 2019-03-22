@@ -42,7 +42,6 @@ export class Media extends Component {
       const seasonInfo = (media !== undefined && media.season_info !== undefined) ? media.season_info.map((content) => {
           const episodeInfo = (content.episodes !== undefined) ? content.episodes.map(item => (
               <div>
-                  {console.log('This is episode log.....')}
                   <span>
                       <li>
 Episode
@@ -50,11 +49,9 @@ Episode
                           {item.episode}
 :
                           {' '}
-                          "
                           {' '}
                           {item.episode_name}
                           {' '}
-"
                       </li>
 
                   </span>
@@ -63,7 +60,6 @@ Episode
 
           return (
               <div>
-                  {console.log('This is season log.....')}
                   {' '}
                   <Button className='season-position' id='toggler' style={{ textAlign: 'left', marginBottom: '1rem' }}>
                       <li>
@@ -82,8 +78,6 @@ Season:
       const error = mediaError !== undefined ? <h1>Error</h1> : null;
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
-              {console.log(media)}
-              {console.log(common)}
               {media.season_info !== undefined && <div id='overflowBox'>{seasonInfo}</div>}
               <h1>
                   {media.title || title}
