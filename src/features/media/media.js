@@ -109,6 +109,15 @@ Season:
                       <p>{media.description}</p>
                   </div>
               </div>
+              <div className='comment-container'>
+                  <div className='comment-header'>
+                      <label htmlFor='Comment' style={{ textDecoration: 'underline' }}>Leave a comment</label>
+                  </div>
+                  <textarea id='subject' name='subject' placeholder='Enter your comment here...' style={{ borderStyle: 'inset', width: '500px', height: '200px' }} />
+                  <div className='row'>
+                      <input type='submit' value='Post Comment' />
+                  </div>
+              </div>
           </div>
       ) : null;
 

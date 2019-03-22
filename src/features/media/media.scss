@@ -15,7 +15,7 @@
     min-width: 1024;
     min-height: 100%;
     width: 95%;
-    height: 80em;
+    height: 100em;
 
     margin:auto;
   
@@ -140,4 +140,36 @@
       position: absolute;
       top: 60%;
       left: 1%;
+  }
+  
+  .comment-container{
+      position:absolute;
+      top:75%;
+      left:10%;
+      width: 50%;
+      height: 23%;
+      padding: 20px;
+  }
+
+  .comment-header {
+    float: left;
+    font-style: oblique;
+    text-decoration-line: underline;
+    text-decoration-color: red;
+    color: whitesmoke;
+    font-size: 2em;
+  }
+
+  input[type=submit] {
+    background-color: whitesmoke;
+    font-size: 0.8em;
+    color: black;
+    border: 1px groove black;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-left: 65%; 
+  }
+
+  input[type=submit]:hover {
+    background-color: #a9aaa9;
   }
