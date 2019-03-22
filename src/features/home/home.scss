@@ -77,17 +77,27 @@
   word-wrap: break-word;
   color:white;
   bottom: 16em;
-  left: 27em;
+  left: 25%;
+  width: 50%;
+  right: 25%;
 }
 
 .advertise-text h1{
   font-size: 3em;
   height: 0%;
+  text-align: center;
 }
 
 .advertise-text p{
   font-size: 2em;
-  margin-left: 5em; 
+  text-align: center;
+}
+.advertise-text Button{
+  position: absolute;
+  top: 115%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%) 
 }
 
 .moveCarousel{
