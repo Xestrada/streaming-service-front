@@ -208,7 +208,7 @@ export class Home extends Component {
                             <h1>Variety TV Shows and Movies</h1>
                             <p>Only $10 for a month</p>
                             <Link to='/signup'>
-                                <Button style={{ marginLeft: '14.5em' }} color='primary' className='signup-button'> SIGN UP NOW</Button>
+                                <Button color='primary' className='signup-button'> SIGN UP NOW</Button>
                             </Link>
                         </div>
                     </div>
