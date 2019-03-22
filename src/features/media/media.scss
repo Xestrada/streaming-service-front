@@ -14,8 +14,8 @@
     background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
     min-width: 1024;
     min-height: 100%;
-    width: 75%;
-    height: 58em;
+    width: 95%;
+    height: 100em;
 
     margin:auto;
   
@@ -25,14 +25,14 @@
     color: white;
     font-size: 2em;
     position: absolute;
-    left: 12.5em;
-    top: 0.5em;
+    left: 45%;
+    top: 1%;
 }
 
 .movie-container h2{
     position: absolute;
-    top: 45em;
-    left: 1em;
+    top: 68%;
+    left: 3%;
     font-size: 1em;
     font-weight: bold;
     color: #838584;
@@ -41,20 +41,19 @@
     color: #ff6900;
     font-size: 1.5em;
     position: absolute;
-    bottom: 34em;
-    left: 17em;
+    bottom: 90%;
+    left: 45%;
 }
 
 .movie-container h4{
     color: #ff6900;
     font-size: 1.5em;
     position: absolute;
-    bottom: 22em;
-    left: 17em;
+    top: 35%;
+    left: 45%;
 }
 .movie-container h5{
     position: relative;
-    top:38em;
     margin-top: 1em;
     margin-left: 1em;
     font-size: 1em;
@@ -63,11 +62,12 @@
 }
 
 .movie-container p{
-    position: absolute;
-    top: 47em;
+    position: relative;
+    font-size: 1.1em;
     color: white;
-    width: 75%;
+    width: 100%;
     margin-left: 1em;
+    margin-top: 0.5em;
 }
 
 .movie-container span{
@@ -77,10 +77,10 @@
 
 .movie-container img{
     position:absolute;
-    bottom: 25em;
-    left: 1em;
-    height: 56%;
-    width: 32%;
+    bottom: 46%;
+    left: 1%;
+    height: 53%;
+    width: 42%;
     background: center;
 }
 
@@ -89,20 +89,87 @@
     left: 0.2em;
     font-size: 1em;
 }
+.movie-container li{
+    list-style-type: none;
+}
 .play-video{
     position: absolute;
-    top: 58%;
-    right: 86%;
+    top: 55%;
+    right: 84%;
 }
 
 .rent-button{
     position: absolute;
-    top: 58%;
-    right: 79%;
+    top: 55%;
+    right: 70%;
 }
 
 .subscribe-button{
     position: absolute;
-    top: 58%;
-    right: 76%;
+    top: 55%;
+    right: 70%;
 }
+
+.season-position{
+    margin-left: 1%;
+    width: 90%;
+    background-color:whitesmoke;
+    border: none;
+    outline: none;
+    text-align: left;
+    padding: 15px 20px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.episdoes-position{
+    margin-left: 10%; 
+}
+#overflowBox {
+   
+    position:absolute;
+    top: 11%;
+    left: 45%;
+    padding-top: 2%;
+    margin-right: 10%; 
+    width: 50%;
+    height: 100%;
+  }
+
+  .media-info{
+      position: absolute;
+      top: 60%;
+      left: 1%;
+  }
+  
+  .comment-container{
+      position:absolute;
+      top:75%;
+      left:10%;
+      width: 50%;
+      height: 23%;
+      padding: 20px;
+  }
+
+  .comment-header {
+    float: left;
+    font-style: oblique;
+    text-decoration-line: underline;
+    text-decoration-color: red;
+    color: whitesmoke;
+    font-size: 2em;
+  }
+
+  input[type=submit] {
+    background-color: whitesmoke;
+    font-size: 0.8em;
+    color: black;
+    border: 1px groove black;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-left: 65%; 
+  }
+
+  input[type=submit]:hover {
+    background-color: #a9aaa9;
+  }
