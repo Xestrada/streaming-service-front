@@ -65,21 +65,22 @@
 }
 
 .home-image{
-  min-height: 50%;
   min-width: 1024px;
   opacity: 0.4;
   width: 100%;
   background: center;
+  width: 100%;
+  height: auto;
 }
 .advertise-text{
-  position: absolute;
+  position: relative;
   font-weight: bold;
-  word-wrap: break-word;
   color:white;
-  bottom: 16em;
-  left: 25%;
-  width: 50%;
-  right: 25%;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  text-align: center;
 }
 
 .advertise-text h1{
@@ -98,6 +99,12 @@
   left: 50%;
   margin-right: -50%;
   transform: translate(-50%, -50%) 
+}
+
+.fullscreen{
+  width: 100%;
+  height: auto;
+  opacity: 0.3;
 }
 
 .moveCarousel{
