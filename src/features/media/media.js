@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Button,
     UncontrolledCollapse,
 } from 'reactstrap';
+import ReactPlayer from 'react-player';
 import * as actions from '../common/redux/actions';
 import Header from '../common/header';
 import Footer from '../common/footer';
@@ -39,6 +40,7 @@ export class Media extends Component {
       const { title } = this.state;
       const { common } = this.props;
       const { media, mediaError } = common;
+      console.log(media);
       const seasonInfo = (media !== undefined && media.season_info !== undefined) ? media.season_info.map((content) => {
           const episodeInfo = (content.episodes !== undefined) ? content.episodes.map(item => (
               <div>
@@ -78,6 +80,7 @@ Season:
       const error = mediaError !== undefined ? <h1>Error</h1> : null;
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
+              <ReactPlayer url='https://s3.amazonaws.com/videovault4800/movies/Bird+Box.mp4' playing controls />
               {media.season_info !== undefined && <div id='overflowBox'>{seasonInfo}</div>}
               <h1>
                   {media.title || title}
