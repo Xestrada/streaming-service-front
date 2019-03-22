@@ -139,7 +139,7 @@ export class SubInit extends Component {
       const { chosenFilms } = this.state;
       addInitialSubs({
           user_id: userData.id,
-          tv_show_id: chosenFilms.toString(),
+          tv_show_id: chosenFilms,
       });
   }
 
