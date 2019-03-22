@@ -39,7 +39,7 @@ export class Media extends Component {
       const { title } = this.state;
       const { common } = this.props;
       const { media, mediaError } = common;
-      const seasonInfo = (media.season_info !== undefined) ? media.season_info.map((content) => {
+      const seasonInfo = (media !== undefined && media.season_info !== undefined) ? media.season_info.map((content) => {
           const episodeInfo = (content.episodes !== undefined) ? content.episodes.map(item => (
               <div>
                   {console.log('This is episode log.....')}
@@ -48,6 +48,13 @@ export class Media extends Component {
 Episode
                           {' '}
                           {item.episode}
+:
+                          {' '}
+                          "
+                          {' '}
+                          {item.episode_name}
+                          {' '}
+"
                       </li>
 
                   </span>
@@ -58,7 +65,7 @@ Episode
               <div>
                   {console.log('This is season log.....')}
                   {' '}
-                  <Button className='season-position' color='primary' id='toggler' style={{ marginBottom: '1rem' }}>
+                  <Button className='season-position' id='toggler' style={{ textAlign: 'left', marginBottom: '1rem' }}>
                       <li>
 Season:
                           {' '}
@@ -76,6 +83,7 @@ Season:
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
               {console.log(media)}
+              {console.log(common)}
               {media.season_info !== undefined && <div id='overflowBox'>{seasonInfo}</div>}
               <h1>
                   {media.title || title}
@@ -87,23 +95,19 @@ Season:
 
                   </span>
               </h1>
-              <h3>SEASONS</h3>
-              <h4>CAST</h4>
+              {media.season_info !== undefined && <h3>SEASONS</h3>}
+
               <img src={media.image_url} alt='Cover art' className='boxArt' />
               {media.season_info === undefined && <Button color='danger' className='rent-button'>Rent</Button>}
               {media.season_info !== undefined && <Button color='danger' className='subscribe-button'>Subscribe</Button>}
-              <Button color='primary' className='play-video'>
-              PLAY VIDEO
-                  {' '}
-                  <i className='fas fa-play' />
-                  {' '}
-              </Button>
               <div className='container'>
-                  <h2>SYNOPSIS</h2>
-                  <p>{media.description}</p>
-                  <h5>RUNTIME</h5>
-                  <h5>AGE RATING</h5>
-                  <h5>DIRECTOR</h5>
+                  <div className='media-info'>
+                      <h5>RUNTIME</h5>
+                      <h5>AGE RATING</h5>
+                      <h5>DIRECTOR</h5>
+                      <h5>SYNOPSIS</h5>
+                      <p>{media.description}</p>
+                  </div>
               </div>
           </div>
       ) : null;
