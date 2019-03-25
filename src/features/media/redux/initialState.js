@@ -10,6 +10,10 @@ const initialState = {
     makeMovieCommentError: null,
     makeTvCommentPending: false,
     makeTvCommentError: null,
+    rateMoviePending: false,
+    rateMovieError: null,
+    rateTvPending: false,
+    rateTvError: null,
 };
 
 export default initialState;

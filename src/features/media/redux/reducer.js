@@ -9,10 +9,14 @@
 import initialState from './initialState';
 import { reducer as makeMovieCommentReducer } from './makeMovieComment';
 import { reducer as makeTvCommentReducer } from './makeTvComment';
+import { reducer as rateMovieReducer } from './rateMovie';
+import { reducer as rateTvReducer } from './rateTv';
 
 const reducers = [
     makeMovieCommentReducer,
     makeTvCommentReducer,
+    rateMovieReducer,
+    rateTvReducer,
 ];
 
 export default function reducer(state = initialState, action) {
