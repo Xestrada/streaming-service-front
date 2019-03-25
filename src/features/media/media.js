@@ -47,14 +47,10 @@ export class Media extends Component {
               <div>
                   <span>
                       <li>
-Episode
-                          {' '}
+                        Episode
                           {item.episode}
-:
-                          {' '}
-                          {' '}
+                        :
                           {item.episode_name}
-                          {' '}
                       </li>
 
                   </span>
@@ -66,8 +62,7 @@ Episode
                   {' '}
                   <Button className='season-position' onClick={this.toggleHidden} id='toggler' style={{ textAlign: 'left', marginBottom: '1rem' }}>
                       <li>
-Season:
-                          {' '}
+                        Season:
                           {content.season}
                       </li>
                   </Button>
@@ -79,7 +74,6 @@ Season:
       }) : null;
       const StarRating = (media !== undefined && media.avg_rating !== undefined) ? (
           <div className='rate'>
-              {console.log('hello there')}
               <input type='radio' id='star5' name='rate' value='5' checked={Math.round(media.avg_rating) === 5 || onclick} />
               <label htmlFor='star5' title='text'>5 stars</label>
               <input type='radio' id='star4' name='rate' value='4' checked={Math.round(media.avg_rating) === 4 || onclick} />
@@ -95,16 +89,14 @@ Season:
       const error = mediaError !== undefined ? <h1>Error</h1> : null;
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
-              {console.log(Math.round(media.avg_rating))}
               <ReactPlayer className='media-box' url='https://s3.amazonaws.com/videovault4800/movies/Bird+Box.mp4' playing controls />
               {media.season_info !== undefined && <div id='overflowBox'>{seasonInfo}</div>}
               <h1>
                   {media.title || title}
-                  {' '}
                   <span>
-(
+                    (
                       {media.year}
-)
+                    )
 
                   </span>
               </h1>
@@ -115,9 +107,10 @@ Season:
               {media.season_info !== undefined && <Button color='danger' className='subscribe-button'>Subscribe</Button>}
               <div className='container'>
                   <div className='media-info'>
-                      <h5>RUNTIME</h5>
-                      <h5>AGE RATING</h5>
-                      <h5>DIRECTOR</h5>
+                      <h5>
+                        RATING :
+                          {media.avg_rating !== null ? media.avg_rating : 'NO RATINGS'}
+                      </h5>
                       <h5>SYNOPSIS</h5>
                       <p>{media.description}</p>
                   </div>
