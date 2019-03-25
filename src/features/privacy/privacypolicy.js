@@ -17,9 +17,9 @@ class PrivacyPolicy extends Component {
                 have control over both. We want to encourage users to make the best decisions about the information
                 being shared with us. We want you to feel safe when you are on Video Vault, which is why we encourage you to let us know if
                 videos or comments on the site violate your privacy or sense of safety. If someone makes a comment that contains
-                information about you without your consent, then you may petion to have the comment removed. The removal must
+                information about you without your consent, then you may petition to have the comment removed. The removal must
                 can only proceed if a violation is identifiable with a factor of image, name, financial information, contact
-                information, or other personal indetifiable information.
+                information, or other personal indentifiable information.
                 </div>
 
                 <div className='paragraphtitle'>
