@@ -21,6 +21,8 @@ import { reducer as getRentedReducer } from './getRented';
 import { reducer as getFriendsReducer } from './getFriends';
 import { reducer as addSlotReducer } from './addSlot';
 import { reducer as addInitialSubsReducer } from './addInitialSubs';
+import { reducer as addFriendReducer } from './addFriend';
+import { reducer as removeFriendReducer } from './removeFriend';
 
 const reducers = [
     actorsReducer,
@@ -37,6 +39,8 @@ const reducers = [
     getFriendsReducer,
     addSlotReducer,
     addInitialSubsReducer,
+  addFriendReducer,
+  removeFriendReducer,
 ];
 
 export default function reducer(state = initialState, action) {
