@@ -15,7 +15,7 @@ export function makeMovieComment(info = {}) {
 
         const values = JSON.stringify(info);
 
-        return fetch('https://ss-media-middle.herokuapp.com/movie/comment', {
+        return fetch('https://videovaultusers.herokuapp.com/movie/comment', {
             method: 'POST',
             mode: 'cors',
             headers: {

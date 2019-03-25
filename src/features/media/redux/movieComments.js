@@ -13,7 +13,7 @@ export function movieComments(title) {
             type: MEDIA_MOVIE_COMMENTS_BEGIN,
         });
 
-        return fetch(`https://ss-media-middle.herokuapp.com/movie=${title}/comments`)
+        return fetch(`https://videovaultusers.herokuapp.com/movie=${title}/comments`)
             .then(response => response.json())
             .then((createdJson) => {
                 dispatch({

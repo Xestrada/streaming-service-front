@@ -15,7 +15,7 @@ export function makeTvComment(info = {}) {
 
         const values = JSON.stringify(info);
 
-        return fetch('https://ss-media-middle.herokuapp.com/tv_show/comment', {
+        return fetch('https://videovaultusers.herokuapp.com/tv_show/comment', {
             method: 'POST',
             mode: 'cors',
             headers: {

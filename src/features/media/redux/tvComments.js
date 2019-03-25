@@ -13,7 +13,7 @@ export function tvComments(title) {
             type: MEDIA_TV_COMMENTS_BEGIN,
         });
 
-        return fetch(`https://ss-media-middle.herokuapp.com/tv_show=${title}/comments`)
+        return fetch(`https://videovaultusers.herokuapp.com/tv_show=${title}/comments`)
             .then(response => response.json())
             .then((createdJson) => {
                 dispatch({

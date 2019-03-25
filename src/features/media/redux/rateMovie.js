@@ -15,7 +15,7 @@ export function rateMovie(info = {}) {
 
         const values = JSON.stringify(info);
 
-        return fetch('https://ss-media-middle.herokuapp.com/user/movie/rating', {
+        return fetch('https://videovaultusers.herokuapp.com/user/movie/rating', {
             method: 'POST',
             mode: 'cors',
             headers: {

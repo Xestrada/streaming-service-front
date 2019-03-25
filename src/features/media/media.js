@@ -40,9 +40,10 @@ export class Media extends Component {
   render() {
       const { title } = this.state;
       const { common } = this.props;
-      const { media, mediaError } = common;
-      console.log(media);
+      const { media, mediaError, authen } = common;
+
       const seasonInfo = (media !== undefined && media.season_info !== undefined) ? media.season_info.map((content) => {
+
           const episodeInfo = (content.episodes !== undefined) ? content.episodes.map(item => (
               <div>
                   <span>
@@ -71,8 +72,22 @@ export class Media extends Component {
                   </UncontrolledCollapse>
               </div>
           );
+
       }) : null;
-      const StarRating = (media !== undefined && media.avg_rating !== undefined) ? (
+
+      const commentContainer = authen ? (
+          <div className='comment-container'>
+              <div className='comment-header'>
+                  <label htmlFor='Comment' style={{ textDecoration: 'underline', fontFamily: 'Apple Chancery, cursive' }}>Leave a comment</label>
+              </div>
+              <textarea id='subject' name='subject' placeholder='Enter your comment here...' style={{ borderStyle: 'inset', width: '600px', height: '90px' }} />
+              <div className='row'>
+                  <input type='submit' value='Post Comment' />
+              </div>
+          </div>
+      ) : null;
+
+      const StarRating = (authen !== undefined && authen) ? (
           <div className='rate'>
               <input type='radio' id='star5' name='rate' value='5' checked={Math.round(media.avg_rating) === 5 || onclick} />
               <label htmlFor='star5' title='text'>5 stars</label>
@@ -86,10 +101,12 @@ export class Media extends Component {
               <label htmlFor='star1' title='text'>1 star</label>
           </div>
       ) : null;
+
       const error = mediaError !== undefined ? <h1>Error</h1> : null;
+
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
-              <ReactPlayer className='media-box' url='https://s3.amazonaws.com/videovault4800/movies/Bird+Box.mp4' playing controls />
+              <ReactPlayer className='media-box' url={authen ? 'https://s3.amazonaws.com/videovault4800/movies/Bird+Box.mp4' : 'https://youtu.be/Kxms-OtUXS0'} playing controls />
               {media.season_info !== undefined && <div id='overflowBox'>{seasonInfo}</div>}
               <h1>
                   {media.title || title}
@@ -103,8 +120,8 @@ export class Media extends Component {
               {media.season_info !== undefined && <h3>SEASONS</h3>}
 
               <img src={media.image_url} alt='Cover art' className='boxArt' />
-              {media.season_info === undefined && <Button color='danger' className='rent-button'>Rent</Button>}
-              {media.season_info !== undefined && <Button color='danger' className='subscribe-button'>Subscribe</Button>}
+              {media.season_info === undefined && authen && <Button color='danger' className='rent-button'>Rent</Button>}
+              {media.season_info !== undefined && authen && <Button color='danger' className='subscribe-button'>Subscribe</Button>}
               <div className='container'>
                   <div className='media-info'>
                       <h5>
@@ -115,18 +132,11 @@ export class Media extends Component {
                       <p>{media.description}</p>
                   </div>
               </div>
-              <div className='comment-container'>
-                  <div className='comment-header'>
-                      <label htmlFor='Comment' style={{ textDecoration: 'underline', fontFamily: 'Apple Chancery, cursive' }}>Leave a comment</label>
-                  </div>
-                  <textarea id='subject' name='subject' placeholder='Enter your comment here...' style={{ borderStyle: 'inset', width: '600px', height: '90px' }} />
-                  <div className='row'>
-                      <input type='submit' value='Post Comment' />
-                  </div>
-              </div>
+              {commentContainer}
               {StarRating}
           </div>
       ) : null;
+
 
       return (
           <body className='background-color'>
