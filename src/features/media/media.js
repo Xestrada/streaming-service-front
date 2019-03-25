@@ -87,7 +87,7 @@ export class Media extends Component {
           </div>
       ) : null;
 
-      const StarRating = (authen !== undefined && authen) ? (
+      const StarRating = (authen !== undefined && authen && media !== undefined) ? (
           <div className='rate'>
               <input type='radio' id='star5' name='rate' value='5' checked={Math.round(media.avg_rating) === 5 || onclick} />
               <label htmlFor='star5' title='text'>5 stars</label>
