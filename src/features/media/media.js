@@ -106,7 +106,7 @@ export class Media extends Component {
 
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
-              <ReactPlayer className='media-box' url={authen ? 'https://s3.amazonaws.com/videovault4800/movies/Bird+Box.mp4' : 'https://youtu.be/Kxms-OtUXS0'} playing controls />
+              <ReactPlayer className='media-box' url={authen ? 'https://s3.amazonaws.com/videovault4800/movies/Bird+Box.mp4' : 'https://youtu.be/Kxms-OtUXS0'} controls />
               {media.season_info !== undefined && <div id='overflowBox'>{seasonInfo}</div>}
               <h1>
                   {media.title || title}
