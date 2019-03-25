@@ -114,16 +114,18 @@ class TVshows extends Component {
         }
 
         return (
-            <div className='home-root'>
-                <Header />
-                <br />
-                <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />
-                <br />
-                <br />
-                <br />
-                <Results loading={tvShowsPending} error={error} boxes={boxes} page={page} loadingGrid={loadingGrid} maxPages={maxPages} nextPage={this.nextPage} backPage={this.backPage} />
-                <Footer />
-            </div>
+            <body className='background-color'>
+                <div className='home-root'>
+                    <Header />
+                    <br />
+                    <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />
+                    <br />
+                    <br />
+                    <br />
+                    <Results loading={tvShowsPending} error={error} boxes={boxes} page={page} loadingGrid={loadingGrid} maxPages={maxPages} nextPage={this.nextPage} backPage={this.backPage} />
+                    <Footer />
+                </div>
+            </body>
         );
     }
 }
