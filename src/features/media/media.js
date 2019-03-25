@@ -64,7 +64,7 @@ Episode
           return (
               <div>
                   {' '}
-                  <Button className='season-position' onClick={this.toggleHidden} id='toggler' style={{ textAlign: 'left', marginBottom: '1rem' }}>
+                  <Button className='season-position' id='toggler' style={{ textAlign: 'left', marginBottom: '1rem' }}>
                       <li>
 Season:
                           {' '}
@@ -92,11 +92,23 @@ Season:
               <label htmlFor='star1' title='text'>1 star</label>
           </div>
       ) : null;
+      const genreInfo = (media !== undefined && media.genres !== undefined) ? media.genres.map(genre => (
+          <div className='row' style={{ margin: 'auto' }}>
+              <p>{genre}</p>
+          </div>
+      )) : null;
+      const starInfo = (media !== undefined && media.genres !== undefined) ? media.stars.map(star => (
+          <div className='row' style={{ margin: 'auto' }}>
+              <p>{star}</p>
+          </div>
+      )) : null;
       const error = mediaError !== undefined ? <h1>Error</h1> : null;
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
-              {console.log(Math.round(media.avg_rating))}
-              <ReactPlayer className='media-box' url='https://s3.amazonaws.com/videovault4800/movies/Bird+Box.mp4' playing controls />
+              {console.log(media)}
+              <div className='player-wrapper'>
+              <ReactPlayer className='react-player' url='https://s3.amazonaws.com/videovault4800/movies/Bird+Box.mp4' wide='100%' height='100%' controls />
+              </div>
               {media.season_info !== undefined && <div id='overflowBox'>{seasonInfo}</div>}
               <h1>
                   {media.title || title}
@@ -115,10 +127,15 @@ Season:
               {media.season_info !== undefined && <Button color='danger' className='subscribe-button'>Subscribe</Button>}
               <div className='container'>
                   <div className='media-info'>
-                      <h5>RUNTIME</h5>
-                      <h5>AGE RATING</h5>
-                      <h5>DIRECTOR</h5>
-                      <h5>SYNOPSIS</h5>
+                      <div className='starsLine'>
+                          <h2>STARS:</h2>
+                          <div className='starsPosition'>{starInfo}</div>
+                      </div>
+                      <div className='genreLine'>
+                          <h2>Genres: </h2>
+                          <div className='genresPosition'>{genreInfo}</div>
+                      </div>
+                      <h2>SYNOPSIS</h2>
                       <p>{media.description}</p>
                   </div>
               </div>
