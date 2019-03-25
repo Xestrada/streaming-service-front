@@ -11,12 +11,16 @@ import { reducer as makeMovieCommentReducer } from './makeMovieComment';
 import { reducer as makeTvCommentReducer } from './makeTvComment';
 import { reducer as rateMovieReducer } from './rateMovie';
 import { reducer as rateTvReducer } from './rateTv';
+import { reducer as movieCommentsReducer } from './movieComments';
+import { reducer as tvCommentsReducer } from './tvComments';
 
 const reducers = [
     makeMovieCommentReducer,
     makeTvCommentReducer,
     rateMovieReducer,
     rateTvReducer,
+    movieCommentsReducer,
+    tvCommentsReducer,
 ];
 
 export default function reducer(state = initialState, action) {
