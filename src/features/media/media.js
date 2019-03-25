@@ -29,6 +29,7 @@ export class Media extends Component {
       };
   }
 
+
   componentDidMount() {
       const { actions } = this.props;
       const { getMedia } = actions;
@@ -63,7 +64,7 @@ Episode
           return (
               <div>
                   {' '}
-                  <Button className='season-position' id='toggler' style={{ textAlign: 'left', marginBottom: '1rem' }}>
+                  <Button className='season-position' onClick={this.toggleHidden} id='toggler' style={{ textAlign: 'left', marginBottom: '1rem' }}>
                       <li>
 Season:
                           {' '}
@@ -76,11 +77,26 @@ Season:
               </div>
           );
       }) : null;
-
+      const StarRating = (media !== undefined && media.avg_rating !== undefined) ? (
+          <div className='rate'>
+              {console.log('hello there')}
+              <input type='radio' id='star5' name='rate' value='5' checked={Math.round(media.avg_rating) === 5 || onclick} />
+              <label htmlFor='star5' title='text'>5 stars</label>
+              <input type='radio' id='star4' name='rate' value='4' checked={Math.round(media.avg_rating) === 4 || onclick} />
+              <label htmlFor='star4' title='text'>4 stars</label>
+              <input type='radio' id='star3' name='rate' value='3' checked={Math.round(media.avg_rating) === 3 || onclick} />
+              <label htmlFor='star3' title='text'>3 stars</label>
+              <input type='radio' id='star2' name='rate' value='2' checked={Math.round(media.avg_rating) === 2 || onclick} />
+              <label htmlFor='star2' title='text'>2 stars</label>
+              <input type='radio' id='star1' name='rate' value='1' checked={Math.round(media.avg_rating) === 1 || onclick} />
+              <label htmlFor='star1' title='text'>1 star</label>
+          </div>
+      ) : null;
       const error = mediaError !== undefined ? <h1>Error</h1> : null;
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
-              <ReactPlayer url='https://s3.amazonaws.com/videovault4800/movies/Bird+Box.mp4' playing controls />
+              {console.log(Math.round(media.avg_rating))}
+              <ReactPlayer className='media-box' url='https://s3.amazonaws.com/videovault4800/movies/Bird+Box.mp4' playing controls />
               {media.season_info !== undefined && <div id='overflowBox'>{seasonInfo}</div>}
               <h1>
                   {media.title || title}
@@ -108,13 +124,14 @@ Season:
               </div>
               <div className='comment-container'>
                   <div className='comment-header'>
-                      <label htmlFor='Comment' style={{ textDecoration: 'underline' }}>Leave a comment</label>
+                      <label htmlFor='Comment' style={{ textDecoration: 'underline', fontFamily: 'Apple Chancery, cursive' }}>Leave a comment</label>
                   </div>
-                  <textarea id='subject' name='subject' placeholder='Enter your comment here...' style={{ borderStyle: 'inset', width: '500px', height: '200px' }} />
+                  <textarea id='subject' name='subject' placeholder='Enter your comment here...' style={{ borderStyle: 'inset', width: '600px', height: '90px' }} />
                   <div className='row'>
                       <input type='submit' value='Post Comment' />
                   </div>
               </div>
+              {StarRating}
           </div>
       ) : null;
 

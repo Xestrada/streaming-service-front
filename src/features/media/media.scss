@@ -41,7 +41,7 @@
     color: #ff6900;
     font-size: 1.5em;
     position: absolute;
-    bottom: 90%;
+    bottom: 70%;
     left: 45%;
 }
 
@@ -128,7 +128,7 @@
 #overflowBox {
    
     position:absolute;
-    top: 11%;
+    top: 29%;
     left: 45%;
     padding-top: 2%;
     margin-right: 10%; 
@@ -154,10 +154,8 @@
   .comment-header {
     float: left;
     font-style: oblique;
-    text-decoration-line: underline;
-    text-decoration-color: red;
     color: whitesmoke;
-    font-size: 2em;
+    font-size: 1.8em;
   }
 
   input[type=submit] {
@@ -167,9 +165,52 @@
     border: 1px groove black;
     border-radius: 25px;
     cursor: pointer;
-    margin-left: 65%; 
+    margin-left: 80%; 
   }
 
   input[type=submit]:hover {
     background-color: #a9aaa9;
   }
+
+  .media-box{
+      position:absolute;
+      left: 45%;
+      top: 2%;
+  }
+
+  .rate {
+    position: absolute;
+    top:55%;
+    height: 46px;
+    padding: 0 10px;
+}
+.rate:not(:checked) > input {
+    position:absolute;
+    opacity:0;
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:30px;
+    color:#ccc;
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;    
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;  
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
