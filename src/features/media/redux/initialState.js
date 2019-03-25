@@ -6,6 +6,10 @@
 
 // NOTE: initialState constant is necessary so that Rekit could auto add initial state when creating async actions.
 const initialState = {
+    makeMovieCommentPending: false,
+    makeMovieCommentError: null,
+    makeTvCommentPending: false,
+    makeTvCommentError: null,
 };
 
 export default initialState;
