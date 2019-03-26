@@ -30,10 +30,12 @@ export class Media extends Component {
       this.state = {
           title,
           comment: '',
+          rating: 0,
       };
 
       this.getComments = this.getComments.bind(this);
       this.makeComment = this.makeComment.bind(this);
+      this.rentMovie = this.rentMovie.bind(this);
   }
 
 
@@ -48,7 +50,6 @@ export class Media extends Component {
 
       const { common, actions } = this.props;
       const { media } = common;
-      console.log(media);
       const { movieComments, tvComments } = actions;
       if (media !== undefined) {
           if (media.season_info === undefined) {
@@ -82,8 +83,54 @@ export class Media extends Component {
       }
   }
 
+  rentMovie() {
+      const { common, actions } = this.props;
+      const { media, userData } = common;
+      const { rentMovie } = actions;
+
+      rentMovie({
+          movie_id: media.movie_id,
+          user_id: userData.id,
+      });
+  }
+
+  addSlot() {
+      const { common, actions } = this.props;
+      const { media, userData } = common;
+      const { subTv } = actions;
+
+      subTv({
+          tv_show_id: media.tv_show_id,
+          user_id: userData.id,
+      });
+  }
+
+  rateMedia(rating) {
+      const { common, actions } = this.props;
+      const { media, userData } = common;
+      const { rateMovie, rateTv } = actions;
+
+      this.setState({
+          rating,
+      });
+
+      if (media.season_info === undefined) {
+          rateMovie({
+              rating,
+              user_id: userData.id,
+              movie_id: media.movie_id,
+          });
+      } else {
+          rateTv({
+              rating,
+              user_id: userData.id,
+              tv_show_id: media.tv_show_id,
+          });
+      }
+  }
+
   render() {
-      const { title, comment } = this.state;
+      const { title, comment, rating } = this.state;
       const { common, commonMedia } = this.props;
       const { media, mediaError, authen } = common;
       const { comments } = commonMedia;
@@ -150,15 +197,15 @@ export class Media extends Component {
 
       const StarRating = (authen !== undefined && authen && media !== undefined) ? (
           <div className='rate'>
-              <input type='radio' id='star5' name='rate' value='5' checked={Math.round(media.avg_rating) === 5 || onclick} />
+              <input type='radio' id='star5' name='rate' value='5' checked={rating === 5 || onclick} onClick={() => this.rateMedia(5)} />
               <label htmlFor='star5' title='text'>5 stars</label>
-              <input type='radio' id='star4' name='rate' value='4' checked={Math.round(media.avg_rating) === 4 || onclick} />
+              <input type='radio' id='star4' name='rate' value='4' checked={rating === 4 || onclick} onClick={() => this.rateMedia(4)} />
               <label htmlFor='star4' title='text'>4 stars</label>
-              <input type='radio' id='star3' name='rate' value='3' checked={Math.round(media.avg_rating) === 3 || onclick} />
+              <input type='radio' id='star3' name='rate' value='3' checked={rating === 3 || onclick} onClick={() => this.rateMedia(3)} />
               <label htmlFor='star3' title='text'>3 stars</label>
-              <input type='radio' id='star2' name='rate' value='2' checked={Math.round(media.avg_rating) === 2 || onclick} />
+              <input type='radio' id='star2' name='rate' value='2' checked={rating === 2 || onclick} onClick={() => this.rateMedia(2)} />
               <label htmlFor='star2' title='text'>2 stars</label>
-              <input type='radio' id='star1' name='rate' value='1' checked={Math.round(media.avg_rating) === 1 || onclick} />
+              <input type='radio' id='star1' name='rate' value='1' checked={rating === 1 || onclick} onClick={() => this.rateMedia(1)} />
               <label htmlFor='star1' title='text'>1 star</label>
           </div>
       ) : null;
@@ -181,8 +228,8 @@ export class Media extends Component {
               {media.season_info !== undefined && <h3>SEASONS</h3>}
 
               <img src={media.image_url} alt='Cover art' className='boxArt' />
-              {media.season_info === undefined && authen && <Button color='danger' className='rent-button'>Rent</Button>}
-              {media.season_info !== undefined && authen && <Button color='danger' className='subscribe-button'>Subscribe</Button>}
+              {media.season_info === undefined && authen && <Button color='danger' className='rent-button' onClick={this.rentMovie}>Rent</Button>}
+              {media.season_info !== undefined && authen && <Button color='danger' className='subscribe-button' onClick={this.addSlot}>Subscribe</Button>}
               <div className='container'>
                   <div className='media-info'>
                       <h5>
