@@ -14,6 +14,7 @@ export function makeTvComment(info = {}) {
         });
 
         const values = JSON.stringify(info);
+        console.log(values);
 
         return fetch('https://videovaultusers.herokuapp.com/tv_show/comment', {
             method: 'POST',
@@ -24,7 +25,8 @@ export function makeTvComment(info = {}) {
             body: values,
         })
             .then(response => response.json()).then((createdJson) => {
-                if (createdJson.success !== undefined && createdJson.success) {
+                console.log(createdJson);
+                if (createdJson.success) {
                     dispatch({
                         type: MEDIA_MAKE_TV_COMMENT_SUCCESS,
                     });
@@ -77,7 +79,7 @@ export function reducer(state, action) {
         return {
             ...state,
             makeTvCommentPending: false,
-            makeTvCommentError: action.data.error,
+            makeTvCommentError: action.error,
         };
 
     case MEDIA_MAKE_TV_COMMENT_DISMISS_ERROR:

@@ -16,6 +16,7 @@ export function movieComments(title) {
         return fetch(`https://videovaultusers.herokuapp.com/movie=${title}/comments`)
             .then(response => response.json())
             .then((createdJson) => {
+                console.log(createdJson.comments);
                 dispatch({
                     type: MEDIA_MOVIE_COMMENTS_SUCCESS,
                     data: createdJson.comments,
@@ -44,16 +45,16 @@ export function reducer(state, action) {
         // Just after a request is sent
         return {
             ...state,
-            movieCommentsPending: true,
-            movieCommentsError: null,
+            commentsPending: true,
+            commentsError: null,
         };
 
     case MEDIA_MOVIE_COMMENTS_SUCCESS:
         // The request is success
         return {
             ...state,
-            movieCommentsPending: false,
-            movieCommentsError: null,
+            commentsPending: false,
+            commentsError: null,
             comments: action.data,
         };
 
@@ -61,15 +62,15 @@ export function reducer(state, action) {
         // The request is failed
         return {
             ...state,
-            movieCommentsPending: false,
-            movieCommentsError: action.data.error,
+            commentsPending: false,
+            commentsError: action.data.error,
         };
 
     case MEDIA_MOVIE_COMMENTS_DISMISS_ERROR:
         // Dismiss the request failure error
         return {
             ...state,
-            movieCommentsError: null,
+            commentsError: null,
         };
 
     default:

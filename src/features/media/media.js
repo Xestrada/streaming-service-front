@@ -7,6 +7,8 @@ import { Button,
 } from 'reactstrap';
 import ReactPlayer from 'react-player';
 import * as actions from '../common/redux/actions';
+import * as mediaActions from './redux/actions';
+import UserComment from '../common/userComment';
 import Header from '../common/header';
 import Footer from '../common/footer';
 import './media.scss';
@@ -16,6 +18,7 @@ export class Media extends Component {
       common: PropTypes.object.isRequired,
       actions: PropTypes.object.isRequired,
       location: PropTypes.object.isRequired,
+      commonMedia: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -26,7 +29,13 @@ export class Media extends Component {
 
       this.state = {
           title,
+          comment: '',
+          rating: 0,
       };
+
+      this.getComments = this.getComments.bind(this);
+      this.makeComment = this.makeComment.bind(this);
+      this.rentMovie = this.rentMovie.bind(this);
   }
 
 
@@ -34,14 +43,102 @@ export class Media extends Component {
       const { actions } = this.props;
       const { getMedia } = actions;
       const { title } = this.state;
-      getMedia(title);
+      getMedia(title).then(() => this.getComments(title));
+  }
+
+  getComments(title) {
+
+      const { common, actions } = this.props;
+      const { media } = common;
+      const { movieComments, tvComments } = actions;
+      if (media !== undefined) {
+          if (media.season_info === undefined) {
+              movieComments(title);
+          } else {
+              tvComments(title);
+          }
+      }
+  }
+
+  makeComment() {
+      const { common, actions } = this.props;
+      const { comment } = this.state;
+      const { media, userData } = common;
+      const { makeTvComment, makeMovieComment } = actions;
+
+      if (media !== undefined) {
+          if (media.season_info === undefined) {
+              makeMovieComment({
+                  comment,
+                  user_id: userData.id,
+                  movie_id: media.movie_id,
+              });
+          } else {
+              makeTvComment({
+                  comment,
+                  user_id: userData.id,
+                  tv_show_id: media.tv_show_id,
+              });
+          }
+      }
+  }
+
+  rentMovie() {
+      const { common, actions } = this.props;
+      const { media, userData } = common;
+      const { rentMovie } = actions;
+
+      rentMovie({
+          movie_id: media.movie_id,
+          user_id: userData.id,
+      });
+  }
+
+  addSlot() {
+      const { common, actions } = this.props;
+      const { media, userData } = common;
+      const { subTv } = actions;
+
+      subTv({
+          tv_show_id: media.tv_show_id,
+          user_id: userData.id,
+      });
+  }
+
+  rateMedia(rating) {
+      const { common, actions } = this.props;
+      const { media, userData } = common;
+      const { rateMovie, rateTv } = actions;
+
+      this.setState({
+          rating,
+      });
+
+      if (media.season_info === undefined) {
+          rateMovie({
+              rating,
+              user_id: userData.id,
+              movie_id: media.movie_id,
+          });
+      } else {
+          rateTv({
+              rating,
+              user_id: userData.id,
+              tv_show_id: media.tv_show_id,
+          });
+      }
   }
 
   render() {
-      const { title } = this.state;
-      const { common } = this.props;
-      const { media, mediaError } = common;
-      console.log(media);
+      const { title, comment, rating } = this.state;
+      const { common, commonMedia } = this.props;
+      const { media, mediaError, authen } = common;
+      const { comments } = commonMedia;
+
+      const commentElems = comments !== undefined ? comments.map(comment => (
+          <UserComment comment={comment.comment} user={comment.username} date={comment.date_of_comment} />
+      )) : null;
+
       const seasonInfo = (media !== undefined && media.season_info !== undefined) ? media.season_info.map((content) => {
           const episodeInfo = (content.episodes !== undefined) ? content.episodes.map(item => (
               <div>
@@ -77,17 +174,41 @@ Season:
               </div>
           );
       }) : null;
-      const StarRating = (media !== undefined && media.avg_rating !== undefined) ? (
+
+      const commentContainer = authen ? (
+          <div className='comment-container'>
+              <div className='comment-header'>
+                  <label htmlFor='Comment' style={{ textDecoration: 'underline', fontFamily: 'Apple Chancery, cursive' }}>Leave a comment</label>
+              </div>
+              <textarea
+                  value={comment} //eslint-disable-line
+                  onChange={(e) => { //eslint-disable-line
+                      this.setState({
+                          comment: e.target.value,
+                      });
+                  }}
+                  id='subject' //eslint-disable-line
+                  name='subject' //eslint-disable-line
+                  placeholder='Enter your comment here...' //eslint-disable-line
+                  style={{ borderStyle: 'inset', width: '600px', height: '90px' }} //eslint-disable-line
+              />
+              <div className='row'>
+                  <input type='submit' value='Post Comment' onClick={this.makeComment} />
+              </div>
+          </div>
+      ) : null;
+
+      const StarRating = (authen !== undefined && authen && media !== undefined) ? (
           <div className='rate'>
-              <input type='radio' id='star5' name='rate' value='5' checked={Math.round(media.avg_rating) === 5 || onclick} />
+              <input type='radio' id='star5' name='rate' value='5' checked={rating === 5 || onclick} onClick={() => this.rateMedia(5)} />
               <label htmlFor='star5' title='text'>5 stars</label>
-              <input type='radio' id='star4' name='rate' value='4' checked={Math.round(media.avg_rating) === 4 || onclick} />
+              <input type='radio' id='star4' name='rate' value='4' checked={rating === 4 || onclick} onClick={() => this.rateMedia(4)} />
               <label htmlFor='star4' title='text'>4 stars</label>
-              <input type='radio' id='star3' name='rate' value='3' checked={Math.round(media.avg_rating) === 3 || onclick} />
+              <input type='radio' id='star3' name='rate' value='3' checked={rating === 3 || onclick} onClick={() => this.rateMedia(3)} />
               <label htmlFor='star3' title='text'>3 stars</label>
-              <input type='radio' id='star2' name='rate' value='2' checked={Math.round(media.avg_rating) === 2 || onclick} />
+              <input type='radio' id='star2' name='rate' value='2' checked={rating === 2 || onclick} onClick={() => this.rateMedia(2)} />
               <label htmlFor='star2' title='text'>2 stars</label>
-              <input type='radio' id='star1' name='rate' value='1' checked={Math.round(media.avg_rating) === 1 || onclick} />
+              <input type='radio' id='star1' name='rate' value='1' checked={rating === 1 || onclick} onClick={() => this.rateMedia(1)} />
               <label htmlFor='star1' title='text'>1 star</label>
           </div>
       ) : null;
@@ -96,10 +217,9 @@ Season:
       const error = mediaError !== undefined ? <h1>Error</h1> : null;
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
-              {console.log(media)}
-              <div className='player-wrapper'>
-                  <ReactPlayer className='react-player' url='https://s3.amazonaws.com/videovault4800/movies/Bird+Box.mp4' wide='100%' height='100%' controls />
-              </div>
+
+              <ReactPlayer className='media-box' url={authen ? 'https://s3.amazonaws.com/videovault4800/movies/Bird+Box.mp4' : ''} controls />
+
               {media.season_info !== undefined && <div id='overflowBox'>{seasonInfo}</div>}
               <h1>
                   {media.title || title}
@@ -114,8 +234,10 @@ Season:
               {media.season_info !== undefined && <h3>SEASONS</h3>}
 
               <img src={media.image_url} alt='Cover art' className='boxArt' />
-              {media.season_info === undefined && <Button color='danger' className='rent-button'>Rent</Button>}
-              {media.season_info !== undefined && <Button color='danger' className='subscribe-button'>Subscribe</Button>}
+
+              {media.season_info === undefined && authen && <Button color='danger' className='rent-button' onClick={this.rentMovie}>Rent</Button>}
+              {media.season_info !== undefined && authen && <Button color='danger' className='subscribe-button' onClick={this.addSlot}>Subscribe</Button>}
+
               <div className='container'>
                   <div className='media-info'>
                       <h2>
@@ -133,15 +255,8 @@ Genres:
                       <p>{media.description}</p>
                   </div>
               </div>
-              <div className='comment-container'>
-                  <div className='comment-header'>
-                      <label htmlFor='Comment' style={{ textDecoration: 'underline', fontFamily: 'Apple Chancery, cursive' }}>Leave a comment</label>
-                  </div>
-                  <textarea id='subject' name='subject' placeholder='Enter your comment here...' style={{ borderStyle: 'inset', width: '600px', height: '90px' }} />
-                  <div className='row'>
-                      <input type='submit' value='Post Comment' />
-                  </div>
-              </div>
+              {commentElems}
+              {commentContainer}
               {StarRating}
           </div>
       ) : null;
@@ -163,7 +278,7 @@ Genres:
 /* istanbul ignore next */
 function mapStateToProps(state) {
     return {
-        media: state.media,
+        commonMedia: state.media,
         common: state.common,
     };
 }
@@ -171,7 +286,7 @@ function mapStateToProps(state) {
 /* istanbul ignore next */
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({ ...actions }, dispatch),
+        actions: bindActionCreators({ ...actions, ...mediaActions }, dispatch),
     };
 }
 
