@@ -36,6 +36,7 @@ export class Media extends Component {
       this.getComments = this.getComments.bind(this);
       this.makeComment = this.makeComment.bind(this);
       this.rentMovie = this.rentMovie.bind(this);
+      this.addSlot = this.addSlot.bind(this);
   }
 
 
