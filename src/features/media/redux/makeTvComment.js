@@ -77,7 +77,7 @@ export function reducer(state, action) {
         return {
             ...state,
             makeTvCommentPending: false,
-            makeTvCommentError: action.data.error,
+            makeTvCommentError: action.error,
         };
 
     case MEDIA_MAKE_TV_COMMENT_DISMISS_ERROR:

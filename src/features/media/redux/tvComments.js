@@ -18,7 +18,7 @@ export function tvComments(title) {
             .then((createdJson) => {
                 dispatch({
                     type: MEDIA_TV_COMMENTS_SUCCESS,
-                    data: [ createdJson.comments ],
+                    data: [createdJson.comments],
                 });
             })
             .catch((error) => {

@@ -18,6 +18,7 @@ export class Media extends Component {
       common: PropTypes.object.isRequired,
       actions: PropTypes.object.isRequired,
       location: PropTypes.object.isRequired,
+      commonMedia: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -28,9 +29,11 @@ export class Media extends Component {
 
       this.state = {
           title,
+          comment: '',
       };
 
       this.getComments = this.getComments.bind(this);
+      this.makeComment = this.makeComment.bind(this);
   }
 
 
@@ -55,8 +58,32 @@ export class Media extends Component {
       }
   }
 
+  makeComment() {
+      const { common, actions } = this.props;
+      const { comment } = this.state;
+      const { media, userData } = common;
+      const { makeTvComment, makeMovieComment } = actions;
+
+      if (media !== undefined) {
+          if (media.season_info === undefined) {
+              makeMovieComment({
+                  comment,
+                  user_id: userData.id,
+                  movie_id: media.id,
+              });
+          } else {
+              makeTvComment({
+                  comment,
+                  user_id: userData.id,
+                  tv_show_id: media.id,
+              });
+          }
+      }
+
+  }
+
   render() {
-      const { title } = this.state;
+      const { title, comment } = this.state;
       const { common, commonMedia } = this.props;
       const { media, mediaError, authen } = common;
       const { comments } = commonMedia;
@@ -103,9 +130,20 @@ export class Media extends Component {
               <div className='comment-header'>
                   <label htmlFor='Comment' style={{ textDecoration: 'underline', fontFamily: 'Apple Chancery, cursive' }}>Leave a comment</label>
               </div>
-              <textarea id='subject' name='subject' placeholder='Enter your comment here...' style={{ borderStyle: 'inset', width: '600px', height: '90px' }} />
+              <textarea
+                  value={comment}
+                  onChange={(e) => {
+                      this.setState({
+                          comment: e.target.value,
+                      });
+                  }}
+                  id='subject'
+                  name='subject'
+                  placeholder='Enter your comment here...'
+                  style={{ borderStyle: 'inset', width: '600px', height: '90px' }}
+              />
               <div className='row'>
-                  <input type='submit' value='Post Comment' />
+                  <input type='submit' value='Post Comment' onClick={this.makeComment} />
               </div>
           </div>
       ) : null;
