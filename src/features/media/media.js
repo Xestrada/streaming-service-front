@@ -7,6 +7,8 @@ import { Button,
 } from 'reactstrap';
 import ReactPlayer from 'react-player';
 import * as actions from '../common/redux/actions';
+import * as mediaActions from './redux/actions';
+import UserComment from '../common/userComment';
 import Header from '../common/header';
 import Footer from '../common/footer';
 import './media.scss';
@@ -27,6 +29,8 @@ export class Media extends Component {
       this.state = {
           title,
       };
+
+      this.getComments = this.getComments.bind(this);
   }
 
 
@@ -34,13 +38,32 @@ export class Media extends Component {
       const { actions } = this.props;
       const { getMedia } = actions;
       const { title } = this.state;
-      getMedia(title);
+      getMedia(title).then(() => this.getComments(title));
+  }
+
+  getComments(title) {
+
+      const { common, actions } = this.props;
+      const { media } = common;
+      const { movieComments, tvComments } = actions;
+      if (media !== undefined) {
+          if (media.season_info === undefined) {
+              movieComments(title);
+          } else {
+              tvComments(title);
+          }
+      }
   }
 
   render() {
       const { title } = this.state;
-      const { common } = this.props;
+      const { common, commonMedia } = this.props;
       const { media, mediaError, authen } = common;
+      const { comments } = commonMedia;
+
+      const commentElems = comments !== undefined ? comments.map(comment => (
+          <UserComment comment={comment.comment} user={comment.username} date={comment.date_of_comment} />
+      )) : null;
 
       const seasonInfo = (media !== undefined && media.season_info !== undefined) ? media.season_info.map((content) => {
 
@@ -106,7 +129,7 @@ export class Media extends Component {
 
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
-              <ReactPlayer className='media-box' url={authen ? 'https://s3.amazonaws.com/videovault4800/movies/Bird+Box.mp4' : 'https://youtu.be/Kxms-OtUXS0'} controls />
+              <ReactPlayer className='media-box' url={authen ? 'https://s3.amazonaws.com/videovault4800/movies/Bird+Box.mp4' : ''} controls />
               {media.season_info !== undefined && <div id='overflowBox'>{seasonInfo}</div>}
               <h1>
                   {media.title || title}
@@ -132,6 +155,7 @@ export class Media extends Component {
                       <p>{media.description}</p>
                   </div>
               </div>
+              {commentElems}
               {commentContainer}
               {StarRating}
           </div>
@@ -155,7 +179,7 @@ export class Media extends Component {
 /* istanbul ignore next */
 function mapStateToProps(state) {
     return {
-        media: state.media,
+        commonMedia: state.media,
         common: state.common,
     };
 }
@@ -163,7 +187,7 @@ function mapStateToProps(state) {
 /* istanbul ignore next */
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({ ...actions }, dispatch),
+        actions: bindActionCreators({ ...actions, ...mediaActions }, dispatch),
     };
 }
 

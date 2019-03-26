@@ -18,7 +18,7 @@ export function tvComments(title) {
             .then((createdJson) => {
                 dispatch({
                     type: MEDIA_TV_COMMENTS_SUCCESS,
-                    data: createdJson.comments,
+                    data: [ createdJson.comments ],
                 });
             })
             .catch((error) => {
@@ -44,16 +44,16 @@ export function reducer(state, action) {
         // Just after a request is sent
         return {
             ...state,
-            tvCommentsPending: true,
-            tvCommentsError: null,
+            commentsPending: true,
+            commentsError: null,
         };
 
     case MEDIA_TV_COMMENTS_SUCCESS:
         // The request is success
         return {
             ...state,
-            tvCommentsPending: false,
-            tvCommentsError: null,
+            commentsPending: false,
+            commentsError: null,
             comments: action.data,
         };
 
@@ -61,15 +61,15 @@ export function reducer(state, action) {
         // The request is failed
         return {
             ...state,
-            tvCommentsPending: false,
-            tvCommentsError: action.data.error,
+            commentsPending: false,
+            commentsError: action.data.error,
         };
 
     case MEDIA_TV_COMMENTS_DISMISS_ERROR:
         // Dismiss the request failure error
         return {
             ...state,
-            tvCommentsError: null,
+            commentsError: null,
         };
 
     default:
