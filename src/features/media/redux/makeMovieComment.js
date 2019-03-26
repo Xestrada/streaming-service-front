@@ -24,7 +24,7 @@ export function makeMovieComment(info = {}) {
             body: values,
         })
             .then(response => response.json()).then((createdJson) => {
-                if (createdJson.success !== undefined && createdJson.success) {
+                if (createdJson.success) {
                     dispatch({
                         type: MEDIA_MAKE_MOVIE_COMMENT_SUCCESS,
                     });

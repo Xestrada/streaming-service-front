@@ -76,11 +76,10 @@ export class Media extends Component {
               makeTvComment({
                   comment,
                   user_id: userData.id,
-                  tv_show_id: media.tv_showid,
+                  tv_show_id: media.tv_show_id,
               });
           }
       }
-
   }
 
   render() {
@@ -132,16 +131,16 @@ export class Media extends Component {
                   <label htmlFor='Comment' style={{ textDecoration: 'underline', fontFamily: 'Apple Chancery, cursive' }}>Leave a comment</label>
               </div>
               <textarea
-                  value={comment}
-                  onChange={(e) => {
+                  value={comment} //eslint-disable-line
+                  onChange={(e) => { //eslint-disable-line
                       this.setState({
                           comment: e.target.value,
                       });
                   }}
-                  id='subject'
-                  name='subject'
-                  placeholder='Enter your comment here...'
-                  style={{ borderStyle: 'inset', width: '600px', height: '90px' }}
+                  id='subject' //eslint-disable-line
+                  name='subject' //eslint-disable-line
+                  placeholder='Enter your comment here...' //eslint-disable-line
+                  style={{ borderStyle: 'inset', width: '600px', height: '90px' }} //eslint-disable-line
               />
               <div className='row'>
                   <input type='submit' value='Post Comment' onClick={this.makeComment} />
