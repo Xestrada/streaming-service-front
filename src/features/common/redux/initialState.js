@@ -39,6 +39,8 @@ const initialState = {
   addFriendError: null,
   removeFriendPending: false,
   removeFriendError: null,
+  checkFriendshipPending: false,
+  checkFriendshipError: null,
 };
 
 export default initialState;

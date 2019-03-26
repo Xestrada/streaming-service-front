@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Button } from 'reactstrap';
 import * as actions from '../common/redux/actions';
 import Header from '../common/header';
 import ContentBox from '../common/contenBox';
@@ -33,6 +34,9 @@ export class User extends Component {
       this.getRatedMovies = this.getRatedMovies.bind(this);
       this.getRatedTV = this.getRatedTV.bind(this);
       this.getRentedMovies = this.getRentedMovies.bind(this);
+      this.getFriendship = this.getFriendship.bind(this);
+      this.removeFriend = this.removeFriend.bind(this);
+      this.addFriend = this.addFriend.bind(this);
 
   }
 
@@ -41,6 +45,7 @@ export class User extends Component {
       this.getRatedMovies();
       this.getRatedTV();
       this.getRentedMovies();
+      this.getFriendship();
   }
 
   getUserShows() {
@@ -71,12 +76,45 @@ export class User extends Component {
       getRented(id);
   }
 
+  getFriendship() {
+      const { actions, common } = this.props;
+      const { id } = this.state;
+      const { authen, userData } = common;
+      const { checkFriendship } = actions;
+
+      if (authen) {
+          checkFriendship(userData.id, id);
+      }
+  }
+
+  removeFriend() {
+      const { actions, common } = this.props;
+      const { id } = this.state;
+      const { userData } = common;
+      const { removeFriend } = actions;
+
+      removeFriend(userData.id, id).then(() => this.checkFriendship);
+  }
+
+  addFriend() {
+      const { actions, common } = this.props;
+      const { id } = this.state;
+      const { userData } = common;
+      const { addFriend } = actions;
+
+      addFriend({
+          user_id: userData.id,
+          friend_id: id,
+      }).then(() => this.checkFriendship);
+  }
+
 
   render() {
 
       const { common } = this.props;
       const { username } = this.state;
       const {
+          authen,
           subs,
           ratedMovies,
           ratedTV,
@@ -85,7 +123,12 @@ export class User extends Component {
           ratedTvPending,
           ratedMoviesPending,
           subsPending,
+          areFriends,
       } = common;
+
+      const friendAction = (areFriends !== undefined && areFriends) ? (<Button color='danger' onClick={this.removeFriend}>Remove Friend</Button>) : (<Button color='primary' onClick={this.addFriend}>Add Friend</Button>);
+
+      const friendButton = (authen !== undefined && authen) ? friendAction : null;
 
       const subbedTV = subs !== undefined ? subs.map(content => (
           <div className='media'>
@@ -117,6 +160,7 @@ export class User extends Component {
                       <div className='userHolder'>
                           <img src={userImg} alt='User' />
                           <h5>{username}</h5>
+                          {friendButton}
                       </div>
                   </div>
                   <br />

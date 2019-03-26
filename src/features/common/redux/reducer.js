@@ -23,6 +23,7 @@ import { reducer as addSlotReducer } from './addSlot';
 import { reducer as addInitialSubsReducer } from './addInitialSubs';
 import { reducer as addFriendReducer } from './addFriend';
 import { reducer as removeFriendReducer } from './removeFriend';
+import { reducer as checkFriendshipReducer } from './checkFriendship';
 
 const reducers = [
     actorsReducer,
@@ -41,6 +42,7 @@ const reducers = [
     addInitialSubsReducer,
   addFriendReducer,
   removeFriendReducer,
+  checkFriendshipReducer,
 ];
 
 export default function reducer(state = initialState, action) {
