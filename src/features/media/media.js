@@ -63,7 +63,7 @@ export class Media extends Component {
 
   makeComment() {
       const { common, actions } = this.props;
-      const { comment } = this.state;
+      const { comment, title } = this.state;
       const { media, userData } = common;
       const { makeTvComment, makeMovieComment } = actions;
 
@@ -73,13 +73,13 @@ export class Media extends Component {
                   comment,
                   user_id: userData.id,
                   movie_id: media.movie_id,
-              });
+              }).then(() => this.getComments(title));
           } else {
               makeTvComment({
                   comment,
                   user_id: userData.id,
                   tv_show_id: media.tv_show_id,
-              });
+              }).then(() => this.getComments(title));
           }
       }
   }

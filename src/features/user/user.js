@@ -124,6 +124,7 @@ export class User extends Component {
           ratedMoviesPending,
           subsPending,
           areFriends,
+          checkFriendshipPending,
       } = common;
 
       const friendAction = (areFriends !== undefined && areFriends) ? (<Button color='danger' onClick={this.removeFriend}>Remove Friend</Button>) : (<Button color='primary' onClick={this.addFriend}>Add Friend</Button>);
@@ -151,6 +152,10 @@ export class User extends Component {
       const empty = (<h2>No Content</h2>);
 
       const loading = <i className='fa fa-spinner fa-spin loadIcon loadingSpinner' />;
+
+      if (authen && areFriends === undefined && !checkFriendshipPending) {
+          this.getFriendship();
+      }
 
       return (
           <div className='background-color'>
