@@ -15,7 +15,7 @@
     min-width: 1024;
     min-height: 100%;
     width: 95%;
-    height: 100em;
+    height: 120em;
 
     margin:auto;
   
@@ -25,14 +25,14 @@
     color: white;
     font-size: 2em;
     position: absolute;
-    left: 45%;
-    top: 1%;
+    left: 25%;
+    top: 29%;
 }
 
 .movie-container h2{
-    position: absolute;
-    top: 68%;
-    left: 3%;
+    position: relative;
+    margin-top: 1em;
+    margin-left: 1em;
     font-size: 1em;
     font-weight: bold;
     color: #838584;
@@ -42,7 +42,7 @@
     font-size: 1.5em;
     position: absolute;
     bottom: 70%;
-    left: 45%;
+    left: 52%;
 }
 
 .movie-container h4{
@@ -51,14 +51,6 @@
     position: absolute;
     top: 35%;
     left: 45%;
-}
-.movie-container h5{
-    position: relative;
-    margin-top: 1em;
-    margin-left: 1em;
-    font-size: 1em;
-    font-weight: bold;
-    color: #838584;
 }
 
 .movie-container p{
@@ -79,8 +71,8 @@
     position:absolute;
     bottom: 46%;
     left: 1%;
-    height: 53%;
-    width: 42%;
+    height: 25%;
+    width: 22%;
     background: center;
 }
 
@@ -129,7 +121,7 @@
    
     position:absolute;
     top: 29%;
-    left: 45%;
+    left: 52%;
     padding-top: 2%;
     margin-right: 10%; 
     width: 50%;
@@ -138,7 +130,7 @@
 
   .media-info{
       position: absolute;
-      top: 60%;
+      top: 63%;
       left: 1%;
   }
   
@@ -171,16 +163,22 @@
   input[type=submit]:hover {
     background-color: #a9aaa9;
   }
-
-  .media-box{
+  .player-wrapper{
+    position: relative;
+    padding-top: 20em;
+  }
+  .react-player{
       position:absolute;
-      left: 45%;
-      top: 2%;
+      left: 20%;
+      top: -13%;
+      width: 60% !important;
+      height: 150% !important;
   }
 
   .rate {
     position: absolute;
     top:55%;
+    left:1%;
     height: 46px;
     padding: 0 10px;
 }
@@ -213,4 +211,4 @@
 .rate > input:checked ~ label:hover ~ label,
 .rate > label:hover ~ input:checked ~ label {
     color: #c59b08;
-}
+} 

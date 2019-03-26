@@ -140,15 +140,18 @@ export class Media extends Component {
       )) : null;
 
       const seasonInfo = (media !== undefined && media.season_info !== undefined) ? media.season_info.map((content) => {
-
           const episodeInfo = (content.episodes !== undefined) ? content.episodes.map(item => (
               <div>
                   <span>
                       <li>
-                        Episode
+Episode
+                          {' '}
                           {item.episode}
-                        :
+:
+                          {' '}
+                          {' '}
                           {item.episode_name}
+                          {' '}
                       </li>
 
                   </span>
@@ -158,9 +161,10 @@ export class Media extends Component {
           return (
               <div>
                   {' '}
-                  <Button className='season-position' onClick={this.toggleHidden} id='toggler' style={{ textAlign: 'left', marginBottom: '1rem' }}>
+                  <Button className='season-position' id='toggler' style={{ textAlign: 'left', marginBottom: '1rem' }}>
                       <li>
-                        Season:
+Season:
+                          {' '}
                           {content.season}
                       </li>
                   </Button>
@@ -169,7 +173,6 @@ export class Media extends Component {
                   </UncontrolledCollapse>
               </div>
           );
-
       }) : null;
 
       const commentContainer = authen ? (
@@ -209,34 +212,46 @@ export class Media extends Component {
               <label htmlFor='star1' title='text'>1 star</label>
           </div>
       ) : null;
-
+      const genreInfo = (media !== undefined && media.genres !== undefined) ? media.genres.map((item, index) => <span style={{ fontSize: '1em' }} key={`demo_snap_${index}`}>{ (index ? ', ' : '') + item }</span>) : null;
+      const starInfo = (media !== undefined && media.genres !== undefined) ? media.stars.map((item, index) => <span style={{ fontSize: '1em' }} key={`demo_snap_${index}`}>{ (index ? ', ' : '') + item }</span>) : null;
       const error = mediaError !== undefined ? <h1>Error</h1> : null;
-
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
+
               <ReactPlayer className='media-box' url={authen ? 'https://s3.amazonaws.com/videovault4800/movies/Bird+Box.mp4' : ''} controls />
+
               {media.season_info !== undefined && <div id='overflowBox'>{seasonInfo}</div>}
               <h1>
                   {media.title || title}
+                  {' '}
                   <span>
-                    (
+(
                       {media.year}
-                    )
+)
 
                   </span>
               </h1>
               {media.season_info !== undefined && <h3>SEASONS</h3>}
 
               <img src={media.image_url} alt='Cover art' className='boxArt' />
+
               {media.season_info === undefined && authen && <Button color='danger' className='rent-button' onClick={this.rentMovie}>Rent</Button>}
               {media.season_info !== undefined && authen && <Button color='danger' className='subscribe-button' onClick={this.addSlot}>Subscribe</Button>}
+
               <div className='container'>
                   <div className='media-info'>
-                      <h5>
-                        RATING :
-                          {media.avg_rating !== null ? media.avg_rating : 'NO RATINGS'}
-                      </h5>
-                      <h5>SYNOPSIS</h5>
+                      <h2>
+STARS:
+                          {' '}
+                          {starInfo}
+                      </h2>
+
+                      <h2>
+Genres:
+                          {' '}
+                          {genreInfo}
+                      </h2>
+                      <h2>SYNOPSIS</h2>
                       <p>{media.description}</p>
                   </div>
               </div>
@@ -245,7 +260,6 @@ export class Media extends Component {
               {StarRating}
           </div>
       ) : null;
-
 
       return (
           <body className='background-color'>
