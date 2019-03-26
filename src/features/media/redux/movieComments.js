@@ -19,7 +19,7 @@ export function movieComments(title) {
                 console.log(createdJson.comments);
                 dispatch({
                     type: MEDIA_MOVIE_COMMENTS_SUCCESS,
-                    data: [createdJson.comments],
+                    data: createdJson.comments,
                 });
             })
             .catch((error) => {

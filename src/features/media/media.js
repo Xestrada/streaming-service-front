@@ -48,6 +48,7 @@ export class Media extends Component {
 
       const { common, actions } = this.props;
       const { media } = common;
+      console.log(media);
       const { movieComments, tvComments } = actions;
       if (media !== undefined) {
           if (media.season_info === undefined) {
@@ -69,13 +70,13 @@ export class Media extends Component {
               makeMovieComment({
                   comment,
                   user_id: userData.id,
-                  movie_id: media.id,
+                  movie_id: media.movie_id,
               });
           } else {
               makeTvComment({
                   comment,
                   user_id: userData.id,
-                  tv_show_id: media.id,
+                  tv_show_id: media.tv_showid,
               });
           }
       }
