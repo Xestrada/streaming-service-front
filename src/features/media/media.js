@@ -79,7 +79,6 @@ Season:
       }) : null;
       const StarRating = (media !== undefined && media.avg_rating !== undefined) ? (
           <div className='rate'>
-              {console.log('hello there')}
               <input type='radio' id='star5' name='rate' value='5' checked={Math.round(media.avg_rating) === 5 || onclick} />
               <label htmlFor='star5' title='text'>5 stars</label>
               <input type='radio' id='star4' name='rate' value='4' checked={Math.round(media.avg_rating) === 4 || onclick} />
@@ -92,8 +91,8 @@ Season:
               <label htmlFor='star1' title='text'>1 star</label>
           </div>
       ) : null;
-      const genreInfo = (media !== undefined && media.genres !== undefined) ? media.genres.map((item, index) => <span style={{fontSize:'1em'}} key={`demo_snap_${index}`}>{ (index ? ', ' : '') + item }</span>) : null;
-      const starInfo = (media !== undefined && media.genres !== undefined) ? media.stars.map((item, index) => <span style={{fontSize:'1em'}} key={`demo_snap_${index}`}>{ (index ? ', ' : '') + item }</span>) : null;
+      const genreInfo = (media !== undefined && media.genres !== undefined) ? media.genres.map((item, index) => <span style={{ fontSize: '1em' }} key={`demo_snap_${index}`}>{ (index ? ', ' : '') + item }</span>) : null;
+      const starInfo = (media !== undefined && media.genres !== undefined) ? media.stars.map((item, index) => <span style={{ fontSize: '1em' }} key={`demo_snap_${index}`}>{ (index ? ', ' : '') + item }</span>) : null;
       const error = mediaError !== undefined ? <h1>Error</h1> : null;
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
@@ -119,14 +118,17 @@ Season:
               {media.season_info !== undefined && <Button color='danger' className='subscribe-button'>Subscribe</Button>}
               <div className='container'>
                   <div className='media-info'>
-                      <div className='starsLine'>
-                          <h2>STARS:</h2>
-                          <div className='starsPosition'>{starInfo}</div>
-                      </div>
-                      <div className='genreLine'>
-                          <h2>Genres: </h2>
-                          <div className='genresPosition'>{genreInfo}</div>
-                      </div>
+                      <h2>
+STARS:
+                          {' '}
+                          {starInfo}
+                      </h2>
+
+                      <h2>
+Genres:
+                          {' '}
+                          {genreInfo}
+                      </h2>
                       <h2>SYNOPSIS</h2>
                       <p>{media.description}</p>
                   </div>
