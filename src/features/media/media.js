@@ -92,16 +92,8 @@ Season:
               <label htmlFor='star1' title='text'>1 star</label>
           </div>
       ) : null;
-      const genreInfo = (media !== undefined && media.genres !== undefined) ? media.genres.map(genre => (
-          <div className='row' style={{ margin: 'auto' }}>
-              <p>{genre}</p>
-          </div>
-      )) : null;
-      const starInfo = (media !== undefined && media.genres !== undefined) ? media.stars.map(star => (
-          <div className='row' style={{ margin: 'auto' }}>
-              <p>{star}</p>
-          </div>
-      )) : null;
+      const genreInfo = (media !== undefined && media.genres !== undefined) ? media.genres.map((item, index) => <span style={{fontSize:'1em'}} key={`demo_snap_${index}`}>{ (index ? ', ' : '') + item }</span>) : null;
+      const starInfo = (media !== undefined && media.genres !== undefined) ? media.stars.map((item, index) => <span style={{fontSize:'1em'}} key={`demo_snap_${index}`}>{ (index ? ', ' : '') + item }</span>) : null;
       const error = mediaError !== undefined ? <h1>Error</h1> : null;
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
