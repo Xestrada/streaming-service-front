@@ -37,6 +37,7 @@ export class Media extends Component {
       this.makeComment = this.makeComment.bind(this);
       this.rentMovie = this.rentMovie.bind(this);
       this.addSlot = this.addSlot.bind(this);
+      this.changeURL = this.changeURL.bind(this);
   }
 
 
@@ -130,11 +131,19 @@ export class Media extends Component {
       }
   }
 
+  changeURL(url) {
+      this.setState({
+          videoURL: url,
+      });
+  }
+
   render() {
-      const { title, comment, rating } = this.state;
+      const { title, comment, rating, videoURL } = this.state;
       const { common, commonMedia } = this.props;
       const { media, mediaError, authen } = common;
       const { comments } = commonMedia;
+
+      const mediaURL = media !== undefined && media.season_info === undefined ? media.url : videoURL;
 
       const commentElems = comments !== undefined ? comments.map(comment => (
           <UserComment comment={comment.comment} user={comment.username} date={comment.date_of_comment} />
@@ -144,7 +153,7 @@ export class Media extends Component {
           const episodeInfo = (content.episodes !== undefined) ? content.episodes.map(item => (
               <div>
                   <span>
-                      <li>
+                      <li onClick={() => this.changeURL(item.url)}>
 Episode
                           {' '}
                           {item.episode}
@@ -219,7 +228,7 @@ Season:
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
 
-              <ReactPlayer className='media-box' url={authen ? 'https://s3.amazonaws.com/videovault4800/movies/Bird+Box.mp4' : ''} controls />
+              <ReactPlayer className='media-box' url={authen ? mediaURL : ''} controls />
 
               {media.season_info !== undefined && <div id='overflowBox'>{seasonInfo}</div>}
               <h1>
