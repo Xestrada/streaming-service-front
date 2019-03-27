@@ -40,7 +40,10 @@ class Signup extends Component {
     signUp() {
         const { actions } = this.props;
         const { signup } = actions;
-        signup(this.state);
+        signup(this.state)
+            .then(() => (
+                <Redirect to='/sub-init' />
+            ));
 
     }
 
@@ -48,9 +51,9 @@ class Signup extends Component {
 
         const { username, password, email, card_num, exp, name } = this.state; //eslint-disable-line
         const { common } = this.props;
-        const { authen } = common;
+        const { authen, initialSub } = common;
 
-        const redir = authen !== undefined && authen ? (<Redirect to='/subscriptions' />) : null;
+        const redir = authen !== undefined && authen && !initialSub ? (<Redirect to='/sub-init' />) : null;
 
         return (
             <div>

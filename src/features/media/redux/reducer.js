@@ -7,17 +7,33 @@
 // https://medium.com/@nate_wang/a-new-approach-for-managing-redux-actions-91c26ce8b5da.
 
 import initialState from './initialState';
+import { reducer as makeMovieCommentReducer } from './makeMovieComment';
+import { reducer as makeTvCommentReducer } from './makeTvComment';
+import { reducer as rateMovieReducer } from './rateMovie';
+import { reducer as rateTvReducer } from './rateTv';
+import { reducer as movieCommentsReducer } from './movieComments';
+import { reducer as tvCommentsReducer } from './tvComments';
+import { reducer as rentMovieReducer } from './rentMovie';
+import { reducer as subTvReducer } from './subTv';
 
 const reducers = [
+    makeMovieCommentReducer,
+    makeTvCommentReducer,
+    rateMovieReducer,
+    rateTvReducer,
+    movieCommentsReducer,
+    tvCommentsReducer,
+  rentMovieReducer,
+  subTvReducer,
 ];
 
 export default function reducer(state = initialState, action) {
-  let newState;
-  switch (action.type) {
+    let newState;
+    switch (action.type) {
     // Handle cross-topic actions here
     default:
-      newState = state;
-      break;
-  }
-  return reducers.reduce((s, r) => r(s, action), newState);
+        newState = state;
+        break;
+    }
+    return reducers.reduce((s, r) => r(s, action), newState);
 }
