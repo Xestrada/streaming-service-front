@@ -78,7 +78,7 @@ export function reducer(state, action) {
         return {
             ...state,
             addSlotPending: false,
-            addSlotError: action.data.error,
+            addSlotError: action.error,
         };
 
     case COMMON_ADD_SLOT_DISMISS_ERROR:

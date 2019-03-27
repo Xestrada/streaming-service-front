@@ -15,7 +15,7 @@ export function subTv(info = {}) {
 
         const values = JSON.stringify(info);
 
-        return fetch('https://videovaultusers.herokuapp.com/add_slot', {
+        return fetch('https://videovaultusers.herokuapp.com/add_tv_show', {
             method: 'PUT',
             mode: 'cors',
             headers: {
@@ -76,7 +76,7 @@ export function reducer(state, action) {
         return {
             ...state,
             subTvPending: false,
-            subTvError: action.data.error,
+            subTvError: action.error,
         };
 
     case MEDIA_SUB_TV_DISMISS_ERROR:
