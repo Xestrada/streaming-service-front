@@ -257,8 +257,8 @@ Genres:
                   </div>
               </div>
               {commentContainer}
-              <div className='comment-position'>{commentElems}</div>
               {StarRating}
+              
           </div>
       ) : null;
 
@@ -268,6 +268,7 @@ Genres:
                   <Header />
                   <div className='movie-container'>
                       {mediaElems || error}
+                      <div className='comment-position'>{commentElems}</div>
                   </div>
                   <Footer />
               </div>

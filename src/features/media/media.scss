@@ -129,13 +129,9 @@
       left: 1%;
   }
   
-  .comment-container{
-      position:absolute;
-      top:75%;
-      left:16%;
-      width: 50%;
-      height: 23%;
-      padding: 20px;
+  .comment-position{
+      padding-top: 90rem;
+      position: relative;
   }
 
   .comment-header {
@@ -207,9 +203,3 @@
 .rate > label:hover ~ input:checked ~ label {
     color: #c59b08;
 } 
-
-.comment-position{
-    position: relative;
-    left:17%;
-    top:33em;
-}
