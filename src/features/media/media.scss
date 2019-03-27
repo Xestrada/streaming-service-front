@@ -14,8 +14,8 @@
     background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
     min-width: 1024;
     min-height: 100%;
-    width: 75%;
-    height: 58em;
+    width: 95%;
+    height: 120em;
 
     margin:auto;
   
@@ -25,14 +25,14 @@
     color: white;
     font-size: 2em;
     position: absolute;
-    left: 12.5em;
-    top: 0.5em;
+    left: 25%;
+    top: 29%;
 }
 
 .movie-container h2{
-    position: absolute;
-    top: 45em;
-    left: 1em;
+    position: relative;
+    margin-top: 1em;
+    margin-left: 1em;
     font-size: 1em;
     font-weight: bold;
     color: #838584;
@@ -41,33 +41,25 @@
     color: #ff6900;
     font-size: 1.5em;
     position: absolute;
-    bottom: 34em;
-    left: 17em;
+    bottom: 70%;
+    left: 52%;
 }
 
 .movie-container h4{
     color: #ff6900;
     font-size: 1.5em;
     position: absolute;
-    bottom: 22em;
-    left: 17em;
-}
-.movie-container h5{
-    position: relative;
-    top:38em;
-    margin-top: 1em;
-    margin-left: 1em;
-    font-size: 1em;
-    font-weight: bold;
-    color: #838584;
+    top: 35%;
+    left: 45%;
 }
 
 .movie-container p{
-    position: absolute;
-    top: 47em;
+    position: relative;
+    font-size: 1.1em;
     color: white;
-    width: 75%;
+    width: 100%;
     margin-left: 1em;
+    margin-top: 0.5em;
 }
 
 .movie-container span{
@@ -77,10 +69,10 @@
 
 .movie-container img{
     position:absolute;
-    bottom: 25em;
-    left: 1em;
-    height: 56%;
-    width: 32%;
+    bottom: 46%;
+    left: 1%;
+    height: 25%;
+    width: 22%;
     background: center;
 }
 
@@ -89,20 +81,124 @@
     left: 0.2em;
     font-size: 1em;
 }
-.play-video{
-    position: absolute;
-    top: 58%;
-    right: 86%;
+.movie-container li{
+    list-style-type: none;
 }
 
 .rent-button{
     position: absolute;
-    top: 58%;
-    right: 79%;
+    top: 55%;
+    right: 78%;
 }
 
 .subscribe-button{
     position: absolute;
-    top: 58%;
-    right: 76%;
+    top: 55%;
+    right: 77%;
 }
+
+.season-position{
+    margin-left: 1%;
+    width: 90%;
+    background-color:whitesmoke;
+    border: none;
+    outline: none;
+    text-align: left;
+    padding: 15px 20px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.episdoes-position{
+    margin-left: 10%; 
+}
+#overflowBox {
+   
+    position:absolute;
+    top: 29%;
+    left: 52%;
+    padding-top: 2%;
+    margin-right: 10%; 
+    width: 50%;
+    height: 100%;
+  }
+
+  .media-info{
+      position: absolute;
+      top: 63%;
+      left: 1%;
+  }
+  
+  .comment-position{
+        color: white;
+  }
+
+  .comment-header {
+    float: left;
+    font-style: oblique;
+    color: whitesmoke;
+    font-size: 1.8em;
+  }
+
+  input[type=submit] {
+    background-color: whitesmoke;
+    font-size: 0.8em;
+    color: black;
+    border: 1px groove black;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-left: 80%; 
+  }
+
+  input[type=submit]:hover {
+    background-color: #a9aaa9;
+  }
+  .player-wrapper{
+    position: relative;
+    padding-top: 20em;
+  }
+  .media-box{
+      position:absolute;
+      top:2%;
+      left: 21%;
+      width: 60% !important;
+      height: 20% !important;
+  }
+
+  .rate {
+    position: absolute;
+    top:55%;
+    left:1%;
+    height: 46px;
+    padding: 0 10px;
+}
+.rate:not(:checked) > input {
+    position:absolute;
+    opacity:0;
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:30px;
+    color:#ccc;
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;    
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;  
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+} 

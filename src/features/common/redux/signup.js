@@ -75,6 +75,7 @@ export function reducer(state, action) {
             signupError: null,
             authen: true,
             userData: action.userData,
+            initialSub: false,
         };
 
     case COMMON_SIGNUP_FAILURE:

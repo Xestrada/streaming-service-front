@@ -102,7 +102,7 @@ class TVshows extends Component {
         const error = tvShowsError !== undefined ? tvShowsError : null;
 
         const boxes = (tvShows !== undefined) ? tvShows.map(content => (
-            <ContentBox title={content.title || content.full_name} url={content.url} image={content.image_url || emptyImg} key={content.id} />
+            <ContentBox title={content.title || content.full_name} url={`/media/${content.title}`} image={content.image_url || emptyImg} key={content.id} />
         )) : null;
 
         const loadingGrid = [];
@@ -114,16 +114,18 @@ class TVshows extends Component {
         }
 
         return (
-            <div className='home-root'>
-                <Header />
-                <br />
-                <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />
-                <br />
-                <br />
-                <br />
-                <Results loading={tvShowsPending} error={error} boxes={boxes} page={page} loadingGrid={loadingGrid} maxPages={maxPages} nextPage={this.nextPage} backPage={this.backPage} />
-                <Footer />
-            </div>
+            <body className='background-color'>
+                <div className='home-root'>
+                    <Header />
+                    <br />
+                    <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />
+                    <br />
+                    <br />
+                    <br />
+                    <Results loading={tvShowsPending} error={error} boxes={boxes} page={page} loadingGrid={loadingGrid} maxPages={maxPages} nextPage={this.nextPage} backPage={this.backPage} />
+                    <Footer />
+                </div>
+            </body>
         );
     }
 }

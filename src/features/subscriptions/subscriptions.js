@@ -23,6 +23,8 @@ class Subscriptions extends Component {
         this.getUserShows = this.getUserShows.bind(this);
         this.getRatedMovies = this.getRatedMovies.bind(this);
         this.getRatedTV = this.getRatedTV.bind(this);
+        this.getRentedMovies = this.getRentedMovies.bind(this);
+        this.getUserFriends = this.getUserFriends.bind(this);
 
 
     }
@@ -34,6 +36,8 @@ class Subscriptions extends Component {
             this.getUserShows();
             this.getRatedMovies();
             this.getRatedTV();
+            this.getRentedMovies();
+            this.getUserFriends();
         }
 
     }
@@ -59,16 +63,33 @@ class Subscriptions extends Component {
         ratedTv(userData.id);
     }
 
+    getRentedMovies() {
+        const { actions, common } = this.props;
+        const { getRented } = actions;
+        const { userData } = common;
+        getRented(userData.id);
+    }
+
+    getUserFriends() {
+        const { actions, common } = this.props;
+        const { getFriends } = actions;
+        const { userData } = common;
+        getFriends(userData.id);
+    }
+
 
     render() {
 
         const { common } = this.props;
         const {
             authen,
+            friends,
+            getFriendsPending,
             subs,
             ratedMovies,
             ratedTV,
-            rented,
+            rentedMovies,
+            getRentedPending,
             ratedTvPending,
             ratedMoviesPending,
             subsPending,
@@ -88,7 +109,13 @@ class Subscriptions extends Component {
             <ContentBox title={content.tv_show_title} url={`/media/${content.tv_show_title}`} image={content.image_url || emptyImg} />
         )) : null;
 
-        const rentedList = rented !== undefined ? (<br />) : null;
+        const rentedList = rentedMovies !== undefined ? rentedMovies.map(movie => (
+            <ContentBox title={movie.title} url={`/media/${movie.title}`} image={movie.image_url || emptyImg} />
+        )) : null;
+
+        const friendsList = friends !== undefined ? friends.map(friend => (
+            <ContentBox title={friend.username} url={`/user/${friend.username}/${friend.id}`} image={emptyImg} />
+        )) : null;
 
         const redir = authen ? null : (<Redirect to='/' />);
 
@@ -102,6 +129,12 @@ class Subscriptions extends Component {
                     {redir}
                     <Header />
                     <div className='gridContainer'>
+                        <h1>Friends</h1>
+                        <div className='section'>
+                            {getFriendsPending ? loading : (friendsList || empty)}
+                        </div>
+                    </div>
+                    <div className='gridContainer'>
                         <h1>Slots</h1>
                         <div className='section'>
                             {subsPending ? loading : (subbedTV || empty)}
@@ -111,7 +144,7 @@ class Subscriptions extends Component {
                     <div className='gridContainer'>
                         <h1>Rented</h1>
                         <div className='section'>
-                            {rentedList || empty}
+                            {getRentedPending ? loading : (rentedList || empty)}
                         </div>
                     </div>
 
