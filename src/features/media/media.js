@@ -265,8 +265,6 @@ Genres:
                       <p>{media.description}</p>
                   </div>
               </div>
-              <div className='comment-position'>{commentElems}</div>
-              {commentContainer}
               {StarRating}
               
           </div>
@@ -280,6 +278,8 @@ Genres:
                       {mediaElems || error}
                       
                   </div>
+                  <div className='comment-position'>{commentElems}</div>
+                    {commentContainer}
                   <Footer />
               </div>
           </body>
