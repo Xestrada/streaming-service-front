@@ -203,7 +203,7 @@ Season:
                   style={{ borderStyle: 'inset', width: '600px', height: '90px' }} //eslint-disable-line
               />
               <div className='row'>
-                  <input type='submit' value='Post Comment' onClick={this.makeComment} />
+                  <input style={{ float:'right'}} type='submit' value='Post Comment' onClick={this.makeComment} />
               </div>
           </div>
       ) : null;
@@ -265,9 +265,9 @@ Genres:
                       <p>{media.description}</p>
                   </div>
               </div>
-              {commentElems}
               {commentContainer}
               {StarRating}
+              
           </div>
       ) : null;
 
@@ -277,6 +277,7 @@ Genres:
                   <Header />
                   <div className='movie-container'>
                       {mediaElems || error}
+                      <div className='comment-position'>{commentElems}</div>
                   </div>
                   <Footer />
               </div>

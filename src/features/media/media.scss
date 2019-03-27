@@ -84,22 +84,17 @@
 .movie-container li{
     list-style-type: none;
 }
-.play-video{
-    position: absolute;
-    top: 55%;
-    right: 84%;
-}
 
 .rent-button{
     position: absolute;
     top: 55%;
-    right: 70%;
+    right: 78%;
 }
 
 .subscribe-button{
     position: absolute;
     top: 55%;
-    right: 70%;
+    right: 77%;
 }
 
 .season-position{
@@ -134,13 +129,9 @@
       left: 1%;
   }
   
-  .comment-container{
-      position:absolute;
-      top:75%;
-      left:10%;
-      width: 50%;
-      height: 23%;
-      padding: 20px;
+  .comment-position{
+      padding-top: 90rem;
+      position: relative;
   }
 
   .comment-header {
@@ -167,12 +158,12 @@
     position: relative;
     padding-top: 20em;
   }
-  .react-player{
+  .media-box{
       position:absolute;
-      left: 20%;
-      top: -13%;
+      top:2%;
+      left: 21%;
       width: 60% !important;
-      height: 150% !important;
+      height: 20% !important;
   }
 
   .rate {
