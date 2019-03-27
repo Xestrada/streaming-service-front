@@ -194,7 +194,7 @@ Season:
                   style={{ borderStyle: 'inset', width: '600px', height: '90px' }} //eslint-disable-line
               />
               <div className='row'>
-                  <input type='submit' value='Post Comment' onClick={this.makeComment} />
+                  <input style={{ marginLeft: '52%' }} type='submit' value='Post Comment' onClick={this.makeComment} />
               </div>
           </div>
       ) : null;
@@ -213,15 +213,13 @@ Season:
               <label htmlFor='star1' title='text'>1 star</label>
           </div>
       ) : null;
-      const genreInfo = (media !== undefined && media.genres !== undefined) ? media.genres.map((item, index) => <span style={{ fontSize: '1em' }} key={`demo_snap_${index}`}>{ (index ? ', ' : '') + item }</span>) : null;
-      const starInfo = (media !== undefined && media.genres !== undefined) ? media.stars.map((item, index) => <span style={{ fontSize: '1em' }} key={`demo_snap_${index}`}>{ (index ? ', ' : '') + item }</span>) : null;
+      const genreInfo = (media !== undefined && media.genres !== undefined) ? media.genres.map((item, index) => <span style={{ color: 'whitesmoke', fontSize: '1em' }} key={`demo_snap_${index}`}>{ (index ? ', ' : '') + item }</span>) : null;
+      const starInfo = (media !== undefined && media.genres !== undefined) ? media.stars.map((item, index) => <span style={{ color: 'whitesmoke', fontSize: '1em' }} key={`demo_snap_${index}`}>{ (index ? ', ' : '') + item }</span>) : null;
       const error = mediaError !== undefined ? <h1>Error</h1> : null;
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
 
-              <ReactPlayer id='media-box' url={authen ? 'https://s3.amazonaws.com/videovault4800/movies/Bird+Box.mp4' : ''} controls />
-
-              {media.season_info !== undefined && <div id='overflowBox'>{seasonInfo}</div>}
+              <ReactPlayer id='media-box' url={authen ? 'https://s3.amazonaws.com/videovault4800/movies/Bird+Box.mp4' : ''} controls />       
               <div id='clearFix'>
                   <h1>
                       <img src={media.image_url} alt='Cover art' />
@@ -231,16 +229,17 @@ Season:
 (
                           {media.year}
 )
-                          {media.season_info !== undefined && <h1>SEASONS</h1>}
                       </span>
+                      {media.season_info !== undefined && <h3>SEASONS</h3>}
+                      {media.season_info !== undefined && <div id='overflowBox'>{seasonInfo}</div>}
                   </h1>
               </div>
-              <div id='clearFix'>
+              <div id='clearFix' style={{ marginTop: '0.8%' }}>
                   {media.season_info === undefined && authen && <Button color='danger' onClick={this.rentMovie}>Rent</Button>}
                   {media.season_info !== undefined && authen && <Button color='danger' onClick={this.addSlot}>Subscribe</Button>}
                   {StarRating}
               </div>
-              <div>
+              <div id='media-info'>
                   <h2>
 STARS:
                       {' '}

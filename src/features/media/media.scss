@@ -21,16 +21,40 @@ body {
         font-weight: bold;
         color: #838584;
     }
-
+    h3 {
+        margin-top: 1%;
+        margin-left: 10%;
+        color: #ff6900;
+        font-size: 1.5em;
+    }
+    p {
+        font-size: 1em;
+        color:whitesmoke;
+    }
     img {
     float: left;
     height: 25%;
     width: 22%;
+    margin-right: 1%;
+    margin-left: 0.5%;
     }
 }
 
 #clearFix{
     overflow:auto;
+}
+
+#media-box{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    width: 90% !important;
+    height: 90% !important;
+}
+#media-info{
+    margin-top:1%;
+    margin-left: 1%;
 }
 .season-position{
     margin-left: 1%;
@@ -47,12 +71,9 @@ body {
 .episdoes-position{
     margin-left: 10%; 
 }
+
 #overflowBox {
-    position:absolute;
-    top: 29%;
-    left: 52%;
-    padding-top: 2%;
-    margin-right: 10%; 
+    overflow: auto;
     width: 50%;
     height: 100%;
   }
@@ -119,3 +140,13 @@ body {
 .rate > label:hover ~ input:checked ~ label {
     color: #c59b08;
 } 
+
+.commentBox{
+    margin-left: 3%;
+    margin-bottom: 1%;
+    color:white;
+    background: #4a4a4a;
+    border: 0.1em ridge white;
+    width: 30%;
+    padding: 0.5em;
+}
