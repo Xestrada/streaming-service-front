@@ -35,12 +35,12 @@ const initialState = {
     addSlotError: null,
     addInitialSubsPending: false,
     addInitialSubsError: null,
-  addFriendPending: false,
-  addFriendError: null,
-  removeFriendPending: false,
-  removeFriendError: null,
-  checkFriendshipPending: false,
-  checkFriendshipError: null,
+    addFriendPending: false,
+    addFriendError: null,
+    removeFriendPending: false,
+    removeFriendError: null,
+    checkFriendshipPending: false,
+    checkFriendshipError: null,
 };
 
 export default initialState;

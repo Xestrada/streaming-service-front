@@ -40,9 +40,9 @@ const reducers = [
     getFriendsReducer,
     addSlotReducer,
     addInitialSubsReducer,
-  addFriendReducer,
-  removeFriendReducer,
-  checkFriendshipReducer,
+    addFriendReducer,
+    removeFriendReducer,
+    checkFriendshipReducer,
 ];
 
 export default function reducer(state = initialState, action) {
