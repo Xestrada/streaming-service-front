@@ -8,7 +8,9 @@ import Header from '../common/header';
 import ContentBox from '../common/contenBox';
 import Footer from '../common/footer';
 import emptyImg from '../../images/noimage.png';
+import Rating from './rating';
 import './subscriptions.scss';
+
 
 class Subscriptions extends Component {
 
@@ -102,11 +104,21 @@ class Subscriptions extends Component {
         )) : null;
 
         const ratedMoviesList = (ratedMovies !== undefined) ? ratedMovies.map(movie => (
-            <ContentBox title={movie.movie_title} url={`/media/${movie.movie_title}`} image={movie.image_url || emptyImg} />
+            <div>
+                <ContentBox title={movie.movie_title} url={`/media/${movie.movie_title}`} image={movie.image_url || emptyImg} />
+                <Rating rating={movie.movie_rating} />
+            </div>
         )) : null;
 
         const ratedTVList = (ratedTV !== undefined) ? ratedTV.map(content => (
-            <ContentBox title={content.tv_show_title} url={`/media/${content.tv_show_title}`} image={content.image_url || emptyImg} />
+            <div>
+                <div>
+                    <ContentBox title={content.tv_show_title} url={`/media/${content.tv_show_title}`} image={content.image_url || emptyImg} />
+                </div>
+                <div>
+                    <Rating rating={content.tv_show_rating} />
+                </div>
+            </div>
         )) : null;
 
         const rentedList = rentedMovies !== undefined ? rentedMovies.map(movie => (
@@ -161,7 +173,6 @@ class Subscriptions extends Component {
                             {ratedTvPending ? loading : (ratedTVList || empty)}
                         </div>
                     </div>
-
                     <Footer />
                 </div>
             </div>
