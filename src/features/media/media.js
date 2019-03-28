@@ -227,7 +227,8 @@ Season:
       const error = mediaError !== undefined ? <h1>Error</h1> : null;
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
-
+              {console.log(media)}
+;
               <ReactPlayer id='media-box' url={authen ? mediaURL : ''} controls />
 
               <div id='clearFix'>
@@ -262,6 +263,11 @@ STARS:
 Genres:
                       {' '}
                       {genreInfo}
+                  </h2>
+                  <h2>
+Average Rating:
+                      {' '}
+                      <span style={{ color: 'white' }}>{media.avg_rating}</span>
                   </h2>
                   <h2>SYNOPSIS</h2>
                   <p>{media.description}</p>
