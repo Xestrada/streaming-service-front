@@ -1,14 +1,13 @@
 .logoImage{
     position: absolute;
-    top: 48%;
+    top: 65%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 .aboutImage{
-    position: relative;
     min-height:100%;
     min-width: 1024px;
-    height: 30em;
+    height: auto;
     width: 100%;
     background: center;
     background-size: cover;
@@ -18,11 +17,14 @@
 
 .text-imageCentered {
     position: absolute;
-    top: 35%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     color: whitesmoke;
     font-size: 5em;
+    white-space: nowrap;
+    width: 100%;
+    text-align: center;
   }
 
   .textCenter{

@@ -22,8 +22,7 @@ import './home.scss';
 
 const items = [
     {
-        src: 'https://images.justwatch.com/backdrop/8628877/s1440/silicon-valley',
-        caption: 'SILICON VALLEY',
+        src: 'https://cdn.vox-cdn.com/uploads/chorus_image/image/49531115/20151006-silicon-valley-tv-show.0.jpg',
         header: 'Slide 1 Header',
     },
     {
