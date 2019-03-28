@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button,
-    UncontrolledCollapse,
 } from 'reactstrap';
 import ReactPlayer from 'react-player';
 import * as actions from '../common/redux/actions';
@@ -31,6 +30,8 @@ export class Media extends Component {
           title,
           comment: '',
           rating: 0,
+          collapse: true,
+          selected: '',
       };
 
       this.getComments = this.getComments.bind(this);
@@ -61,6 +62,10 @@ export class Media extends Component {
           }
       }
   }
+
+  toggleHidden = (key) => {
+      this.setState(prevState => ({ collapse: !prevState.collapse, selected: key }));
+  };
 
   makeComment() {
       const { common, actions } = this.props;
@@ -138,7 +143,7 @@ export class Media extends Component {
   }
 
   render() {
-      const { title, comment, rating, videoURL } = this.state;
+      const { title, comment, rating, videoURL, collapse, selected } = this.state;
       const { common, commonMedia } = this.props;
       const { media, mediaError, authen } = common;
       const { comments } = commonMedia;
@@ -148,8 +153,7 @@ export class Media extends Component {
       const commentElems = comments !== undefined ? comments.map(comment => (
           <UserComment comment={comment.comment} user={comment.username} date={comment.date_of_comment} />
       )) : null;
-
-      const seasonInfo = (media !== undefined && media.season_info !== undefined) ? media.season_info.map((content) => {
+      const seasonInfo = (media !== undefined && media.season_info !== undefined) ? media.season_info.map((content, index) => {
           const episodeInfo = (content.episodes !== undefined) ? content.episodes.map(item => (
               <div>
                   <span>
@@ -169,18 +173,17 @@ Episode
           )) : null;
 
           return (
-              <div>
+              <div key={index}>
                   {' '}
-                  <Button className='season-position' id='toggler' style={{ textAlign: 'left', marginBottom: '1rem' }}>
+                  <Button className='season-position' onClick={() => this.toggleHidden(index)} style={{ textAlign: 'left', marginBottom: '1rem' }}>
                       <li>
 Season:
                           {' '}
                           {content.season}
                       </li>
                   </Button>
-                  <UncontrolledCollapse className='episdoes-position' toggler='#toggler'>
-                      {episodeInfo}
-                  </UncontrolledCollapse>
+                  {!collapse && selected === index && episodeInfo}
+
               </div>
           );
       }) : null;
@@ -228,7 +231,6 @@ Season:
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
               {console.log(media)}
-;
               <ReactPlayer id='media-box' url={authen ? mediaURL : ''} controls />
 
               <div id='clearFix'>
