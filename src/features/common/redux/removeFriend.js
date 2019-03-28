@@ -70,7 +70,7 @@ export function reducer(state, action) {
         return {
             ...state,
             removeFriendPending: false,
-            removeFriendError: action.data.error,
+            removeFriendError: action.error,
         };
 
     case COMMON_REMOVE_FRIEND_DISMISS_ERROR:
