@@ -15,3 +15,4 @@ export { addInitialSubs, dismissAddInitialSubsError } from './addInitialSubs';
 export { addFriend, dismissAddFriendError } from './addFriend';
 export { removeFriend, dismissRemoveFriendError } from './removeFriend';
 export { checkFriendship, dismissCheckFriendshipError } from './checkFriendship';
+export { hasAllSlots, dismissHasAllSlotsError } from './hasAllSlots';

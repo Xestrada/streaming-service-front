@@ -41,6 +41,8 @@ const initialState = {
     removeFriendError: null,
     checkFriendshipPending: false,
     checkFriendshipError: null,
+    hasAllSlotsPending: false,
+    hasAllSlotsError: null,
 };
 
 export default initialState;
