@@ -30,8 +30,7 @@ export class Media extends Component {
           title,
           comment: '',
           rating: 0,
-          collapse: true,
-          selected: '',
+          collapse: false,
       };
 
       this.getComments = this.getComments.bind(this);
@@ -39,6 +38,7 @@ export class Media extends Component {
       this.rentMovie = this.rentMovie.bind(this);
       this.addSlot = this.addSlot.bind(this);
       this.changeURL = this.changeURL.bind(this);
+      this.toggleHidden = this.toggleHidden.bind(this);
   }
 
 
@@ -63,9 +63,17 @@ export class Media extends Component {
       }
   }
 
-  toggleHidden = (key) => {
-      this.setState(prevState => ({ collapse: !prevState.collapse, selected: key }));
-  };
+  toggleHidden(index) {
+      this.setState((prevState) => {
+          const seasons = [...prevState.collapse];
+          seasons[index] = !prevState.collapse[index];
+
+          return {
+              collapse: seasons,
+          };
+      },
+      );
+  }
 
   makeComment() {
       const { common, actions } = this.props;
@@ -143,7 +151,7 @@ export class Media extends Component {
   }
 
   render() {
-      const { title, comment, rating, videoURL, collapse, selected } = this.state;
+      const { title, comment, rating, videoURL, collapse } = this.state;
       const { common, commonMedia } = this.props;
       const { media, mediaError, authen } = common;
       const { comments } = commonMedia;
@@ -153,11 +161,11 @@ export class Media extends Component {
       const commentElems = comments !== undefined ? comments.map(comment => (
           <UserComment comment={comment.comment} user={comment.username} date={comment.date_of_comment} />
       )) : null;
-      const seasonInfo = (media !== undefined && media.season_info !== undefined) ? media.season_info.map((content, index) => {
+      const seasonInfo = (media !== undefined && media.season_info !== undefined) ? media.season_info.map((content) => {
           const episodeInfo = (content.episodes !== undefined) ? content.episodes.map(item => (
               <div>
                   <span>
-                      <li onClick={() => this.changeURL(item.url)}>
+                      <li onClick={() => this.changeURL(item.url)} style={{cursor:'pointer'}}>
 Episode
                           {' '}
                           {item.episode}
@@ -173,16 +181,16 @@ Episode
           )) : null;
 
           return (
-              <div key={index}>
+              <div>
                   {' '}
-                  <Button className='season-position' onClick={() => this.toggleHidden(index)} style={{ textAlign: 'left', marginBottom: '1rem' }}>
+                  <Button className='season-position' onClick={() => this.toggleHidden(content.season)} style={{ textAlign: 'left', marginBottom: '1rem' }}>
                       <li>
 Season:
                           {' '}
                           {content.season}
                       </li>
                   </Button>
-                  {!collapse && selected === index && episodeInfo}
+                  {collapse[content.season] && episodeInfo}
 
               </div>
           );
