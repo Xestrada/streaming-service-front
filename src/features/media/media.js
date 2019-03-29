@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button,
-    UncontrolledCollapse,
 } from 'reactstrap';
 import ReactPlayer from 'react-player';
 import * as actions from '../common/redux/actions';
@@ -31,6 +30,7 @@ export class Media extends Component {
           title,
           comment: '',
           rating: 0,
+          collapse: false,
       };
 
       this.getComments = this.getComments.bind(this);
@@ -38,6 +38,7 @@ export class Media extends Component {
       this.rentMovie = this.rentMovie.bind(this);
       this.addSlot = this.addSlot.bind(this);
       this.changeURL = this.changeURL.bind(this);
+      this.toggleHidden = this.toggleHidden.bind(this);
   }
 
 
@@ -60,6 +61,18 @@ export class Media extends Component {
               tvComments(title);
           }
       }
+  }
+
+  toggleHidden(index) {
+      this.setState((prevState) => {
+          const seasons = [...prevState.collapse];
+          seasons[index] = !prevState.collapse[index];
+
+          return {
+              collapse: seasons,
+          };
+      },
+      );
   }
 
   makeComment() {
@@ -138,7 +151,7 @@ export class Media extends Component {
   }
 
   render() {
-      const { title, comment, rating, videoURL } = this.state;
+      const { title, comment, rating, videoURL, collapse } = this.state;
       const { common, commonMedia } = this.props;
       const { media, mediaError, authen } = common;
       const { comments } = commonMedia;
@@ -148,12 +161,11 @@ export class Media extends Component {
       const commentElems = comments !== undefined ? comments.map(comment => (
           <UserComment comment={comment.comment} user={comment.username} date={comment.date_of_comment} />
       )) : null;
-
       const seasonInfo = (media !== undefined && media.season_info !== undefined) ? media.season_info.map((content) => {
           const episodeInfo = (content.episodes !== undefined) ? content.episodes.map(item => (
               <div>
                   <span>
-                      <li onClick={() => this.changeURL(item.url)}>
+                      <li onClick={() => this.changeURL(item.url)} style={{cursor:'pointer'}}>
 Episode
                           {' '}
                           {item.episode}
@@ -171,23 +183,22 @@ Episode
           return (
               <div>
                   {' '}
-                  <Button className='season-position' id='toggler' style={{ textAlign: 'left', marginBottom: '1rem' }}>
+                  <Button className='season-position' onClick={() => this.toggleHidden(content.season)} style={{ textAlign: 'left', marginBottom: '1rem' }}>
                       <li>
 Season:
                           {' '}
                           {content.season}
                       </li>
                   </Button>
-                  <UncontrolledCollapse className='episdoes-position' toggler='#toggler'>
-                      {episodeInfo}
-                  </UncontrolledCollapse>
+                  {collapse[content.season] && episodeInfo}
+
               </div>
           );
       }) : null;
 
       const commentContainer = authen ? (
-          <div className='comment-container'>
-              <div className='comment-header'>
+          <div id='comment-container'>
+              <div id='comment-header'>
                   <label htmlFor='Comment' style={{ textDecoration: 'underline', fontFamily: 'Apple Chancery, cursive' }}>Leave a comment</label>
               </div>
               <textarea
@@ -203,7 +214,7 @@ Season:
                   style={{ borderStyle: 'inset', width: '600px', height: '90px' }} //eslint-disable-line
               />
               <div className='row'>
-                  <input style={{ float:'right'}} type='submit' value='Post Comment' onClick={this.makeComment} />
+                  <input style={{ marginLeft: '52%' }} type='submit' value='Post Comment' onClick={this.makeComment} />
               </div>
           </div>
       ) : null;
@@ -222,64 +233,65 @@ Season:
               <label htmlFor='star1' title='text'>1 star</label>
           </div>
       ) : null;
-      const genreInfo = (media !== undefined && media.genres !== undefined) ? media.genres.map((item, index) => <span style={{ fontSize: '1em' }} key={`demo_snap_${index}`}>{ (index ? ', ' : '') + item }</span>) : null;
-      const starInfo = (media !== undefined && media.genres !== undefined) ? media.stars.map((item, index) => <span style={{ fontSize: '1em' }} key={`demo_snap_${index}`}>{ (index ? ', ' : '') + item }</span>) : null;
+      const genreInfo = (media !== undefined && media.genres !== undefined) ? media.genres.map((item, index) => <span style={{ color: 'whitesmoke', fontSize: '1em' }} key={`demo_snap_${index}`}>{ (index ? ', ' : '') + item }</span>) : null;
+      const starInfo = (media !== undefined && media.genres !== undefined) ? media.stars.map((item, index) => <span style={{ color: 'whitesmoke', fontSize: '1em' }} key={`demo_snap_${index}`}>{ (index ? ', ' : '') + item }</span>) : null;
       const error = mediaError !== undefined ? <h1>Error</h1> : null;
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
+              {console.log(media)}
+              <ReactPlayer id='media-box' url={authen ? mediaURL : ''} controls />
 
-              <ReactPlayer className='media-box' url={authen ? mediaURL : ''} controls />
-
-              {media.season_info !== undefined && <div id='overflowBox'>{seasonInfo}</div>}
-              <h1>
-                  {media.title || title}
-                  {' '}
-                  <span>
+              <div id='clearFix'>
+                  <h1>
+                      <img src={media.image_url} alt='Cover art' className='boxArt' />
+                      {media.title || title}
+                      {' '}
+                      <span>
 (
-                      {media.year}
+                          {media.year}
 )
 
-                  </span>
-              </h1>
-              {media.season_info !== undefined && <h3>SEASONS</h3>}
-
-              <img src={media.image_url} alt='Cover art' className='boxArt' />
-
-              {media.season_info === undefined && authen && <Button color='danger' className='rent-button' onClick={this.rentMovie}>Rent</Button>}
-              {media.season_info !== undefined && authen && <Button color='danger' className='subscribe-button' onClick={this.addSlot}>Subscribe</Button>}
-
-              <div className='container'>
-                  <div className='media-info'>
-                      <h2>
-STARS:
-                          {' '}
-                          {starInfo}
-                      </h2>
-
-                      <h2>
-Genres:
-                          {' '}
-                          {genreInfo}
-                      </h2>
-                      <h2>SYNOPSIS</h2>
-                      <p>{media.description}</p>
-                  </div>
+                      </span>
+                      {media.season_info !== undefined && <h3>SEASONS</h3>}
+                      {media.season_info !== undefined && <div id='overflowBox'>{seasonInfo}</div>}
+                  </h1>
               </div>
-              {StarRating}
-              
+
+              <div id='clearFix' style={{ overflow: 'hidden', marginTop: '0.8%' }}>
+                  {media.season_info === undefined && authen && <Button color='danger' className='rent-button' onClick={this.rentMovie}>Rent</Button>}
+                  {media.season_info !== undefined && authen && <Button color='danger' className='subscribe-button' onClick={this.addSlot}>Subscribe</Button>}
+                  {StarRating}
+              </div>
+              <div id='media-info'>
+                  <h2>
+STARS:
+                      {' '}
+                      {starInfo}
+                  </h2>
+
+                  <h2>
+Genres:
+                      {' '}
+                      {genreInfo}
+                  </h2>
+                  <h2>
+Average Rating:
+                      {' '}
+                      <span style={{ color: 'white' }}>{media.avg_rating}</span>
+                  </h2>
+                  <h2>SYNOPSIS</h2>
+                  <p>{media.description}</p>
+              </div>
+              {commentContainer}
+              {commentElems}
           </div>
       ) : null;
 
       return (
-          <body className='background-color'>
+          <body id='bg'>
               <div className='media-default-page'>
                   <Header />
-                  <div className='movie-container'>
-                      {mediaElems || error}
-                      
-                  </div>
-                  <div className='comment-position'>{commentElems}</div>
-                    {commentContainer}
+                  {mediaElems || error}
                   <Footer />
               </div>
           </body>
