@@ -22,8 +22,7 @@ import './home.scss';
 
 const items = [
     {
-        src: 'https://images.justwatch.com/backdrop/8628877/s1440/silicon-valley',
-        caption: 'SILICON VALLEY',
+        src: 'https://cdn.vox-cdn.com/uploads/chorus_image/image/49531115/20151006-silicon-valley-tv-show.0.jpg',
         header: 'Slide 1 Header',
     },
     {
@@ -146,6 +145,8 @@ export class Home extends Component {
             return 'tv_shows/all';
         case 'Actors':
             return 'actors/full';
+        case 'Users':
+            return 'search/user';
         default:
             return 'All';
         }
@@ -179,11 +180,16 @@ export class Home extends Component {
         const error = searchError !== undefined ? (<h1>Error</h1>) : null;
 
         const boxes = (data !== undefined) ? data.map(content => (
-            <ContentBox title={content.title || content.full_name} url={`/media/${content.title}`} image={content.image_url || emptyImg} key={content.id} />
+            <ContentBox
+                title={content.title || content.full_name || content.username} // eslint-disable-line
+                url={content.title !== undefined ? `/media/${content.title}` : `/user/${content.username}/${content.id}`} // eslint-disable-line
+                image={content.image_url || emptyImg} // eslint-disable-line
+                key={content.id} // eslint-disable-line
+            />
         )) : null;
 
         const loadingGrid = [];
-        const searchFilters = ['All', 'Movies', 'TV Shows', 'Actors'];
+        const searchFilters = ['All', 'Movies', 'TV Shows', 'Actors', 'Users'];
 
         const { activeIndex } = this.state;
 

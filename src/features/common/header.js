@@ -19,8 +19,9 @@ import {
     ModalBody,
     ModalFooter,
 } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import * as actions from './redux/actions';
 import userImg from '../../images/blank-user.jpg';
 import './header.scss';
@@ -29,6 +30,7 @@ class Header extends React.Component {
     static propTypes = {
         actions: PropTypes.object.isRequired,
         common: PropTypes.object.isRequired,
+        location: PropTypes.object.isRequired,
     };
 
     constructor(props) {
@@ -40,6 +42,7 @@ class Header extends React.Component {
             userDropdown: false,
             username: '',
             pass: '',
+            needToSub: false,
         };
 
         this.navToggle = this.navToggle.bind(this);
@@ -72,7 +75,24 @@ class Header extends React.Component {
         const { actions } = this.props;
         const { authen } = actions;
         const { username, pass } = this.state;
-        authen(username, pass);
+        authen(username, pass).then(() => {
+            const { common, actions } = this.props;
+            const { authen, userData } = common;
+            const { hasAllSlots } = actions;
+            if (authen) {
+                hasAllSlots(userData.id).then(() => {
+                    const { common } = this.props;
+                    const { areSlotsFull, authen } = common;
+                    if (authen && !areSlotsFull) {
+                        this.setState({
+                            needToSub: true,
+                        });
+                    }
+                    return true;
+                });
+            }
+            return true;
+        });
 
     }
 
@@ -89,11 +109,18 @@ class Header extends React.Component {
     }
 
     render() {
-        const { modal, username, pass, isOpen, userDropdown } = this.state;
-        const { common } = this.props;
+        const { modal, username, pass, isOpen, userDropdown, needToSub } = this.state;
+        const { common, location } = this.props;
         const { authen, authenError, authenPending } = common;
+        const { pathname } = location;
 
         if (authen && modal) this.modalToggle();
+
+        if (needToSub && pathname !== '/sub-init') {
+            console.log('redirecting');
+            return (<Redirect to='/sub-init' />);
+        }
+
 
         const errorElem = authenError !== null ? (
             <div>
@@ -208,4 +235,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

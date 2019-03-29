@@ -18,10 +18,12 @@ const initialState = {
     movieCommentsError: null,
     tvCommentsPending: false,
     tvCommentsError: null,
-  rentMoviePending: false,
-  rentMovieError: null,
-  subTvPending: false,
-  subTvError: null,
+    rentMoviePending: false,
+    rentMovieError: null,
+    subTvPending: false,
+    subTvError: null,
+    isMediaOwnedPending: false,
+    isMediaOwnedError: null,
 };
 
 export default initialState;

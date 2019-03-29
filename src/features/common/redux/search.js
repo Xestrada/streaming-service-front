@@ -42,7 +42,10 @@ export function searchBy(filter, query, pageNum) {
         dispatch({
             type: COMMON_SEARCH_BEGIN,
         });
-        return fetch(`https://ss-media-middle.herokuapp.com/${filter}=${query}/page=${pageNum}`)
+
+        const url = filter === 'search/user' ? 'videovaultusers.herokuapp.com' : 'ss-media-middle.herokuapp.com';
+
+        return fetch(`https://${url}/${filter}=${query}/page=${pageNum}`)
             .then((response) => {
                 dispatch({
                     type: 'Header Data',

@@ -91,21 +91,21 @@ export class User extends Component {
       const { actions, common } = this.props;
       const { id } = this.state;
       const { userData } = common;
-      const { removeFriend } = actions;
+      const { removeFriend, checkFriendship } = actions;
 
-      removeFriend(userData.id, id).then(() => this.checkFriendship);
+      removeFriend(userData.id, id).then(() => checkFriendship(userData.id, id));
   }
 
   addFriend() {
       const { actions, common } = this.props;
       const { id } = this.state;
       const { userData } = common;
-      const { addFriend } = actions;
+      const { addFriend, checkFriendship } = actions;
 
       addFriend({
           user_id: userData.id,
           friend_id: id,
-      }).then(() => this.checkFriendship);
+      }).then(() => checkFriendship(userData.id, id));
   }
 
 
