@@ -24,6 +24,8 @@ const initialState = {
     subTvError: null,
     isMediaOwnedPending: false,
     isMediaOwnedError: null,
+    getUserRatingPending: false,
+    getUserRatingError: null,
 };
 
 export default initialState;
