@@ -116,7 +116,7 @@ class Subscriptions extends Component {
                     <ContentBox title={content.tv_show_title} url={`/media/${content.tv_show_title}`} image={content.image_url || emptyImg} />
                 </div>
                 <div>
-                    <Rating rating={content.tv_show_rating} />
+                    <Rating rating={content.rating} />
                 </div>
             </div>
         )) : null;
