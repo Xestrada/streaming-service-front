@@ -24,7 +24,7 @@ export function checkFriendship(id, fid) {
             .catch((error) => {
                 dispatch({
                     type: COMMON_CHECK_FRIENDSHIP_FAILURE,
-                    data: error,
+                    error,
                 });
             });
     };
@@ -62,7 +62,7 @@ export function reducer(state, action) {
         return {
             ...state,
             checkFriendshipPending: false,
-            checkFriendshipError: action.data.error,
+            checkFriendshipError: action.error,
         };
 
     case COMMON_CHECK_FRIENDSHIP_DISMISS_ERROR:

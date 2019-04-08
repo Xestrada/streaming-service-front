@@ -23,7 +23,7 @@ export function getMedia(title) {
             .catch((error) => {
                 dispatch({
                     type: COMMON_MEDIA_FAILURE,
-                    data: error,
+                    error,
                 });
                 console.log('Error: ', error);
             });
@@ -62,7 +62,7 @@ export function reducer(state, action) {
         return {
             ...state,
             mediaPending: false,
-            mediaError: action.data.error,
+            mediaError: action.error,
         };
 
     case COMMON_MEDIA_DISMISS_ERROR:

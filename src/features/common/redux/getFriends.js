@@ -24,7 +24,7 @@ export function getFriends(id) {
             .catch((error) => {
                 dispatch({
                     type: COMMON_GET_FRIENDS_FAILURE,
-                    data: error,
+                    error,
                 });
             });
     };
@@ -62,7 +62,7 @@ export function reducer(state, action) {
         return {
             ...state,
             getFriendsPending: false,
-            getFriendsError: action.data.error,
+            getFriendsError: action.error,
         };
 
     case COMMON_GET_FRIENDS_DISMISS_ERROR:

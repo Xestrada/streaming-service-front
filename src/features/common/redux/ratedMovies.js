@@ -24,7 +24,7 @@ export function ratedMovies(id) {
             .catch((error) => {
                 dispatch({
                     type: COMMON_RATED_MOVIES_FAILURE,
-                    data: error,
+                    error,
                 });
             });
     };
@@ -62,7 +62,7 @@ export function reducer(state, action) {
         return {
             ...state,
             ratedMoviesPending: false,
-            ratedMoviesError: action.data.error,
+            ratedMoviesError: action.error,
         };
 
     case COMMON_RATED_MOVIES_DISMISS_ERROR:

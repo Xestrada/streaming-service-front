@@ -24,7 +24,7 @@ export function isMediaOwned(url, uid, mid) {
             .catch((error) => {
                 dispatch({
                     type: MEDIA_IS_MEDIA_OWNED_FAILURE,
-                    data: error,
+                    error,
                 });
             });
     };
@@ -62,7 +62,7 @@ export function reducer(state, action) {
         return {
             ...state,
             isMediaOwnedPending: false,
-            isMediaOwnedError: action.data.error,
+            isMediaOwnedError: action.error,
         };
 
     case MEDIA_IS_MEDIA_OWNED_DISMISS_ERROR:

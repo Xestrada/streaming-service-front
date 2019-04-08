@@ -62,7 +62,7 @@ export function searchMovies(filter, query, pageNum) {
             .catch((error) => {
                 dispatch({
                     type: COMMON_MOVIES_FAILURE,
-                    data: error,
+                    error,
                 });
                 console.log('Error: ', error);
             });
@@ -103,7 +103,7 @@ export function reducer(state, action) {
         return {
             ...state,
             moviesPending: false,
-            moviesError: action.data.error,
+            moviesError: action.error,
         };
 
     case COMMON_MOVIES_DISMISS_ERROR:

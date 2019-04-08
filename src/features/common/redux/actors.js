@@ -24,7 +24,7 @@ export function getActors() {
             .catch((error) => {
                 dispatch({
                     type: COMMON_ACTORS_FAILURE,
-                    data: error,
+                    error,
                 });
                 console.log('Error: ', error);
             });
@@ -64,7 +64,7 @@ export function reducer(state, action) {
         return {
             ...state,
             actorsPending: false,
-            actorsError: action.data.error,
+            actorsError: action.error,
         };
 
     case COMMON_ACTORS_DISMISS_ERROR:

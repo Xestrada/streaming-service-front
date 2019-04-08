@@ -76,7 +76,7 @@ export function reducer(state, action) {
         return {
             ...state,
             rentMoviePending: false,
-            rentMovieError: action.data.error,
+            rentMovieError: action.error,
         };
 
     case MEDIA_RENT_MOVIE_DISMISS_ERROR:
