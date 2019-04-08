@@ -15,7 +15,6 @@ import UserComment from '../common/userComment';
 import Header from '../common/header';
 import Footer from '../common/footer';
 import './media.scss';
-import { get } from 'https';
 
 export class Media extends Component {
   static propTypes = {
@@ -40,6 +39,8 @@ export class Media extends Component {
           eps: '',
           rentModal: false,
           subModal: false,
+          owned: false,
+          ownershipChecked: false,
       };
 
       this.getComments = this.getComments.bind(this);
@@ -51,6 +52,7 @@ export class Media extends Component {
       this.rentToggle = this.rentToggle.bind(this);
       this.subToggle = this.subToggle.bind(this);
       this.getUserRating = this.getUserRating.bind(this);
+      this.checkOwnership = this.checkOwnership.bind(this);
   }
 
 
@@ -197,15 +199,56 @@ export class Media extends Component {
       });
   }
 
+  checkOwnership() {
+      const { common, actions } = this.props;
+      const { media, userData } = common;
+      const { isMediaOwned } = actions;
+      const isMovie = media.season_info === undefined;
+      isMediaOwned(isMovie, userData.id, isMovie ? media.movie_id : media.tv_show_id)
+          .then(() => {
+              const { commonMedia } = this.props;
+              const { mediaOwned } = commonMedia;
+              console.log(mediaOwned);
+              this.setState({
+                  owned: mediaOwned,
+                  ownershipChecked: true,
+              });
+          });
+
+  }
+
   render() {
-      const { title, comment, rating, videoURL, collapse, stored, eps, rentModal, subModal } = this.state;
+      const {
+          title,
+          comment,
+          rating,
+          videoURL,
+          collapse,
+          stored,
+          eps,
+          rentModal,
+          subModal,
+          owned,
+          ownershipChecked,
+      } = this.state;
       const { common, commonMedia } = this.props;
       const { media, mediaError, authen } = common;
+      const { comments,
+          userRating,
+          getUserRatingPending,
+          getUserRatingError,
+          isMediaOwnedPending,
+      } = commonMedia;
 
-      const { comments, userRating, getUserRatingPending, getUserRatingError } = commonMedia;
+      // Get user rating if we havent requested it yet.
       if (media !== undefined && authen && userRating === undefined
          && !getUserRatingPending && (getUserRatingError === null || getUserRatingError === undefined)) {
           this.getUserRating(media);
+      }
+
+      // Check ownership
+      if (media !== undefined && authen && !ownershipChecked && !isMediaOwnedPending && media.title === title) {
+          this.checkOwnership();
       }
 
       const mediaURL = media !== undefined && media.season_info === undefined ? media.url : videoURL;
@@ -217,7 +260,10 @@ export class Media extends Component {
           const episodeInfo = (content.episodes !== undefined) ? content.episodes.map(item => (
               <div>
                   <span>
-                      <li onClick={() => this.changeURL(item.url, item.episode_name, item.episode)} style={{ cursor: 'pointer' }}>
+                      <li //eslint-disable-line
+                        onClick={() => this.changeURL(item.url, item.episode_name, item.episode)} //eslint-disable-line
+                        style={{ cursor: 'pointer' }} // eslint-disable-line
+                      >
 Episode
                           {' '}
                           {item.episode}
@@ -318,7 +364,6 @@ Season:
       const error = mediaError !== undefined ? <h1>Error</h1> : null;
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
-              {console.log(media)}
               {subModalElem}
               {rentModalElem}
               <h1 style={{ textAlign: 'center', fontSize: '3.5em', marginTop: '1%', fontWeight: 'bold' }}>
@@ -336,7 +381,7 @@ Episode
                       {stored}
                   </h1>
               )}
-              <ReactPlayer id='media-box' url={authen ? mediaURL : ''} controls />
+              <ReactPlayer id='media-box' url={authen && owned ? mediaURL : ''} controls />
               <div id='clearFix'>
                   <h1>
                       <img src={media.image_url} alt='Cover art' className='boxArt' />
