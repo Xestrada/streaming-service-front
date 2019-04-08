@@ -15,6 +15,7 @@ import UserComment from '../common/userComment';
 import Header from '../common/header';
 import Footer from '../common/footer';
 import './media.scss';
+import { get } from 'https';
 
 export class Media extends Component {
   static propTypes = {
@@ -49,6 +50,7 @@ export class Media extends Component {
       this.toggleHidden = this.toggleHidden.bind(this);
       this.rentToggle = this.rentToggle.bind(this);
       this.subToggle = this.subToggle.bind(this);
+      this.getUserRating = this.getUserRating.bind(this);
   }
 
 
@@ -56,7 +58,14 @@ export class Media extends Component {
       const { actions } = this.props;
       const { getMedia } = actions;
       const { title } = this.state;
-      getMedia(title).then(() => this.getComments(title));
+      getMedia(title).then(() => this.getComments(title))
+          .then(() => {
+              const { common } = this.props;
+              const { media, authen } = common;
+              if (authen) {
+                  this.getUserRating(media);
+              }
+          });
   }
 
   getComments(title) {
@@ -73,39 +82,18 @@ export class Media extends Component {
       }
   }
 
-  toggleHidden(index) {
-      this.setState((prevState) => {
-          const seasons = [...prevState.collapse];
-          seasons[index] = !prevState.collapse[index];
-
-          return {
-              collapse: seasons,
-          };
-      },
-      );
-  }
-
-  makeComment() {
-      const { common, actions } = this.props;
-      const { comment, title } = this.state;
-      const { media, userData } = common;
-      const { makeTvComment, makeMovieComment } = actions;
-
-      if (media !== undefined) {
-          if (media.season_info === undefined) {
-              makeMovieComment({
-                  comment,
-                  user_id: userData.id,
-                  movie_id: media.movie_id,
-              }).then(() => this.getComments(title));
-          } else {
-              makeTvComment({
-                  comment,
-                  user_id: userData.id,
-                  tv_show_id: media.tv_show_id,
-              }).then(() => this.getComments(title));
-          }
-      }
+  getUserRating(media) {
+      const { common, commonMedia, actions } = this.props;
+      const { getUserRating } = actions;
+      const { userData } = common;
+      const isMovie = media.season_info === undefined;
+      getUserRating(isMovie, userData.id, isMovie ? media.movie_id : media.tv_show_id)
+          .then(() => {
+              const { userRating } = commonMedia;
+              this.setState({
+                  rating: userRating,
+              });
+          });
   }
 
   rentToggle() {
@@ -166,6 +154,41 @@ export class Media extends Component {
       }
   }
 
+  makeComment() {
+      const { common, actions } = this.props;
+      const { comment, title } = this.state;
+      const { media, userData } = common;
+      const { makeTvComment, makeMovieComment } = actions;
+
+      if (media !== undefined) {
+          if (media.season_info === undefined) {
+              makeMovieComment({
+                  comment,
+                  user_id: userData.id,
+                  movie_id: media.movie_id,
+              }).then(() => this.getComments(title));
+          } else {
+              makeTvComment({
+                  comment,
+                  user_id: userData.id,
+                  tv_show_id: media.tv_show_id,
+              }).then(() => this.getComments(title));
+          }
+      }
+  }
+
+  toggleHidden(index) {
+      this.setState((prevState) => {
+          const seasons = [...prevState.collapse];
+          seasons[index] = !prevState.collapse[index];
+
+          return {
+              collapse: seasons,
+          };
+      },
+      );
+  }
+
   changeURL(url, title, episode) {
       this.setState({
           videoURL: url,
@@ -178,7 +201,12 @@ export class Media extends Component {
       const { title, comment, rating, videoURL, collapse, stored, eps, rentModal, subModal } = this.state;
       const { common, commonMedia } = this.props;
       const { media, mediaError, authen } = common;
-      const { comments } = commonMedia;
+
+      const { comments, userRating, getUserRatingPending, getUserRatingError } = commonMedia;
+      if (media !== undefined && authen && userRating === undefined
+         && !getUserRatingPending && (getUserRatingError === null || getUserRatingError === undefined)) {
+          this.getUserRating(media);
+      }
 
       const mediaURL = media !== undefined && media.season_info === undefined ? media.url : videoURL;
 
