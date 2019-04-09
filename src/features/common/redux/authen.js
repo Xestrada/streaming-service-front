@@ -17,6 +17,9 @@ export function authen(username, pass) {
             .then(response => response.json())
             .then((createdJson) => {
                 if (createdJson.username !== undefined) {
+                    localStorage.setItem('username', username);
+                    localStorage.setItem('id', createdJson.id);
+                    localStorage.setItem('email', createdJson.email);
                     dispatch({
                         type: COMMON_AUTHEN_SUCCESS,
                         userData: createdJson,
@@ -42,7 +45,9 @@ export function signOut() {
         dispatch({
             type: COMMON_AUTHEN_BEGIN,
         });
-
+        localStorage.removeItem('username');
+        localStorage.removeItem('id');
+        localStorage.removeItem('email');
         dispatch({
             type: 'Sign Out',
             data: false,

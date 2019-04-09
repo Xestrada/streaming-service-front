@@ -53,6 +53,16 @@ class Header extends React.Component {
         this.updateState = this.updateState.bind(this);
     }
 
+    componentDidMount() {
+        const { actions } = this.props;
+        const { localAuthen } = actions;
+        localAuthen({
+            id: localStorage.getItem('id'),
+            username: localStorage.getItem('username'),
+            email: localStorage.getItem('email'),
+        });
+    }
+
     dropdownToggle() {
         this.setState(prevState => ({
             userDropdown: !prevState.userDropdown,
