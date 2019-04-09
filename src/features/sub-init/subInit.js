@@ -147,7 +147,7 @@ export class SubInit extends Component {
   render() {
       const { common } = this.props;
       const { page, savedElems, chosenFilms } = this.state;
-      const { tvShows, maxPages, tvShowsError, tvShowsPending, initialSub } = common;
+      const { tvShows, maxPages, tvShowsError, tvShowsPending, initialSub, areSlotsFull } = common;
 
       const error = tvShowsError !== undefined ? (<h1>Error</h1>) : null;
 
@@ -164,7 +164,7 @@ export class SubInit extends Component {
       const loadingGrid = [];
       const searchFilters = ['All', 'Movies', 'TV Shows', 'Actors'];
 
-      const redir = initialSub !== undefined ? null : (<Redirect to='/' />);
+      const redir = initialSub !== undefined || (areSlotsFull !== undefined && !areSlotsFull) ? null : (<Redirect to='/' />);
 
       const subRedir = initialSub ? (<Redirect to='/' />) : null;
 
