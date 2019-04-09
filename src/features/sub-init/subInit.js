@@ -168,7 +168,7 @@ export class SubInit extends Component {
 
       const subRedir = initialSub ? (<Redirect to='/' />) : null;
 
-      const selectButton = chosenFilms.length === 10 ? (<Button color='primary' onClick={this.selectSlots}>Subscribe</Button>) : null;
+      const selectButton = chosenFilms.length === 10 ? (<Button color='primary' className='centerSub' onClick={this.selectSlots}>Subscribe</Button>) : null;
 
 
       for (let i = 0; i < 20; i += 1) {
@@ -176,27 +176,31 @@ export class SubInit extends Component {
       }
 
       return (
-          <div className='home-root'>
-              {redir}
-              {subRedir}
-              <Header />
-              <br />
-              <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />
-              <br />
-              <br />
-              <br />
-              <Results loading={tvShowsPending} error={error} boxes={boxes} page={page} loadingGrid={loadingGrid} maxPages={maxPages} nextPage={this.nextPage} backPage={this.backPage} />
-              <br />
-              <br />
-              <div className='gridContainer'>
-                  <h1 className='selectHeader'>Selected</h1>
-                  <div className='section'>
-                      {selectedList}
+          <body id='bg'>
+              <div className='home-root'>
+                  {redir}
+                  {subRedir}
+                  <Header />
+                  <br />
+                  <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />
+                  <br />
+                  <h1 style={{ color: 'white' }}>Select 10 Shows</h1>
+                  <h1 style={{textAlign:'center',color:'whitesmoke'}}>{chosenFilms.length}/10</h1>
+                  <br />
+                  <br />
+                  <Results loading={tvShowsPending} error={error} boxes={boxes} page={page} loadingGrid={loadingGrid} maxPages={maxPages} nextPage={this.nextPage} backPage={this.backPage} />
+                  <br />
+                  <br />
+                  <div className='gridContainer'>
+                      <h1 className='selectHeader'>Selected</h1>
+                      <div className='section'>
+                          {selectedList}
+                      </div>
                   </div>
+                  {selectButton}
+                  <Footer />
               </div>
-              {selectButton}
-              <Footer />
-          </div>
+          </body>
       );
   }
 }
