@@ -28,7 +28,11 @@ export class Media extends Component {
       super(props);
 
       const { location } = this.props;
-      const { title } = location.state;
+      console.log(location);
+      const title = location.state === undefined
+          ? location.pathname.replace('/media/', '')
+          : location.state.title;
+      console.log(title);
 
       this.state = {
           title,
