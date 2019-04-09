@@ -25,7 +25,7 @@ export function movieComments(title) {
             .catch((error) => {
                 dispatch({
                     type: MEDIA_MOVIE_COMMENTS_FAILURE,
-                    data: error,
+                    error,
                 });
             });
     };
@@ -63,7 +63,7 @@ export function reducer(state, action) {
         return {
             ...state,
             commentsPending: false,
-            commentsError: action.data.error,
+            commentsError: action.error,
         };
 
     case MEDIA_MOVIE_COMMENTS_DISMISS_ERROR:

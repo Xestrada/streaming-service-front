@@ -24,7 +24,7 @@ export function getRented(id) {
             .catch((error) => {
                 dispatch({
                     type: COMMON_GET_RENTED_FAILURE,
-                    data: error,
+                    error,
                 });
             });
     };
@@ -62,7 +62,7 @@ export function reducer(state, action) {
         return {
             ...state,
             getRentedPending: false,
-            getRentedError: action.data.error,
+            getRentedError: action.error,
         };
 
     case COMMON_GET_RENTED_DISMISS_ERROR:

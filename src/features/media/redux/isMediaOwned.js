@@ -7,24 +7,29 @@ import {
 
 // Rekit uses redux-thunk for async actions by default: https://github.com/gaearon/redux-thunk
 // If you prefer redux-saga, you can use rekit-plugin-redux-saga: https://github.com/supnate/rekit-plugin-redux-saga
-export function isMediaOwned(url, uid, mid) {
+export function isMediaOwned(isMovie, uid, mid) {
     return (dispatch) => { // optionally you can have getState as the second argument
         dispatch({
             type: MEDIA_IS_MEDIA_OWNED_BEGIN,
         });
 
-        return fetch(`https://videovaultusers.herokuapp.com/user1=${uid}/movie=${mid}/${url}`)
+        const endURL = isMovie ? 'is_movie_rented' : 'is_tv_show_in_slot';
+
+        const type = isMovie ? 'movie' : 'tv_show';
+
+        return fetch(`https://videovaultusers.herokuapp.com/user=${uid}/${type}=${mid}/${endURL}`)
             .then(response => response.json())
             .then((createdJson) => {
+                console.log(createdJson);
                 dispatch({
                     type: MEDIA_IS_MEDIA_OWNED_SUCCESS,
-                    mediaOwned: createdJson[url],
+                    mediaOwned: createdJson[endURL],
                 });
             })
             .catch((error) => {
                 dispatch({
                     type: MEDIA_IS_MEDIA_OWNED_FAILURE,
-                    data: error,
+                    error,
                 });
             });
     };
@@ -62,7 +67,7 @@ export function reducer(state, action) {
         return {
             ...state,
             isMediaOwnedPending: false,
-            isMediaOwnedError: action.data.error,
+            isMediaOwnedError: action.error,
         };
 
     case MEDIA_IS_MEDIA_OWNED_DISMISS_ERROR:

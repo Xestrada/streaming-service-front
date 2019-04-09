@@ -1,77 +1,78 @@
 import {
-    COMMON_ACTORS_BEGIN,
-    COMMON_ACTORS_SUCCESS,
-    COMMON_ACTORS_FAILURE,
-    COMMON_ACTORS_DISMISS_ERROR,
+    MEDIA_GET_USER_RATING_BEGIN,
+    MEDIA_GET_USER_RATING_SUCCESS,
+    MEDIA_GET_USER_RATING_FAILURE,
+    MEDIA_GET_USER_RATING_DISMISS_ERROR,
 } from './constants';
 
 // Rekit uses redux-thunk for async actions by default: https://github.com/gaearon/redux-thunk
 // If you prefer redux-saga, you can use rekit-plugin-redux-saga: https://github.com/supnate/rekit-plugin-redux-saga
-export function getActors() {
+export function getUserRating(isMovie, id, mid) {
     return (dispatch) => { // optionally you can have getState as the second argument
         dispatch({
-            type: COMMON_ACTORS_BEGIN,
+            type: MEDIA_GET_USER_RATING_BEGIN,
         });
 
-        return fetch('https://ss-media-middle.herokuapp.com/actors')
+        const mediaType = isMovie ? 'movie' : 'tv_show';
+
+        return fetch(`https://videovaultusers.herokuapp.com/user=${id}/${mediaType}=${mid}/rating`)
             .then(response => response.json())
             .then((createdJson) => {
                 dispatch({
-                    type: COMMON_ACTORS_SUCCESS,
-                    data: createdJson,
+                    type: MEDIA_GET_USER_RATING_SUCCESS,
+                    userRating: createdJson[`${mediaType}_rating`],
                 });
             })
             .catch((error) => {
+                console.log(error);
                 dispatch({
-                    type: COMMON_ACTORS_FAILURE,
-                    error,
+                    type: MEDIA_GET_USER_RATING_FAILURE,
+                    data: error,
                 });
-                console.log('Error: ', error);
             });
-
     };
 }
 
 // Async action saves request error by default, this method is used to dismiss the error info.
 // If you don't want errors to be saved in Redux store, just ignore this method.
-export function dismissActorsError() {
+export function dismissGetUserRatingError() {
     return {
-        type: COMMON_ACTORS_DISMISS_ERROR,
+        type: MEDIA_GET_USER_RATING_DISMISS_ERROR,
     };
 }
 
 export function reducer(state, action) {
     switch (action.type) {
-    case COMMON_ACTORS_BEGIN:
+    case MEDIA_GET_USER_RATING_BEGIN:
         // Just after a request is sent
         return {
             ...state,
-            actorsPending: true,
-            actorsError: null,
+            getUserRatingPending: true,
+            getUserRatingError: null,
         };
 
-    case COMMON_ACTORS_SUCCESS:
+    case MEDIA_GET_USER_RATING_SUCCESS:
         // The request is success
         return {
             ...state,
-            actorsPending: false,
-            actorsError: null,
-            actors: action.data.actors,
+            getUserRatingPending: false,
+            getUserRatingError: null,
+            userRating: action.userRating,
         };
 
-    case COMMON_ACTORS_FAILURE:
+    case MEDIA_GET_USER_RATING_FAILURE:
         // The request is failed
         return {
             ...state,
-            actorsPending: false,
-            actorsError: action.error,
+            getUserRatingPending: false,
+            getUserRatingError: action.data,
         };
 
-    case COMMON_ACTORS_DISMISS_ERROR:
+    case MEDIA_GET_USER_RATING_DISMISS_ERROR:
         // Dismiss the request failure error
         return {
             ...state,
-            actorsError: null,
+            getUserRatingError: null,
         };
 
     default:

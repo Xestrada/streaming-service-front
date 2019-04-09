@@ -76,7 +76,7 @@ export function reducer(state, action) {
         return {
             ...state,
             rateTvPending: false,
-            rateTvError: action.data.error,
+            rateTvError: action.error,
         };
 
     case MEDIA_RATE_TV_DISMISS_ERROR:

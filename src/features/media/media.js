@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
 } from 'reactstrap';
 import ReactPlayer from 'react-player';
 import * as actions from '../common/redux/actions';
@@ -31,6 +35,12 @@ export class Media extends Component {
           comment: '',
           rating: 0,
           collapse: false,
+          stored: '',
+          eps: '',
+          rentModal: false,
+          subModal: false,
+          owned: false,
+          ownershipChecked: false,
       };
 
       this.getComments = this.getComments.bind(this);
@@ -39,6 +49,10 @@ export class Media extends Component {
       this.addSlot = this.addSlot.bind(this);
       this.changeURL = this.changeURL.bind(this);
       this.toggleHidden = this.toggleHidden.bind(this);
+      this.rentToggle = this.rentToggle.bind(this);
+      this.subToggle = this.subToggle.bind(this);
+      this.getUserRating = this.getUserRating.bind(this);
+      this.checkOwnership = this.checkOwnership.bind(this);
   }
 
 
@@ -46,7 +60,14 @@ export class Media extends Component {
       const { actions } = this.props;
       const { getMedia } = actions;
       const { title } = this.state;
-      getMedia(title).then(() => this.getComments(title));
+      getMedia(title).then(() => this.getComments(title))
+          .then(() => {
+              const { common } = this.props;
+              const { media, authen } = common;
+              if (authen) {
+                  this.getUserRating(media);
+              }
+          });
   }
 
   getComments(title) {
@@ -63,39 +84,30 @@ export class Media extends Component {
       }
   }
 
-  toggleHidden(index) {
-      this.setState((prevState) => {
-          const seasons = [...prevState.collapse];
-          seasons[index] = !prevState.collapse[index];
-
-          return {
-              collapse: seasons,
-          };
-      },
-      );
+  getUserRating(media) {
+      const { common, commonMedia, actions } = this.props;
+      const { getUserRating } = actions;
+      const { userData } = common;
+      const isMovie = media.season_info === undefined;
+      getUserRating(isMovie, userData.id, isMovie ? media.movie_id : media.tv_show_id)
+          .then(() => {
+              const { userRating } = commonMedia;
+              this.setState({
+                  rating: userRating,
+              });
+          });
   }
 
-  makeComment() {
-      const { common, actions } = this.props;
-      const { comment, title } = this.state;
-      const { media, userData } = common;
-      const { makeTvComment, makeMovieComment } = actions;
+  rentToggle() {
+      this.setState(prevState => ({
+          rentModal: !prevState.rentModal,
+      }));
+  }
 
-      if (media !== undefined) {
-          if (media.season_info === undefined) {
-              makeMovieComment({
-                  comment,
-                  user_id: userData.id,
-                  movie_id: media.movie_id,
-              }).then(() => this.getComments(title));
-          } else {
-              makeTvComment({
-                  comment,
-                  user_id: userData.id,
-                  tv_show_id: media.tv_show_id,
-              }).then(() => this.getComments(title));
-          }
-      }
+  subToggle() {
+      this.setState(prevState => ({
+          subModal: !prevState.subModal,
+      }));
   }
 
   rentMovie() {
@@ -144,17 +156,100 @@ export class Media extends Component {
       }
   }
 
-  changeURL(url) {
+  makeComment() {
+      const { common, actions } = this.props;
+      const { comment, title } = this.state;
+      const { media, userData } = common;
+      const { makeTvComment, makeMovieComment } = actions;
+
+      if (media !== undefined) {
+          if (media.season_info === undefined) {
+              makeMovieComment({
+                  comment,
+                  user_id: userData.id,
+                  movie_id: media.movie_id,
+              }).then(() => this.getComments(title));
+          } else {
+              makeTvComment({
+                  comment,
+                  user_id: userData.id,
+                  tv_show_id: media.tv_show_id,
+              }).then(() => this.getComments(title));
+          }
+      }
+  }
+
+  toggleHidden(index) {
+      this.setState((prevState) => {
+          const seasons = [...prevState.collapse];
+          seasons[index] = !prevState.collapse[index];
+
+          return {
+              collapse: seasons,
+          };
+      },
+      );
+  }
+
+  changeURL(url, title, episode) {
       this.setState({
           videoURL: url,
+          stored: title,
+          eps: episode,
       });
   }
 
+  checkOwnership() {
+      const { common, actions } = this.props;
+      const { media, userData } = common;
+      const { isMediaOwned } = actions;
+      const isMovie = media.season_info === undefined;
+      isMediaOwned(isMovie, userData.id, isMovie ? media.movie_id : media.tv_show_id)
+          .then(() => {
+              const { commonMedia } = this.props;
+              const { mediaOwned } = commonMedia;
+              console.log(mediaOwned);
+              this.setState({
+                  owned: mediaOwned,
+                  ownershipChecked: true,
+              });
+          });
+
+  }
+
   render() {
-      const { title, comment, rating, videoURL, collapse } = this.state;
+      const {
+          title,
+          comment,
+          rating,
+          videoURL,
+          collapse,
+          stored,
+          eps,
+          rentModal,
+          subModal,
+          owned,
+          ownershipChecked,
+      } = this.state;
       const { common, commonMedia } = this.props;
       const { media, mediaError, authen } = common;
-      const { comments } = commonMedia;
+      const { comments,
+          userRating,
+          getUserRatingPending,
+          getUserRatingError,
+          isMediaOwnedPending,
+      } = commonMedia;
+
+      // Get user rating if we havent requested it yet.
+      if (media !== undefined && authen && userRating === undefined
+         && !getUserRatingPending && (getUserRatingError === null || getUserRatingError === undefined)) {
+          this.getUserRating(media);
+      }
+
+      // Check ownership
+      if (media !== undefined && authen && !ownershipChecked && !isMediaOwnedPending && media.title === title) {
+          this.checkOwnership();
+      }
 
       const mediaURL = media !== undefined && media.season_info === undefined ? media.url : videoURL;
 
@@ -165,7 +260,10 @@ export class Media extends Component {
           const episodeInfo = (content.episodes !== undefined) ? content.episodes.map(item => (
               <div>
                   <span>
-                      <li onClick={() => this.changeURL(item.url)} style={{cursor:'pointer'}}>
+                      <li //eslint-disable-line
+                        onClick={() => this.changeURL(item.url, item.episode_name, item.episode)} //eslint-disable-line
+                        style={{ cursor: 'pointer' }} // eslint-disable-line
+                      >
 Episode
                           {' '}
                           {item.episode}
@@ -175,7 +273,7 @@ Episode
                           {item.episode_name}
                           {' '}
                       </li>
-
+                      {item.episode.clicked && item.episode_name}
                   </span>
               </div>
           )) : null;
@@ -196,6 +294,34 @@ Season:
           );
       }) : null;
 
+      const rentModalElem = (
+          <Modal isOpen={rentModal} toggle={this.rentToggle}>
+              <ModalHeader toggle={this.rentToggle} className='centerModalHeader'>Are you sure?</ModalHeader>
+              <ModalBody className='modalBody'>
+              Do you wish to rent this movie?
+              </ModalBody>
+              <ModalFooter>
+                  <Button className='btn btn-primary btn-md' color='primary' onClick={this.rentMovie}>
+                    Yes, rent this movie
+                  </Button>
+                  <Button color='secondary' onClick={this.rentToggle}>Cancel</Button>
+              </ModalFooter>
+          </Modal>
+      );
+      const subModalElem = (
+          <Modal isOpen={subModal} toggle={this.subToggle}>
+              <ModalHeader toggle={this.subToggle} className='centerModalHeader'>Are you sure?</ModalHeader>
+              <ModalBody className='modalBody'>
+              Do you wish to subscribe this tv show?
+              </ModalBody>
+              <ModalFooter>
+                  <Button className='btn btn-primary btn-md' color='primary' onClick={this.addSlot}>
+                  Yes, subscribe this tv show
+                  </Button>
+                  <Button color='secondary' onClick={this.subToggle}>Cancel</Button>
+              </ModalFooter>
+          </Modal>
+      );
       const commentContainer = authen ? (
           <div id='comment-container'>
               <div id='comment-header'>
@@ -238,9 +364,24 @@ Season:
       const error = mediaError !== undefined ? <h1>Error</h1> : null;
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
-              {console.log(media)}
-              <ReactPlayer id='media-box' url={authen ? mediaURL : ''} controls />
-
+              {subModalElem}
+              {rentModalElem}
+              <h1 style={{ textAlign: 'center', fontSize: '3.5em', marginTop: '1%', fontWeight: 'bold' }}>
+                  {' '}
+                  {media.title}
+                  {' '}
+              </h1>
+              {stored !== '' && eps !== '' && (
+                  <h1 style={{ textAlign: 'center', fontSize: '1.5em' }}>
+Episode
+                      {' '}
+                      {eps}
+:
+                      {' '}
+                      {stored}
+                  </h1>
+              )}
+              <ReactPlayer id='media-box' url={authen && owned ? mediaURL : ''} controls />
               <div id='clearFix'>
                   <h1>
                       <img src={media.image_url} alt='Cover art' className='boxArt' />
@@ -259,7 +400,7 @@ Season:
 
               <div id='clearFix' style={{ overflow: 'hidden', marginTop: '0.8%' }}>
                   {media.season_info === undefined && authen && <Button color='danger' className='rent-button' onClick={this.rentMovie}>Rent</Button>}
-                  {media.season_info !== undefined && authen && <Button color='danger' className='subscribe-button' onClick={this.addSlot}>Subscribe</Button>}
+                  {media.season_info !== undefined && authen && <Button color='danger' className='subscribe-button' onClick={this.subToggle}>Subscribe</Button>}
                   {StarRating}
               </div>
               <div id='media-info'>

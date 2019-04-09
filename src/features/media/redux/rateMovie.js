@@ -76,7 +76,7 @@ export function reducer(state, action) {
         return {
             ...state,
             rateMoviePending: false,
-            rateMovieError: action.data.error,
+            rateMovieError: action.error,
         };
 
     case MEDIA_RATE_MOVIE_DISMISS_ERROR:

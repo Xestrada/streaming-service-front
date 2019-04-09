@@ -62,7 +62,7 @@ export function searchBy(filter, query, pageNum) {
             .catch((error) => {
                 dispatch({
                     type: COMMON_SEARCH_FAILURE,
-                    data: error,
+                    error,
                 });
                 console.log('Error: ', error);
             });
@@ -102,7 +102,7 @@ export function reducer(state, action) {
         return {
             ...state,
             searchPending: false,
-            searchError: action.data.error,
+            searchError: action.error,
         };
 
     case COMMON_SEARCH_DISMISS_ERROR:

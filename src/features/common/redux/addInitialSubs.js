@@ -84,7 +84,7 @@ export function reducer(state, action) {
         return {
             ...state,
             addInitialSubsPending: false,
-            addInitialSubsError: action.data.error,
+            addInitialSubsError: action.error,
             initialSub: false,
         };
 

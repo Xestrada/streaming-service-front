@@ -24,7 +24,7 @@ export function ratedTv(id) {
             .catch((error) => {
                 dispatch({
                     type: COMMON_RATED_TV_FAILURE,
-                    data: error,
+                    error,
                 });
             });
     };
@@ -62,7 +62,7 @@ export function reducer(state, action) {
         return {
             ...state,
             ratedTvPending: false,
-            ratedTvError: action.data.error,
+            ratedTvError: action.error,
         };
 
     case COMMON_RATED_TV_DISMISS_ERROR:

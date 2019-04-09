@@ -62,7 +62,7 @@ export function searchTV(filter, query, pageNum) {
             .catch((error) => {
                 dispatch({
                     type: COMMON_TV_SHOWS_FAILURE,
-                    data: error,
+                    error,
                 });
                 console.log('Error: ', error);
             });
@@ -103,7 +103,7 @@ export function reducer(state, action) {
         return {
             ...state,
             tvShowsPending: false,
-            tvShowsError: action.data.error,
+            tvShowsError: action.error,
         };
 
     case COMMON_TV_SHOWS_DISMISS_ERROR:
