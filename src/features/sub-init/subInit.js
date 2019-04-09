@@ -185,7 +185,10 @@ export class SubInit extends Component {
                   <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />
                   <br />
                   <h1 style={{ color: 'white' }}>Select 10 Shows</h1>
-                  <h1 style={{textAlign:'center',color:'whitesmoke'}}>{chosenFilms.length}/10</h1>
+                  <h1 style={{ textAlign: 'center', color: 'whitesmoke' }}>
+                      {chosenFilms.length}
+                      /10
+                  </h1>
                   <br />
                   <br />
                   <Results loading={tvShowsPending} error={error} boxes={boxes} page={page} loadingGrid={loadingGrid} maxPages={maxPages} nextPage={this.nextPage} backPage={this.backPage} />
