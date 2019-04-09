@@ -7,33 +7,30 @@ import './rating.scss';
 
 class Rating extends React.Component {
     static propTypes = {
-        rating: PropTypes.number.isRequired,
+        rating: PropTypes.number,
     };
-  
-  
+
+
     render() {
-  
+
         const { rating } = this.props;
-        console.log(this.props)
-        console.log('rating')
-        const starArray = [ ];
-        for(var i=0; i<rating; i++){
-          starArray.push(
-            <span class="fa fa-star checked">&nbsp;</span>
-          )
+        const starArray = [];
+        for (let i = 0; i < rating; i += 1) {
+            starArray.push(
+                <span className='fa fa-star checked'>&nbsp;</span>,
+            );
         }
-  
+
         return (
             <div className='rating'>
-              {starArray.map(stars => (stars) )}
+                {starArray.map(stars => (stars))}
             </div>
         );
     }
-  }
+}
 /* istanbul ignore next */
 function mapStateToProps(state) {
     return {
-        rating: state.rating,
         common: state.common,
     };
 }
@@ -44,6 +41,10 @@ function mapDispatchToProps(dispatch) {
         actions: bindActionCreators({ ...actions }, dispatch),
     };
 }
+
+Rating.defaultProps = {
+    rating: 0,
+};
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Rating);

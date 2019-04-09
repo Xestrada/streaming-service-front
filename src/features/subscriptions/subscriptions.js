@@ -106,7 +106,7 @@ class Subscriptions extends Component {
         const ratedMoviesList = (ratedMovies !== undefined) ? ratedMovies.map(movie => (
             <div>
                 <ContentBox title={movie.movie_title} url={`/media/${movie.movie_title}`} image={movie.image_url || emptyImg} />
-                <Rating rating={movie.movie_rating} />
+                <Rating rating={movie.rating} />
             </div>
         )) : null;
 
