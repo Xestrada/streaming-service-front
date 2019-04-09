@@ -13,10 +13,9 @@ export function movieComments(title) {
             type: MEDIA_MOVIE_COMMENTS_BEGIN,
         });
 
-        return fetch(`https://videovaultusers.herokuapp.com/movie=${title}/comments`)
+        return fetch(`https://videovaultusers.herokuapp.com/movie=${title}/comments/reverse=true`)
             .then(response => response.json())
             .then((createdJson) => {
-                console.log(createdJson.comments);
                 dispatch({
                     type: MEDIA_MOVIE_COMMENTS_SUCCESS,
                     data: createdJson.comments,

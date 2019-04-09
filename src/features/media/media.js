@@ -359,8 +359,22 @@ Season:
               <label htmlFor='star1' title='text'>1 star</label>
           </div>
       ) : null;
-      const genreInfo = (media !== undefined && media.genres !== undefined) ? media.genres.map((item, index) => <span style={{ color: 'whitesmoke', fontSize: '1em' }} key={`demo_snap_${index}`}>{ (index ? ', ' : '') + item }</span>) : null;
-      const starInfo = (media !== undefined && media.genres !== undefined) ? media.stars.map((item, index) => <span style={{ color: 'whitesmoke', fontSize: '1em' }} key={`demo_snap_${index}`}>{ (index ? ', ' : '') + item }</span>) : null;
+      const genreInfo = (media !== undefined && media.genres !== undefined) ? media.genres.map((item, index) => (
+          <span
+              style={{ color: 'whitesmoke', fontSize: '1em' }} //eslint-disable-line
+              key={`demo_snap_${index}`} //eslint-disable-line
+          >
+              { (index ? ', ' : '') + item }
+          </span>
+      )) : null;
+      const starInfo = (media !== undefined && media.genres !== undefined) ? media.stars.map((item, index) => (
+          <span
+              style={{ color: 'whitesmoke', fontSize: '1em' }} //eslint-disable-line
+              key={`demo_snap_${index}`} //eslint-disable-line
+          >
+              { (index ? ', ' : '') + item }
+          </span>
+      )) : null;
       const error = mediaError !== undefined ? <h1>Error</h1> : null;
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
@@ -399,8 +413,8 @@ Episode
               </div>
 
               <div id='clearFix' style={{ overflow: 'hidden', marginTop: '0.8%' }}>
-                  {media.season_info === undefined && authen && <Button color='danger' className='rent-button' onClick={this.rentMovie}>Rent</Button>}
-                  {media.season_info !== undefined && authen && <Button color='danger' className='subscribe-button' onClick={this.subToggle}>Subscribe</Button>}
+                  {media.season_info === undefined && authen && !owned && <Button color='danger' className='rent-button' onClick={this.rentMovie}>Rent</Button>}
+                  {media.season_info !== undefined && authen && !owned && <Button color='danger' className='subscribe-button' onClick={this.subToggle}>Subscribe</Button>}
                   {StarRating}
               </div>
               <div id='media-info'>
