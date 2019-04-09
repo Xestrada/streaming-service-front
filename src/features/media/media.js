@@ -118,7 +118,7 @@ export class Media extends Component {
       rentMovie({
           movie_id: media.movie_id,
           user_id: userData.id,
-      });
+      }).then(this.checkOwnership);
   }
 
   addSlot() {
@@ -129,7 +129,7 @@ export class Media extends Component {
       subTv({
           tv_show_id: media.tv_show_id,
           user_id: userData.id,
-      });
+      }).then(this.checkOwnership);
   }
 
   rateMedia(rating) {
@@ -208,7 +208,6 @@ export class Media extends Component {
           .then(() => {
               const { commonMedia } = this.props;
               const { mediaOwned } = commonMedia;
-              console.log(mediaOwned);
               this.setState({
                   owned: mediaOwned,
                   ownershipChecked: true,
