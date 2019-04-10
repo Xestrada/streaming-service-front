@@ -17,7 +17,7 @@ export function authen(username, pass) {
             .then(response => response.json())
             .then((createdJson) => {
                 if (createdJson.username !== undefined) {
-                    localStorage.setItem('username', username);
+                    localStorage.setItem('username', createdJson.username);
                     localStorage.setItem('id', createdJson.id);
                     localStorage.setItem('email', createdJson.email);
                     dispatch({

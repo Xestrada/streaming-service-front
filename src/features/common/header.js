@@ -218,7 +218,7 @@ class Header extends React.Component {
                         <Nav className='spacing' />
                         <Nav className='ml-auto' navbar>
                             <NavItem>
-                                <Link className='color-me link username' to='/subscriptions'>{userData === undefined ? '' : userData.username}</Link>
+                                <Link className='color-me link username' to='/subscriptions'>{userData === undefined || userData === null ? '' : userData.username}</Link>
                             </NavItem>
                             {sideHead}
 
