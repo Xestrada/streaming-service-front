@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import * as actions from '../common/redux/actions';
+import UserComment from '../common/userComment';
 import Header from '../common/header';
 import ContentBox from '../common/contenBox';
 import Footer from '../common/footer';
@@ -84,6 +85,8 @@ class Subscriptions extends Component {
 
         const { common } = this.props;
         const {
+            comment,
+            comments,
             authen,
             friends,
             getFriendsPending,
@@ -97,6 +100,36 @@ class Subscriptions extends Component {
             subsPending,
         } = common;
 
+        const commentContainer = authen ? (
+            <div id='comment-container'>
+                <div id='comment-header'>
+                    <label htmlFor='Comment' style={{ textDecoration: 'underline', fontFamily: 'Apple Chancery, cursive' }}>Leave a comment</label>
+                </div>
+                <textarea
+                    value={comment} //eslint-disable-line
+                    onChange={(e) => { //eslint-disable-line
+                        this.setState({
+                            comment: e.target.value,
+                        });
+                    }}
+                    id='subject' //eslint-disable-line
+                    name='subject' //eslint-disable-line
+                    placeholder='Enter your comment here...' //eslint-disable-line
+                    style={{ borderStyle: 'inset', width: '600px', height: '90px' }} //eslint-disable-line
+                />
+                <div className='row'>
+                    <input style={{ marginLeft: '52%' }} type='submit' value='Post Comment' onClick={this.makeComment} />
+                </div>
+            </div>
+        ) : null;
+        
+        const commentElems = comments !== undefined ? comments.map(comment => (
+            <div>
+            <UserComment comment={comment.comment} user={comment.username} date={comment.date_of_comment} />  
+            {commentContainer}        
+            </div>
+      )) : null;
+
         const subbedTV = subs !== undefined ? subs.map(content => (
             <div className='media'>
                 <ContentBox title={content.tv_show_title} url={`/media/${content.tv_show_title}`} image={content.image_url || emptyImg} />
@@ -105,8 +138,12 @@ class Subscriptions extends Component {
 
         const ratedMoviesList = (ratedMovies !== undefined) ? ratedMovies.map(movie => (
             <div>
-                <ContentBox title={movie.movie_title} url={`/media/${movie.movie_title}`} image={movie.image_url || emptyImg} />
-                <Rating rating={movie.rating} />
+                <div>
+                    <ContentBox title={movie.movie_title} url={`/media/${movie.movie_title}`} image={movie.image_url || emptyImg} />
+                </div>
+                <div>
+                    <Rating rating={movie.rating} />
+                </div>
             </div>
         )) : null;
 
@@ -140,6 +177,10 @@ class Subscriptions extends Component {
                 <div>
                     {redir}
                     <Header />
+                    <div className='gridContainer'>
+                    <h1>Timeline</h1>
+                    {comments ? loading : (commentElems || empty)}
+                    </div>
                     <div className='gridContainer'>
                         <h1>Friends</h1>
                         <div className='section'>

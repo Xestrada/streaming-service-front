@@ -12,6 +12,7 @@ import {
     CarouselCaption,
 } from 'reactstrap';
 import * as actions from '../common/redux/actions';
+import background from '../../images/homePageBackground.jpg';
 import Header from '../common/header';
 import Results from '../common/results';
 import Footer from '../common/footer';
@@ -209,7 +210,7 @@ export class Home extends Component {
                 <div className='home-root'>
                     <Header />
                     <div>
-                        <img className='home-image' src='https://www.whateverison.com/wp-content/uploads/2018/09/movies.jpg' alt='' />
+                        <img className='home-image' src={background} alt='' />
                         <div className='advertise-text'>
                             <h1>Variety TV Shows and Movies</h1>
                             <p>Only $10 for a month</p>
