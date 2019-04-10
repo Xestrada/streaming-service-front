@@ -53,6 +53,16 @@ class Header extends React.Component {
         this.updateState = this.updateState.bind(this);
     }
 
+    componentDidMount() {
+        const { actions } = this.props;
+        const { localAuthen } = actions;
+        localAuthen({
+            id: localStorage.getItem('id'),
+            username: localStorage.getItem('username'),
+            email: localStorage.getItem('email'),
+        });
+    }
+
     dropdownToggle() {
         this.setState(prevState => ({
             userDropdown: !prevState.userDropdown,
@@ -82,16 +92,13 @@ class Header extends React.Component {
             if (authen) {
                 hasAllSlots(userData.id).then(() => {
                     const { common } = this.props;
-                    const { areSlotsFull, authen } = common;
-                    if (authen && !areSlotsFull) {
-                        this.setState({
-                            needToSub: true,
-                        });
-                    }
-                    return true;
+                    const { areSlotsFull } = common;
+                    console.log(areSlotsFull);
+                    this.setState({
+                        needToSub: !areSlotsFull,
+                    });
                 });
             }
-            return true;
         });
 
     }
@@ -117,7 +124,6 @@ class Header extends React.Component {
         if (authen && modal) this.modalToggle();
 
         if (needToSub && pathname !== '/sub-init') {
-            console.log('redirecting');
             return (<Redirect to='/sub-init' />);
         }
 

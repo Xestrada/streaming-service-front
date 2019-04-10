@@ -28,7 +28,11 @@ export class Media extends Component {
       super(props);
 
       const { location } = this.props;
-      const { title } = location.state;
+      console.log(location);
+      const title = location.state === undefined
+          ? location.pathname.replace('/media/', '')
+          : location.state.title;
+      console.log(title);
 
       this.state = {
           title,
@@ -118,7 +122,7 @@ export class Media extends Component {
       rentMovie({
           movie_id: media.movie_id,
           user_id: userData.id,
-      });
+      }).then(this.checkOwnership);
   }
 
   addSlot() {
@@ -129,7 +133,7 @@ export class Media extends Component {
       subTv({
           tv_show_id: media.tv_show_id,
           user_id: userData.id,
-      });
+      }).then(this.checkOwnership);
   }
 
   rateMedia(rating) {
@@ -208,7 +212,6 @@ export class Media extends Component {
           .then(() => {
               const { commonMedia } = this.props;
               const { mediaOwned } = commonMedia;
-              console.log(mediaOwned);
               this.setState({
                   owned: mediaOwned,
                   ownershipChecked: true,
@@ -359,8 +362,22 @@ Season:
               <label htmlFor='star1' title='text'>1 star</label>
           </div>
       ) : null;
-      const genreInfo = (media !== undefined && media.genres !== undefined) ? media.genres.map((item, index) => <span style={{ color: 'whitesmoke', fontSize: '1em' }} key={`demo_snap_${index}`}>{ (index ? ', ' : '') + item }</span>) : null;
-      const starInfo = (media !== undefined && media.genres !== undefined) ? media.stars.map((item, index) => <span style={{ color: 'whitesmoke', fontSize: '1em' }} key={`demo_snap_${index}`}>{ (index ? ', ' : '') + item }</span>) : null;
+      const genreInfo = (media !== undefined && media.genres !== undefined) ? media.genres.map((item, index) => (
+          <span
+              style={{ color: 'whitesmoke', fontSize: '1em' }} //eslint-disable-line
+              key={`demo_snap_${index}`} //eslint-disable-line
+          >
+              { (index ? ', ' : '') + item }
+          </span>
+      )) : null;
+      const starInfo = (media !== undefined && media.genres !== undefined) ? media.stars.map((item, index) => (
+          <span
+              style={{ color: 'whitesmoke', fontSize: '1em' }} //eslint-disable-line
+              key={`demo_snap_${index}`} //eslint-disable-line
+          >
+              { (index ? ', ' : '') + item }
+          </span>
+      )) : null;
       const error = mediaError !== undefined ? <h1>Error</h1> : null;
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
@@ -399,9 +416,9 @@ Episode
               </div>
 
               <div id='clearFix' style={{ overflow: 'hidden', marginTop: '0.8%' }}>
-                  {media.season_info === undefined && authen && <Button color='danger' className='rent-button' onClick={this.rentMovie}>Rent</Button>}
-                  {media.season_info !== undefined && authen && <Button color='danger' className='subscribe-button' onClick={this.subToggle}>Subscribe</Button>}
-                  {StarRating}
+                  {media.season_info === undefined && authen && !owned && <Button color='danger' className='rent-button' onClick={this.rentMovie}>Rent</Button>}
+                  {media.season_info !== undefined && authen && !owned && <Button color='danger' className='subscribe-button' onClick={this.subToggle}>Subscribe</Button>}
+                  {owned && StarRating}
               </div>
               <div id='media-info'>
                   <h2>
@@ -423,7 +440,7 @@ Average Rating:
                   <h2>SYNOPSIS</h2>
                   <p>{media.description}</p>
               </div>
-              {commentContainer}
+              {owned && commentContainer}
               {commentElems}
           </div>
       ) : null;
