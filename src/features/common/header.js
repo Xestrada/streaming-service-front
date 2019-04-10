@@ -122,7 +122,7 @@ class Header extends React.Component {
     render() {
         const { modal, username, pass, isOpen, userDropdown, needToSub } = this.state;
         const { common, location } = this.props;
-        const { authen, authenError, authenPending } = common;
+        const { authen, authenError, authenPending, userData } = common;
         const { pathname } = location;
 
         if (authen && modal) this.modalToggle();
@@ -159,17 +159,17 @@ class Header extends React.Component {
         );
 
         const sideHead = authen ? (
-            <Dropdown isOpen={userDropdown} toggle={this.dropdownToggle} direction='down'>
-                <DropdownToggle>
-                    <Media right>
-                        <img className='user' src={userImg} alt='Placeholder' />
-                    </Media>
-                </DropdownToggle>
-                <DropdownMenu right>
-                    <DropdownItem><Link to='/account'>Account</Link></DropdownItem>
-                    <DropdownItem onClick={this.signOut}>Sign Out</DropdownItem>
-                </DropdownMenu>
-            </Dropdown>
+                <Dropdown isOpen={userDropdown} toggle={this.dropdownToggle} direction='down'>
+                    <DropdownToggle> 
+                        <Media right>
+                            <img className='user' src={userImg} alt='Placeholder' />
+                        </Media>
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                        <DropdownItem><Link to='/account'>Account</Link></DropdownItem>
+                        <DropdownItem onClick={this.signOut}>Sign Out</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
         ) : (
             <div>
                 <Button className='color-me link' color='white' onClick={this.modalToggle}>
@@ -215,9 +215,11 @@ class Header extends React.Component {
                             </NavItem>
 
                         </Nav>
+                        <Nav className='spacing' />
                         <Nav className='ml-auto' navbar>
-                            <Nav className='spacing' />
-
+                            <NavItem>
+                                <Link className='color-me link username' to='/subscriptions'>{userData === undefined ? '' : userData.username}</Link>
+                            </NavItem>
                             {sideHead}
 
                         </Nav>
