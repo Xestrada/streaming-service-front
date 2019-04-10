@@ -7,6 +7,7 @@ import * as actions from '../common/redux/actions';
 import Header from '../common/header';
 import ContentBox from '../common/contenBox';
 import Footer from '../common/footer';
+import Rating from '../common/rating';
 import emptyImg from '../../images/noimage.png';
 import userImg from '../../images/blank-user.jpg';
 import './user.scss';
@@ -138,11 +139,25 @@ export class User extends Component {
       )) : null;
 
       const ratedMoviesList = (ratedMovies !== undefined) ? ratedMovies.map(movie => (
-          <ContentBox title={movie.movie_title} url={`/media/${movie.movie_title}`} image={movie.image_url || emptyImg} />
-      )) : null;
+          <div>
+          <div>
+            <ContentBox title={movie.movie_title} url={`/media/${movie.movie_title}`} image={movie.image_url || emptyImg} />
+          </div>
+          <div>
+            <Rating rating={movie.rating} />
+          </div>
+          </div>
+        )) : null;
 
       const ratedTVList = (ratedTV !== undefined) ? ratedTV.map(content => (
+        <div>
+        <div>
           <ContentBox title={content.tv_show_title} url={`/media/${content.tv_show_title}`} image={content.image_url || emptyImg} />
+          </div>
+          <div>
+            <Rating rating={content.rating} />
+          </div>
+          </div>
       )) : null;
 
       const rentedList = rentedMovies !== undefined ? rentedMovies.map(movie => (
