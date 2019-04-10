@@ -50,3 +50,26 @@
       color:white;
       text-align: center;
   }
+
+  .imageUpload > input
+{
+    display: none;
+}
+
+.imageUpload i
+{
+    border: 2px solid gray;
+    color: #1089cb;
+    background-color: whitesmoke;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 4em;
+    cursor: pointer;
+}
+
+.imageUpload h1
+{
+    font-size: .2em;
+    font-weight: bold;
+    color: #333334;
+}
