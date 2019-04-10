@@ -56,11 +56,16 @@ class Header extends React.Component {
     componentDidMount() {
         const { actions } = this.props;
         const { localAuthen } = actions;
-        localAuthen({
-            id: localStorage.getItem('id'),
-            username: localStorage.getItem('username'),
-            email: localStorage.getItem('email'),
-        });
+        const id = localStorage.getItem('id');
+        const username = localStorage.getItem('username');
+        const email = localStorage.getItem('email');
+        if(id !== null && username !== null){
+            localAuthen({
+                id,
+                username,
+                email,
+            });
+        }
     }
 
     dropdownToggle() {
@@ -93,7 +98,6 @@ class Header extends React.Component {
                 hasAllSlots(userData.id).then(() => {
                     const { common } = this.props;
                     const { areSlotsFull } = common;
-                    console.log(areSlotsFull);
                     this.setState({
                         needToSub: !areSlotsFull,
                     });
