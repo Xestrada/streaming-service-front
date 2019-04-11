@@ -4,13 +4,64 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import * as actions from '../common/redux/actions';
-import UserComment from '../common/userComment';
+import TimelinePost from '../common/timelinePost';
 import Header from '../common/header';
 import ContentBox from '../common/contenBox';
 import Footer from '../common/footer';
 import emptyImg from '../../images/noimage.png';
-import Rating from './rating';
+import Rating from '../common/rating';
 import './subscriptions.scss';
+
+const posts = [
+    {
+        image: 'https://i.redd.it/9kzcg7xk4q321.png',
+        name: 'John',
+        message: 'fake',
+        testing: [
+            {
+                comment: 'real',
+                username: 'Doe',
+                date_of_comment: 'Tue, 26 Mar 2019 21:37:01 GMT',
+            },
+            {
+                comment: 'no u',
+                username: 'John',
+                date_of_comment: 'Tue, 26 Mar 2019 21:37:01 GMT',
+            }
+        ]
+    },
+    {
+        image: 'https://www.dreadcentral.com/wp-content/uploads/2018/06/pyewacketbanner1200x627.jpg',
+        name: 'Doe',
+        message: 'gay',
+        testing:[
+            {
+                comment: 'real',
+                username: 'Doe',
+                date_of_comment: 'Tue, 26 Mar 2019 21:37:01 GMT',
+            },
+            {
+                comment: 'no u',
+                username: 'John',
+                date_of_comment: 'Tue, 26 Mar 2019 21:37:01 GMT',
+            }
+        ]
+    }
+
+]
+const testComments = [
+    {
+        comment: 'real',
+        username: 'Doe',
+        date_of_comment: 'Tue, 26 Mar 2019 21:37:01 GMT',
+    },
+    {
+        comment: 'no u',
+        username: 'John',
+        date_of_comment: 'Tue, 26 Mar 2019 21:37:01 GMT',
+    }
+]
+
 
 
 class Subscriptions extends Component {
@@ -85,8 +136,6 @@ class Subscriptions extends Component {
 
         const { common } = this.props;
         const {
-            comment,
-            comments,
             authen,
             friends,
             getFriendsPending,
@@ -99,34 +148,10 @@ class Subscriptions extends Component {
             ratedMoviesPending,
             subsPending,
         } = common;
-
-        const commentContainer = authen ? (
-            <div id='comment-container'>
-                <div id='comment-header'>
-                    <label htmlFor='Comment' style={{ textDecoration: 'underline', fontFamily: 'Apple Chancery, cursive' }}>Leave a comment</label>
-                </div>
-                <textarea
-                    value={comment} //eslint-disable-line
-                    onChange={(e) => { //eslint-disable-line
-                        this.setState({
-                            comment: e.target.value,
-                        });
-                    }}
-                    id='subject' //eslint-disable-line
-                    name='subject' //eslint-disable-line
-                    placeholder='Enter your comment here...' //eslint-disable-line
-                    style={{ borderStyle: 'inset', width: '600px', height: '90px' }} //eslint-disable-line
-                />
-                <div className='row'>
-                    <input style={{ marginLeft: '52%' }} type='submit' value='Post Comment' onClick={this.makeComment} />
-                </div>
-            </div>
-        ) : null;
         
-        const commentElems = comments !== undefined ? comments.map(comment => (
-            <div>
-            <UserComment comment={comment.comment} user={comment.username} date={comment.date_of_comment} />  
-            {commentContainer}        
+        const postElems = posts !== undefined ? posts.map(post => (
+            <div className='post'>
+            <TimelinePost image={post.image || emptyImg} name={post.name} message={post.message} test={post.testing} />
             </div>
       )) : null;
 
@@ -178,8 +203,10 @@ class Subscriptions extends Component {
                     {redir}
                     <Header />
                     <div className='gridContainer'>
-                    <h1>Timeline</h1>
-                    {comments ? loading : (commentElems || empty)}
+                        <h1>Timeline</h1>
+                        <div>
+                            {postElems || empty}
+                        </div>
                     </div>
                     <div className='gridContainer'>
                         <h1>Friends</h1>
