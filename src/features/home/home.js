@@ -12,6 +12,7 @@ import {
     CarouselCaption,
 } from 'reactstrap';
 import * as actions from '../common/redux/actions';
+import * as profileActions from '../profile/redux/actions';
 import background from '../../images/homePageBackground.jpg';
 import Header from '../common/header';
 import Results from '../common/results';
@@ -244,6 +245,7 @@ export class Home extends Component {
 /* istanbul ignore next */
 function mapStateToProps(state) {
     return {
+        profile: state.profile,
         home: state.home,
         common: state.common,
     };
@@ -253,6 +255,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({ ...actions }, dispatch),
+        profileActions: bindActionCreators({ ...profileActions }, dispatch),
     };
 }
 
