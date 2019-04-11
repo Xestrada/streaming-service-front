@@ -4,12 +4,64 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import * as actions from '../common/redux/actions';
+import TimelinePost from '../common/timelinePost';
 import Header from '../common/header';
 import ContentBox from '../common/contenBox';
 import Footer from '../common/footer';
 import emptyImg from '../../images/noimage.png';
-import Rating from './rating';
+import Rating from '../common/rating';
 import './subscriptions.scss';
+
+const posts = [
+    {
+        image: 'https://i.redd.it/9kzcg7xk4q321.png',
+        name: 'John',
+        message: 'fake',
+        testing: [
+            {
+                comment: 'real',
+                username: 'Doe',
+                date_of_comment: 'Tue, 26 Mar 2019 21:37:01 GMT',
+            },
+            {
+                comment: 'no u',
+                username: 'John',
+                date_of_comment: 'Tue, 26 Mar 2019 21:37:01 GMT',
+            }
+        ]
+    },
+    {
+        image: 'https://www.dreadcentral.com/wp-content/uploads/2018/06/pyewacketbanner1200x627.jpg',
+        name: 'Doe',
+        message: 'gay',
+        testing:[
+            {
+                comment: 'real',
+                username: 'Doe',
+                date_of_comment: 'Tue, 26 Mar 2019 21:37:01 GMT',
+            },
+            {
+                comment: 'no u',
+                username: 'John',
+                date_of_comment: 'Tue, 26 Mar 2019 21:37:01 GMT',
+            }
+        ]
+    }
+
+]
+const testComments = [
+    {
+        comment: 'real',
+        username: 'Doe',
+        date_of_comment: 'Tue, 26 Mar 2019 21:37:01 GMT',
+    },
+    {
+        comment: 'no u',
+        username: 'John',
+        date_of_comment: 'Tue, 26 Mar 2019 21:37:01 GMT',
+    }
+]
+
 
 
 class Subscriptions extends Component {
@@ -96,6 +148,12 @@ class Subscriptions extends Component {
             ratedMoviesPending,
             subsPending,
         } = common;
+        
+        const postElems = posts !== undefined ? posts.map(post => (
+            <div className='post'>
+            <TimelinePost image={post.image || emptyImg} name={post.name} message={post.message} test={post.testing} />
+            </div>
+      )) : null;
 
         const subbedTV = subs !== undefined ? subs.map(content => (
             <div className='media'>
@@ -105,8 +163,12 @@ class Subscriptions extends Component {
 
         const ratedMoviesList = (ratedMovies !== undefined) ? ratedMovies.map(movie => (
             <div>
-                <ContentBox title={movie.movie_title} url={`/media/${movie.movie_title}`} image={movie.image_url || emptyImg} />
-                <Rating rating={movie.rating} />
+                <div>
+                    <ContentBox title={movie.movie_title} url={`/media/${movie.movie_title}`} image={movie.image_url || emptyImg} />
+                </div>
+                <div>
+                    <Rating rating={movie.rating} />
+                </div>
             </div>
         )) : null;
 
@@ -140,6 +202,12 @@ class Subscriptions extends Component {
                 <div>
                     {redir}
                     <Header />
+                    <div className='gridContainer'>
+                        <h1>Timeline</h1>
+                        <div>
+                            {postElems || empty}
+                        </div>
+                    </div>
                     <div className='gridContainer'>
                         <h1>Friends</h1>
                         <div className='section'>
