@@ -304,7 +304,7 @@ Season:
               Do you wish to rent this movie?
               </ModalBody>
               <ModalFooter>
-                  <Button className='btn btn-primary btn-md' color='primary' onClick={this.rentMovie}>
+                  <Button className='btn btn-primary btn-md' color='primary' onClick={this.rentMovie && this.rentToggle}>
                     Yes, rent this movie
                   </Button>
                   <Button color='secondary' onClick={this.rentToggle}>Cancel</Button>
@@ -318,7 +318,7 @@ Season:
               Do you wish to subscribe this tv show?
               </ModalBody>
               <ModalFooter>
-                  <Button className='btn btn-primary btn-md' color='primary' onClick={this.addSlot}>
+                  <Button className='btn btn-primary btn-md' color='primary' onClick={this.addSlot && this.subToggle}>
                   Yes, subscribe this tv show
                   </Button>
                   <Button color='secondary' onClick={this.subToggle}>Cancel</Button>
@@ -416,7 +416,7 @@ Episode
               </div>
 
               <div id='clearFix' style={{ overflow: 'hidden', marginTop: '0.8%' }}>
-                  {media.season_info === undefined && authen && !owned && <Button color='danger' className='rent-button' onClick={this.rentMovie}>Rent</Button>}
+                  {media.season_info === undefined && authen && !owned && <Button color='danger' className='rent-button' onClick={this.rentToggle}>Rent</Button>}
                   {media.season_info !== undefined && authen && !owned && <Button color='danger' className='subscribe-button' onClick={this.subToggle}>Subscribe</Button>}
                   {owned && StarRating}
               </div>
