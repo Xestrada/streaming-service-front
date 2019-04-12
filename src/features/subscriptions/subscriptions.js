@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import * as actions from '../common/redux/actions';
+import background from '../../images/homePageBackground.jpg';
 import TimelinePost from '../common/timelinePost';
 import Header from '../common/header';
 import ContentBox from '../common/contenBox';
@@ -202,6 +203,11 @@ class Subscriptions extends Component {
                 <div>
                     {redir}
                     <Header />
+                    <div>
+                    <img className='profilePic' src= 'https://i.redd.it/9kzcg7xk4q321.png' alt='' />
+                    <img className='wall' src={background} alt='' />
+
+                    </div>
                     <div className='gridContainer'>
                         <h1>Timeline</h1>
                         <div>
