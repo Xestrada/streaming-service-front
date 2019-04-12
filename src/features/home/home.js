@@ -216,7 +216,6 @@ export class Home extends Component {
         const { common } = this.props;
         const { page } = this.state;
         const { data, maxPages, searchError, searchPending, authen } = common;
-        const userCheck = authen;
         let timeLine = null;
 
         const error = searchError !== undefined ? (<h1>Error</h1>) : null;
@@ -247,16 +246,7 @@ export class Home extends Component {
             </div>
         )) : null;
 
-        if (userCheck !== undefined) {
-            timeLine = (
-                <div>
-                    <h1 style={{ color: 'white' }}>Timeline</h1>
-                    {' '}
-                    {postElems}
-                    {' '}
-                </div>
-            );
-        } else {
+        if (authen === undefined || !authen) {
             timeLine = (
                 <div>
                     <img className='home-image' src={background} alt='' />
@@ -275,6 +265,15 @@ export class Home extends Component {
                             <CarouselControl direction='next' directionText='Next' onClickHandler={this.next} />
                         </Carousel>
                     </div>
+                </div>
+            );
+        } else {
+            timeLine = (
+                <div>
+                    <h1 style={{ color: 'white' }}>Timeline</h1>
+                    {' '}
+                    {postElems}
+                    {' '}
                 </div>
             );
         }
