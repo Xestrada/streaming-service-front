@@ -26,6 +26,8 @@ const initialState = {
     isMediaOwnedError: null,
     getUserRatingPending: false,
     getUserRatingError: null,
+    unsubscribePending: false,
+    unsubscribeError: null,
 };
 
 export default initialState;
