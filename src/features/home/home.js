@@ -80,6 +80,7 @@ export class Home extends Component {
     static propTypes = {
         actions: PropTypes.object.isRequired,
         common: PropTypes.object.isRequired,
+        profileActions: PropTypes.object.isRequired,
     };
 
     constructor(props) {
@@ -96,6 +97,7 @@ export class Home extends Component {
         this.getActorList = this.getActorList.bind(this);
         this.getTVList = this.getTVList.bind(this);
         this.getRecentlyAdded = this.getRecentlyAdded.bind(this);
+        this.getTimeline = this.getTimeline.bind(this);
         this.setSearchParams = this.setSearchParams.bind(this);
         this.search = this.search.bind(this);
         this.nextPage = this.nextPage.bind(this);
@@ -144,6 +146,15 @@ export class Home extends Component {
         const { actions } = this.props;
         const { getRecents } = actions;
         getRecents(pageNum);
+    }
+
+    getTimeline() {
+        const { common, profileActions } = this.props;
+        const { userData } = common;
+        const { getTimeline } = profileActions;
+        if (userData !== undefined) {
+            getTimeline(userData.id);
+        }
     }
 
     setSearchParams(filter, query) {
@@ -213,11 +224,18 @@ export class Home extends Component {
 
 
     render() {
-        const { common } = this.props;
+        const { common, profile } = this.props;
         const { page } = this.state;
-        const { data, maxPages, searchError, searchPending, authen } = common;
+        const { data, maxPages, searchError, searchPending, authen, userData } = common;
+        const { getTimelinePending, getTimelineError, timeline } = profile;
         let timeLine = null;
+        
+        if (authen && timeline === undefined && userData !== undefined && !getTimelinePending && (getTimelineError === null || getTimelineError === undefined)) {
+            this.getTimeline(userData.id);
+        }
 
+        console.log(profile);
+        console.log(common);
         const error = searchError !== undefined ? (<h1>Error</h1>) : null;
 
         const boxes = (data !== undefined) ? data.map(content => (
@@ -240,9 +258,9 @@ export class Home extends Component {
                 <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
             </CarouselItem>
         ));
-        const postElems = posts !== undefined ? posts.map(post => (
+        const postElems = timeline !== undefined ? timeline.map(post => (
             <div className='post'>
-                <TimelinePost image={post.image || emptyImg} name={post.name} message={post.message} test={post.testing} />
+                <TimelinePost image={emptyImg} name={post.username} message={post.post} test={post.comments} />
             </div>
         )) : null;
 
@@ -285,7 +303,7 @@ export class Home extends Component {
         return (
             <body className='background-color'>
                 <div className='home-root'>
-                    {console.log(common)}
+                    {console.log()}
                     <Header />
                     <timelinePost />
                     {timeLine}
