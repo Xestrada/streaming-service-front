@@ -102,10 +102,9 @@ export class User extends Component {
       const { id } = this.state;
       const { userData } = common;
       const { addFriend, checkFriendship } = actions;
-
       addFriend({
           user_id: userData.id,
-          friend_id: id,
+          pending_friend_id: id,
       }).then(() => checkFriendship(userData.id, id));
   }
 
@@ -140,23 +139,23 @@ export class User extends Component {
 
       const ratedMoviesList = (ratedMovies !== undefined) ? ratedMovies.map(movie => (
           <div>
-          <div>
-            <ContentBox title={movie.movie_title} url={`/media/${movie.movie_title}`} image={movie.image_url || emptyImg} />
+              <div>
+                  <ContentBox title={movie.movie_title} url={`/media/${movie.movie_title}`} image={movie.image_url || emptyImg} />
+              </div>
+              <div>
+                  <Rating rating={movie.rating} />
+              </div>
           </div>
-          <div>
-            <Rating rating={movie.rating} />
-          </div>
-          </div>
-        )) : null;
+      )) : null;
 
       const ratedTVList = (ratedTV !== undefined) ? ratedTV.map(content => (
-        <div>
-        <div>
-          <ContentBox title={content.tv_show_title} url={`/media/${content.tv_show_title}`} image={content.image_url || emptyImg} />
-          </div>
           <div>
-            <Rating rating={content.rating} />
-          </div>
+              <div>
+                  <ContentBox title={content.tv_show_title} url={`/media/${content.tv_show_title}`} image={content.image_url || emptyImg} />
+              </div>
+              <div>
+                  <Rating rating={content.rating} />
+              </div>
           </div>
       )) : null;
 

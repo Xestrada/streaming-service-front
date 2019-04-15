@@ -8,3 +8,6 @@ export { rentMovie, dismissRentMovieError } from './rentMovie';
 export { subTv, dismissSubTvError } from './subTv';
 export { isMediaOwned, dismissIsMediaOwnedError } from './isMediaOwned';
 export { getUserRating, dismissGetUserRatingError } from './getUserRating';
+export { unsubscribe, dismissUnsubscribeError } from './unsubscribe';
+export { resubscribe, dismissResubscribeError } from './resubscribe';
+export { deleteSlot, dismissDeleteSlotError } from './deleteSlot';

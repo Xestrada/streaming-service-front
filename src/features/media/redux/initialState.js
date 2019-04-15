@@ -26,6 +26,12 @@ const initialState = {
     isMediaOwnedError: null,
     getUserRatingPending: false,
     getUserRatingError: null,
+    unsubscribePending: false,
+    unsubscribeError: null,
+    resubscribePending: false,
+    resubscribeError: null,
+    deleteSlotPending: false,
+    deleteSlotError: null,
 };
 
 export default initialState;
