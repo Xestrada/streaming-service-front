@@ -30,6 +30,8 @@ const initialState = {
     unsubscribeError: null,
     resubscribePending: false,
     resubscribeError: null,
+    deleteSlotPending: false,
+    deleteSlotError: null,
 };
 
 export default initialState;

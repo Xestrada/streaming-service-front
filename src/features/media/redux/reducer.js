@@ -19,6 +19,7 @@ import { reducer as isMediaOwnedReducer } from './isMediaOwned';
 import { reducer as getUserRatingReducer } from './getUserRating';
 import { reducer as unsubscribeReducer } from './unsubscribe';
 import { reducer as resubscribeReducer } from './resubscribe';
+import { reducer as deleteSlotReducer } from './deleteSlot';
 
 const reducers = [
     makeMovieCommentReducer,
@@ -33,6 +34,7 @@ const reducers = [
     getUserRatingReducer,
     unsubscribeReducer,
     resubscribeReducer,
+    deleteSlotReducer,
 ];
 
 export default function reducer(state = initialState, action) {
