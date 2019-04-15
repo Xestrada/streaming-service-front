@@ -28,6 +28,8 @@ const initialState = {
     getUserRatingError: null,
     unsubscribePending: false,
     unsubscribeError: null,
+    resubscribePending: false,
+    resubscribeError: null,
 };
 
 export default initialState;
