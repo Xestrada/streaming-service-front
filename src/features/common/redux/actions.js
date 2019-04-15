@@ -17,3 +17,4 @@ export { removeFriend, dismissRemoveFriendError } from './removeFriend';
 export { checkFriendship, dismissCheckFriendshipError } from './checkFriendship';
 export { hasAllSlots, dismissHasAllSlotsError } from './hasAllSlots';
 export { localAuthen, dismissLocalAuthenError } from './localAuthen';
+export { acceptFreind, dismissAcceptFreindError } from './acceptFreind';

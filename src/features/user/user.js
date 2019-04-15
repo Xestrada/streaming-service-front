@@ -105,7 +105,7 @@ export class User extends Component {
 
       addFriend({
           user_id: userData.id,
-          friend_id: id,
+          pending_friend_id: id,
       }).then(() => checkFriendship(userData.id, id));
   }
 

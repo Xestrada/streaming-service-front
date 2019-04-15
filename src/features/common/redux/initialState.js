@@ -43,8 +43,10 @@ const initialState = {
     checkFriendshipError: null,
     hasAllSlotsPending: false,
     hasAllSlotsError: null,
-  localAuthenPending: false,
-  localAuthenError: null,
+    localAuthenPending: false,
+    localAuthenError: null,
+    acceptFreindPending: false,
+    acceptFreindError: null,
 };
 
 export default initialState;
