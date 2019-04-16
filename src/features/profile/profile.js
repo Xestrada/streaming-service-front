@@ -3,89 +3,53 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from './redux/actions';
+import * as profileActions from '../profile/redux/actions';
 import Footer from '../common/footer';
 import TimelinePost from '../common/timelinePost';
 import './profile.scss';
-import emptyImg from '../../images/noimage.png';
-
-
-const posts = [
-    {
-        image: 'https://i.redd.it/9kzcg7xk4q321.png',
-        name: 'John',
-        message: 'fake',
-        testing: [
-            {
-                comment: 'real',
-                username: 'Doe',
-                date_of_comment: 'Tue, 26 Mar 2019 21:37:01 GMT',
-            },
-            {
-                comment: 'no u',
-                username: 'John',
-                date_of_comment: 'Tue, 26 Mar 2019 21:37:01 GMT',
-            }
-        ]
-    },
-    {
-        image: 'https://www.dreadcentral.com/wp-content/uploads/2018/06/pyewacketbanner1200x627.jpg',
-        name: 'Doe',
-        message: 'gay',
-        testing:[
-            {
-                comment: 'real',
-                username: 'Doe',
-                date_of_comment: 'Tue, 26 Mar 2019 21:37:01 GMT',
-            },
-            {
-                comment: 'no u',
-                username: 'John',
-                date_of_comment: 'Tue, 26 Mar 2019 21:37:01 GMT',
-            }
-        ]
-    }
-
-]
 
 class Profile extends Component {
 
     static propTypes = {
         common: PropTypes.object.isRequired,
-        actions: PropTypes.object.isRequired,
+        profileActions: PropTypes.object.isRequired,
     };
 
     constructor(props) {
         super(props);
 
-        this.getPosts = this.getPosts.bind(this);
+        this.getTimeline = this.getTimeline.bind(this);
     }
+       
         componentDidMount() { //eslint-disable-line
         const { common } = this.props;
         const { authen } = common;
         if (authen) {
-            this.getPosts();
+            this.getTimeline();
         }
 
     }
 
-    getPosts() {
-
-        const { common, actions } = this.props;
-        const {getTimeline} = actions;
-        const {userData} = common;
-        getTimeline(userData.id);
+    getTimeline() {
+        const { profile, profileActions } = this.props;
+        const { timeline } = profile;
+        const { getTimeline } = profileActions;
+        if (timeline === undefined) {
+            getTimeline(1);
+        }
     }
 
     render() {
-        const { profile } = this.props;
-        const {
+        const { common, profile } = this.props;
+        const { 
             timeline,
         } = profile;
-         
+        if(timeline === undefined ){
+        this.getTimeline();
+        }
 
         const postElems = this.timeline !== undefined ? this.timeline.map(post => (
             <div className='post'>
-            {console.log(this.timeline)}
             <TimelinePost image='https://i.redd.it/9kzcg7xk4q321.png' name={post.post_username} message={post.post} test={post.comments} />
             </div>
       )) : null;
@@ -116,6 +80,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({ ...actions }, dispatch),
+        profileActions: bindActionCreators({ ...profileActions }, dispatch), 
     };
 }
 

@@ -307,6 +307,7 @@ export class Home extends Component {
                     <Header />
                     <timelinePost />
                     {timeLine}
+                    {console.log(userData)}
                     <br />
                     <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />
                     <br />
