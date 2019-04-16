@@ -229,7 +229,7 @@ export class Home extends Component {
         const { data, maxPages, searchError, searchPending, authen, userData } = common;
         const { getTimelinePending, getTimelineError, timeline } = profile;
         let timeLine = null;
-        
+
         if (authen && timeline === undefined && userData !== undefined && !getTimelinePending && (getTimelineError === null || getTimelineError === undefined)) {
             this.getTimeline(userData.id);
         }
