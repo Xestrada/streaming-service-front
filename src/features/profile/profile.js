@@ -133,7 +133,7 @@ class Profile extends Component {
         )) : null;
 
         const friendRequestList = friendRequests === undefined ? null : friendRequests.map(request => (
-            <ContentBox title={request} url={`/user/${request}/${request}`} image={emptyImg} />
+            <ContentBox title={request.username} url={`/user/${request.username}/${request.id}`} image={emptyImg} />
         ));
 
         const redir = authen ? null : (<Redirect to='/' />);

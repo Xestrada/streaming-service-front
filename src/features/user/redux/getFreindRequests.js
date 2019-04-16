@@ -16,9 +16,10 @@ export function getFreindRequests(id) {
         return fetch(`https://videovaultusers.herokuapp.com/get_friend_requests/user=${id}`)
             .then(response => response.json())
             .then((createdJson) => {
+                console.log(createdJson);
                 dispatch({
                     type: USER_GET_FREIND_REQUESTS_SUCCESS,
-                    data: createdJson.friend_requests,
+                    data: createdJson.pending_friend_requests,
                 });
             })
             .catch((error) => {
