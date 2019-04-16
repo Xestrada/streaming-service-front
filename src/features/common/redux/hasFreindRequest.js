@@ -16,6 +16,7 @@ export function hasFreindRequest(id, fid) {
         return fetch(`https://videovaultusers.herokuapp.com/has_friend_request/user=${id}/friend=${fid}`)
             .then(response => response.json())
             .then((createdJson) => {
+                console.log(createdJson);
                 dispatch({
                     type: COMMON_HAS_FREIND_REQUEST_SUCCESS,
                     data: createdJson.has_friend_request,
