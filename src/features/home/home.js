@@ -264,7 +264,6 @@ export class Home extends Component {
             <body className='background-color'>
                 <div className='home-root'>
                     <Header />
-                    <timelinePost />
                     {timeLine}
                     <br />
                     <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />
