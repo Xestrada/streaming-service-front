@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../common/redux/actions';
 import * as profileActions from './redux/actions';
+import * as userActions from '../user/redux/actions';
 import Header from '../common/header';
 import Footer from '../common/footer';
 import ContentBox from '../common/contenBox';
@@ -20,6 +21,8 @@ class Profile extends Component {
         profileActions: PropTypes.object.isRequired,
         profile: PropTypes.object.isRequired,
         actions: PropTypes.object.isRequired,
+        user: PropTypes.object.isRequired,
+        userActions: PropTypes.object.isRequired,
     };
 
     constructor(props) {
@@ -29,6 +32,7 @@ class Profile extends Component {
         this.getRatedMovies = this.getRatedMovies.bind(this);
         this.getRatedTV = this.getRatedTV.bind(this);
         this.getUserFriends = this.getUserFriends.bind(this);
+        this.getFriendRequests = this.getFriendRequests.bind(this);
     }
 
     componentDidMount() {
@@ -38,6 +42,7 @@ class Profile extends Component {
             this.getRatedMovies();
             this.getRatedTV();
             this.getUserFriends();
+            this.getFriendRequests();
         }
     }
 
@@ -69,9 +74,16 @@ class Profile extends Component {
         getWall(userData.id);
     }
 
+    getFriendRequests() {
+        const { common, userActions } = this.props;
+        const { userData } = common;
+        const { getFreindRequests } = userActions;
+        getFreindRequests(userData.id);
+    }
+
 
     render() {
-        const { common, profile } = this.props;
+        const { common, profile, user } = this.props;
         const {
             authen,
             friends,
@@ -80,9 +92,9 @@ class Profile extends Component {
             ratedTV,
             ratedTvPending,
             ratedMoviesPending,
-
         } = common;
         const { wall, getWallError, getWallPending } = profile;
+        const { friendRequests } = user;
 
         if (authen && wall === undefined && !getWallPending && (getWallError === null || getWallError === undefined)) {
             this.getWall();
@@ -120,6 +132,10 @@ class Profile extends Component {
             <ContentBox title={friend.username} url={`/user/${friend.username}/${friend.id}`} image={emptyImg} />
         )) : null;
 
+        const friendRequestList = friendRequests === undefined ? null : friendRequests.map(request => (
+            <ContentBox title={request} url={`/user/${request}/${request}`} image={emptyImg} />
+        ));
+
         const redir = authen ? null : (<Redirect to='/' />);
 
         const empty = (<h2>No Content</h2>);
@@ -130,11 +146,19 @@ class Profile extends Component {
             <div className='background'>
                 <Header />
                 {redir}
-                <div className='gridContainer'>
-                    <div>
+                <div>
+                    <div className='gridContainer'>
                         <h1>Wall</h1>
                         {postElems}
                     </div>
+                    {friendRequests !== undefined && friendRequests.length > 0 ? (
+                        <div className='gridContainer'>
+                            <h1>Friend Requests</h1>
+                            <div className='section'>
+                                {friendRequestList}
+                            </div>
+                        </div>
+                    ) : null}
                     <div className='gridContainer'>
                         <h1>Friends</h1>
                         <div className='section'>
@@ -167,6 +191,7 @@ function mapStateToProps(state) {
     return {
         profile: state.profile,
         common: state.common,
+        user: state.user,
     };
 }
 
@@ -175,6 +200,7 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({ ...actions }, dispatch),
         profileActions: bindActionCreators({ ...profileActions }, dispatch),
+        userActions: bindActionCreators({ ...userActions }, dispatch),
     };
 }
 
