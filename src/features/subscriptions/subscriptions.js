@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import * as actions from '../common/redux/actions';
+import background from '../../images/homePageBackground.jpg';
 import TimelinePost from '../common/timelinePost';
 import Header from '../common/header';
 import ContentBox from '../common/contenBox';
@@ -157,6 +158,7 @@ class Subscriptions extends Component {
 
         const subbedTV = subs !== undefined ? subs.map(content => (
             <div className='media'>
+            {console.log(subs)}
                 <ContentBox title={content.tv_show_title} url={`/media/${content.tv_show_title}`} image={content.image_url || emptyImg} />
             </div>
         )) : null;
@@ -202,6 +204,9 @@ class Subscriptions extends Component {
                 <div>
                     {redir}
                     <Header />
+                    <div>
+
+                    </div>
                     <div className='gridContainer'>
                         <h1>Timeline</h1>
                         <div>
