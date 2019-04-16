@@ -47,6 +47,8 @@ const initialState = {
     localAuthenError: null,
     acceptFreindPending: false,
     acceptFreindError: null,
+    declineRequestPending: false,
+    declineRequestError: null,
 };
 
 export default initialState;

@@ -27,6 +27,7 @@ import { reducer as checkFriendshipReducer } from './checkFriendship';
 import { reducer as hasAllSlotsReducer } from './hasAllSlots';
 import { reducer as localAuthenReducer } from './localAuthen';
 import { reducer as acceptFreindReducer } from './acceptFreind';
+import { reducer as declineRequestReducer } from './declineRequest';
 
 const reducers = [
     actorsReducer,
@@ -49,6 +50,7 @@ const reducers = [
     hasAllSlotsReducer,
     localAuthenReducer,
     acceptFreindReducer,
+    declineRequestReducer,
 ];
 
 export default function reducer(state = initialState, action) {
