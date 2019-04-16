@@ -29,6 +29,7 @@ import { reducer as localAuthenReducer } from './localAuthen';
 import { reducer as acceptFreindReducer } from './acceptFreind';
 import { reducer as declineRequestReducer } from './declineRequest';
 import { reducer as deleteAccountReducer } from './deleteAccount';
+import { reducer as hasFreindRequestReducer } from './hasFreindRequest';
 
 const reducers = [
     actorsReducer,
@@ -53,6 +54,7 @@ const reducers = [
     acceptFreindReducer,
     declineRequestReducer,
     deleteAccountReducer,
+    hasFreindRequestReducer,
 ];
 
 export default function reducer(state = initialState, action) {

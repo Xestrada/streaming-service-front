@@ -51,6 +51,8 @@ const initialState = {
     declineRequestError: null,
     deleteAccountPending: false,
     deleteAccountError: null,
+    hasFreindRequestPending: false,
+    hasFreindRequestError: null,
 };
 
 export default initialState;
