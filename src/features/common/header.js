@@ -209,6 +209,13 @@ class Header extends React.Component {
                             )
                                 : null}
 
+                            {authen ? (
+                                <NavItem>
+                                    <Link className='color-me link' to='/profile'>Profile</Link>
+                                </NavItem>
+                            )
+                                : null}
+
 
                             <NavItem>
                                 <Link className='color-me link' to='/about'>About</Link>
