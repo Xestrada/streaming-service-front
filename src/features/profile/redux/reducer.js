@@ -9,10 +9,14 @@
 import initialState from './initialState';
 import { reducer as getWallReducer } from './getWall';
 import { reducer as getTimelineReducer } from './getTimeline';
+import { reducer as postTimelineReducer } from './postTimeline';
+import { reducer as commentPostReducer } from './commentPost';
 
 const reducers = [
     getWallReducer,
     getTimelineReducer,
+    postTimelineReducer,
+    commentPostReducer,
 ];
 
 export default function reducer(state = initialState, action) {

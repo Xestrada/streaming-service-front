@@ -10,6 +10,10 @@ const initialState = {
     getWallError: null,
     getTimelinePending: false,
     getTimelineError: null,
+    postTimelinePending: false,
+    postTimelineError: null,
+    commentPostPending: false,
+    commentPostError: null,
 };
 
 export default initialState;
