@@ -263,11 +263,9 @@ export class Home extends Component {
         return (
             <body className='background-color'>
                 <div className='home-root'>
-                    {console.log()}
                     <Header />
                     <timelinePost />
                     {timeLine}
-                    {console.log(userData)}
                     <br />
                     <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />
                     <br />
