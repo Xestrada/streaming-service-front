@@ -27,7 +27,7 @@ export default class Footer extends React.Component {
     render() {
         return (
             <div className='dark'>
-                <h1 className='relative'>Contact us at videovault.company48@gmail.com or 123-456-7890</h1>
+                <h1 className='relative'>Contact us at videovault.company48@gmail.com</h1>
                 <div className='d-flex justify-content-center'>
                     <Media href='https://facebook.com'>
                         <Media object src={facebook} className='img' alt='Generic placeholder image' />

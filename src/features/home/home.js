@@ -38,49 +38,12 @@ const items = [
     },
 ];
 
-const posts = [
-    {
-        image: 'https://i.redd.it/9kzcg7xk4q321.png',
-        name: 'John',
-        message: 'fake',
-        testing: [
-            {
-                comment: 'real',
-                username: 'Doe',
-                date_of_comment: 'Tue, 26 Mar 2019 21:37:01 GMT',
-            },
-            {
-                comment: 'no u',
-                username: 'John',
-                date_of_comment: 'Tue, 26 Mar 2019 21:37:01 GMT',
-            },
-        ],
-    },
-    {
-        image: 'https://www.dreadcentral.com/wp-content/uploads/2018/06/pyewacketbanner1200x627.jpg',
-        name: 'Doe',
-        message: 'gay',
-        testing: [
-            {
-                comment: 'real',
-                username: 'Doe',
-                date_of_comment: 'Tue, 26 Mar 2019 21:37:01 GMT',
-            },
-            {
-                comment: 'no u',
-                username: 'John',
-                date_of_comment: 'Tue, 26 Mar 2019 21:37:01 GMT',
-            },
-        ],
-    },
-
-];
-
 export class Home extends Component {
     static propTypes = {
         actions: PropTypes.object.isRequired,
         common: PropTypes.object.isRequired,
         profileActions: PropTypes.object.isRequired,
+        profile: PropTypes.object.isRequired,
     };
 
     constructor(props) {
@@ -102,7 +65,6 @@ export class Home extends Component {
         this.search = this.search.bind(this);
         this.nextPage = this.nextPage.bind(this);
         this.backPage = this.backPage.bind(this);
-
         this.next = this.next.bind(this);
         this.previous = this.previous.bind(this);
         this.goToIndex = this.goToIndex.bind(this);
@@ -229,13 +191,11 @@ export class Home extends Component {
         const { data, maxPages, searchError, searchPending, authen, userData } = common;
         const { getTimelinePending, getTimelineError, timeline } = profile;
         let timeLine = null;
-        
+
         if (authen && timeline === undefined && userData !== undefined && !getTimelinePending && (getTimelineError === null || getTimelineError === undefined)) {
             this.getTimeline(userData.id);
         }
 
-        console.log(profile);
-        console.log(common);
         const error = searchError !== undefined ? (<h1>Error</h1>) : null;
 
         const boxes = (data !== undefined) ? data.map(content => (

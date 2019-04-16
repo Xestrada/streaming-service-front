@@ -59,7 +59,7 @@ class Header extends React.Component {
         const id = localStorage.getItem('id');
         const username = localStorage.getItem('username');
         const email = localStorage.getItem('email');
-        if(id !== null && username !== null){
+        if (id !== null && username !== null) {
             localAuthen({
                 id,
                 username,
@@ -159,17 +159,17 @@ class Header extends React.Component {
         );
 
         const sideHead = authen ? (
-                <Dropdown isOpen={userDropdown} toggle={this.dropdownToggle} direction='down'>
-                    <DropdownToggle> 
-                        <Media right>
-                            <img className='user' src={userImg} alt='Placeholder' />
-                        </Media>
-                    </DropdownToggle>
-                    <DropdownMenu right>
-                        <DropdownItem><Link to='/account'>Account</Link></DropdownItem>
-                        <DropdownItem onClick={this.signOut}>Sign Out</DropdownItem>
-                    </DropdownMenu>
-                </Dropdown>
+            <Dropdown isOpen={userDropdown} toggle={this.dropdownToggle} direction='down'>
+                <DropdownToggle>
+                    <Media right>
+                        <img className='user' src={userImg} alt='Placeholder' />
+                    </Media>
+                </DropdownToggle>
+                <DropdownMenu right>
+                    <DropdownItem><Link to='/account'>Account</Link></DropdownItem>
+                    <DropdownItem onClick={this.signOut}>Sign Out</DropdownItem>
+                </DropdownMenu>
+            </Dropdown>
         ) : (
             <div>
                 <Button className='color-me link' color='white' onClick={this.modalToggle}>
