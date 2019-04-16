@@ -62,7 +62,6 @@ class Subscriptions extends Component {
 
         const subbedTV = subs !== undefined ? subs.map(content => (
             <div className='media'>
-                {console.log(subs)}
                 <ContentBox title={content.tv_show_title} url={`/media/${content.tv_show_title}`} image={content.image_url || emptyImg} />
             </div>
         )) : null;
