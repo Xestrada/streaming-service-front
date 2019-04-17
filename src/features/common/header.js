@@ -56,11 +56,16 @@ class Header extends React.Component {
     componentDidMount() {
         const { actions } = this.props;
         const { localAuthen } = actions;
-        localAuthen({
-            id: localStorage.getItem('id'),
-            username: localStorage.getItem('username'),
-            email: localStorage.getItem('email'),
-        });
+        const id = localStorage.getItem('id');
+        const username = localStorage.getItem('username');
+        const email = localStorage.getItem('email');
+        if (id !== null && username !== null) {
+            localAuthen({
+                id,
+                username,
+                email,
+            });
+        }
     }
 
     dropdownToggle() {
@@ -93,7 +98,6 @@ class Header extends React.Component {
                 hasAllSlots(userData.id).then(() => {
                     const { common } = this.props;
                     const { areSlotsFull } = common;
-                    console.log(areSlotsFull);
                     this.setState({
                         needToSub: !areSlotsFull,
                     });
@@ -118,7 +122,7 @@ class Header extends React.Component {
     render() {
         const { modal, username, pass, isOpen, userDropdown, needToSub } = this.state;
         const { common, location } = this.props;
-        const { authen, authenError, authenPending } = common;
+        const { authen, authenError, authenPending, userData } = common;
         const { pathname } = location;
 
         if (authen && modal) this.modalToggle();
@@ -205,15 +209,24 @@ class Header extends React.Component {
                             )
                                 : null}
 
+                            {authen ? (
+                                <NavItem>
+                                    <Link className='color-me link' to='/profile'>Profile</Link>
+                                </NavItem>
+                            )
+                                : null}
+
 
                             <NavItem>
                                 <Link className='color-me link' to='/about'>About</Link>
                             </NavItem>
 
                         </Nav>
+                        <Nav className='spacing' />
                         <Nav className='ml-auto' navbar>
-                            <Nav className='spacing' />
-
+                            <NavItem>
+                                <Link className='color-me link username' to='/subscriptions'>{userData === undefined || userData === null ? '' : userData.username}</Link>
+                            </NavItem>
                             {sideHead}
 
                         </Nav>

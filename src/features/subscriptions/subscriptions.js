@@ -8,9 +8,7 @@ import Header from '../common/header';
 import ContentBox from '../common/contenBox';
 import Footer from '../common/footer';
 import emptyImg from '../../images/noimage.png';
-import Rating from './rating';
 import './subscriptions.scss';
-
 
 class Subscriptions extends Component {
 
@@ -23,23 +21,15 @@ class Subscriptions extends Component {
         super(props);
 
         this.getUserShows = this.getUserShows.bind(this);
-        this.getRatedMovies = this.getRatedMovies.bind(this);
-        this.getRatedTV = this.getRatedTV.bind(this);
         this.getRentedMovies = this.getRentedMovies.bind(this);
-        this.getUserFriends = this.getUserFriends.bind(this);
-
-
     }
 
-    componentDidMount() { //eslint-disable-line
+    componentDidMount() {
         const { common } = this.props;
         const { authen } = common;
         if (authen) {
             this.getUserShows();
-            this.getRatedMovies();
-            this.getRatedTV();
             this.getRentedMovies();
-            this.getUserFriends();
         }
 
     }
@@ -51,32 +41,11 @@ class Subscriptions extends Component {
         getSubs(userData.id);
     }
 
-    getRatedMovies() {
-        const { actions, common } = this.props;
-        const { ratedMovies } = actions;
-        const { userData } = common;
-        ratedMovies(userData.id);
-    }
-
-    getRatedTV() {
-        const { actions, common } = this.props;
-        const { ratedTv } = actions;
-        const { userData } = common;
-        ratedTv(userData.id);
-    }
-
     getRentedMovies() {
         const { actions, common } = this.props;
         const { getRented } = actions;
         const { userData } = common;
         getRented(userData.id);
-    }
-
-    getUserFriends() {
-        const { actions, common } = this.props;
-        const { getFriends } = actions;
-        const { userData } = common;
-        getFriends(userData.id);
     }
 
 
@@ -85,15 +54,9 @@ class Subscriptions extends Component {
         const { common } = this.props;
         const {
             authen,
-            friends,
-            getFriendsPending,
             subs,
-            ratedMovies,
-            ratedTV,
             rentedMovies,
             getRentedPending,
-            ratedTvPending,
-            ratedMoviesPending,
             subsPending,
         } = common;
 
@@ -103,30 +66,8 @@ class Subscriptions extends Component {
             </div>
         )) : null;
 
-        const ratedMoviesList = (ratedMovies !== undefined) ? ratedMovies.map(movie => (
-            <div>
-                <ContentBox title={movie.movie_title} url={`/media/${movie.movie_title}`} image={movie.image_url || emptyImg} />
-                <Rating rating={movie.rating} />
-            </div>
-        )) : null;
-
-        const ratedTVList = (ratedTV !== undefined) ? ratedTV.map(content => (
-            <div>
-                <div>
-                    <ContentBox title={content.tv_show_title} url={`/media/${content.tv_show_title}`} image={content.image_url || emptyImg} />
-                </div>
-                <div>
-                    <Rating rating={content.rating} />
-                </div>
-            </div>
-        )) : null;
-
         const rentedList = rentedMovies !== undefined ? rentedMovies.map(movie => (
             <ContentBox title={movie.title} url={`/media/${movie.title}`} image={movie.image_url || emptyImg} />
-        )) : null;
-
-        const friendsList = friends !== undefined ? friends.map(friend => (
-            <ContentBox title={friend.username} url={`/user/${friend.username}/${friend.id}`} image={emptyImg} />
         )) : null;
 
         const redir = authen ? null : (<Redirect to='/' />);
@@ -141,12 +82,6 @@ class Subscriptions extends Component {
                     {redir}
                     <Header />
                     <div className='gridContainer'>
-                        <h1>Friends</h1>
-                        <div className='section'>
-                            {getFriendsPending ? loading : (friendsList || empty)}
-                        </div>
-                    </div>
-                    <div className='gridContainer'>
                         <h1>Slots</h1>
                         <div className='section'>
                             {subsPending ? loading : (subbedTV || empty)}
@@ -157,20 +92,6 @@ class Subscriptions extends Component {
                         <h1>Rented</h1>
                         <div className='section'>
                             {getRentedPending ? loading : (rentedList || empty)}
-                        </div>
-                    </div>
-
-                    <div className='gridContainer'>
-                        <h1>Rated Movies</h1>
-                        <div className='section'>
-                            {ratedMoviesPending ? loading : (ratedMoviesList || empty)}
-                        </div>
-                    </div>
-
-                    <div className='gridContainer'>
-                        <h1>Rated TV Shows</h1>
-                        <div className='section'>
-                            {ratedTvPending ? loading : (ratedTVList || empty)}
                         </div>
                     </div>
                     <Footer />

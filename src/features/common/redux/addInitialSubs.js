@@ -25,9 +25,8 @@ export function addInitialSubs(data = {}) {
             body: values,
         })
             .then(response => response.json()).then((createdJson) => {
-              console.log(createdJson);
-              console.log(createdJson['success:'])
-                if (createdJson['success:']) {
+                console.log(createdJson);
+                if (createdJson.success) {
                     dispatch({
                         type: COMMON_ADD_INITIAL_SUBS_SUCCESS,
                         data: true,

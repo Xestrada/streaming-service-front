@@ -12,11 +12,14 @@ import {
     CarouselCaption,
 } from 'reactstrap';
 import * as actions from '../common/redux/actions';
+import * as profileActions from '../profile/redux/actions';
+import background from '../../images/homePageBackground.jpg';
 import Header from '../common/header';
 import Results from '../common/results';
 import Footer from '../common/footer';
 import ContentBox from '../common/contenBox';
 import SearchBar from '../common/SearchBar';
+import TimelinePost from '../common/timelinePost';
 import emptyImg from '../../images/noimage.png';
 import './home.scss';
 
@@ -35,11 +38,12 @@ const items = [
     },
 ];
 
-
 export class Home extends Component {
     static propTypes = {
         actions: PropTypes.object.isRequired,
         common: PropTypes.object.isRequired,
+        profileActions: PropTypes.object.isRequired,
+        profile: PropTypes.object.isRequired,
     };
 
     constructor(props) {
@@ -56,11 +60,11 @@ export class Home extends Component {
         this.getActorList = this.getActorList.bind(this);
         this.getTVList = this.getTVList.bind(this);
         this.getRecentlyAdded = this.getRecentlyAdded.bind(this);
+        this.getTimeline = this.getTimeline.bind(this);
         this.setSearchParams = this.setSearchParams.bind(this);
         this.search = this.search.bind(this);
         this.nextPage = this.nextPage.bind(this);
         this.backPage = this.backPage.bind(this);
-
         this.next = this.next.bind(this);
         this.previous = this.previous.bind(this);
         this.goToIndex = this.goToIndex.bind(this);
@@ -104,6 +108,15 @@ export class Home extends Component {
         const { actions } = this.props;
         const { getRecents } = actions;
         getRecents(pageNum);
+    }
+
+    getTimeline() {
+        const { common, profileActions } = this.props;
+        const { userData } = common;
+        const { getTimeline } = profileActions;
+        if (userData !== undefined) {
+            getTimeline(userData.id);
+        }
     }
 
     setSearchParams(filter, query) {
@@ -173,9 +186,15 @@ export class Home extends Component {
 
 
     render() {
-        const { common } = this.props;
+        const { common, profile } = this.props;
         const { page } = this.state;
-        const { data, maxPages, searchError, searchPending } = common;
+        const { data, maxPages, searchError, searchPending, authen, userData } = common;
+        const { getTimelinePending, getTimelineError, timeline } = profile;
+        let timeLine = null;
+
+        if (authen && timeline === undefined && userData !== undefined && !getTimelinePending && (getTimelineError === null || getTimelineError === undefined)) {
+            this.getTimeline(userData.id);
+        }
 
         const error = searchError !== undefined ? (<h1>Error</h1>) : null;
 
@@ -199,24 +218,22 @@ export class Home extends Component {
                 <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
             </CarouselItem>
         ));
+        const postElems = timeline !== undefined ? timeline.map(post => (
+            <div className='post'>
+                <TimelinePost image={emptyImg} name={post.username} message={post.post} test={post.comments} />
+            </div>
+        )) : null;
 
-        for (let i = 0; i < 20; i += 1) {
-            loadingGrid.push(<i className='fa fa-spinner fa-spin loadIcon' key={i} />);
-        }
-
-        return (
-            <body className='background-color'>
-                <div className='home-root'>
-                    <Header />
-                    <div>
-                        <img className='home-image' src='https://www.whateverison.com/wp-content/uploads/2018/09/movies.jpg' alt='' />
-                        <div className='advertise-text'>
-                            <h1>Variety TV Shows and Movies</h1>
-                            <p>Only $10 for a month</p>
-                            <Link to='/signup'>
-                                <Button color='primary' className='signup-button'> SIGN UP NOW</Button>
-                            </Link>
-                        </div>
+        if (authen === undefined || !authen) {
+            timeLine = (
+                <div>
+                    <img className='home-image' src={background} alt='' />
+                    <div className='advertise-text'>
+                        <h1>Variety TV Shows and Movies</h1>
+                        <p>Only $10 for a month</p>
+                        <Link to='/signup'>
+                            <Button color='primary' className='signup-button'> SIGN UP NOW</Button>
+                        </Link>
                     </div>
                     <div className='moveCarousel'>
                         <Carousel activeIndex={activeIndex} next={this.next} previous={this.previous}>
@@ -226,6 +243,28 @@ export class Home extends Component {
                             <CarouselControl direction='next' directionText='Next' onClickHandler={this.next} />
                         </Carousel>
                     </div>
+                </div>
+            );
+        } else {
+            timeLine = (
+                <div>
+                    <h1 style={{ color: 'white' }}>Timeline</h1>
+                    {' '}
+                    {postElems}
+                    {' '}
+                </div>
+            );
+        }
+
+        for (let i = 0; i < 20; i += 1) {
+            loadingGrid.push(<i className='fa fa-spinner fa-spin loadIcon' key={i} />);
+        }
+
+        return (
+            <body className='background-color'>
+                <div className='home-root'>
+                    <Header />
+                    {timeLine}
                     <br />
                     <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />
                     <br />
@@ -243,6 +282,7 @@ export class Home extends Component {
 /* istanbul ignore next */
 function mapStateToProps(state) {
     return {
+        profile: state.profile,
         home: state.home,
         common: state.common,
     };
@@ -252,6 +292,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({ ...actions }, dispatch),
+        profileActions: bindActionCreators({ ...profileActions }, dispatch),
     };
 }
 

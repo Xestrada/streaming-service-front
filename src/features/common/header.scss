@@ -13,13 +13,24 @@
     line-height: inherit;
 }
 
-.link {
-    text-decoration: underline;
-    font-weight: 400;
-    line-height: 1.5;
-    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
-    display: inline-block;
+.nav-item {
+    padding: 0.75rem 0 0.8rem 0;
+    .link {
+        text-decoration: underline;
+        font-weight: 400;
+        line-height: 1.5;
+        padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+        display: inline-block;
+        vertical-align: middle;
+    }
+}
+
+.username {
+    height: 1.5rem;
+    margin-bottom: 0.2rem;
     vertical-align: middle;
+    justify-content: center;
+    text-align: center;
 }
 
 .user {
@@ -38,10 +49,6 @@
     margin-right: 5em ;
     margin-left: 5em;
 }
- 
-.container {
-    position: fixed;
-}
 
 .spacing{
     justify-content: space-between;
@@ -49,7 +56,7 @@
     margin-top: 0.18em;
     margin-right: 2em;
 }
-.remember{
-    font-size: 15px;
-    margin: 0 5px;
+
+.loadIcon {
+    color: black !important;
 }

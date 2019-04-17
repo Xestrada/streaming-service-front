@@ -15,7 +15,7 @@ export function addFriend(info = {}) {
 
         const values = JSON.stringify(info);
 
-        return fetch('https://videovaultusers.herokuapp.com/add_friend', {
+        return fetch('https://videovaultusers.herokuapp.com/send_friend_request', {
             method: 'POST',
             mode: 'cors',
             headers: {
