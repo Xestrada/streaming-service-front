@@ -72,7 +72,7 @@ class About extends Component {
                         </div>
                         <button type='submit' onClick={this.handleSubmit}>Upload Image</button>
                     </form>
-                    {imagePreview}
+                    {/*imagePreview*/}
                 </div>
                 <Footer />
             </div>
