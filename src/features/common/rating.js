@@ -7,7 +7,7 @@ import './rating.scss';
 
 class Rating extends React.Component {
     static propTypes = {
-        rating: PropTypes.number,
+        rating: PropTypes.number.isRequired,
     };
 
 
