@@ -104,7 +104,6 @@ export class User extends Component {
       const { profileActions } = this.props;
       const { id } = this.state;
       const { getWall } = profileActions;
-      console.log(getWall);
       getWall(id);
   }
 
@@ -240,7 +239,7 @@ export class User extends Component {
 
       const userWall = wall !== undefined && !getWallPending ? wall.map(post => (
           <div className='post'>
-              <TimelinePost image='https://i.redd.it/9kzcg7xk4q321.png' name={post.post_username} message={post.post} test={post.comments} />
+              <TimelinePost image='https://i.redd.it/9kzcg7xk4q321.png' name={post.post_username} message={post.post} comments={post.comments} />
           </div>
       )) : null;
 

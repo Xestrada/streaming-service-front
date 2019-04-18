@@ -103,7 +103,7 @@ class Profile extends Component {
 
         const postElems = wall !== undefined && authen && !getWallPending ? wall.map(post => (
             <div className='post'>
-                <TimelinePost image='https://i.redd.it/9kzcg7xk4q321.png' name={post.post_username} message={post.post} test={post.comments} />
+                <TimelinePost image='https://i.redd.it/9kzcg7xk4q321.png' name={post.post_username} message={post.post} comments={post.comments} />
             </div>
         )) : null;
 

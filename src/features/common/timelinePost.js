@@ -6,19 +6,18 @@ import * as actions from './redux/actions';
 import UserComment from './userComment';
 import './timelinePost.scss';
 
-class TimelinPost extends React.Component {
+class TimelinePost extends React.Component {
     static propTypes = {
-        image: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         message: PropTypes.string.isRequired,
-        test: PropTypes.object,
+        comments: PropTypes.object,
     };
 
 
     render() {
 
-        const { image, name, message, test } = this.props;
-        const commentContainer = test ? (
+        const { name, message, comments } = this.props;
+        const commentContainer = (
             <div id='comment-container'>
                 <div id='comment-header'>
                     <label htmlFor='Comment' style={{ textDecoration: 'underline', fontFamily: 'Apple Chancery, cursive' }}>Leave a comment</label>
@@ -39,15 +38,14 @@ class TimelinPost extends React.Component {
                     <input style={{ marginLeft: '52%' }} type='submit' value='Post Comment' onClick={this.makeComment} />
                 </div>
             </div>
-        ) : null;
+        );
 
-        const commentElems = test !== undefined ? test.map(comment => (
+        const commentElems = comments !== undefined ? comments.map(comment => (
             <UserComment comment={comment.comment} user={comment.username} date={comment.date_of_comment} />
         )) : null;
 
         return (
             <div>
-                <img src={image} alt='default' className='profile' />
                 {name}
                 <div className='spacing'>
                     {message}
@@ -60,6 +58,11 @@ class TimelinPost extends React.Component {
         );
     }
 }
+
+TimelinePost.defaultProps = {
+    comments: {},
+};
+
 /* istanbul ignore next */
 function mapStateToProps(state) {
     return {
@@ -75,4 +78,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(TimelinPost);
+export default connect(mapStateToProps, mapDispatchToProps)(TimelinePost);

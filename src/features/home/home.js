@@ -220,7 +220,7 @@ export class Home extends Component {
         ));
         const postElems = timeline !== undefined && !getTimelinePending ? timeline.map(post => (
             <div className='post'>
-                <TimelinePost image={emptyImg} name={post.username} message={post.post} test={post.comments} />
+                <TimelinePost image={emptyImg} name={post.username} message={post.post} comments={post.comments} />
             </div>
         )) : null;
 
