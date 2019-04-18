@@ -13,7 +13,7 @@ export function hasFreindRequest(id, fid) {
             type: COMMON_HAS_FREIND_REQUEST_BEGIN,
         });
 
-        return fetch(`https://videovaultusers.herokuapp.com/has_friend_request/user=${id}/friend=${fid}`)
+        return fetch(`https://videovaultusers.herokuapp.com/has_friend_request/user_id=${id}/request_from=${fid}`)
             .then(response => response.json())
             .then((createdJson) => {
                 console.log(createdJson);

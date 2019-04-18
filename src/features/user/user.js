@@ -38,7 +38,8 @@ export class User extends Component {
       this.getFriendship = this.getFriendship.bind(this);
       this.removeFriend = this.removeFriend.bind(this);
       this.addFriend = this.addFriend.bind(this);
-      this.checkRequestStatus = this.checkRequestStatus.bind(this);
+      this.hasRequestStatus = this.hasRequestStatus.bind(this);
+      this.sentFriendRequest = this.sentFriendRequest.bind(this);
 
   }
 
@@ -48,7 +49,8 @@ export class User extends Component {
       this.getRatedTV();
       this.getRentedMovies();
       this.getFriendship();
-      this.checkRequestStatus();
+      this.hasRequestStatus();
+      this.sentFriendRequest();
   }
 
   getUserShows() {
@@ -110,7 +112,7 @@ export class User extends Component {
       }).then(this.checkRequestStatus);
   }
 
-  checkRequestStatus() {
+  hasRequestStatus() {
       const { actions, common } = this.props;
       const { id } = this.state;
       const { userData } = common;
@@ -120,6 +122,15 @@ export class User extends Component {
       }
   }
 
+  sentFriendRequest() {
+      const { actions, common } = this.props;
+      const { id } = this.state;
+      const { userData } = common;
+      const { sentFriendRequest } = actions;
+      if (userData !== undefined) {
+          sentFriendRequest(userData.id, id);
+      }
+  }
 
   render() {
 
@@ -138,13 +149,21 @@ export class User extends Component {
           areFriends,
           checkFriendshipPending,
           hasFreindRequest,
+          sentFriendRequest,
       } = common;
 
       const friendAction = (areFriends !== undefined && areFriends) ? (<Button color='danger' onClick={this.removeFriend}>Remove Friend</Button>) : (<Button color='primary' onClick={this.addFriend}>Send Friend Request</Button>);
 
       const friendButton = (authen !== undefined && authen) ? friendAction : null;
 
-      const friendLabel = (hasFreindRequest !== undefined && hasFreindRequest) ? (<h2 className='request'>Friend Request Sent</h2>) : friendButton;
+      const friendLabel = (sentFriendRequest !== undefined && sentFriendRequest) ? (<h2 className='request'>Friend Request Sent</h2>) : null;
+
+      const friendOptions = (hasFreindRequest !== undefined && hasFreindRequest) ? (
+          <div>
+              <Button color='primary'>Accept Request</Button>
+              <Button color='danger'>Decline Request</Button>
+          </div>
+      ) : null;
 
       const subbedTV = subs !== undefined ? subs.map(content => (
           <div className='media'>
@@ -184,7 +203,8 @@ export class User extends Component {
 
       if (authen && areFriends === undefined && !checkFriendshipPending) {
           this.getFriendship();
-          this.checkRequestStatus();
+          this.hasRequestStatus();
+          this.sentFriendRequest();
       }
 
       return (
@@ -195,7 +215,7 @@ export class User extends Component {
                       <div className='userHolder'>
                           <img src={userImg} alt='User' />
                           <h5>{username}</h5>
-                          {friendLabel}
+                          {friendOptions || friendLabel || friendButton}
                       </div>
                   </div>
                   <br />
