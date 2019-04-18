@@ -4,10 +4,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button } from 'reactstrap';
 import * as actions from '../common/redux/actions';
+import * as profileActions from '../profile/redux/actions';
 import Header from '../common/header';
 import ContentBox from '../common/contenBox';
 import Footer from '../common/footer';
 import Rating from '../common/rating';
+import TimelinePost from '../common/timelinePost';
 import emptyImg from '../../images/noimage.png';
 import userImg from '../../images/blank-user.jpg';
 import './user.scss';
@@ -17,6 +19,8 @@ export class User extends Component {
       actions: PropTypes.object.isRequired,
       match: PropTypes.object.isRequired,
       common: PropTypes.object.isRequired,
+      profile: PropTypes.object.isRequired,
+      profileActions: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -42,6 +46,7 @@ export class User extends Component {
       this.sentFriendRequest = this.sentFriendRequest.bind(this);
       this.declineRequest = this.declineRequest.bind(this);
       this.acceptRequest = this.acceptRequest.bind(this);
+      this.getWall = this.getWall.bind(this);
 
   }
 
@@ -53,6 +58,7 @@ export class User extends Component {
       this.getFriendship();
       this.hasRequestStatus();
       this.sentFriendRequest();
+      this.getWall();
   }
 
   getUserShows() {
@@ -94,24 +100,12 @@ export class User extends Component {
       }
   }
 
-  removeFriend() {
-      const { actions, common } = this.props;
+  getWall() {
+      const { profileActions } = this.props;
       const { id } = this.state;
-      const { userData } = common;
-      const { removeFriend, checkFriendship } = actions;
-
-      removeFriend(userData.id, id).then(() => checkFriendship(userData.id, id));
-  }
-
-  addFriend() {
-      const { actions, common } = this.props;
-      const { id } = this.state;
-      const { userData } = common;
-      const { addFriend } = actions;
-      addFriend({
-          request_from: userData.id,
-          request_to: id,
-      }).then(this.sentFriendRequest);
+      const { getWall } = profileActions;
+      console.log(getWall);
+      getWall(id);
   }
 
   hasRequestStatus() {
@@ -132,6 +126,25 @@ export class User extends Component {
       if (userData !== undefined) {
           sentFriendRequest(userData.id, id);
       }
+  }
+
+  addFriend() {
+      const { actions, common } = this.props;
+      const { id } = this.state;
+      const { userData } = common;
+      const { addFriend } = actions;
+      addFriend({
+          request_from: userData.id,
+          request_to: id,
+      }).then(this.sentFriendRequest);
+  }
+
+  removeFriend() {
+      const { actions, common } = this.props;
+      const { id } = this.state;
+      const { userData } = common;
+      const { removeFriend, checkFriendship } = actions;
+      removeFriend(userData.id, id).then(() => checkFriendship(userData.id, id));
   }
 
   declineRequest() {
@@ -161,8 +174,9 @@ export class User extends Component {
 
   render() {
 
-      const { common } = this.props;
+      const { common, profile } = this.props;
       const { username } = this.state;
+      const { wall, getWallPending } = profile;
       const {
           authen,
           subs,
@@ -224,6 +238,12 @@ export class User extends Component {
           <ContentBox title={movie.title} url={`/media/${movie.title}`} image={movie.image_url || emptyImg} />
       )) : null;
 
+      const userWall = wall !== undefined && !getWallPending ? wall.map(post => (
+          <div className='post'>
+              <TimelinePost image='https://i.redd.it/9kzcg7xk4q321.png' name={post.post_username} message={post.post} test={post.comments} />
+          </div>
+      )) : null;
+
       const empty = (<h2>No Content</h2>);
 
       const loading = <i className='fa fa-spinner fa-spin loadIcon loadingSpinner' />;
@@ -244,6 +264,10 @@ export class User extends Component {
                           <h5>{username}</h5>
                           {friendOptions || friendLabel || friendButton}
                       </div>
+                  </div>
+                  <div className='gridContainer'>
+                      <h1>Wall</h1>
+                      {userWall}
                   </div>
                   <br />
                   <div className='gridContainer'>
@@ -286,6 +310,7 @@ function mapStateToProps(state) {
     return {
         user: state.user,
         common: state.common,
+        profile: state.profile,
     };
 }
 
@@ -293,6 +318,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({ ...actions }, dispatch),
+        profileActions: bindActionCreators({ ...profileActions }, dispatch),
     };
 }
 

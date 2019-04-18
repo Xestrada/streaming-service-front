@@ -43,6 +43,7 @@ class Profile extends Component {
             this.getRatedTV();
             this.getUserFriends();
             this.getFriendRequests();
+            this.getWall();
         }
     }
 
@@ -100,7 +101,7 @@ class Profile extends Component {
             this.getWall();
         }
 
-        const postElems = wall !== undefined && authen ? wall.map(post => (
+        const postElems = wall !== undefined && authen && !getWallPending ? wall.map(post => (
             <div className='post'>
                 <TimelinePost image='https://i.redd.it/9kzcg7xk4q321.png' name={post.post_username} message={post.post} test={post.comments} />
             </div>
