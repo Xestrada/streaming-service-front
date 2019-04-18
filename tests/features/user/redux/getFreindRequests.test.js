@@ -30,7 +30,7 @@ describe('user/redux/getFreindRequests', () => {
       .then(() => {
         const actions = store.getActions();
         expect(actions[0]).toHaveProperty('type', USER_GET_FREIND_REQUESTS_BEGIN);
-        expect(actions[1]).toHaveProperty('type', USER_GET_FREIND_REQUESTS_SUCCESS);
+        expect(actions[1]).toHaveProperty('type', USER_GET_FREIND_REQUESTS_FAILURE);
       });
   });
 
@@ -81,7 +81,7 @@ describe('user/redux/getFreindRequests', () => {
     );
     expect(state).not.toBe(prevState); // should be immutable
     expect(state.getFreindRequestsPending).toBe(false);
-    expect(state.getFreindRequestsError).toEqual(expect.anything());
+    expect(state.getFreindRequestsError).toEqual(undefined);
   });
 
   it('handles action type USER_GET_FREIND_REQUESTS_DISMISS_ERROR correctly', () => {

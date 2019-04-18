@@ -30,7 +30,7 @@ describe('common/redux/ratedTv', () => {
       .then(() => {
         const actions = store.getActions();
         expect(actions[0]).toHaveProperty('type', COMMON_RATED_TV_BEGIN);
-        expect(actions[1]).toHaveProperty('type', COMMON_RATED_TV_SUCCESS);
+        expect(actions[1]).toHaveProperty('type', COMMON_RATED_TV_FAILURE);
       });
   });
 
@@ -81,7 +81,7 @@ describe('common/redux/ratedTv', () => {
     );
     expect(state).not.toBe(prevState); // should be immutable
     expect(state.ratedTvPending).toBe(false);
-    expect(state.ratedTvError).toEqual(expect.anything());
+    expect(state.ratedTvError).toEqual(undefined);
   });
 
   it('handles action type COMMON_RATED_TV_DISMISS_ERROR correctly', () => {

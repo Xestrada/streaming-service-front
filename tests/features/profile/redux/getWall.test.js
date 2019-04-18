@@ -30,7 +30,7 @@ describe('profile/redux/getWall', () => {
       .then(() => {
         const actions = store.getActions();
         expect(actions[0]).toHaveProperty('type', PROFILE_GET_WALL_BEGIN);
-        expect(actions[1]).toHaveProperty('type', PROFILE_GET_WALL_SUCCESS);
+        expect(actions[1]).toHaveProperty('type', PROFILE_GET_WALL_FAILURE);
       });
   });
 
@@ -81,7 +81,7 @@ describe('profile/redux/getWall', () => {
     );
     expect(state).not.toBe(prevState); // should be immutable
     expect(state.getWallPending).toBe(false);
-    expect(state.getWallError).toEqual(expect.anything());
+    expect(state.getWallError).toEqual(undefined);
   });
 
   it('handles action type PROFILE_GET_WALL_DISMISS_ERROR correctly', () => {

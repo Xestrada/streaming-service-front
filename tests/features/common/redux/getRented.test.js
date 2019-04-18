@@ -30,7 +30,7 @@ describe('common/redux/getRented', () => {
       .then(() => {
         const actions = store.getActions();
         expect(actions[0]).toHaveProperty('type', COMMON_GET_RENTED_BEGIN);
-        expect(actions[1]).toHaveProperty('type', COMMON_GET_RENTED_SUCCESS);
+        expect(actions[1]).toHaveProperty('type', COMMON_GET_RENTED_FAILURE);
       });
   });
 
@@ -81,7 +81,7 @@ describe('common/redux/getRented', () => {
     );
     expect(state).not.toBe(prevState); // should be immutable
     expect(state.getRentedPending).toBe(false);
-    expect(state.getRentedError).toEqual(expect.anything());
+    expect(state.getRentedError).toEqual(undefined);
   });
 
   it('handles action type COMMON_GET_RENTED_DISMISS_ERROR correctly', () => {
