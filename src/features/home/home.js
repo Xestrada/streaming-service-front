@@ -75,6 +75,7 @@ export class Home extends Component {
     componentDidMount() {
         const { page, searchFunc } = this.state;
         searchFunc(page);
+        this.getTimeline();
     }
 
     onExiting() {
@@ -190,7 +191,6 @@ export class Home extends Component {
         const { page } = this.state;
         const { data, maxPages, searchError, searchPending, authen, userData } = common;
         const { getTimelinePending, getTimelineError, timeline } = profile;
-        let timeLine = null;
 
         if (authen && timeline === undefined && userData !== undefined && !getTimelinePending && (getTimelineError === null || getTimelineError === undefined)) {
             this.getTimeline(userData.id);
@@ -218,43 +218,34 @@ export class Home extends Component {
                 <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
             </CarouselItem>
         ));
-        const postElems = timeline !== undefined ? timeline.map(post => (
+        const postElems = timeline !== undefined && !getTimelinePending ? timeline.map(post => (
             <div className='post'>
                 <TimelinePost image={emptyImg} name={post.username} message={post.post} test={post.comments} />
             </div>
         )) : null;
 
-        if (authen === undefined || !authen) {
-            timeLine = (
-                <div>
-                    <img className='home-image' src={background} alt='' />
-                    <div className='advertise-text'>
-                        <h1>Variety TV Shows and Movies</h1>
-                        <p>Only $10 for a month</p>
-                        <Link to='/signup'>
-                            <Button color='primary' className='signup-button'> SIGN UP NOW</Button>
-                        </Link>
-                    </div>
-                    <div className='moveCarousel'>
-                        <Carousel activeIndex={activeIndex} next={this.next} previous={this.previous}>
-                            <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
-                            {slides}
-                            <CarouselControl direction='prev' directionText='Previous' onClickHandler={this.previous} />
-                            <CarouselControl direction='next' directionText='Next' onClickHandler={this.next} />
-                        </Carousel>
-                    </div>
+        const homeAds = (
+            <div>
+                <img className='home-image' src={background} alt='' />
+                <div className='advertise-text'>
+                    <h1>Variety TV Shows and Movies</h1>
+                    <p>Only $10 for a month</p>
+                    <Link to='/signup'>
+                        <Button color='primary' className='signup-button'> SIGN UP NOW</Button>
+                    </Link>
                 </div>
-            );
-        } else {
-            timeLine = (
-                <div>
-                    <h1 style={{ color: 'white' }}>Timeline</h1>
-                    {' '}
-                    {postElems}
-                    {' '}
+                <div className='moveCarousel'>
+                    <Carousel activeIndex={activeIndex} next={this.next} previous={this.previous}>
+                        <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
+                        {slides}
+                        <CarouselControl direction='prev' directionText='Previous' onClickHandler={this.previous} />
+                        <CarouselControl direction='next' directionText='Next' onClickHandler={this.next} />
+                    </Carousel>
                 </div>
-            );
-        }
+            </div>
+        );
+
+        const homeMain = authen === undefined || !authen ? homeAds : postElems;
 
         for (let i = 0; i < 20; i += 1) {
             loadingGrid.push(<i className='fa fa-spinner fa-spin loadIcon' key={i} />);
@@ -264,7 +255,8 @@ export class Home extends Component {
             <body className='background-color'>
                 <div className='home-root'>
                     <Header />
-                    {timeLine}
+                    <br />
+                    {homeMain}
                     <br />
                     <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />
                     <br />
