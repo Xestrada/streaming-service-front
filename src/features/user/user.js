@@ -40,6 +40,8 @@ export class User extends Component {
       this.addFriend = this.addFriend.bind(this);
       this.hasRequestStatus = this.hasRequestStatus.bind(this);
       this.sentFriendRequest = this.sentFriendRequest.bind(this);
+      this.declineRequest = this.declineRequest.bind(this);
+      this.acceptRequest = this.acceptRequest.bind(this);
 
   }
 
@@ -107,9 +109,9 @@ export class User extends Component {
       const { userData } = common;
       const { addFriend } = actions;
       addFriend({
-          user_id: userData.id,
-          pending_friend_id: id,
-      }).then(this.checkRequestStatus);
+          request_from: userData.id,
+          request_to: id,
+      }).then(this.sentFriendRequest);
   }
 
   hasRequestStatus() {
@@ -130,6 +132,31 @@ export class User extends Component {
       if (userData !== undefined) {
           sentFriendRequest(userData.id, id);
       }
+  }
+
+  declineRequest() {
+      const { actions, common } = this.props;
+      const { id } = this.state;
+      const { userData } = common;
+      const { declineRequest } = actions;
+      declineRequest({
+          request_to: userData.id,
+          request_from: id,
+      }).then(this.hasRequestStatus);
+  }
+
+  acceptRequest() {
+      const { actions, common } = this.props;
+      const { id } = this.state;
+      const { userData } = common;
+      const { acceptFreind } = actions;
+      acceptFreind({
+          request_to: userData.id,
+          request_from: id,
+      }).then(() => {
+          this.hasRequestStatus();
+          this.getFriendship();
+      });
   }
 
   render() {
@@ -160,8 +187,8 @@ export class User extends Component {
 
       const friendOptions = (hasFreindRequest !== undefined && hasFreindRequest) ? (
           <div>
-              <Button color='primary'>Accept Request</Button>
-              <Button color='danger'>Decline Request</Button>
+              <Button color='primary' onClick={this.acceptRequest}>Accept Request</Button>
+              <Button color='danger' onClick={this.declineRequest}>Decline Request</Button>
           </div>
       ) : null;
 

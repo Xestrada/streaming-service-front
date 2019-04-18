@@ -54,12 +54,13 @@ class Header extends React.Component {
     }
 
     componentDidMount() {
-        const { actions } = this.props;
+        const { actions, common } = this.props;
         const { localAuthen } = actions;
+        const { authen } = common;
         const id = localStorage.getItem('id');
         const username = localStorage.getItem('username');
         const email = localStorage.getItem('email');
-        if (id !== null && username !== null) {
+        if (id !== null && username !== null && !authen) {
             localAuthen({
                 id,
                 username,
