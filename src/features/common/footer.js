@@ -40,7 +40,8 @@ export default class Footer extends React.Component {
                     </Media>
                 </div>
                 <div className='relative'>
-                    <Link to='/privacy'>Privacy Policy</Link>
+                
+                    <Link router='' to='/privacy'>Privacy Policy</Link>
                 </div>
 
             </div>
