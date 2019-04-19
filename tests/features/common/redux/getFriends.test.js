@@ -26,11 +26,37 @@ describe('common/redux/getFriends', () => {
   it('dispatches success action when getFriends succeeds', () => {
     const store = mockStore({});
 
-    return store.dispatch(getFriends())
+    return store.dispatch(getFriends(0))
       .then(() => {
         const actions = store.getActions();
         expect(actions[0]).toHaveProperty('type', COMMON_GET_FRIENDS_BEGIN);
         expect(actions[1]).toHaveProperty('type', COMMON_GET_FRIENDS_SUCCESS);
+        expect(actions[1]).toHaveProperty('data', expect.anything());
+      });
+  });
+
+  it('dispatches success action when getFriends fails with empty data', () => {
+    const store = mockStore({});
+
+    return store.dispatch(getFriends())
+      .then(() => {
+        const actions = store.getActions();
+        expect(actions[0]).toHaveProperty('type', COMMON_GET_FRIENDS_BEGIN);
+        expect(actions[1]).toHaveProperty('type', COMMON_GET_FRIENDS_FAILURE);
+        expect(actions[1]).toHaveProperty('error', expect.anything());
+      });
+  });
+
+  it('dispatches success action when getFriends fails with negative id', () => {
+    const store = mockStore({});
+
+    return store.dispatch(getFriends(-1))
+      .then(() => {
+        const actions = store.getActions();
+        console.log(actions);
+        expect(actions[0]).toHaveProperty('type', COMMON_GET_FRIENDS_BEGIN);
+        expect(actions[1]).toHaveProperty('type', COMMON_GET_FRIENDS_FAILURE);
+        expect(actions[1]).toHaveProperty('error', expect.anything());
       });
   });
 
@@ -81,7 +107,7 @@ describe('common/redux/getFriends', () => {
     );
     expect(state).not.toBe(prevState); // should be immutable
     expect(state.getFriendsPending).toBe(false);
-    expect(state.getFriendsError).toEqual(expect.anything());
+    expect(state.getFriendsError).toEqual(undefined);
   });
 
   it('handles action type COMMON_GET_FRIENDS_DISMISS_ERROR correctly', () => {

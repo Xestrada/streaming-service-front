@@ -23,14 +23,68 @@ describe('media/redux/getUserRating', () => {
     nock.cleanAll();
   });
 
+  it('dispatches success action when getUserRating succeeds with movie', () => {
+    const store = mockStore({});
+
+    return store.dispatch(getUserRating(true, 1, 1))
+      .then(() => {
+        const actions = store.getActions();
+        console.log(actions);
+        expect(actions[0]).toHaveProperty('type', MEDIA_GET_USER_RATING_BEGIN);
+        expect(actions[1]).toHaveProperty('type', MEDIA_GET_USER_RATING_SUCCESS);
+        expect(actions[1]).toHaveProperty('userRating', expect.anything());
+      });
+  });
+
+  it('dispatches success action when getUserRating succeeds with tv show', () => {
+    const store = mockStore({});
+
+    return store.dispatch(getUserRating(false, 1, 1))
+      .then(() => {
+        const actions = store.getActions();
+        console.log(actions);
+        expect(actions[0]).toHaveProperty('type', MEDIA_GET_USER_RATING_BEGIN);
+        expect(actions[1]).toHaveProperty('type', MEDIA_GET_USER_RATING_SUCCESS);
+        expect(actions[1]).toHaveProperty('userRating', expect.anything());
+      });
+  });
+
+  it('dispatches success action when getUserRating fails with movie', () => {
+    const store = mockStore({});
+
+    return store.dispatch(getUserRating(true, 1, 0))
+      .then(() => {
+        const actions = store.getActions();
+        console.log(actions);
+        expect(actions[0]).toHaveProperty('type', MEDIA_GET_USER_RATING_BEGIN);
+        expect(actions[1]).toHaveProperty('type', MEDIA_GET_USER_RATING_FAILURE);
+        expect(actions[1]).toHaveProperty('data', expect.anything());
+      });
+  });
+
+  it('dispatches success action when getUserRating fails with tv show', () => {
+    const store = mockStore({});
+
+    return store.dispatch(getUserRating(false, 0, 1))
+      .then(() => {
+        const actions = store.getActions();
+        console.log(actions);
+        expect(actions[0]).toHaveProperty('type', MEDIA_GET_USER_RATING_BEGIN);
+        expect(actions[1]).toHaveProperty('type', MEDIA_GET_USER_RATING_FAILURE);
+        expect(actions[1]).toHaveProperty('data', expect.anything());
+      });
+  });
+
   it('dispatches success action when getUserRating succeeds', () => {
     const store = mockStore({});
 
-    return store.dispatch(getUserRating())
+    return store.dispatch(getUserRating(true, 1, 1))
       .then(() => {
         const actions = store.getActions();
+        console.log(actions);
         expect(actions[0]).toHaveProperty('type', MEDIA_GET_USER_RATING_BEGIN);
         expect(actions[1]).toHaveProperty('type', MEDIA_GET_USER_RATING_SUCCESS);
+        expect(actions[1]).toHaveProperty('userRating', expect.anything());
       });
   });
 
