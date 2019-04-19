@@ -1,10 +1,14 @@
 import React from 'react';
-import { Header } from '../../../src/features/common';
+import {renderer} from 'react-test-renderer';
+import {Header} from '../../../src/features/common';
 
+ 
 
 describe('common/header', () => {
   it('renders correctly', () => {
-    const renderedComponent =<Header />;
+    const renderedComponent =renderer
+    .create(<Header />)
+    .toJSON();
     expect(renderedComponent).toMatchSnapshot();
   });
 });

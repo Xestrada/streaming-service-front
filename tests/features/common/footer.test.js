@@ -1,10 +1,13 @@
 import React from 'react';
-import  Footer  from '../../../src/features/common';
+import renderer from 'react-test-renderer';
+import { Footer}  from '../../../src/features/common';
 
 
 describe('common/footer', () => {
   it('renders correctly', () => {
-    const renderedComponent = <Footer />;
+    const renderedComponent =renderer
+    .create(<Footer />)
+    .toJSON();
     expect(renderedComponent).toMatchSnapshot();
   });
 });
