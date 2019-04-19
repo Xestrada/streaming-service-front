@@ -25,12 +25,12 @@ describe('common/redux/getRented', () => {
 
   it('dispatches success action when getRented succeeds', () => {
     const store = mockStore({});
-
-    return store.dispatch(getRented())
+    return store.dispatch(getRented(1))
       .then(() => {
         const actions = store.getActions();
         expect(actions[0]).toHaveProperty('type', COMMON_GET_RENTED_BEGIN);
-        expect(actions[1]).toHaveProperty('type', COMMON_GET_RENTED_FAILURE);
+        expect(actions[1]).toHaveProperty('type', COMMON_GET_RENTED_SUCCESS);
+        expect(actions[1]).toHaveProperty('data', expect.anything());
       });
   });
 
