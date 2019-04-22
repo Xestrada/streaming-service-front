@@ -7,7 +7,7 @@ import {
 
 // Rekit uses redux-thunk for async actions by default: https://github.com/gaearon/redux-thunk
 // If you prefer redux-saga, you can use rekit-plugin-redux-saga: https://github.com/supnate/rekit-plugin-redux-saga
-export function postTimeline(info = {}, isTimeline) {
+export function postTimeline(info = {}) {
     return (dispatch) => { // optionally you can have getState as the second argument
         dispatch({
             type: PROFILE_POST_TIMELINE_BEGIN,
@@ -15,9 +15,7 @@ export function postTimeline(info = {}, isTimeline) {
 
         const content = JSON.stringify(info);
 
-        const type = isTimeline ? 'timeline' : 'wall';
-
-        return fetch(`https://videovaultusers.herokuapp.com/${type}/post`, {
+        return fetch('https://videovaultusers.herokuapp.com/timeline/post', {
             method: 'POST',
             mode: 'cors',
             headers: {
