@@ -225,7 +225,7 @@ export class Home extends Component {
                 <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
             </CarouselItem>
         ));
-        const postElems = timeline !== undefined && !getTimelinePending ? timeline.map(post => (
+        const postElems = authen && timeline !== undefined && !getTimelinePending ? timeline.map(post => (
             <div className='post'>
                 <TimelinePost //eslint-disable-line
                     isTimeline //eslint-disable-line

@@ -75,7 +75,6 @@ export class Media extends Component {
   }
 
   getComments(title) {
-
       const { common, actions } = this.props;
       const { media } = common;
       const { movieComments, tvComments } = actions;
@@ -304,7 +303,7 @@ Season:
               Do you wish to rent this movie?
               </ModalBody>
               <ModalFooter>
-                  <Button className='btn btn-primary btn-md' color='primary' onClick={this.rentMovie && this.rentToggle}>
+                  <Button className='btn btn-primary btn-md' color='primary' onClick={() => {this.rentMovie(); this.rentToggle()}}>
                     Yes, rent this movie
                   </Button>
                   <Button color='secondary' onClick={this.rentToggle}>Cancel</Button>
@@ -318,7 +317,7 @@ Season:
               Do you wish to subscribe this tv show?
               </ModalBody>
               <ModalFooter>
-                  <Button className='btn btn-primary btn-md' color='primary' onClick={this.addSlot && this.subToggle}>
+                  <Button className='btn btn-primary btn-md' color='primary' onClick={() => {this.addSlot(); this.subToggle()}}>
                   Yes, subscribe this tv show
                   </Button>
                   <Button color='secondary' onClick={this.subToggle}>Cancel</Button>

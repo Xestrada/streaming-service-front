@@ -52,7 +52,6 @@ class Signup extends Component {
         const { username, password, email, card_num, exp, name } = this.state; //eslint-disable-line
         const { common } = this.props;
         const { authen, initialSub, signupError } = common;
-        console.log(signupError);
 
         const errorMessage = (signupError === null) ? null : (<Alert color='danger'>There was an error during Sign Up</Alert>);
 
