@@ -62,7 +62,7 @@ export function reducer(state, action) {
         return {
             ...state,
             getTimelinePending: false,
-            getTimelineError: action.data.error,
+            getTimelineError: action.error,
         };
 
     case PROFILE_GET_TIMELINE_DISMISS_ERROR:

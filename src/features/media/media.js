@@ -253,11 +253,16 @@ export class Media extends Component {
           this.checkOwnership();
       }
 
+      const unsub = authen && owned && media !== undefined && media.season_info == null ? (
+          <Button color='primary'>Ubsubscribe</ Button>
+      ) : null;
+
       const mediaURL = media !== undefined && media.season_info === undefined ? media.url : videoURL;
 
       const commentElems = comments !== undefined ? comments.map(comment => (
           <UserComment comment={comment.comment} user={comment.username} date={comment.date_of_comment} />
       )) : null;
+      
       const seasonInfo = (media !== undefined && media.season_info !== undefined) ? media.season_info.map((content) => {
           const episodeInfo = (content.episodes !== undefined) ? content.episodes.map(item => (
               <div>
@@ -310,6 +315,7 @@ Season:
               </ModalFooter>
           </Modal>
       );
+
       const subModalElem = (
           <Modal isOpen={subModal} toggle={this.subToggle}>
               <ModalHeader toggle={this.subToggle} className='centerModalHeader'>Are you sure?</ModalHeader>
@@ -324,6 +330,7 @@ Season:
               </ModalFooter>
           </Modal>
       );
+
       const commentContainer = authen ? (
           <div id='comment-container'>
               <div id='comment-header'>
@@ -361,6 +368,7 @@ Season:
               <label htmlFor='star1' title='text'>1 star</label>
           </div>
       ) : null;
+
       const genreInfo = (media !== undefined && media.genres !== undefined) ? media.genres.map((item, index) => (
           <span
               style={{ color: 'whitesmoke', fontSize: '1em' }} //eslint-disable-line
@@ -369,6 +377,7 @@ Season:
               { (index ? ', ' : '') + item }
           </span>
       )) : null;
+
       const starInfo = (media !== undefined && media.genres !== undefined) ? media.stars.map((item, index) => (
           <span
               style={{ color: 'whitesmoke', fontSize: '1em' }} //eslint-disable-line
@@ -377,7 +386,9 @@ Season:
               { (index ? ', ' : '') + item }
           </span>
       )) : null;
+
       const error = mediaError !== undefined ? <h1>Error</h1> : null;
+
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
               {subModalElem}
@@ -415,8 +426,9 @@ Episode
               </div>
 
               <div id='clearFix' style={{ overflow: 'hidden', marginTop: '0.8%' }}>
-                  {media.season_info === undefined && authen && !owned && <Button color='danger' className='rent-button' onClick={this.rentToggle}>Rent</Button>}
-                  {media.season_info !== undefined && authen && !owned && <Button color='danger' className='subscribe-button' onClick={this.subToggle}>Subscribe</Button>}
+                  {media.season_info === undefined && authen && !owned && <Button color='primary' className='rent-button' onClick={this.rentToggle}>Rent</Button>}
+                  {media.season_info !== undefined && authen && !owned && <Button color='primary' className='subscribe-button' onClick={this.subToggle}>Subscribe</Button>}
+                  {unsub}
                   {owned && StarRating}
               </div>
               <div id='media-info'>
