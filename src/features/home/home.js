@@ -20,6 +20,7 @@ import Footer from '../common/footer';
 import ContentBox from '../common/contenBox';
 import SearchBar from '../common/SearchBar';
 import TimelinePost from '../common/timelinePost';
+import CommentContainer from '../common/commentContainer';
 import emptyImg from '../../images/noimage.png';
 import './home.scss';
 
@@ -54,6 +55,7 @@ export class Home extends Component {
             query: '',
             searchFunc: p => this.getRecentlyAdded(p),
             activeIndex: 0,
+            //userPost: '',
         };
 
         this.getMovieList = this.getMovieList.bind(this);
@@ -119,6 +121,11 @@ export class Home extends Component {
             getTimeline(userData.id);
         }
     }
+
+    // postOnTimeline() {
+    //     const { common, profileActions } = this.props;
+    //     const { userData } = common;
+    // }
 
     setSearchParams(filter, query) {
         const filterURL = this.createSearchURL(filter);
@@ -229,8 +236,19 @@ export class Home extends Component {
                     postUserId={post.post_user_id} //eslint-disable-line
                     userId={userData.id} //eslint-disable-line
                     refreshFunc={() => this.getTimeline(userData.id)} //eslint-disable-line
-
                 />
+                {/* <CommentContainer
+                    comment={userComment} //eslint-disable-line
+                    title='Leave a Comment' //eslint-disable-line
+                    buttonText='Post Comment' //eslint-disable-line
+                    placeHolderText='Enter your comment here...' //eslint-disable-line
+                    buttonFunc={this.commentOnPost} //eslint-disable-line
+                    changeFunc={(value) => { //eslint-disable-line
+                        this.setState({
+                            userComment: value,
+                        });
+                    }}
+                /> */}
             </div>
         )) : null;
 
