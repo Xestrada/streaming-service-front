@@ -17,7 +17,6 @@ class TimelinePost extends React.Component {
         common: PropTypes.object.isRequired,
         actions: PropTypes.object.isRequired,
         comments: PropTypes.object,
-        isTimeline: PropTypes.bool, // isTimeline or wall
     };
 
     constructor(props) {
@@ -31,11 +30,10 @@ class TimelinePost extends React.Component {
     }
 
     commentOnPost() {
-        const { common, actions, postUserId, postId, userId, isTimeline, refreshFunc } = this.props;
+        const { common, actions, postUserId, postId, userId, refreshFunc } = this.props;
         const { commentPost } = actions;
         const { userData } = common;
         const { userComment } = this.state;
-        console.log(isTimeline);
         if (userData !== undefined) {
             commentPost({
                 user_id: userId,
@@ -43,7 +41,7 @@ class TimelinePost extends React.Component {
                 comment_user_id: userData.id,
                 comment: userComment,
                 post_id: postId,
-            }, isTimeline).then(refreshFunc);
+            }).then(refreshFunc);
         }
     }
 
@@ -97,7 +95,6 @@ class TimelinePost extends React.Component {
 
 TimelinePost.defaultProps = {
     comments: {},
-    isTimeline: false,
 };
 
 /* istanbul ignore next */

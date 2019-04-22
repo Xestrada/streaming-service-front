@@ -103,7 +103,15 @@ class Profile extends Component {
 
         const postElems = wall !== undefined && authen && !getWallPending ? wall.map(post => (
             <div className='post'>
-                <TimelinePost image='https://i.redd.it/9kzcg7xk4q321.png' name={post.post_username} message={post.post} comments={post.comments} />
+                <TimelinePost
+                    name={post.post_username} //eslint-disable-line
+                    message={post.post} //eslint-disable-line
+                    comments={post.comments} //eslint-disable-line
+                    postId={post.post_id} //eslint-disable-line
+                    postUserId={post.post_user_id} //eslint-disable-line
+                    userId={post.user_id} //eslint-disable-line
+                    refreshFunc={this.getWall} //eslint-disable-line
+                />
             </div>
         )) : null;
 
