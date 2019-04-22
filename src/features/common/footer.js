@@ -17,6 +17,9 @@ export default class Footer extends React.Component {
         };
         this.toggle = this.toggle.bind(this);
     }
+    myClickFunc = () => {
+        console.log('clickity clickcty')
+    }
 
     toggle() {
         this.setState(prevState => ({
