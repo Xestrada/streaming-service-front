@@ -190,6 +190,7 @@ export class User extends Component {
           checkFriendshipPending,
           hasFreindRequest,
           sentFriendRequest,
+          userData,
       } = common;
 
       const friendAction = (areFriends !== undefined && areFriends) ? (<Button color='danger' onClick={this.removeFriend}>Remove Friend</Button>) : (<Button color='primary' onClick={this.addFriend}>Send Friend Request</Button>);
@@ -239,7 +240,15 @@ export class User extends Component {
 
       const userWall = wall !== undefined && !getWallPending ? wall.map(post => (
           <div className='post'>
-              <TimelinePost image='https://i.redd.it/9kzcg7xk4q321.png' name={post.post_username} message={post.post} comments={post.comments} />
+              <TimelinePost
+                    name={post.post_username} //eslint-disable-line
+                    message={post.post} //eslint-disable-line
+                    comments={post.comments} //eslint-disable-line
+                    postId={post.post_id} //eslint-disable-line
+                    postUserId={post.post_user_id} //eslint-disable-line
+                    userId={userData.id} //eslint-disable-line
+                    refreshFunc={this.getWall} //eslint-disable-line
+              />
           </div>
       )) : null;
 
