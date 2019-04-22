@@ -20,6 +20,7 @@ import Footer from '../common/footer';
 import ContentBox from '../common/contenBox';
 import SearchBar from '../common/SearchBar';
 import TimelinePost from '../common/timelinePost';
+import CommentContainer from '../common/commentContainer';
 import emptyImg from '../../images/noimage.png';
 import './home.scss';
 
@@ -54,6 +55,7 @@ export class Home extends Component {
             query: '',
             searchFunc: p => this.getRecentlyAdded(p),
             activeIndex: 0,
+            //userPost: '',
         };
 
         this.getMovieList = this.getMovieList.bind(this);
@@ -75,6 +77,7 @@ export class Home extends Component {
     componentDidMount() {
         const { page, searchFunc } = this.state;
         searchFunc(page);
+        this.getTimeline();
     }
 
     onExiting() {
@@ -118,6 +121,11 @@ export class Home extends Component {
             getTimeline(userData.id);
         }
     }
+
+    // postOnTimeline() {
+    //     const { common, profileActions } = this.props;
+    //     const { userData } = common;
+    // }
 
     setSearchParams(filter, query) {
         const filterURL = this.createSearchURL(filter);
@@ -190,7 +198,6 @@ export class Home extends Component {
         const { page } = this.state;
         const { data, maxPages, searchError, searchPending, authen, userData } = common;
         const { getTimelinePending, getTimelineError, timeline } = profile;
-        let timeLine = null;
 
         if (authen && timeline === undefined && userData !== undefined && !getTimelinePending && (getTimelineError === null || getTimelineError === undefined)) {
             this.getTimeline(userData.id);
@@ -218,43 +225,55 @@ export class Home extends Component {
                 <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
             </CarouselItem>
         ));
-        const postElems = timeline !== undefined ? timeline.map(post => (
+        const postElems = timeline !== undefined && !getTimelinePending ? timeline.map(post => (
             <div className='post'>
-                <TimelinePost image={emptyImg} name={post.username} message={post.post} test={post.comments} />
+                <TimelinePost //eslint-disable-line
+                    isTimeline //eslint-disable-line
+                    name={post.username} //eslint-disable-line
+                    message={post.post} //eslint-disable-line
+                    comments={post.comments} //eslint-disable-line
+                    postId={post.post_id} //eslint-disable-line
+                    postUserId={post.post_user_id} //eslint-disable-line
+                    userId={userData.id} //eslint-disable-line
+                    refreshFunc={() => this.getTimeline(userData.id)} //eslint-disable-line
+                />
+                {/* <CommentContainer
+                    comment={userComment} //eslint-disable-line
+                    title='Leave a Comment' //eslint-disable-line
+                    buttonText='Post Comment' //eslint-disable-line
+                    placeHolderText='Enter your comment here...' //eslint-disable-line
+                    buttonFunc={this.commentOnPost} //eslint-disable-line
+                    changeFunc={(value) => { //eslint-disable-line
+                        this.setState({
+                            userComment: value,
+                        });
+                    }}
+                /> */}
             </div>
         )) : null;
 
-        if (authen === undefined || !authen) {
-            timeLine = (
-                <div>
-                    <img className='home-image' src={background} alt='' />
-                    <div className='advertise-text'>
-                        <h1>Variety TV Shows and Movies</h1>
-                        <p>Only $10 for a month</p>
-                        <Link to='/signup'>
-                            <Button color='primary' className='signup-button'> SIGN UP NOW</Button>
-                        </Link>
-                    </div>
-                    <div className='moveCarousel'>
-                        <Carousel activeIndex={activeIndex} next={this.next} previous={this.previous}>
-                            <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
-                            {slides}
-                            <CarouselControl direction='prev' directionText='Previous' onClickHandler={this.previous} />
-                            <CarouselControl direction='next' directionText='Next' onClickHandler={this.next} />
-                        </Carousel>
-                    </div>
+        const homeAds = (
+            <div>
+                <img className='home-image' src={background} alt='' />
+                <div className='advertise-text'>
+                    <h1>Variety TV Shows and Movies</h1>
+                    <p>Only $10 for a month</p>
+                    <Link to='/signup'>
+                        <Button color='primary' className='signup-button'> SIGN UP NOW</Button>
+                    </Link>
                 </div>
-            );
-        } else {
-            timeLine = (
-                <div>
-                    <h1 style={{ color: 'white' }}>Timeline</h1>
-                    {' '}
-                    {postElems}
-                    {' '}
+                <div className='moveCarousel'>
+                    <Carousel activeIndex={activeIndex} next={this.next} previous={this.previous}>
+                        <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
+                        {slides}
+                        <CarouselControl direction='prev' directionText='Previous' onClickHandler={this.previous} />
+                        <CarouselControl direction='next' directionText='Next' onClickHandler={this.next} />
+                    </Carousel>
                 </div>
-            );
-        }
+            </div>
+        );
+
+        const homeMain = authen === undefined || !authen ? homeAds : postElems;
 
         for (let i = 0; i < 20; i += 1) {
             loadingGrid.push(<i className='fa fa-spinner fa-spin loadIcon' key={i} />);
@@ -264,7 +283,8 @@ export class Home extends Component {
             <body className='background-color'>
                 <div className='home-root'>
                     <Header />
-                    {timeLine}
+                    <br />
+                    {homeMain}
                     <br />
                     <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />
                     <br />

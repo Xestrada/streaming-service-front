@@ -24,6 +24,7 @@ export function commentPost(info = {}) {
             body: content,
         })
             .then(response => response.json()).then((createdJson) => {
+                console.log(createdJson);
                 if (createdJson.success !== undefined && createdJson.success) {
                     dispatch({
                         type: PROFILE_COMMENT_POST_SUCCESS,

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Col, Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import * as actions from '../common/redux/actions';
@@ -51,7 +51,10 @@ class Signup extends Component {
 
         const { username, password, email, card_num, exp, name } = this.state; //eslint-disable-line
         const { common } = this.props;
-        const { authen, initialSub } = common;
+        const { authen, initialSub, signupError } = common;
+        console.log(signupError);
+
+        const errorMessage = (signupError === null) ? null : (<Alert color='danger'>There was an error during Sign Up</Alert>);
 
         const redir = authen !== undefined && authen && !initialSub ? (<Redirect to='/sub-init' />) : null;
 
@@ -63,6 +66,7 @@ class Signup extends Component {
                         {'Create your account'}
                     </div>
                     {redir}
+                    {errorMessage}
                     <Form>
                         <FormGroup row>
                             <Label for='name' sm={3}>Name: </Label>

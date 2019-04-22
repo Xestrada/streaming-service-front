@@ -7,11 +7,13 @@ import {
 
 // Rekit uses redux-thunk for async actions by default: https://github.com/gaearon/redux-thunk
 // If you prefer redux-saga, you can use rekit-plugin-redux-saga: https://github.com/supnate/rekit-plugin-redux-saga
-export function declineRequest() {
+export function declineRequest(info = {}) {
     return (dispatch) => { // optionally you can have getState as the second argument
         dispatch({
             type: COMMON_DECLINE_REQUEST_BEGIN,
         });
+
+        const values = JSON.stringify(info);
 
         return fetch('https://videovaultusers.herokuapp.com/decline_friend_request', {
             method: 'POST',
@@ -19,11 +21,19 @@ export function declineRequest() {
             headers: {
                 'Content-Type': 'application/json',
             },
+            body: values,
         })
             .then(response => response.json()).then((createdJson) => {
-                dispatch({
-                    type: COMMON_DECLINE_REQUEST_SUCCESS,
-                });
+                if (createdJson.success) {
+                    dispatch({
+                        type: COMMON_DECLINE_REQUEST_SUCCESS,
+                    });
+                } else {
+                    dispatch({
+                        type: COMMON_DECLINE_REQUEST_FAILURE,
+                        error: createdJson,
+                    });
+                }
             })
             .catch((error) => {
                 dispatch({

@@ -53,6 +53,8 @@ const initialState = {
     deleteAccountError: null,
     hasFreindRequestPending: false,
     hasFreindRequestError: null,
+  sentFriendRequestPending: false,
+  sentFriendRequestError: null,
 };
 
 export default initialState;
