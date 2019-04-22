@@ -220,7 +220,17 @@ export class Home extends Component {
         ));
         const postElems = timeline !== undefined && !getTimelinePending ? timeline.map(post => (
             <div className='post'>
-                <TimelinePost image={emptyImg} name={post.username} message={post.post} comments={post.comments} />
+                <TimelinePost //eslint-disable-line
+                    isTimeline //eslint-disable-line
+                    name={post.username} //eslint-disable-line
+                    message={post.post} //eslint-disable-line
+                    comments={post.comments} //eslint-disable-line
+                    postId={post.post_id} //eslint-disable-line
+                    postUserId={post.post_user_id} //eslint-disable-line
+                    userId={userData.id} //eslint-disable-line
+                    refreshFunc={() => this.getTimeline(userData.id)} //eslint-disable-line
+
+                />
             </div>
         )) : null;
 
