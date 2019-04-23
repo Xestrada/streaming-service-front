@@ -55,7 +55,7 @@ export class Home extends Component {
             query: '',
             searchFunc: p => this.getRecentlyAdded(p),
             activeIndex: 0,
-            //userPost: '',
+            userPost: '',
         };
 
         this.getMovieList = this.getMovieList.bind(this);
@@ -72,6 +72,7 @@ export class Home extends Component {
         this.goToIndex = this.goToIndex.bind(this);
         this.onExiting = this.onExiting.bind(this);
         this.onExited = this.onExited.bind(this);
+        this.postOnTimeline = this.postOnTimeline.bind(this);
     }
 
     componentDidMount() {
@@ -122,11 +123,6 @@ export class Home extends Component {
         }
     }
 
-    // postOnTimeline() {
-    //     const { common, profileActions } = this.props;
-    //     const { userData } = common;
-    // }
-
     setSearchParams(filter, query) {
         const filterURL = this.createSearchURL(filter);
         this.setState({
@@ -135,6 +131,23 @@ export class Home extends Component {
             page: 1,
             searchFunc: p => this.search(p),
         }, () => this.search(1));
+    }
+
+    postOnTimeline() {
+        const { common, profileActions } = this.props;
+        const { userPost } = this.state;
+        const { userData } = common;
+        const { postTimeline } = profileActions;
+        postTimeline({
+            wall_id: userData.id,
+            user_id: userData.id,
+            post: userPost,
+        }).then(() => {
+            this.getTimeline();
+            this.setState({
+                userPost: '',
+            });
+        });
     }
 
     next() {
@@ -195,7 +208,7 @@ export class Home extends Component {
 
     render() {
         const { common, profile } = this.props;
-        const { page } = this.state;
+        const { page, userPost } = this.state;
         const { data, maxPages, searchError, searchPending, authen, userData } = common;
         const { getTimelinePending, getTimelineError, timeline } = profile;
 
@@ -236,18 +249,6 @@ export class Home extends Component {
                     refreshFunc={() => this.getTimeline(userData.id)} //eslint-disable-line
                     areFriends //eslint-disable-line
                 />
-                {/* <CommentContainer
-                    comment={userComment} //eslint-disable-line
-                    title='Leave a Comment' //eslint-disable-line
-                    buttonText='Post Comment' //eslint-disable-line
-                    placeHolderText='Enter your comment here...' //eslint-disable-line
-                    buttonFunc={this.commentOnPost} //eslint-disable-line
-                    changeFunc={(value) => { //eslint-disable-line
-                        this.setState({
-                            userComment: value,
-                        });
-                    }}
-                /> */}
             </div>
         )) : null;
 
@@ -272,7 +273,23 @@ export class Home extends Component {
             </div>
         );
 
-        const homeMain = authen === undefined || !authen ? homeAds : postElems;
+        const homeMain = authen === undefined || !authen ? homeAds : (
+            <div>
+                {postElems}
+                <CommentContainer
+                    comment={userPost} //eslint-disable-line
+                    title='Post to Timeline' //eslint-disable-line
+                    buttonText='Post' //eslint-disable-line
+                    placeHolderText='Enter your comment here...' //eslint-disable-line
+                    buttonFunc={this.postOnTimeline} //eslint-disable-line
+                    changeFunc={(value) => { //eslint-disable-line
+                        this.setState({
+                            userPost: value,
+                        });
+                    }}
+                />
+            </div>
+        );
 
         for (let i = 0; i < 20; i += 1) {
             loadingGrid.push(<i className='fa fa-spinner fa-spin loadIcon' key={i} />);

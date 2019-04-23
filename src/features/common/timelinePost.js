@@ -72,7 +72,7 @@ class TimelinePost extends React.Component {
                                 userComment: value,
                             });
                         }}
-/>
+                    />
                 )}
             </div>
 
