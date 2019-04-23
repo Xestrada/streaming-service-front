@@ -13,6 +13,7 @@ export function commentPost(info = {}) {
             type: PROFILE_COMMENT_POST_BEGIN,
         });
 
+        console.log(info);
         const content = JSON.stringify(info);
 
         return fetch('https://videovaultusers.herokuapp.com/timeline/post/comment', {

@@ -242,7 +242,7 @@ export class Home extends Component {
             <div className='post'>
                 <TimelinePost //eslint-disable-line
                     isTimeline //eslint-disable-line
-                    name={post.username} //eslint-disable-line
+                    name={post.post_username} //eslint-disable-line
                     message={post.post} //eslint-disable-line
                     comments={post.comments} //eslint-disable-line
                     postId={post.post_id} //eslint-disable-line

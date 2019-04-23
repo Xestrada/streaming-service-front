@@ -60,6 +60,7 @@ export class Media extends Component {
       this.getUserRating = this.getUserRating.bind(this);
       this.checkOwnership = this.checkOwnership.bind(this);
       this.unsubscribeToShow = this.unsubscribeToShow.bind(this);
+      this.checkIfUnsub = this.checkIfUnsub.bind(this);
   }
 
 
@@ -73,6 +74,7 @@ export class Media extends Component {
               const { media, authen } = common;
               if (authen) {
                   this.getUserRating(media);
+                  this.checkIfUnsub();
               }
           });
   }
@@ -227,15 +229,23 @@ export class Media extends Component {
           });
   }
 
+  checkIfUnsub() {
+      const { common, actions } = this.props;
+      const { media, userData } = common;
+      const { isUnsubbed } = actions;
+      isUnsubbed(userData.id, media.tv_show_id);
+  }
+
   unsubscribeToShow() {
       const { common, actions } = this.props;
       const { media, userData } = common;
       const { unsubscribe } = actions;
       if (userData !== undefined) {
-          unsubscribe({
-              user_id: userData.id,
-              tv_show_id: media.tv_show_id,
-          });
+          unsubscribe(userData.id, media.tv_show_id)
+              .then(() => {
+                  this.checkIfUnsub();
+                  this.unsubToggle();
+              });
       }
   }
 
@@ -258,6 +268,7 @@ export class Media extends Component {
       const { media, mediaError, authen } = common;
       const { comments,
           userRating,
+          isUnsubbed,
           getUserRatingPending,
           getUserRatingError,
           isMediaOwnedPending,
@@ -272,11 +283,16 @@ export class Media extends Component {
       // Check ownership
       if (media !== undefined && authen && !ownershipChecked && !isMediaOwnedPending && media.title === title) {
           this.checkOwnership();
+          this.checkIfUnsub();
       }
 
       const unsub = authen && owned && media !== undefined && media.season_info !== undefined ? (
           <Button color='primary' onClick={this.unsubToggle}>Unsubscribe</Button>
       ) : null;
+
+      const unsubOptions = isUnsubbed !== undefined && isUnsubbed ? (
+          <h1>You have unsubscribed to this media</h1>
+      ) : unsub;
 
       const mediaURL = media !== undefined && media.season_info === undefined ? media.url : videoURL;
 
@@ -329,7 +345,7 @@ Season:
                 Are you sure you want to unsubscribe?
               </ModalBody>
               <ModalFooter>
-                  <Button className='btn btn-primary btn-md' color='primary' onClick={() => { this.unsubToggle(); }}>
+                  <Button className='btn btn-primary btn-md' color='primary' onClick={this.unsubscribeToShow}>
                     Yes, unsubscribe
                   </Button>
                   <Button color='secondary' onClick={this.unsubToggle}>Cancel</Button>
@@ -437,10 +453,10 @@ Season:
               </h1>
               {stored !== '' && eps !== '' && (
                   <h1 style={{ textAlign: 'center', fontSize: '1.5em' }}>
-Episode
+                    Episode
                       {' '}
                       {eps}
-:
+                    :
                       {' '}
                       {stored}
                   </h1>
@@ -452,9 +468,9 @@ Episode
                       {media.title || title}
                       {' '}
                       <span>
-(
+                        (
                           {media.year}
-)
+                        )
 
                       </span>
                       {media.season_info !== undefined && <h3>SEASONS</h3>}
@@ -465,7 +481,7 @@ Episode
               <div id='clearFix' style={{ overflow: 'hidden', marginTop: '0.8%' }}>
                   {media.season_info === undefined && authen && !owned && <Button color='primary' className='rent-button' onClick={this.rentToggle}>Rent</Button>}
                   {media.season_info !== undefined && authen && !owned && <Button color='primary' className='subscribe-button' onClick={this.subToggle}>Subscribe</Button>}
-                  {unsub}
+                  {unsubOptions}
                   {owned && StarRating}
               </div>
               <div id='media-info'>
