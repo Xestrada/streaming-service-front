@@ -108,8 +108,6 @@ class Profile extends Component {
                     message={post.post} //eslint-disable-line
                     comments={post.comments} //eslint-disable-line
                     postId={post.post_id} //eslint-disable-line
-                    postUserId={post.post_user_id} //eslint-disable-line
-                    userId={post.user_id} //eslint-disable-line
                     refreshFunc={this.getWall} //eslint-disable-line
                     areFriends //eslint-disable-line
                 />

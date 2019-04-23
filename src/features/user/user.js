@@ -245,8 +245,6 @@ export class User extends Component {
                     message={post.post} //eslint-disable-line
                     comments={post.comments} //eslint-disable-line
                     postId={post.post_id} //eslint-disable-line
-                    postUserId={post.post_user_id} //eslint-disable-line
-                    userId={userData.id} //eslint-disable-line
                     refreshFunc={this.getWall} //eslint-disable-line
                     areFriends={areFriends !== undefined && areFriends} //eslint-disable-line
               />

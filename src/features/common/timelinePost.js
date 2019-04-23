@@ -10,8 +10,6 @@ import './timelinePost.scss';
 class TimelinePost extends React.Component {
     static propTypes = {
         postId: PropTypes.number.isRequired, // id of the post being commented on
-        userId: PropTypes.number.isRequired, // whose wall/timeline is being commented on
-        postUserId: PropTypes.number.isRequired, // user who wrote the post
         refreshFunc: PropTypes.func.isRequired, // funcion run after posting on timeline
         name: PropTypes.string.isRequired,
         message: PropTypes.string.isRequired,
@@ -32,15 +30,13 @@ class TimelinePost extends React.Component {
     }
 
     commentOnPost() {
-        const { common, actions, postUserId, postId, userId, refreshFunc } = this.props;
+        const { common, actions, postId, refreshFunc } = this.props;
         const { commentPost } = actions;
         const { userData } = common;
         const { userComment } = this.state;
         if (userData !== undefined) {
             commentPost({
-                user_id: userId,
-                post_user_id: postUserId,
-                comment_user_id: userData.id,
+                user_id: userData.id,
                 comment: userComment,
                 post_id: postId,
             }).then(refreshFunc);

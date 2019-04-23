@@ -233,8 +233,6 @@ export class Home extends Component {
                     message={post.post} //eslint-disable-line
                     comments={post.comments} //eslint-disable-line
                     postId={post.post_id} //eslint-disable-line
-                    postUserId={post.post_user_id} //eslint-disable-line
-                    userId={userData.id} //eslint-disable-line
                     refreshFunc={() => this.getTimeline(userData.id)} //eslint-disable-line
                     areFriends //eslint-disable-line
                 />
