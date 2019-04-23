@@ -248,6 +248,7 @@ export class User extends Component {
                     postUserId={post.post_user_id} //eslint-disable-line
                     userId={userData.id} //eslint-disable-line
                     refreshFunc={this.getWall} //eslint-disable-line
+                    areFriends={areFriends !== undefined && areFriends} //eslint-disable-line
               />
           </div>
       )) : null;

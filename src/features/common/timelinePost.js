@@ -18,6 +18,7 @@ class TimelinePost extends React.Component {
         common: PropTypes.object.isRequired,
         actions: PropTypes.object.isRequired,
         comments: PropTypes.object,
+        areFriends: PropTypes.bool,
     };
 
     constructor(props) {
@@ -49,7 +50,7 @@ class TimelinePost extends React.Component {
 
     render() {
 
-        const { name, message, comments } = this.props;
+        const { name, message, comments, areFriends } = this.props;
         const { userComment } = this.state;
 
         const commentElems = comments !== undefined ? comments.map(comment => (
@@ -63,18 +64,20 @@ class TimelinePost extends React.Component {
                     {message}
                 </div>
                 {commentElems}
-                <CommentContainer
+                {areFriends && (
+                    <CommentContainer
                     comment={userComment} //eslint-disable-line
                     title='Leave a Comment' //eslint-disable-line
                     buttonText='Post Comment' //eslint-disable-line
                     placeHolderText='Enter your comment here...' //eslint-disable-line
                     buttonFunc={this.commentOnPost} //eslint-disable-line
                     changeFunc={(value) => { //eslint-disable-line
-                        this.setState({
-                            userComment: value,
-                        });
-                    }}
-                />
+                            this.setState({
+                                userComment: value,
+                            });
+                        }}
+/>
+                )}
             </div>
 
 
@@ -84,6 +87,7 @@ class TimelinePost extends React.Component {
 
 TimelinePost.defaultProps = {
     comments: {},
+    areFriends: false,
 };
 
 /* istanbul ignore next */

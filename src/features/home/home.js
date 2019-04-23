@@ -236,6 +236,7 @@ export class Home extends Component {
                     postUserId={post.post_user_id} //eslint-disable-line
                     userId={userData.id} //eslint-disable-line
                     refreshFunc={() => this.getTimeline(userData.id)} //eslint-disable-line
+                    areFriends //eslint-disable-line
                 />
                 {/* <CommentContainer
                     comment={userComment} //eslint-disable-line

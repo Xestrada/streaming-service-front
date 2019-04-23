@@ -111,6 +111,7 @@ class Profile extends Component {
                     postUserId={post.post_user_id} //eslint-disable-line
                     userId={post.user_id} //eslint-disable-line
                     refreshFunc={this.getWall} //eslint-disable-line
+                    areFriends //eslint-disable-line
                 />
             </div>
         )) : null;
