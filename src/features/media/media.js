@@ -43,6 +43,7 @@ export class Media extends Component {
           eps: '',
           rentModal: false,
           subModal: false,
+          unsubModal: false,
           owned: false,
           ownershipChecked: false,
       };
@@ -55,8 +56,10 @@ export class Media extends Component {
       this.toggleHidden = this.toggleHidden.bind(this);
       this.rentToggle = this.rentToggle.bind(this);
       this.subToggle = this.subToggle.bind(this);
+      this.unsubToggle = this.unsubToggle.bind(this);
       this.getUserRating = this.getUserRating.bind(this);
       this.checkOwnership = this.checkOwnership.bind(this);
+      this.unsubscribeToShow = this.unsubscribeToShow.bind(this);
   }
 
 
@@ -110,6 +113,12 @@ export class Media extends Component {
   subToggle() {
       this.setState(prevState => ({
           subModal: !prevState.subModal,
+      }));
+  }
+
+  unsubToggle() {
+      this.setState(prevState => ({
+          unsubModal: !prevState.unsubModal,
       }));
   }
 
@@ -216,7 +225,18 @@ export class Media extends Component {
                   ownershipChecked: true,
               });
           });
+  }
 
+  unsubscribeToShow() {
+      const { common, actions } = this.props;
+      const { media, userData } = common;
+      const { unsubscribe } = actions;
+      if (userData !== undefined) {
+          unsubscribe({
+              user_id: userData.id,
+              tv_show_id: media.tv_show_id,
+          });
+      }
   }
 
   render() {
@@ -230,6 +250,7 @@ export class Media extends Component {
           eps,
           rentModal,
           subModal,
+          unsubModal,
           owned,
           ownershipChecked,
       } = this.state;
@@ -253,8 +274,8 @@ export class Media extends Component {
           this.checkOwnership();
       }
 
-      const unsub = authen && owned && media !== undefined && media.season_info == null ? (
-          <Button color='primary'>Ubsubscribe</ Button>
+      const unsub = authen && owned && media !== undefined && media.season_info !== undefined ? (
+          <Button color='primary' onClick={this.unsubToggle}>Unsubscribe</Button>
       ) : null;
 
       const mediaURL = media !== undefined && media.season_info === undefined ? media.url : videoURL;
@@ -262,7 +283,7 @@ export class Media extends Component {
       const commentElems = comments !== undefined ? comments.map(comment => (
           <UserComment comment={comment.comment} user={comment.username} date={comment.date_of_comment} />
       )) : null;
-      
+
       const seasonInfo = (media !== undefined && media.season_info !== undefined) ? media.season_info.map((content) => {
           const episodeInfo = (content.episodes !== undefined) ? content.episodes.map(item => (
               <div>
@@ -301,6 +322,21 @@ Season:
           );
       }) : null;
 
+      const unsubModalElem = (
+          <Modal isOpen={unsubModal} toggle={this.unsubToggle}>
+              <ModalHeader toggle={this.unsubToggle} className='centerModalHeader'>Are you sure?</ModalHeader>
+              <ModalBody className='modalBody'>
+                Are you sure you want to unsubscribe?
+              </ModalBody>
+              <ModalFooter>
+                  <Button className='btn btn-primary btn-md' color='primary' onClick={() => { this.unsubToggle(); }}>
+                    Yes, unsubscribe
+                  </Button>
+                  <Button color='secondary' onClick={this.unsubToggle}>Cancel</Button>
+              </ModalFooter>
+          </Modal>
+      );
+
       const rentModalElem = (
           <Modal isOpen={rentModal} toggle={this.rentToggle}>
               <ModalHeader toggle={this.rentToggle} className='centerModalHeader'>Are you sure?</ModalHeader>
@@ -308,7 +344,7 @@ Season:
               Do you wish to rent this movie?
               </ModalBody>
               <ModalFooter>
-                  <Button className='btn btn-primary btn-md' color='primary' onClick={() => {this.rentMovie(); this.rentToggle()}}>
+                  <Button className='btn btn-primary btn-md' color='primary' onClick={() => { this.rentMovie(); this.rentToggle(); }}>
                     Yes, rent this movie
                   </Button>
                   <Button color='secondary' onClick={this.rentToggle}>Cancel</Button>
@@ -323,7 +359,7 @@ Season:
               Do you wish to subscribe this tv show?
               </ModalBody>
               <ModalFooter>
-                  <Button className='btn btn-primary btn-md' color='primary' onClick={() => {this.addSlot(); this.subToggle()}}>
+                  <Button className='btn btn-primary btn-md' color='primary' onClick={() => { this.addSlot(); this.subToggle(); }}>
                   Yes, subscribe this tv show
                   </Button>
                   <Button color='secondary' onClick={this.subToggle}>Cancel</Button>
@@ -393,6 +429,7 @@ Season:
           <div className='mediaBody'>
               {subModalElem}
               {rentModalElem}
+              {unsubModalElem}
               <h1 style={{ textAlign: 'center', fontSize: '3.5em', marginTop: '1%', fontWeight: 'bold' }}>
                   {' '}
                   {media.title}
