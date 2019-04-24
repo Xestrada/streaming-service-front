@@ -1,11 +1,11 @@
 import React from 'react';
 import {shallow} from 'enzyme';  
-import {About}  from '../../../src/features/about';
+import Results  from '../../../src/features/common/results';
 
-describe('about', () => {
+describe('common/results', () => {
   it('renders correctly', () => {
 
-    const renderedComponent = shallow(<About />);
+    const renderedComponent = shallow(<Results />);
     expect(renderedComponent.length).toBe(1);
   });
   });
