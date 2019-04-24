@@ -28,6 +28,7 @@ export function unsubscribe(uid, id) {
                 if (createdJson.is_success !== undefined && createdJson.is_success) {
                     dispatch({
                         type: MEDIA_UNSUBSCRIBE_SUCCESS,
+                        data: true,
 
                     });
                 } else {
@@ -73,6 +74,7 @@ export function reducer(state, action) {
             ...state,
             unsubscribePending: false,
             unsubscribeError: null,
+            unsubbed: action.data,
         };
 
     case MEDIA_UNSUBSCRIBE_FAILURE:

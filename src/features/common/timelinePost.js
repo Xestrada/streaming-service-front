@@ -10,14 +10,13 @@ import './timelinePost.scss';
 class TimelinePost extends React.Component {
     static propTypes = {
         postId: PropTypes.number.isRequired, // id of the post being commented on
-        userId: PropTypes.number.isRequired, // whose wall/timeline is being commented on
-        postUserId: PropTypes.number.isRequired, // user who wrote the post
         refreshFunc: PropTypes.func.isRequired, // funcion run after posting on timeline
         name: PropTypes.string.isRequired,
         message: PropTypes.string.isRequired,
         common: PropTypes.object.isRequired,
         actions: PropTypes.object.isRequired,
         comments: PropTypes.object,
+        areFriends: PropTypes.bool,
     };
 
     constructor(props) {
@@ -31,15 +30,13 @@ class TimelinePost extends React.Component {
     }
 
     commentOnPost() {
-        const { common, actions, postUserId, postId, userId, refreshFunc } = this.props;
+        const { common, actions, postId, refreshFunc } = this.props;
         const { commentPost } = actions;
         const { userData } = common;
         const { userComment } = this.state;
         if (userData !== undefined) {
             commentPost({
-                user_id: userId,
-                post_user_id: postUserId,
-                comment_user_id: userData.id,
+                user_id: userData.id,
                 comment: userComment,
                 post_id: postId,
             }).then(refreshFunc);
@@ -49,7 +46,7 @@ class TimelinePost extends React.Component {
 
     render() {
 
-        const { name, message, comments } = this.props;
+        const { name, message, comments, areFriends } = this.props;
         const { userComment } = this.state;
 
         const commentElems = comments !== undefined ? comments.map(comment => (
@@ -63,18 +60,20 @@ class TimelinePost extends React.Component {
                     {message}
                 </div>
                 {commentElems}
-                <CommentContainer
+                {areFriends && (
+                    <CommentContainer
                     comment={userComment} //eslint-disable-line
                     title='Leave a Comment' //eslint-disable-line
                     buttonText='Post Comment' //eslint-disable-line
                     placeHolderText='Enter your comment here...' //eslint-disable-line
                     buttonFunc={this.commentOnPost} //eslint-disable-line
                     changeFunc={(value) => { //eslint-disable-line
-                        this.setState({
-                            userComment: value,
-                        });
-                    }}
-                />
+                            this.setState({
+                                userComment: value,
+                            });
+                        }}
+                    />
+                )}
             </div>
 
 
@@ -84,6 +83,7 @@ class TimelinePost extends React.Component {
 
 TimelinePost.defaultProps = {
     comments: {},
+    areFriends: false,
 };
 
 /* istanbul ignore next */

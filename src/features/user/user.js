@@ -10,6 +10,7 @@ import ContentBox from '../common/contenBox';
 import Footer from '../common/footer';
 import Rating from '../common/rating';
 import TimelinePost from '../common/timelinePost';
+import CommentContainer from '../common/commentContainer';
 import emptyImg from '../../images/noimage.png';
 import userImg from '../../images/blank-user.jpg';
 import './user.scss';
@@ -33,6 +34,7 @@ export class User extends Component {
       this.state = {
           username,
           id,
+          userPost: '',
       };
 
       this.getUserShows = this.getUserShows.bind(this);
@@ -47,6 +49,7 @@ export class User extends Component {
       this.declineRequest = this.declineRequest.bind(this);
       this.acceptRequest = this.acceptRequest.bind(this);
       this.getWall = this.getWall.bind(this);
+      this.postOnTimeline = this.postOnTimeline.bind(this);
 
   }
 
@@ -171,10 +174,27 @@ export class User extends Component {
       });
   }
 
+  postOnTimeline() {
+      const { common, profileActions } = this.props;
+      const { userPost, id } = this.state;
+      const { userData } = common;
+      const { postTimeline } = profileActions;
+      postTimeline({
+          wall_id: id,
+          user_id: userData.id,
+          post: userPost,
+      }).then(() => {
+          this.getWall();
+          this.setState({
+              userPost: '',
+          });
+      });
+  }
+
   render() {
 
       const { common, profile } = this.props;
-      const { username } = this.state;
+      const { username, userPost } = this.state;
       const { wall, getWallPending } = profile;
       const {
           authen,
@@ -190,7 +210,6 @@ export class User extends Component {
           checkFriendshipPending,
           hasFreindRequest,
           sentFriendRequest,
-          userData,
       } = common;
 
       const friendAction = (areFriends !== undefined && areFriends) ? (<Button color='danger' onClick={this.removeFriend}>Remove Friend</Button>) : (<Button color='primary' onClick={this.addFriend}>Send Friend Request</Button>);
@@ -245,9 +264,8 @@ export class User extends Component {
                     message={post.post} //eslint-disable-line
                     comments={post.comments} //eslint-disable-line
                     postId={post.post_id} //eslint-disable-line
-                    postUserId={post.post_user_id} //eslint-disable-line
-                    userId={userData.id} //eslint-disable-line
                     refreshFunc={this.getWall} //eslint-disable-line
+                    areFriends={areFriends !== undefined && areFriends} //eslint-disable-line
               />
           </div>
       )) : null;
@@ -276,6 +294,21 @@ export class User extends Component {
                   <div className='gridContainer'>
                       <h1>Wall</h1>
                       {userWall}
+                      {areFriends
+                      && (
+                          <CommentContainer
+                            comment={userPost} //eslint-disable-line
+                            title='Post to Timeline' //eslint-disable-line
+                            buttonText='Post' //eslint-disable-line
+                            placeHolderText='Enter your comment here...' //eslint-disable-line
+                            buttonFunc={this.postOnTimeline} //eslint-disable-line
+                            changeFunc={(value) => { //eslint-disable-line
+                                  this.setState({
+                                      userPost: value,
+                                  });
+                              }}
+                          />
+                      )}
                   </div>
                   <br />
                   <div className='gridContainer'>

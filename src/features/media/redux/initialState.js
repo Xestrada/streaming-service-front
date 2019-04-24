@@ -32,6 +32,8 @@ const initialState = {
     resubscribeError: null,
     deleteSlotPending: false,
     deleteSlotError: null,
+    isUnsubbedPending: false,
+    isUnsubbedError: null,
 };
 
 export default initialState;
