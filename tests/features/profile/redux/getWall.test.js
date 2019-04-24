@@ -35,39 +35,39 @@ describe('profile/redux/getWall', () => {
             });
     });
 
-    it('dispatches failure action when getWall fails with id:1', () => {
+    it('dispatches success action when getWall succeeds with id:1', () => {
         const store = mockStore({});
 
         return store.dispatch(getWall(1))
             .then(() => {
                 const actions = store.getActions();
                 expect(actions[0]).toHaveProperty('type', PROFILE_GET_WALL_BEGIN);
-                expect(actions[1]).toHaveProperty('type', PROFILE_GET_WALL_FAILURE);
-                expect(actions[1]).toHaveProperty('error', expect.anything());
+                expect(actions[1]).toHaveProperty('type', PROFILE_GET_WALL_SUCCESS);
+                expect(actions[1]).toHaveProperty('wall', expect.anything());
             });
     });
 
-    it('dispatches failure action when getWall fails with id:2', () => {
+    it('dispatches success action when getWall succeeds id:2', () => {
         const store = mockStore({});
 
         return store.dispatch(getWall(2))
             .then(() => {
                 const actions = store.getActions();
                 expect(actions[0]).toHaveProperty('type', PROFILE_GET_WALL_BEGIN);
-                expect(actions[1]).toHaveProperty('type', PROFILE_GET_WALL_FAILURE);
-                expect(actions[1]).toHaveProperty('error', expect.anything());
+                expect(actions[1]).toHaveProperty('type', PROFILE_GET_WALL_SUCCESS);
+                expect(actions[1]).toHaveProperty('wall', expect.anything());
             });
     });
 
-    it('dispatches failure action when getWall fails with id:3', () => {
+    it('dispatches success action when getWall succeeds with id:3', () => {
         const store = mockStore({});
 
         return store.dispatch(getWall(3))
             .then(() => {
                 const actions = store.getActions();
                 expect(actions[0]).toHaveProperty('type', PROFILE_GET_WALL_BEGIN);
-                expect(actions[1]).toHaveProperty('type', PROFILE_GET_WALL_FAILURE);
-                expect(actions[1]).toHaveProperty('error', expect.anything());
+                expect(actions[1]).toHaveProperty('type', PROFILE_GET_WALL_SUCCESS);
+                expect(actions[1]).toHaveProperty('wall', expect.anything());
             });
     });
 
