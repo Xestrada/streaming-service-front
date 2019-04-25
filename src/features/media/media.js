@@ -384,8 +384,8 @@ Season:
       );
 
       const commentContainer = authen ? (
-          <div id='comment-container'>
-              <div id='comment-header'>
+          <div id='media-comment-container'>
+              <div id='media-comment-label'>
                   <label htmlFor='Comment' style={{ textDecoration: 'underline', fontFamily: 'Apple Chancery, cursive' }}>Leave a comment</label>
               </div>
               <textarea
@@ -398,10 +398,10 @@ Season:
                   id='subject' //eslint-disable-line
                   name='subject' //eslint-disable-line
                   placeholder='Enter your comment here...' //eslint-disable-line
-                  style={{ borderStyle: 'inset', width: '600px', height: '90px' }} //eslint-disable-line
+                  style={{ borderStyle: 'inset', width: '38.5rem', height: '7rem' }} //eslint-disable-line
               />
               <div className='row'>
-                  <input style={{ marginLeft: '52%' }} type='submit' value='Post Comment' onClick={this.makeComment} />
+                  <input style={{ float: 'right' }} type='submit' value='Post Comment' onClick={this.makeComment} />
               </div>
           </div>
       ) : null;

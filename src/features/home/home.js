@@ -278,18 +278,20 @@ export class Home extends Component {
             <div>
                 <h1 className='tlTitle'>Timeline</h1>
                 <br />
-                <CommentContainer
-                    comment={userPost} //eslint-disable-line
-                    title='Post to Timeline' //eslint-disable-line
-                    buttonText='Post' //eslint-disable-line
-                    placeHolderText='Enter your comment here...' //eslint-disable-line
-                    buttonFunc={this.postOnTimeline} //eslint-disable-line
-                    changeFunc={(value) => { //eslint-disable-line
-                        this.setState({
-                            userPost: value,
-                        });
-                    }}
-                />
+                <div className='postContainer'>
+                    <CommentContainer
+                        comment={userPost} //eslint-disable-line
+                        title='Post to Timeline' //eslint-disable-line
+                        buttonText='Post' //eslint-disable-line
+                        placeHolderText='Enter your comment here...' //eslint-disable-line
+                        buttonFunc={this.postOnTimeline} //eslint-disable-line
+                        changeFunc={(value) => { //eslint-disable-line
+                            this.setState({
+                                userPost: value,
+                            });
+                        }}
+                    />
+                </div>
                 {postElems}
             </div>
         );

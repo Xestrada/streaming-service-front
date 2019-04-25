@@ -184,18 +184,20 @@ class Profile extends Component {
                 <div>
                     <div className='gridContainer'>
                         <h1>Wall</h1>
-                        <CommentContainer
-                            comment={userPost} //eslint-disable-line
-                            title='Post to Timeline' //eslint-disable-line
-                            buttonText='Post' //eslint-disable-line
-                            placeHolderText='Enter your comment here...' //eslint-disable-line
-                            buttonFunc={this.postOnTimeline} //eslint-disable-line
-                            changeFunc={(value) => { //eslint-disable-line
-                                this.setState({
-                                    userPost: value,
-                                });
-                            }}
-                        />
+                        <div className='postContainer'>
+                            <CommentContainer
+                                comment={userPost} //eslint-disable-line
+                                title='Post to Timeline' //eslint-disable-line
+                                buttonText='Post' //eslint-disable-line
+                                placeHolderText='Enter your comment here...' //eslint-disable-line
+                                buttonFunc={this.postOnTimeline} //eslint-disable-line
+                                changeFunc={(value) => { //eslint-disable-line
+                                    this.setState({
+                                        userPost: value,
+                                    });
+                                }}
+                            />
+                        </div>
                         {postElems}
                     </div>
                     {friendRequests !== undefined && friendRequests.length > 0 ? (
