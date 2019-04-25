@@ -23,7 +23,7 @@ describe('common/redux/subs', () => {
         nock.cleanAll();
     });
 
-    it('dispatches success action when subs succeeds', () => {
+    it('dispatches success action when subs succeeds with id:1', () => {
         const store = mockStore({});
 
         return store.dispatch(getSubs(1))
@@ -35,7 +35,7 @@ describe('common/redux/subs', () => {
             });
     });
 
-    it('dispatches success action when subs succeeds', () => {
+    it('dispatches success action when subs succeeds with id:2', () => {
         const store = mockStore({});
 
         return store.dispatch(getSubs(2))

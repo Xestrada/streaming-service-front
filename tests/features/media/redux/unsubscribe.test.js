@@ -84,28 +84,28 @@ describe('media/redux/unsubscribe', () => {
     });
 
     it('dispatches success action when unsubscribe failure negative id', () => {
-      const store = mockStore({});
+        const store = mockStore({});
 
-      return store.dispatch(unsubscribe(0, 5))
-          .then(() => {
-              const actions = store.getActions();
-              console.log(actions);
-              expect(actions[0]).toHaveProperty('type', MEDIA_UNSUBSCRIBE_BEGIN);
-              expect(actions[1]).toHaveProperty('type', MEDIA_UNSUBSCRIBE_FAILURE);
-          });
-  });
+        return store.dispatch(unsubscribe(0, 5))
+            .then(() => {
+                const actions = store.getActions();
+                console.log(actions);
+                expect(actions[0]).toHaveProperty('type', MEDIA_UNSUBSCRIBE_BEGIN);
+                expect(actions[1]).toHaveProperty('type', MEDIA_UNSUBSCRIBE_FAILURE);
+            });
+    });
 
-  it('dispatches success action when unsubscribe failure id:0 ', () => {
-    const store = mockStore({});
+    it('dispatches success action when unsubscribe failure id:0 ', () => {
+        const store = mockStore({});
 
-    return store.dispatch(unsubscribe(0, 5))
-        .then(() => {
-            const actions = store.getActions();
-            console.log(actions);
-            expect(actions[0]).toHaveProperty('type', MEDIA_UNSUBSCRIBE_BEGIN);
-            expect(actions[1]).toHaveProperty('type', MEDIA_UNSUBSCRIBE_FAILURE);
-        });
-});
+        return store.dispatch(unsubscribe(0, 5))
+            .then(() => {
+                const actions = store.getActions();
+                console.log(actions);
+                expect(actions[0]).toHaveProperty('type', MEDIA_UNSUBSCRIBE_BEGIN);
+                expect(actions[1]).toHaveProperty('type', MEDIA_UNSUBSCRIBE_FAILURE);
+            });
+    });
 
     it('dispatches failure action when unsubscribe fails', () => {
         const store = mockStore({});
