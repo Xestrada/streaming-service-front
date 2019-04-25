@@ -54,14 +54,16 @@ class TimelinePost extends React.Component {
             <UserComment comment={comment.comment} user={comment.username} date={comment.date_of_comment} />
         )) : null;
 
-        const postTitle = name === postedTo ? name : `${name} --> ${postedTo}`;
+        const postTitle = name === postedTo ? name : `${name} --> ${postedTo}:`;
 
         return (
             <div className='post'>
-                {postTitle}
-                <div className='spacing'>
+                <h5 className='postTitle'>
+                    {postTitle}
+                </h5>
+                <p className='message'>
                     {message}
-                </div>
+                </p>
                 {commentElems}
                 {areFriends && (
                     <CommentContainer
