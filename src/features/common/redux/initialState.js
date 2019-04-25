@@ -57,6 +57,8 @@ const initialState = {
   sentFriendRequestError: null,
   getUserSubsPending: false,
   getUserSubsError: null,
+  updateUserMediaPending: false,
+  updateUserMediaError: null,
 };
 
 export default initialState;

@@ -51,6 +51,8 @@ class Header extends React.Component {
         this.login = this.login.bind(this);
         this.signOut = this.signOut.bind(this);
         this.updateState = this.updateState.bind(this);
+        this.updateDatabase = this.updateDatabase.bind(this);
+        this.checkSlots = this.checkSlots.bind(this);
     }
 
     componentDidMount() {
@@ -65,8 +67,22 @@ class Header extends React.Component {
                 id,
                 username,
                 email,
-            });
+            }).then(this.updateDatabase);
         }
+    }
+
+    checkSlots() {
+        const { actions, common } = this.props;
+        const { hasAllSlots } = actions;
+        const { userData } = common;
+        hasAllSlots(userData.id);
+    }
+
+    updateDatabase() {
+        const { actions, common } = this.props;
+        const { updateUserMedia } = actions;
+        const { userData } = common;
+        updateUserMedia(userData.id).then(this.checkSlots);
     }
 
     dropdownToggle() {

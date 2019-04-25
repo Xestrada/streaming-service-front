@@ -57,7 +57,7 @@ class TimelinePost extends React.Component {
         const postTitle = name === postedTo ? name : `${name} --> ${postedTo}`;
 
         return (
-            <div>
+            <div className='post'>
                 {postTitle}
                 <div className='spacing'>
                     {message}

@@ -239,7 +239,7 @@ export class Home extends Component {
             </CarouselItem>
         ));
         const postElems = authen && timeline !== undefined && !getTimelinePending ? timeline.map(post => (
-            <div className='post'>
+            <div>
                 <TimelinePost //eslint-disable-line
                     isTimeline //eslint-disable-line
                     postedTo={post.username} //eslint-disable-line

@@ -128,7 +128,7 @@ class Profile extends Component {
         }
 
         const postElems = wall !== undefined && authen && !getWallPending ? wall.map(post => (
-            <div className='post'>
+            <div>
                 <TimelinePost
                     postedTo={post.username} //eslint-disable-line
                     name={post.post_username} //eslint-disable-line
