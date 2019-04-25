@@ -1,11 +1,22 @@
 
 import React from 'react';
-import { Rating } from '../../../src/features/common';
+import {shallow} from 'enzyme';  
+import { Provider } from 'react-redux'
+import  Rating  from '../../../src/features/common/rating';
+import configureMockStore from 'redux-mock-store';
+const mockStore = configureMockStore();
 
 describe('common/rating', () => {
   it('return 1 star', () => {
-    const renderedComponent = <Rating rating={'1'} />;
-    expect(renderedComponent.props.rating).toBe('1');
+    let store;
+    const items={
+      rating: 1,
+    }
+    store = mockStore(items);
+    const renderedComponent = shallow(<Provider><Rating rating={store}/></Provider> );
+    expect(renderedComponent.find({className:'rating'})).toEqual({
+      children: <span className='fa fa-star checked'>&nbsp;</span>,
+    })
   });
   it('return 2 stars', () => {
     const renderedComponent = <Rating rating={'2'} />;

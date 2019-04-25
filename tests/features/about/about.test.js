@@ -6,6 +6,10 @@ describe('about', () => {
   it('renders correctly', () => {
 
     const renderedComponent = shallow(<About />);
-    expect(renderedComponent.length).toBe(1);
+    expect(renderedComponent.find({className:'aboutImage'}).props()).toEqual({
+      "alt": "",
+      "className": "aboutImage",
+      "src": "https://i.imgur.com/h93RfrU.jpg",
+    })
   });
   });
