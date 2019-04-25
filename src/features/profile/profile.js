@@ -130,6 +130,7 @@ class Profile extends Component {
         const postElems = wall !== undefined && authen && !getWallPending ? wall.map(post => (
             <div className='post'>
                 <TimelinePost
+                    postedTo={post.username} //eslint-disable-line
                     name={post.post_username} //eslint-disable-line
                     message={post.post} //eslint-disable-line
                     comments={post.comments} //eslint-disable-line
@@ -183,7 +184,6 @@ class Profile extends Component {
                 <div>
                     <div className='gridContainer'>
                         <h1>Wall</h1>
-                        {postElems}
                         <CommentContainer
                             comment={userPost} //eslint-disable-line
                             title='Post to Timeline' //eslint-disable-line
@@ -196,6 +196,7 @@ class Profile extends Component {
                                 });
                             }}
                         />
+                        {postElems}
                     </div>
                     {friendRequests !== undefined && friendRequests.length > 0 ? (
                         <div className='gridContainer'>

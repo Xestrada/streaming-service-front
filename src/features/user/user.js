@@ -260,6 +260,7 @@ export class User extends Component {
       const userWall = wall !== undefined && !getWallPending ? wall.map(post => (
           <div className='post'>
               <TimelinePost
+                    postedTo={post.username} //eslint-disable-line
                     name={post.post_username} //eslint-disable-line
                     message={post.post} //eslint-disable-line
                     comments={post.comments} //eslint-disable-line
@@ -293,7 +294,6 @@ export class User extends Component {
                   </div>
                   <div className='gridContainer'>
                       <h1>Wall</h1>
-                      {userWall}
                       {areFriends
                       && (
                           <CommentContainer
@@ -309,6 +309,7 @@ export class User extends Component {
                               }}
                           />
                       )}
+                      {userWall}
                   </div>
                   <br />
                   <div className='gridContainer'>

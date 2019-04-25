@@ -12,6 +12,7 @@ class TimelinePost extends React.Component {
         postId: PropTypes.number.isRequired, // id of the post being commented on
         refreshFunc: PropTypes.func.isRequired, // funcion run after posting on timeline
         name: PropTypes.string.isRequired,
+        postedTo: PropTypes.string.isRequired,
         message: PropTypes.string.isRequired,
         common: PropTypes.object.isRequired,
         actions: PropTypes.object.isRequired,
@@ -46,16 +47,18 @@ class TimelinePost extends React.Component {
 
     render() {
 
-        const { name, message, comments, areFriends } = this.props;
+        const { name, message, comments, areFriends, postedTo } = this.props;
         const { userComment } = this.state;
 
         const commentElems = comments !== undefined ? comments.map(comment => (
             <UserComment comment={comment.comment} user={comment.username} date={comment.date_of_comment} />
         )) : null;
 
+        const postTitle = name === postedTo ? name : `${name} --> ${postedTo}`;
+
         return (
             <div>
-                {name}
+                {postTitle}
                 <div className='spacing'>
                     {message}
                 </div>

@@ -242,6 +242,7 @@ export class Home extends Component {
             <div className='post'>
                 <TimelinePost //eslint-disable-line
                     isTimeline //eslint-disable-line
+                    postedTo={post.username} //eslint-disable-line
                     name={post.post_username} //eslint-disable-line
                     message={post.post} //eslint-disable-line
                     comments={post.comments} //eslint-disable-line
@@ -275,7 +276,8 @@ export class Home extends Component {
 
         const homeMain = authen === undefined || !authen ? homeAds : (
             <div>
-                {postElems}
+                <h1 className='tlTitle'>Timeline</h1>
+                <br />
                 <CommentContainer
                     comment={userPost} //eslint-disable-line
                     title='Post to Timeline' //eslint-disable-line
@@ -288,6 +290,7 @@ export class Home extends Component {
                         });
                     }}
                 />
+                {postElems}
             </div>
         );
 
