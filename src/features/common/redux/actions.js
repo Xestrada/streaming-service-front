@@ -22,3 +22,4 @@ export { declineRequest, dismissDeclineRequestError } from './declineRequest';
 export { deleteAccount, dismissDeleteAccountError } from './deleteAccount';
 export { hasFreindRequest, dismissHasFreindRequestError } from './hasFreindRequest';
 export { sentFriendRequest, dismissSentFriendRequestError } from './sentFriendRequest';
+export { getUserSubs, dismissGetUserSubsError } from './getUserSubs';

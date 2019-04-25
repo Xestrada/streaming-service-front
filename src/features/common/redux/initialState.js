@@ -55,6 +55,8 @@ const initialState = {
     hasFreindRequestError: null,
   sentFriendRequestPending: false,
   sentFriendRequestError: null,
+  getUserSubsPending: false,
+  getUserSubsError: null,
 };
 
 export default initialState;

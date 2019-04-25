@@ -78,7 +78,7 @@ class Profile extends Component {
         const { profileActions, common } = this.props;
         const { userData } = common;
         const { getWall } = profileActions;
-        if(userData !== undefined){
+        if (userData !== undefined) {
             getWall(userData.id);
         }
     }

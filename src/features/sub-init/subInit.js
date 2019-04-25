@@ -23,6 +23,7 @@ export class SubInit extends Component {
       super(props);
       this.state = {
           page: 1,
+          amountToChoose: 0,
           filter: 'all',
           query: '',
           searchFunc: p => this.getRecentlyAdded(p),
@@ -38,11 +39,31 @@ export class SubInit extends Component {
       this.chosenContains = this.chosenContains.bind(this);
       this.selectFilm = this.selectFilm.bind(this);
       this.selectSlots = this.selectSlots.bind(this);
+      this.getSubs = this.getSubs.bind(this);
   }
 
   componentDidMount() {
       const { page, searchFunc } = this.state;
+      const { common } = this.props;
+      const { userData } = common;
+      this.setState({
+          amountToChoose: userData.num_slots,
+      });
+      this.getSubs();
       searchFunc(page);
+  }
+
+  getSubs() {
+      const { actions, common } = this.props;
+      const { getUserSubs } = actions;
+      const { userData } = common;
+      getUserSubs(userData.id)
+          .then(() => {
+              const { common } = this.props;
+              const { userSubs, userData } = common;
+              console.log(userData);
+              userSubs.map(id => this.selectFilm(id, '', ''));
+          });
   }
 
   getRecentlyAdded(pageNum) {
@@ -59,25 +80,6 @@ export class SubInit extends Component {
           page: 1,
           searchFunc: p => this.search(p),
       }, () => this.search(1));
-  }
-
-  createSearchURL(filter) {
-      switch (filter) {
-      case 'All':
-          return 'all';
-      case 'Title':
-          return 'title';
-      case 'Genre':
-          return 'genre';
-      case 'Year':
-          return 'year';
-      case 'Service':
-          return 'service';
-      case 'Actors':
-          return 'actor';
-      default:
-          return 'all';
-      }
   }
 
   search(pageNum) {
@@ -100,7 +102,8 @@ export class SubInit extends Component {
   }
 
   selectFilm(num, title, url) {
-      const { chosenFilms, savedElems } = this.state;
+      console.log('selecting film');
+      const { chosenFilms, savedElems, amountToChoose } = this.state;
       const array = chosenFilms;
       const elemArray = savedElems;
       const index = array.indexOf(num);
@@ -111,7 +114,7 @@ export class SubInit extends Component {
               chosenFilms: array,
               savedElems: elemArray,
           });
-      } else if (chosenFilms.length < 10) {
+      } else if (chosenFilms.length < amountToChoose) {
           elemArray.push(
               {
                   id: num,
@@ -143,11 +146,39 @@ export class SubInit extends Component {
       });
   }
 
+  createSearchURL(filter) {
+      switch (filter) {
+      case 'All':
+          return 'all';
+      case 'Title':
+          return 'title';
+      case 'Genre':
+          return 'genre';
+      case 'Year':
+          return 'year';
+      case 'Service':
+          return 'service';
+      case 'Actors':
+          return 'actor';
+      default:
+          return 'all';
+      }
+  }
 
   render() {
       const { common } = this.props;
-      const { page, savedElems, chosenFilms } = this.state;
-      const { tvShows, maxPages, tvShowsError, tvShowsPending, initialSub, areSlotsFull } = common;
+      const { page, savedElems, chosenFilms, amountToChoose } = this.state;
+      const {
+          authen,
+          tvShows,
+          maxPages,
+          tvShowsError,
+          tvShowsPending,
+          initialSub,
+          areSlotsFull,
+          getUserSubsPending,
+      } = common;
+
 
       const error = tvShowsError !== undefined ? (<h1>Error</h1>) : null;
 
@@ -164,12 +195,35 @@ export class SubInit extends Component {
       const loadingGrid = [];
       const searchFilters = ['All', 'Movies', 'TV Shows', 'Actors'];
 
-      const redir = initialSub !== undefined || (areSlotsFull !== undefined && !areSlotsFull) ? null : (<Redirect to='/' />);
+      const redir = authen && (initialSub !== undefined || (areSlotsFull !== undefined && !areSlotsFull)) ? null : (<Redirect to='/' />);
 
       const subRedir = initialSub ? (<Redirect to='/' />) : null;
 
-      const selectButton = chosenFilms.length === 10 ? (<Button color='primary' className='centerSub' onClick={this.selectSlots}>Subscribe</Button>) : null;
+      const selectButton = chosenFilms.length === amountToChoose ? (<Button color='primary' className='centerSub' onClick={this.selectSlots}>Subscribe</Button>) : null;
 
+      const mainPage = getUserSubsPending ? (<h1>Loading</h1>) : (
+          <div>
+              <br />
+              <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />
+              <br />
+              <h1 style={{ color: 'white' }}>{`Select ${amountToChoose} Shows`}</h1>
+              <h1 style={{ textAlign: 'center', color: 'whitesmoke' }}>
+                  {`${chosenFilms.length}/${amountToChoose}`}
+              </h1>
+              <br />
+              <br />
+              <Results loading={tvShowsPending} error={error} boxes={boxes} page={page} loadingGrid={loadingGrid} maxPages={maxPages} nextPage={this.nextPage} backPage={this.backPage} />
+              <br />
+              <br />
+              <div className='gridContainer'>
+                  <h1 className='selectHeader'>Selected</h1>
+                  <div className='section'>
+                      {selectedList}
+                  </div>
+              </div>
+              {selectButton}
+          </div>
+      );
 
       for (let i = 0; i < 20; i += 1) {
           loadingGrid.push(<i className='fa fa-spinner fa-spin loadIcon' key={i} />);
@@ -181,26 +235,7 @@ export class SubInit extends Component {
                   {redir}
                   {subRedir}
                   <Header />
-                  <br />
-                  <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />
-                  <br />
-                  <h1 style={{ color: 'white' }}>Select 10 Shows</h1>
-                  <h1 style={{ textAlign: 'center', color: 'whitesmoke' }}>
-                      {chosenFilms.length}
-                      /10
-                  </h1>
-                  <br />
-                  <br />
-                  <Results loading={tvShowsPending} error={error} boxes={boxes} page={page} loadingGrid={loadingGrid} maxPages={maxPages} nextPage={this.nextPage} backPage={this.backPage} />
-                  <br />
-                  <br />
-                  <div className='gridContainer'>
-                      <h1 className='selectHeader'>Selected</h1>
-                      <div className='section'>
-                          {selectedList}
-                      </div>
-                  </div>
-                  {selectButton}
+                  {mainPage}
                   <Footer />
               </div>
           </body>
