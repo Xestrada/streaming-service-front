@@ -13,12 +13,13 @@ class ContentBox extends React.Component {
       title: PropTypes.string.isRequired,
       url: PropTypes.string.isRequired,
       shouldLink: PropTypes.bool,
+      pageData: PropTypes.any,
   };
 
 
   render() {
 
-      const { image, title, url, shouldLink } = this.props;
+      const { image, title, url, shouldLink, pageData } = this.props;
 
       const link = shouldLink ? (
           <Link to={
@@ -26,6 +27,7 @@ class ContentBox extends React.Component {
                   pathname: url,
                   state: {
                       title,
+                      pageData,
                   },
               }
           }
@@ -66,6 +68,7 @@ function mapDispatchToProps(dispatch) {
 
 ContentBox.defaultProps = {
     shouldLink: true,
+    pageData: 0,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContentBox);

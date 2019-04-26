@@ -28,13 +28,13 @@ export class Media extends Component {
       super(props);
 
       const { location } = this.props;
-      console.log(location);
       const title = location.state === undefined
           ? location.pathname.replace('/media/', '')
           : location.state.title;
-      console.log(title);
+      const slotNum = location.state === undefined ? -1 : location.state.pageData;
 
       this.state = {
+          slotNum,
           title,
           comment: '',
           rating: 0,
@@ -44,6 +44,7 @@ export class Media extends Component {
           rentModal: false,
           subModal: false,
           unsubModal: false,
+          deleteModal: false,
           owned: false,
           ownershipChecked: false,
       };
@@ -61,6 +62,7 @@ export class Media extends Component {
       this.checkOwnership = this.checkOwnership.bind(this);
       this.unsubscribeToShow = this.unsubscribeToShow.bind(this);
       this.checkIfUnsub = this.checkIfUnsub.bind(this);
+      this.deleteToggle = this.deleteToggle.bind(this);
   }
 
 
@@ -121,6 +123,12 @@ export class Media extends Component {
   unsubToggle() {
       this.setState(prevState => ({
           unsubModal: !prevState.unsubModal,
+      }));
+  }
+
+  deleteToggle() {
+      this.setState(prevState => ({
+          deleteModal: !prevState.deleteModal,
       }));
   }
 
@@ -251,6 +259,7 @@ export class Media extends Component {
 
   render() {
       const {
+          slotNum,
           title,
           comment,
           rating,
@@ -260,12 +269,13 @@ export class Media extends Component {
           eps,
           rentModal,
           subModal,
+          deleteModal,
           unsubModal,
           owned,
           ownershipChecked,
       } = this.state;
       const { common, commonMedia } = this.props;
-      const { media, mediaError, authen } = common;
+      const { media, mediaError, authen, subs } = common;
       const { comments,
           userRating,
           isUnsubbed,
@@ -285,6 +295,12 @@ export class Media extends Component {
           this.checkOwnership();
           this.checkIfUnsub();
       }
+
+      const deleteButton = authen && owned && media !== undefined && media.season_info !== undefined
+            && slotNum !== -1 && subs !== undefined && subs.length > 10
+          ? (
+              <Button color='danger'>Delete Slot</Button>
+          ) : null;
 
       const unsub = authen && owned && media !== undefined && media.season_info !== undefined ? (
           <Button color='primary' onClick={this.unsubToggle}>Unsubscribe</Button>
@@ -337,6 +353,22 @@ Season:
               </div>
           );
       }) : null;
+
+      const deleteModalElem = (
+          <Modal isOpen={deleteModal} toggle={this.deleteToggle}>
+              <ModalHeader toggle={this.deleteToggle} className='centerModalHeader'>Are you sure?</ModalHeader>
+              <ModalBody className='modalBody'>
+                Are you sure you want to delete this slot? 
+                (This show will be unsubscribed and the slot will be deleted at the next pay period)
+              </ModalBody>
+              <ModalFooter>
+                  <Button className='btn btn-primary btn-md' color='primary'>
+                  Yes, delete
+                  </Button>
+                  <Button color='secondary' onClick={this.deleteToggle}>Cancel</Button>
+              </ModalFooter>
+          </Modal>
+      );
 
       const unsubModalElem = (
           <Modal isOpen={unsubModal} toggle={this.unsubToggle}>
@@ -446,6 +478,7 @@ Season:
               {subModalElem}
               {rentModalElem}
               {unsubModalElem}
+              {deleteModalElem}
               <h1 style={{ textAlign: 'center', fontSize: '3.5em', marginTop: '1%', fontWeight: 'bold' }}>
                   {' '}
                   {media.title}
@@ -482,6 +515,7 @@ Season:
                   {media.season_info === undefined && authen && !owned && <Button color='primary' className='rent-button' onClick={this.rentToggle}>Rent</Button>}
                   {media.season_info !== undefined && authen && !owned && <Button color='primary' className='subscribe-button' onClick={this.subToggle}>Subscribe</Button>}
                   {unsubOptions}
+                  {deleteButton}
                   {owned && StarRating}
               </div>
               <div id='media-info'>
