@@ -16,7 +16,41 @@ describe('common/SearchBar', () => {
             searchFilters: ['All', 'Movies', 'TV Shows', 'Actors', 'Users'],
             searchFunc: () => {},
         }
+        const array=[
+          <option>
+            All
+      </option>,
+          <option>
+            Movies
+      </option>,
+          <option>
+            TV Shows
+      </option>,
+          <option>
+            Actors
+      </option>,
+          <option>
+            Users
+      </option>,]
         const renderedComponent = shallow(<SearchBar  filters={items.searchFilters} searchFunc={items.searchFunc} />);
-        expect(renderedComponent.filters).toBe(['All', 'Movies', 'TV Shows', 'Actors', 'Users']);
+        console.log(renderedComponent.find('Input').props().children)
+        expect(renderedComponent.find('Input').props().children).toBe({
+          const array=[
+            <option>
+              All
+        </option>,
+            <option>
+              Movies
+        </option>,
+            <option>
+              TV Shows
+        </option>,
+            <option>
+              Actors
+        </option>,
+            <option>
+              Users
+        </option>,]
+        });
   });
   });
