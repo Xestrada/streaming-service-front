@@ -75,14 +75,18 @@ class Header extends React.Component {
         const { actions, common } = this.props;
         const { hasAllSlots } = actions;
         const { userData } = common;
-        hasAllSlots(userData.id);
+        if (userData !== undefined) {
+            hasAllSlots(userData.id);
+        }
     }
 
     updateDatabase() {
         const { actions, common } = this.props;
         const { updateUserMedia } = actions;
         const { userData } = common;
-        updateUserMedia(userData.id).then(this.checkSlots);
+        if (userData !== undefined) {
+            updateUserMedia(userData.id).then(this.checkSlots);
+        }
     }
 
     dropdownToggle() {

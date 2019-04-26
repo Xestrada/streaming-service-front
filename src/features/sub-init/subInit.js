@@ -60,9 +60,8 @@ export class SubInit extends Component {
       getUserSubs(userData.id)
           .then(() => {
               const { common } = this.props;
-              const { userSubs, userData } = common;
-              console.log(userData);
-              userSubs.map(id => this.selectFilm(id, '', ''));
+              const { userSubs } = common;
+              userSubs.map(sub => this.selectFilm(sub.id, sub.title, sub.image_url));
           });
   }
 
@@ -102,7 +101,6 @@ export class SubInit extends Component {
   }
 
   selectFilm(num, title, url) {
-      console.log('selecting film');
       const { chosenFilms, savedElems, amountToChoose } = this.state;
       const array = chosenFilms;
       const elemArray = savedElems;
