@@ -63,6 +63,8 @@ export class Media extends Component {
       this.unsubscribeToShow = this.unsubscribeToShow.bind(this);
       this.checkIfUnsub = this.checkIfUnsub.bind(this);
       this.deleteToggle = this.deleteToggle.bind(this);
+      this.getSubs = this.getSubs.bind(this);
+      this.deleteSlot = this.deleteSlot.bind(this);
   }
 
 
@@ -77,6 +79,7 @@ export class Media extends Component {
               if (authen) {
                   this.getUserRating(media);
                   this.checkIfUnsub();
+                  this.getSubs();
               }
           });
   }
@@ -106,6 +109,29 @@ export class Media extends Component {
                   rating: userRating,
               });
           });
+  }
+
+  getSubs() {
+      const { actions, common } = this.props;
+      const { getUserSubs } = actions;
+      const { userData, userSubs } = common;
+      if (userData.id !== undefined && userSubs === undefined) {
+          getUserSubs(userData.id);
+      }
+  }
+
+  deleteSlot() {
+      const { actions, common } = this.props;
+      const { slotNum } = this.state;
+      const { deleteSlot } = actions;
+      const { userData } = common;
+      if (userData !== undefined && slotNum !== -1) {
+          deleteSlot(userData.id, slotNum)
+              .then(() => {
+                  this.checkIfUnsub();
+                  this.getSubs();
+              });
+      }
   }
 
   rentToggle() {
@@ -275,7 +301,7 @@ export class Media extends Component {
           ownershipChecked,
       } = this.state;
       const { common, commonMedia } = this.props;
-      const { media, mediaError, authen, subs } = common;
+      const { media, mediaError, authen, userSubs } = common;
       const { comments,
           userRating,
           isUnsubbed,
@@ -296,10 +322,12 @@ export class Media extends Component {
           this.checkIfUnsub();
       }
 
+      console.log(userSubs);
+
       const deleteButton = authen && owned && media !== undefined && media.season_info !== undefined
-            && slotNum !== -1 && subs !== undefined && subs.length > 10
+            && slotNum !== -1 && userSubs !== undefined && userSubs.length > 10 && !isUnsubbed
           ? (
-              <Button color='danger'>Delete Slot</Button>
+              <Button color='danger' onClick={this.deleteToggle}>Delete Slot</Button>
           ) : null;
 
       const unsub = authen && owned && media !== undefined && media.season_info !== undefined ? (
@@ -324,10 +352,10 @@ export class Media extends Component {
                         onClick={() => this.changeURL(item.url, item.episode_name, item.episode)} //eslint-disable-line
                         style={{ cursor: 'pointer' }} // eslint-disable-line
                       >
-Episode
+                          Episode
                           {' '}
                           {item.episode}
-:
+                          :
                           {' '}
                           {' '}
                           {item.episode_name}
@@ -358,11 +386,11 @@ Season:
           <Modal isOpen={deleteModal} toggle={this.deleteToggle}>
               <ModalHeader toggle={this.deleteToggle} className='centerModalHeader'>Are you sure?</ModalHeader>
               <ModalBody className='modalBody'>
-                Are you sure you want to delete this slot? 
+                Are you sure you want to delete this slot?
                 (This show will be unsubscribed and the slot will be deleted at the next pay period)
               </ModalBody>
               <ModalFooter>
-                  <Button className='btn btn-primary btn-md' color='primary'>
+                  <Button className='btn btn-primary btn-md' color='primary' onClick={() => { this.deleteSlot(); this.deleteToggle(); }}>
                   Yes, delete
                   </Button>
                   <Button color='secondary' onClick={this.deleteToggle}>Cancel</Button>
