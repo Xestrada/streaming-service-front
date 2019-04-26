@@ -20,6 +20,7 @@ import { reducer as getUserRatingReducer } from './getUserRating';
 import { reducer as unsubscribeReducer } from './unsubscribe';
 import { reducer as resubscribeReducer } from './resubscribe';
 import { reducer as deleteSlotReducer } from './deleteSlot';
+import { reducer as isUnsubbedReducer } from './isUnsubbed';
 
 const reducers = [
     makeMovieCommentReducer,
@@ -35,6 +36,7 @@ const reducers = [
     unsubscribeReducer,
     resubscribeReducer,
     deleteSlotReducer,
+  isUnsubbedReducer,
 ];
 
 export default function reducer(state = initialState, action) {

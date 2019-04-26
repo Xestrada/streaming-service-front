@@ -28,13 +28,13 @@ export class Media extends Component {
       super(props);
 
       const { location } = this.props;
-      console.log(location);
       const title = location.state === undefined
           ? location.pathname.replace('/media/', '')
           : location.state.title;
-      console.log(title);
+      const slotNum = location.state === undefined ? -1 : location.state.pageData;
 
       this.state = {
+          slotNum,
           title,
           comment: '',
           rating: 0,
@@ -43,6 +43,8 @@ export class Media extends Component {
           eps: '',
           rentModal: false,
           subModal: false,
+          unsubModal: false,
+          deleteModal: false,
           owned: false,
           ownershipChecked: false,
       };
@@ -55,8 +57,14 @@ export class Media extends Component {
       this.toggleHidden = this.toggleHidden.bind(this);
       this.rentToggle = this.rentToggle.bind(this);
       this.subToggle = this.subToggle.bind(this);
+      this.unsubToggle = this.unsubToggle.bind(this);
       this.getUserRating = this.getUserRating.bind(this);
       this.checkOwnership = this.checkOwnership.bind(this);
+      this.unsubscribeToShow = this.unsubscribeToShow.bind(this);
+      this.checkIfUnsub = this.checkIfUnsub.bind(this);
+      this.deleteToggle = this.deleteToggle.bind(this);
+      this.getSubs = this.getSubs.bind(this);
+      this.deleteSlot = this.deleteSlot.bind(this);
   }
 
 
@@ -70,12 +78,13 @@ export class Media extends Component {
               const { media, authen } = common;
               if (authen) {
                   this.getUserRating(media);
+                  this.checkIfUnsub();
+                  this.getSubs();
               }
           });
   }
 
   getComments(title) {
-
       const { common, actions } = this.props;
       const { media } = common;
       const { movieComments, tvComments } = actions;
@@ -102,6 +111,29 @@ export class Media extends Component {
           });
   }
 
+  getSubs() {
+      const { actions, common } = this.props;
+      const { getUserSubs } = actions;
+      const { userData, userSubs } = common;
+      if (userData.id !== undefined && userSubs === undefined) {
+          getUserSubs(userData.id);
+      }
+  }
+
+  deleteSlot() {
+      const { actions, common } = this.props;
+      const { slotNum } = this.state;
+      const { deleteSlot } = actions;
+      const { userData } = common;
+      if (userData !== undefined && slotNum !== -1) {
+          deleteSlot(userData.id, slotNum)
+              .then(() => {
+                  this.checkIfUnsub();
+                  this.getSubs();
+              });
+      }
+  }
+
   rentToggle() {
       this.setState(prevState => ({
           rentModal: !prevState.rentModal,
@@ -111,6 +143,18 @@ export class Media extends Component {
   subToggle() {
       this.setState(prevState => ({
           subModal: !prevState.subModal,
+      }));
+  }
+
+  unsubToggle() {
+      this.setState(prevState => ({
+          unsubModal: !prevState.unsubModal,
+      }));
+  }
+
+  deleteToggle() {
+      this.setState(prevState => ({
+          deleteModal: !prevState.deleteModal,
       }));
   }
 
@@ -217,11 +261,31 @@ export class Media extends Component {
                   ownershipChecked: true,
               });
           });
+  }
 
+  checkIfUnsub() {
+      const { common, actions } = this.props;
+      const { media, userData } = common;
+      const { isUnsubbed } = actions;
+      isUnsubbed(userData.id, media.tv_show_id);
+  }
+
+  unsubscribeToShow() {
+      const { common, actions } = this.props;
+      const { media, userData } = common;
+      const { unsubscribe } = actions;
+      if (userData !== undefined) {
+          unsubscribe(userData.id, media.tv_show_id)
+              .then(() => {
+                  this.checkIfUnsub();
+                  this.unsubToggle();
+              });
+      }
   }
 
   render() {
       const {
+          slotNum,
           title,
           comment,
           rating,
@@ -231,13 +295,16 @@ export class Media extends Component {
           eps,
           rentModal,
           subModal,
+          deleteModal,
+          unsubModal,
           owned,
           ownershipChecked,
       } = this.state;
       const { common, commonMedia } = this.props;
-      const { media, mediaError, authen } = common;
+      const { media, mediaError, authen, userSubs } = common;
       const { comments,
           userRating,
+          isUnsubbed,
           getUserRatingPending,
           getUserRatingError,
           isMediaOwnedPending,
@@ -252,13 +319,31 @@ export class Media extends Component {
       // Check ownership
       if (media !== undefined && authen && !ownershipChecked && !isMediaOwnedPending && media.title === title) {
           this.checkOwnership();
+          this.checkIfUnsub();
       }
+
+      console.log(userSubs);
+
+      const deleteButton = authen && owned && media !== undefined && media.season_info !== undefined
+            && slotNum !== -1 && userSubs !== undefined && userSubs.length > 10 && !isUnsubbed
+          ? (
+              <Button color='danger' onClick={this.deleteToggle}>Delete Slot</Button>
+          ) : null;
+
+      const unsub = authen && owned && media !== undefined && media.season_info !== undefined ? (
+          <Button color='primary' onClick={this.unsubToggle}>Unsubscribe</Button>
+      ) : null;
+
+      const unsubOptions = isUnsubbed !== undefined && isUnsubbed ? (
+          <h1>You have unsubscribed to this media</h1>
+      ) : unsub;
 
       const mediaURL = media !== undefined && media.season_info === undefined ? media.url : videoURL;
 
       const commentElems = comments !== undefined ? comments.map(comment => (
           <UserComment comment={comment.comment} user={comment.username} date={comment.date_of_comment} />
       )) : null;
+
       const seasonInfo = (media !== undefined && media.season_info !== undefined) ? media.season_info.map((content) => {
           const episodeInfo = (content.episodes !== undefined) ? content.episodes.map(item => (
               <div>
@@ -267,10 +352,10 @@ export class Media extends Component {
                         onClick={() => this.changeURL(item.url, item.episode_name, item.episode)} //eslint-disable-line
                         style={{ cursor: 'pointer' }} // eslint-disable-line
                       >
-Episode
+                          Episode
                           {' '}
                           {item.episode}
-:
+                          :
                           {' '}
                           {' '}
                           {item.episode_name}
@@ -297,6 +382,37 @@ Season:
           );
       }) : null;
 
+      const deleteModalElem = (
+          <Modal isOpen={deleteModal} toggle={this.deleteToggle}>
+              <ModalHeader toggle={this.deleteToggle} className='centerModalHeader'>Are you sure?</ModalHeader>
+              <ModalBody className='modalBody'>
+                Are you sure you want to delete this slot?
+                (This show will be unsubscribed and the slot will be deleted at the next pay period)
+              </ModalBody>
+              <ModalFooter>
+                  <Button className='btn btn-primary btn-md' color='primary' onClick={() => { this.deleteSlot(); this.deleteToggle(); }}>
+                  Yes, delete
+                  </Button>
+                  <Button color='secondary' onClick={this.deleteToggle}>Cancel</Button>
+              </ModalFooter>
+          </Modal>
+      );
+
+      const unsubModalElem = (
+          <Modal isOpen={unsubModal} toggle={this.unsubToggle}>
+              <ModalHeader toggle={this.unsubToggle} className='centerModalHeader'>Are you sure?</ModalHeader>
+              <ModalBody className='modalBody'>
+                Are you sure you want to unsubscribe?
+              </ModalBody>
+              <ModalFooter>
+                  <Button className='btn btn-primary btn-md' color='primary' onClick={this.unsubscribeToShow}>
+                    Yes, unsubscribe
+                  </Button>
+                  <Button color='secondary' onClick={this.unsubToggle}>Cancel</Button>
+              </ModalFooter>
+          </Modal>
+      );
+
       const rentModalElem = (
           <Modal isOpen={rentModal} toggle={this.rentToggle}>
               <ModalHeader toggle={this.rentToggle} className='centerModalHeader'>Are you sure?</ModalHeader>
@@ -304,13 +420,14 @@ Season:
               Do you wish to rent this movie?
               </ModalBody>
               <ModalFooter>
-                  <Button className='btn btn-primary btn-md' color='primary' onClick={this.rentMovie && this.rentToggle}>
+                  <Button className='btn btn-primary btn-md' color='primary' onClick={() => { this.rentMovie(); this.rentToggle(); }}>
                     Yes, rent this movie
                   </Button>
                   <Button color='secondary' onClick={this.rentToggle}>Cancel</Button>
               </ModalFooter>
           </Modal>
       );
+
       const subModalElem = (
           <Modal isOpen={subModal} toggle={this.subToggle}>
               <ModalHeader toggle={this.subToggle} className='centerModalHeader'>Are you sure?</ModalHeader>
@@ -318,16 +435,17 @@ Season:
               Do you wish to subscribe this tv show?
               </ModalBody>
               <ModalFooter>
-                  <Button className='btn btn-primary btn-md' color='primary' onClick={this.addSlot && this.subToggle}>
+                  <Button className='btn btn-primary btn-md' color='primary' onClick={() => { this.addSlot(); this.subToggle(); }}>
                   Yes, subscribe this tv show
                   </Button>
                   <Button color='secondary' onClick={this.subToggle}>Cancel</Button>
               </ModalFooter>
           </Modal>
       );
+
       const commentContainer = authen ? (
-          <div id='comment-container'>
-              <div id='comment-header'>
+          <div id='media-comment-container'>
+              <div id='media-comment-label'>
                   <label htmlFor='Comment' style={{ textDecoration: 'underline', fontFamily: 'Apple Chancery, cursive' }}>Leave a comment</label>
               </div>
               <textarea
@@ -340,10 +458,10 @@ Season:
                   id='subject' //eslint-disable-line
                   name='subject' //eslint-disable-line
                   placeholder='Enter your comment here...' //eslint-disable-line
-                  style={{ borderStyle: 'inset', width: '600px', height: '90px' }} //eslint-disable-line
+                  style={{ borderStyle: 'inset', width: '38.5rem', height: '7rem' }} //eslint-disable-line
               />
               <div className='row'>
-                  <input style={{ marginLeft: '52%' }} type='submit' value='Post Comment' onClick={this.makeComment} />
+                  <input style={{ float: 'right' }} type='submit' value='Post Comment' onClick={this.makeComment} />
               </div>
           </div>
       ) : null;
@@ -362,6 +480,7 @@ Season:
               <label htmlFor='star1' title='text'>1 star</label>
           </div>
       ) : null;
+
       const genreInfo = (media !== undefined && media.genres !== undefined) ? media.genres.map((item, index) => (
           <span
               style={{ color: 'whitesmoke', fontSize: '1em' }} //eslint-disable-line
@@ -370,6 +489,7 @@ Season:
               { (index ? ', ' : '') + item }
           </span>
       )) : null;
+
       const starInfo = (media !== undefined && media.genres !== undefined) ? media.stars.map((item, index) => (
           <span
               style={{ color: 'whitesmoke', fontSize: '1em' }} //eslint-disable-line
@@ -378,11 +498,15 @@ Season:
               { (index ? ', ' : '') + item }
           </span>
       )) : null;
+
       const error = mediaError !== undefined ? <h1>Error</h1> : null;
+
       const mediaElems = media !== undefined ? (
           <div className='mediaBody'>
               {subModalElem}
               {rentModalElem}
+              {unsubModalElem}
+              {deleteModalElem}
               <h1 style={{ textAlign: 'center', fontSize: '3.5em', marginTop: '1%', fontWeight: 'bold' }}>
                   {' '}
                   {media.title}
@@ -390,10 +514,10 @@ Season:
               </h1>
               {stored !== '' && eps !== '' && (
                   <h1 style={{ textAlign: 'center', fontSize: '1.5em' }}>
-Episode
+                    Episode
                       {' '}
                       {eps}
-:
+                    :
                       {' '}
                       {stored}
                   </h1>
@@ -405,9 +529,9 @@ Episode
                       {media.title || title}
                       {' '}
                       <span>
-(
+                        (
                           {media.year}
-)
+                        )
 
                       </span>
                       {media.season_info !== undefined && <h3>SEASONS</h3>}
@@ -416,8 +540,10 @@ Episode
               </div>
 
               <div id='clearFix' style={{ overflow: 'hidden', marginTop: '0.8%' }}>
-                  {media.season_info === undefined && authen && !owned && <Button color='danger' className='rent-button' onClick={this.rentToggle}>Rent</Button>}
-                  {media.season_info !== undefined && authen && !owned && <Button color='danger' className='subscribe-button' onClick={this.subToggle}>Subscribe</Button>}
+                  {media.season_info === undefined && authen && !owned && <Button color='primary' className='rent-button' onClick={this.rentToggle}>Rent</Button>}
+                  {media.season_info !== undefined && authen && !owned && <Button color='primary' className='subscribe-button' onClick={this.subToggle}>Subscribe</Button>}
+                  {unsubOptions}
+                  {deleteButton}
                   {owned && StarRating}
               </div>
               <div id='media-info'>

@@ -57,23 +57,6 @@ class About extends Component {
                     <h2 className='textCenter'>THE BUSINESS OF GOOD STREAMING SERVICE</h2>
                     <p>Video Vault also known as VV is one of the most trusted media stream service to its members, international subscriber. Created this website with end-user in mind that provides worldwide audiences with an digital media and social viewing experience. VV give the worldwide audience to enjoy the video anywhere and anytime they want with the time they choose. It can also interact with different members in the website to have discussion of their favorite TV shows or Movies.  </p>
                 </div>
-
-                <div>
-                    <form onSubmit={this.handleSubmit}>
-                        <div className='imageUpload'>
-                            <label htmlFor='fileInput'>
-                                <i className='far fa-images'>
-                                    <br />
-                                    <h1>Upload a file</h1>
-                                </i>
-
-                            </label>
-                            <input id='fileInput' type='file' onChange={this.handleImageChange} />
-                        </div>
-                        <button type='submit' onClick={this.handleSubmit}>Upload Image</button>
-                    </form>
-                    {imagePreview}
-                </div>
                 <Footer />
             </div>
         );

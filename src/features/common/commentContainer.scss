@@ -1,0 +1,26 @@
+.comment-container {
+
+    width: 100%;
+    height: 23%;
+    padding: 20px;
+
+    .comment-label {
+        display: inline;
+        color: whitesmoke;
+        font-size: 1em;
+        text-decoration: underline;
+        margin-right: 0.5rem;
+    }
+
+    .textArea {
+        display: inline;
+        border-style: 'inset';
+        width: 20em;
+    }
+
+    .postButton {
+        display: inline;
+        margin-left: 0.5rem;
+    }
+
+}
