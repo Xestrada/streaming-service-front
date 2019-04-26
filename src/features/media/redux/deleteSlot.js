@@ -7,13 +7,13 @@ import {
 
 // Rekit uses redux-thunk for async actions by default: https://github.com/gaearon/redux-thunk
 // If you prefer redux-saga, you can use rekit-plugin-redux-saga: https://github.com/supnate/rekit-plugin-redux-saga
-export function deleteSlot(uid) {
+export function deleteSlot(uid, sid) {
     return (dispatch) => { // optionally you can have getState as the second argument
         dispatch({
             type: MEDIA_DELETE_SLOT_BEGIN,
         });
 
-        return fetch('https://videovaultusers.herokuapp.com/delete_slot', {
+        return fetch('https://videovaultusers.herokuapp.com/slot/flag/delete', {
             method: 'PUT',
             mode: 'cors',
             headers: {
@@ -21,6 +21,7 @@ export function deleteSlot(uid) {
             },
             body: JSON.stringify({
                 user_id: uid,
+                slot_id: sid,
             }),
         })
             .then(response => response.json()).then((createdJson) => {

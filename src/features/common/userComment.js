@@ -17,9 +17,9 @@ export default class UserComment extends React.Component {
 
         return (
             <div className='commentBox'>
-                <span>{user}</span>
-                <p>{comment}</p>
-                <span>{date}</span>
+                <h6 className='user'>{user}</h6>
+                <p className='comment'>{comment}</p>
+                <h6 className='date'>{date}</h6>
             </div>
         );
     }

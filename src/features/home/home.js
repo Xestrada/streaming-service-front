@@ -20,6 +20,7 @@ import Footer from '../common/footer';
 import ContentBox from '../common/contenBox';
 import SearchBar from '../common/SearchBar';
 import TimelinePost from '../common/timelinePost';
+import CommentContainer from '../common/commentContainer';
 import emptyImg from '../../images/noimage.png';
 import './home.scss';
 
@@ -54,6 +55,7 @@ export class Home extends Component {
             query: '',
             searchFunc: p => this.getRecentlyAdded(p),
             activeIndex: 0,
+            userPost: '',
         };
 
         this.getMovieList = this.getMovieList.bind(this);
@@ -70,11 +72,13 @@ export class Home extends Component {
         this.goToIndex = this.goToIndex.bind(this);
         this.onExiting = this.onExiting.bind(this);
         this.onExited = this.onExited.bind(this);
+        this.postOnTimeline = this.postOnTimeline.bind(this);
     }
 
     componentDidMount() {
         const { page, searchFunc } = this.state;
         searchFunc(page);
+        this.getTimeline();
     }
 
     onExiting() {
@@ -127,6 +131,23 @@ export class Home extends Component {
             page: 1,
             searchFunc: p => this.search(p),
         }, () => this.search(1));
+    }
+
+    postOnTimeline() {
+        const { common, profileActions } = this.props;
+        const { userPost } = this.state;
+        const { userData } = common;
+        const { postTimeline } = profileActions;
+        postTimeline({
+            wall_id: userData.id,
+            user_id: userData.id,
+            post: userPost,
+        }).then(() => {
+            this.getTimeline();
+            this.setState({
+                userPost: '',
+            });
+        });
     }
 
     next() {
@@ -187,10 +208,9 @@ export class Home extends Component {
 
     render() {
         const { common, profile } = this.props;
-        const { page } = this.state;
+        const { page, userPost } = this.state;
         const { data, maxPages, searchError, searchPending, authen, userData } = common;
         const { getTimelinePending, getTimelineError, timeline } = profile;
-        let timeLine = null;
 
         if (authen && timeline === undefined && userData !== undefined && !getTimelinePending && (getTimelineError === null || getTimelineError === undefined)) {
             this.getTimeline(userData.id);
@@ -218,43 +238,63 @@ export class Home extends Component {
                 <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
             </CarouselItem>
         ));
-        const postElems = timeline !== undefined ? timeline.map(post => (
-            <div className='post'>
-                <TimelinePost image={emptyImg} name={post.username} message={post.post} test={post.comments} />
+        const postElems = authen && timeline !== undefined && !getTimelinePending ? timeline.map(post => (
+            <div>
+                <TimelinePost //eslint-disable-line
+                    isTimeline //eslint-disable-line
+                    postedTo={post.username} //eslint-disable-line
+                    name={post.post_username} //eslint-disable-line
+                    message={post.post} //eslint-disable-line
+                    comments={post.comments} //eslint-disable-line
+                    postId={post.post_id} //eslint-disable-line
+                    refreshFunc={() => this.getTimeline(userData.id)} //eslint-disable-line
+                    areFriends //eslint-disable-line
+                />
             </div>
         )) : null;
 
-        if (authen === undefined || !authen) {
-            timeLine = (
-                <div>
-                    <img className='home-image' src={background} alt='' />
-                    <div className='advertise-text'>
-                        <h1>Variety TV Shows and Movies</h1>
-                        <p>Only $10 for a month</p>
-                        <Link to='/signup'>
-                            <Button color='primary' className='signup-button'> SIGN UP NOW</Button>
-                        </Link>
-                    </div>
-                    <div className='moveCarousel'>
-                        <Carousel activeIndex={activeIndex} next={this.next} previous={this.previous}>
-                            <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
-                            {slides}
-                            <CarouselControl direction='prev' directionText='Previous' onClickHandler={this.previous} />
-                            <CarouselControl direction='next' directionText='Next' onClickHandler={this.next} />
-                        </Carousel>
-                    </div>
+        const homeAds = (
+            <div>
+                <img className='home-image' src={background} alt='' />
+                <div className='advertise-text'>
+                    <h1>Variety TV Shows and Movies</h1>
+                    <p>Only $10 for a month</p>
+                    <Link to='/signup'>
+                        <Button color='primary' className='signup-button'> SIGN UP NOW</Button>
+                    </Link>
                 </div>
-            );
-        } else {
-            timeLine = (
-                <div>
-                    <h1 style={{ color: 'white' }}>Timeline</h1>
-                    {' '}
-                    {postElems}
-                    {' '}
+                <div className='moveCarousel'>
+                    <Carousel activeIndex={activeIndex} next={this.next} previous={this.previous}>
+                        <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
+                        {slides}
+                        <CarouselControl direction='prev' directionText='Previous' onClickHandler={this.previous} />
+                        <CarouselControl direction='next' directionText='Next' onClickHandler={this.next} />
+                    </Carousel>
                 </div>
-            );
-        }
+            </div>
+        );
+
+        const homeMain = authen === undefined || !authen ? homeAds : (
+            <div>
+                <h1 className='tlTitle'>Timeline</h1>
+                <br />
+                <div className='postContainer'>
+                    <CommentContainer
+                        comment={userPost} //eslint-disable-line
+                        title='Post to Timeline' //eslint-disable-line
+                        buttonText='Post' //eslint-disable-line
+                        placeHolderText='Enter your comment here...' //eslint-disable-line
+                        buttonFunc={this.postOnTimeline} //eslint-disable-line
+                        changeFunc={(value) => { //eslint-disable-line
+                            this.setState({
+                                userPost: value,
+                            });
+                        }}
+                    />
+                </div>
+                {postElems}
+            </div>
+        );
 
         for (let i = 0; i < 20; i += 1) {
             loadingGrid.push(<i className='fa fa-spinner fa-spin loadIcon' key={i} />);
@@ -264,7 +304,8 @@ export class Home extends Component {
             <body className='background-color'>
                 <div className='home-root'>
                     <Header />
-                    {timeLine}
+                    <br />
+                    {homeMain}
                     <br />
                     <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />
                     <br />

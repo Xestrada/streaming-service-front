@@ -51,20 +51,41 @@ class Header extends React.Component {
         this.login = this.login.bind(this);
         this.signOut = this.signOut.bind(this);
         this.updateState = this.updateState.bind(this);
+        this.updateDatabase = this.updateDatabase.bind(this);
+        this.checkSlots = this.checkSlots.bind(this);
     }
 
     componentDidMount() {
-        const { actions } = this.props;
+        const { actions, common } = this.props;
         const { localAuthen } = actions;
+        const { authen } = common;
         const id = localStorage.getItem('id');
         const username = localStorage.getItem('username');
         const email = localStorage.getItem('email');
-        if (id !== null && username !== null) {
+        if (id !== null && username !== null && !authen) {
             localAuthen({
                 id,
                 username,
                 email,
-            });
+            }).then(this.updateDatabase);
+        }
+    }
+
+    checkSlots() {
+        const { actions, common } = this.props;
+        const { hasAllSlots } = actions;
+        const { userData } = common;
+        if (userData !== undefined) {
+            hasAllSlots(userData.id);
+        }
+    }
+
+    updateDatabase() {
+        const { actions, common } = this.props;
+        const { updateUserMedia } = actions;
+        const { userData } = common;
+        if (userData !== undefined) {
+            updateUserMedia(userData.id).then(this.checkSlots);
         }
     }
 

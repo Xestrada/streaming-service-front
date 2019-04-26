@@ -85,7 +85,7 @@ export function reducer(state, action) {
             signupPending: false,
             signupError: action.error,
             authen: false,
-            userData: null,
+            userData: undefined,
         };
 
     case COMMON_SIGNUP_DISMISS_ERROR:

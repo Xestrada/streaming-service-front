@@ -11,6 +11,7 @@ import Footer from '../common/footer';
 import ContentBox from '../common/contenBox';
 import Rating from '../common/rating';
 import TimelinePost from '../common/timelinePost';
+import CommentContainer from '../common/commentContainer';
 import emptyImg from '../../images/noimage.png';
 import './profile.scss';
 
@@ -28,11 +29,16 @@ class Profile extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            userPost: '',
+        };
+
         this.getWall = this.getWall.bind(this);
         this.getRatedMovies = this.getRatedMovies.bind(this);
         this.getRatedTV = this.getRatedTV.bind(this);
         this.getUserFriends = this.getUserFriends.bind(this);
         this.getFriendRequests = this.getFriendRequests.bind(this);
+        this.postOnTimeline = this.postOnTimeline.bind(this);
     }
 
     componentDidMount() {
@@ -43,6 +49,7 @@ class Profile extends Component {
             this.getRatedTV();
             this.getUserFriends();
             this.getFriendRequests();
+            this.getWall();
         }
     }
 
@@ -71,7 +78,9 @@ class Profile extends Component {
         const { profileActions, common } = this.props;
         const { userData } = common;
         const { getWall } = profileActions;
-        getWall(userData.id);
+        if (userData !== undefined) {
+            getWall(userData.id);
+        }
     }
 
     getFriendRequests() {
@@ -81,9 +90,27 @@ class Profile extends Component {
         getFreindRequests(userData.id);
     }
 
+    postOnTimeline() {
+        const { common, profileActions } = this.props;
+        const { userPost } = this.state;
+        const { userData } = common;
+        const { postTimeline } = profileActions;
+        postTimeline({
+            wall_id: userData.id,
+            user_id: userData.id,
+            post: userPost,
+        }).then(() => {
+            this.getWall();
+            this.setState({
+                userPost: '',
+            });
+        });
+    }
+
 
     render() {
         const { common, profile, user } = this.props;
+        const { userPost } = this.state;
         const {
             authen,
             friends,
@@ -100,9 +127,17 @@ class Profile extends Component {
             this.getWall();
         }
 
-        const postElems = wall !== undefined && authen ? wall.map(post => (
-            <div className='post'>
-                <TimelinePost image='https://i.redd.it/9kzcg7xk4q321.png' name={post.post_username} message={post.post} test={post.comments} />
+        const postElems = wall !== undefined && authen && !getWallPending ? wall.map(post => (
+            <div>
+                <TimelinePost
+                    postedTo={post.username} //eslint-disable-line
+                    name={post.post_username} //eslint-disable-line
+                    message={post.post} //eslint-disable-line
+                    comments={post.comments} //eslint-disable-line
+                    postId={post.post_id} //eslint-disable-line
+                    refreshFunc={this.getWall} //eslint-disable-line
+                    areFriends //eslint-disable-line
+                />
             </div>
         )) : null;
 
@@ -149,6 +184,20 @@ class Profile extends Component {
                 <div>
                     <div className='gridContainer'>
                         <h1>Wall</h1>
+                        <div className='postContainer'>
+                            <CommentContainer
+                                comment={userPost} //eslint-disable-line
+                                title='Post to Timeline' //eslint-disable-line
+                                buttonText='Post' //eslint-disable-line
+                                placeHolderText='Enter your comment here...' //eslint-disable-line
+                                buttonFunc={this.postOnTimeline} //eslint-disable-line
+                                changeFunc={(value) => { //eslint-disable-line
+                                    this.setState({
+                                        userPost: value,
+                                    });
+                                }}
+                            />
+                        </div>
                         {postElems}
                     </div>
                     {friendRequests !== undefined && friendRequests.length > 0 ? (

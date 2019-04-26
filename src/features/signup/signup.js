@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Col, Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import * as actions from '../common/redux/actions';
@@ -24,7 +24,6 @@ class Signup extends Component {
             username: '',
             password: '',
             card_num: '',
-            exp: '',
         };
 
         this.changeState = this.changeState.bind(this);
@@ -40,7 +39,14 @@ class Signup extends Component {
     signUp() {
         const { actions } = this.props;
         const { signup } = actions;
-        signup(this.state)
+        const { username, name, email, password, card_num } = this.state;
+        signup({
+            username,
+            name,
+            email,
+            password,
+            card_num: parseInt(card_num),
+        })
             .then(() => (
                 <Redirect to='/sub-init' />
             ));
@@ -51,7 +57,9 @@ class Signup extends Component {
 
         const { username, password, email, card_num, exp, name } = this.state; //eslint-disable-line
         const { common } = this.props;
-        const { authen, initialSub } = common;
+        const { authen, initialSub, signupError } = common;
+
+        const errorMessage = (signupError === null) ? null : (<Alert color='danger'>There was an error during Sign Up</Alert>);
 
         const redir = authen !== undefined && authen && !initialSub ? (<Redirect to='/sub-init' />) : null;
 
@@ -60,9 +68,10 @@ class Signup extends Component {
                 <Header />
                 <div className='middle'>
                     <div className='coloring'>
-                        {'Create your account'}
+                        Create your account
                     </div>
                     {redir}
+                    {errorMessage}
                     <Form>
                         <FormGroup row>
                             <Label for='name' sm={3}>Name: </Label>
@@ -92,13 +101,7 @@ class Signup extends Component {
                         <FormGroup row>
                             <Label for='exampleCreditCardID' sm={3}>Credit Card Number</Label>
                             <Col sm={9}>
-                                <Input value={card_num} type='creditcardID' name='creditcardID' id='exampleCreditcardID' placeholder='your credit card #' onChange={e => this.changeState('card_num', e.target.value)} />
-                            </Col>
-                        </FormGroup>
-                        <FormGroup row>
-                            <Label for='exampleCreditCardExp' sm={3}>Credit Card Exp</Label>
-                            <Col sm={9}>
-                                <Input value={exp} type='creditcardExp' name='creditcardExp' id='exampleCreditcardExp' placeholder='your credit card exp' onChange={e => this.changeState('exp', e.target.value)} />
+                                <Input value={card_num} type='number' name='creditcardID' id='exampleCreditcardID' placeholder='your credit card #' onChange={e => this.changeState('card_num', e.target.value)} />
                             </Col>
                         </FormGroup>
                         <FormGroup check row>
