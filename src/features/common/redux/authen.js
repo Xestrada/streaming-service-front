@@ -93,6 +93,12 @@ export function reducer(state, action) {
             authenError: action.error,
             authen: false,
             userData: undefined,
+            subs: undefined,
+            userSubs: undefined,
+            friends: undefined,
+            rentedMovies: undefined,
+            ratedMovies: undefined,
+            ratedTV: undefined,
         };
 
     case COMMON_AUTHEN_DISMISS_ERROR:

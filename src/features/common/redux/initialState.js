@@ -53,12 +53,12 @@ const initialState = {
     deleteAccountError: null,
     hasFreindRequestPending: false,
     hasFreindRequestError: null,
-  sentFriendRequestPending: false,
-  sentFriendRequestError: null,
-  getUserSubsPending: false,
-  getUserSubsError: null,
-  updateUserMediaPending: false,
-  updateUserMediaError: null,
+    sentFriendRequestPending: false,
+    sentFriendRequestError: null,
+    getUserSubsPending: false,
+    getUserSubsError: null,
+    updateUserMediaPending: false,
+    updateUserMediaError: null,
 };
 
 export default initialState;
