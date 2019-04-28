@@ -20,7 +20,6 @@ export function isMediaOwned(isMovie, uid, mid) {
         return fetch(`https://videovaultusers.herokuapp.com/user=${uid}/${type}=${mid}/${endURL}`)
             .then(response => response.json())
             .then((createdJson) => {
-                console.log(createdJson);
                 dispatch({
                     type: MEDIA_IS_MEDIA_OWNED_SUCCESS,
                     mediaOwned: createdJson[endURL],

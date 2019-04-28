@@ -321,17 +321,14 @@ export class Media extends Component {
           this.checkOwnership();
           this.checkIfUnsub();
       }
-
-      console.log(userSubs);
-
       const deleteButton = authen && owned && media !== undefined && media.season_info !== undefined
             && slotNum !== -1 && userSubs !== undefined && userSubs.length > 10 && !isUnsubbed
           ? (
-              <Button color='danger' onClick={this.deleteToggle}>Delete Slot</Button>
+              <Button className='userOption' color='danger' onClick={this.deleteToggle}>Delete Slot</Button>
           ) : null;
 
       const unsub = authen && owned && media !== undefined && media.season_info !== undefined ? (
-          <Button color='primary' onClick={this.unsubToggle}>Unsubscribe</Button>
+          <Button className='userOption' color='primary' onClick={this.unsubToggle}>Unsubscribe</Button>
       ) : null;
 
       const unsubOptions = isUnsubbed !== undefined && isUnsubbed ? (
@@ -403,6 +400,7 @@ Season:
               <ModalHeader toggle={this.unsubToggle} className='centerModalHeader'>Are you sure?</ModalHeader>
               <ModalBody className='modalBody'>
                 Are you sure you want to unsubscribe?
+                (You will be able to choose a new show at the end of the pay period)
               </ModalBody>
               <ModalFooter>
                   <Button className='btn btn-primary btn-md' color='primary' onClick={this.unsubscribeToShow}>
@@ -418,6 +416,7 @@ Season:
               <ModalHeader toggle={this.rentToggle} className='centerModalHeader'>Are you sure?</ModalHeader>
               <ModalBody className='modalBody'>
               Do you wish to rent this movie?
+              (You will be charged $1.25 for a 24hr rental)
               </ModalBody>
               <ModalFooter>
                   <Button className='btn btn-primary btn-md' color='primary' onClick={() => { this.rentMovie(); this.rentToggle(); }}>
@@ -433,6 +432,7 @@ Season:
               <ModalHeader toggle={this.subToggle} className='centerModalHeader'>Are you sure?</ModalHeader>
               <ModalBody className='modalBody'>
               Do you wish to subscribe this tv show?
+              (You will be charged $1.50 extra each month for this slot)
               </ModalBody>
               <ModalFooter>
                   <Button className='btn btn-primary btn-md' color='primary' onClick={() => { this.addSlot(); this.subToggle(); }}>
