@@ -171,7 +171,7 @@ class Header extends React.Component {
                     <input value={pass} type='password' id='userPassword' className='form-control input-sm chat-input' placeholder='password' onChange={e => this.updateState('pass', e.target.value)} />
                 </ModalBody>
                 <ModalFooter>
-                    {authenPending && <i className='fa fa-spinner fa-spin loadIcon' />}
+                    {authenPending && <i className='fa fa-spinner fa-spin authenLoad' />}
                     <Button className='btn btn-primary btn-md' color='primary' onClick={this.login}>
                         login
                         <i className='fas fa-sign-in-alt' />
