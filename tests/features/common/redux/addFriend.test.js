@@ -17,7 +17,7 @@ import {
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
-const myInfo = { request_to: 5, request_from: 3 };
+const myInfo = { request_to: 7, request_from: 6 };
 const alreadyFriend = { request_to: 1, request_from: 1 };
 const missingArgu = { request_to: 1 };
 const emptyInfo = {};
@@ -30,7 +30,7 @@ describe('common/redux/addFriend', () => {
     it('dispatches success action when addFriend succeeds when it is not friend', () => {
         const store = mockStore({});
 
-        return store.dispatch(addFriend(myInfo))
+        return store.dispatch(addFriend())
             .then(() => {
                 const actions = store.getActions();
                 console.log(actions);
