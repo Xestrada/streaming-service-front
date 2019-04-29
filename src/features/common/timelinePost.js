@@ -64,12 +64,13 @@ class TimelinePost extends React.Component {
                 <p className='message'>
                     {message}
                 </p>
+                <h5>Comments:</h5>
                 {commentElems}
                 {areFriends && (
                     <CommentContainer
                     comment={userComment} //eslint-disable-line
-                    title='Leave a Comment' //eslint-disable-line
-                    buttonText='Post Comment' //eslint-disable-line
+                    title='Comment' //eslint-disable-line
+                    buttonText='Post' //eslint-disable-line
                     placeHolderText='Enter your comment here...' //eslint-disable-line
                     buttonFunc={this.commentOnPost} //eslint-disable-line
                     changeFunc={(value) => { //eslint-disable-line
