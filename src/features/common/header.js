@@ -23,6 +23,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import * as actions from './redux/actions';
+import * as profileActions from '../profile/redux/actions';
 import userImg from '../../images/blank-user.jpg';
 import './header.scss';
 
@@ -130,8 +131,9 @@ class Header extends React.Component {
 
     signOut() {
         const { actions } = this.props;
-        const { signOut } = actions;
+        const { signOut, clearUserProfile } = actions;
         signOut();
+        clearUserProfile();
     }
 
     updateState(name, value) {
@@ -270,7 +272,7 @@ function mapStateToProps(state) {
 /* istanbul ignore next */
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({ ...actions }, dispatch),
+        actions: bindActionCreators({ ...actions, ...profileActions }, dispatch),
     };
 }
 
