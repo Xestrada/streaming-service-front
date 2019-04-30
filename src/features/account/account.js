@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { Col, Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import Header from '../common/header';
-import Footer from '../common/footer';
 import './account.scss';
 
 class Account extends Component {
@@ -23,7 +21,6 @@ class Account extends Component {
         const { password, card_num, exp } = this.state;
         return (
             <div>
-                <Header />
                 <div>
                     <div className='title'>
                     Change Password
@@ -89,7 +86,6 @@ class Account extends Component {
                         <Button color='danger' block>Delete your account forever</Button>
                     </div>
                 </div>
-                <Footer />
             </div>
         );
     }

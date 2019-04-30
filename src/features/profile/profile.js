@@ -6,8 +6,6 @@ import { connect } from 'react-redux';
 import * as actions from '../common/redux/actions';
 import * as profileActions from './redux/actions';
 import * as userActions from '../user/redux/actions';
-import Header from '../common/header';
-import Footer from '../common/footer';
 import ContentBox from '../common/contenBox';
 import Rating from '../common/rating';
 import TimelinePost from '../common/timelinePost';
@@ -179,57 +177,54 @@ class Profile extends Component {
 
         return (
             <div className='background'>
-                <Header />
                 {redir}
-                <div>
-                    <div className='gridContainer'>
-                        <h1>Wall</h1>
-                        <div className='postContainer'>
-                            <CommentContainer
+                <br />
+                <div className='gridContainer'>
+                    <h1>Wall</h1>
+                    <div className='postContainer'>
+                        <CommentContainer
                                 comment={userPost} //eslint-disable-line
                                 title='Post to Timeline' //eslint-disable-line
                                 buttonText='Post' //eslint-disable-line
                                 placeHolderText='Enter your comment here...' //eslint-disable-line
                                 buttonFunc={this.postOnTimeline} //eslint-disable-line
                                 changeFunc={(value) => { //eslint-disable-line
-                                    this.setState({
-                                        userPost: value,
-                                    });
-                                }}
-                            />
-                        </div>
-                        {postElems}
+                                this.setState({
+                                    userPost: value,
+                                });
+                            }}
+                        />
                     </div>
-                    {friendRequests !== undefined && friendRequests.length > 0 ? (
-                        <div className='gridContainer'>
-                            <h1>Friend Requests</h1>
-                            <div className='section'>
-                                {friendRequestList}
-                            </div>
-                        </div>
-                    ) : null}
+                    {postElems}
+                </div>
+                {friendRequests !== undefined && friendRequests.length > 0 ? (
                     <div className='gridContainer'>
-                        <h1>Friends</h1>
+                        <h1>Friend Requests</h1>
                         <div className='section'>
-                            {getFriendsPending ? loading : (friendsList || empty)}
+                            {friendRequestList}
                         </div>
                     </div>
-
-                    <div className='gridContainer'>
-                        <h1>Rated Movies</h1>
-                        <div className='section'>
-                            {ratedMoviesPending ? loading : (ratedMoviesList || empty)}
-                        </div>
-                    </div>
-
-                    <div className='gridContainer'>
-                        <h1>Rated TV Shows</h1>
-                        <div className='section'>
-                            {ratedTvPending ? loading : (ratedTVList || empty)}
-                        </div>
+                ) : null}
+                <div className='gridContainer'>
+                    <h1>Friends</h1>
+                    <div className='section'>
+                        {getFriendsPending ? loading : (friendsList || empty)}
                     </div>
                 </div>
-                <Footer />
+
+                <div className='gridContainer'>
+                    <h1>Rated Movies</h1>
+                    <div className='section'>
+                        {ratedMoviesPending ? loading : (ratedMoviesList || empty)}
+                    </div>
+                </div>
+
+                <div className='gridContainer'>
+                    <h1>Rated TV Shows</h1>
+                    <div className='section'>
+                        {ratedTvPending ? loading : (ratedTVList || empty)}
+                    </div>
+                </div>
             </div>
         );
     }

@@ -14,9 +14,7 @@ import {
 import * as actions from '../common/redux/actions';
 import * as profileActions from '../profile/redux/actions';
 import background from '../../images/homePageBackground.jpg';
-import Header from '../common/header';
 import Results from '../common/results';
-import Footer from '../common/footer';
 import ContentBox from '../common/contenBox';
 import SearchBar from '../common/SearchBar';
 import TimelinePost from '../common/timelinePost';
@@ -303,7 +301,6 @@ export class Home extends Component {
         return (
             <body className='background-color'>
                 <div className='home-root'>
-                    <Header />
                     <br />
                     {homeMain}
                     <br />
@@ -312,7 +309,6 @@ export class Home extends Component {
                     <br />
                     <br />
                     <Results loading={searchPending} error={error} boxes={boxes} page={page} loadingGrid={loadingGrid} maxPages={maxPages} nextPage={this.nextPage} backPage={this.backPage} />
-                    <Footer />
                 </div>
             </body>
         );

@@ -4,9 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Button } from 'reactstrap';
-import Header from '../common/header';
 import Results from '../common/results';
-import Footer from '../common/footer';
 import ContentBox from '../common/contenBox';
 import SearchBar from '../common/SearchBar';
 import emptyImg from '../../images/noimage.png';
@@ -232,9 +230,7 @@ export class SubInit extends Component {
               <div className='home-root'>
                   {redir}
                   {subRedir}
-                  <Header />
                   {mainPage}
-                  <Footer />
               </div>
           </body>
       );

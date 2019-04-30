@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import Header from '../common/header';
-import Footer from '../common/footer';
 import './privacypolicy.scss';
 
 class PrivacyPolicy extends Component {
@@ -8,7 +6,6 @@ class PrivacyPolicy extends Component {
     render() {
         return (
             <div>
-                <Header />
                 <div className='maintitle'>
                     {'Privacy Policy'}
                 </div>
@@ -53,7 +50,6 @@ class PrivacyPolicy extends Component {
                     Payment information given will be recorded and saved safely and used to automatically
                     withdraw money to renew subscription.
                 </div>
-                <Footer />
             </div>
         );
     }

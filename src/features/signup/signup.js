@@ -5,8 +5,6 @@ import { Col, Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import * as actions from '../common/redux/actions';
-import Header from '../common/header';
-import Footer from '../common/footer';
 import './signup.scss';
 
 class Signup extends Component {
@@ -65,7 +63,6 @@ class Signup extends Component {
 
         return (
             <div>
-                <Header />
                 <div className='middle'>
                     <div className='coloring'>
                         Create your account
@@ -111,7 +108,6 @@ class Signup extends Component {
                         </FormGroup>
                     </Form>
                 </div>
-                <Footer />
             </div>
         );
     }

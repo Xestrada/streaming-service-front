@@ -12,8 +12,6 @@ import ReactPlayer from 'react-player';
 import * as actions from '../common/redux/actions';
 import * as mediaActions from './redux/actions';
 import UserComment from '../common/userComment';
-import Header from '../common/header';
-import Footer from '../common/footer';
 import './media.scss';
 
 export class Media extends Component {
@@ -321,6 +319,7 @@ export class Media extends Component {
           this.checkOwnership();
           this.checkIfUnsub();
       }
+
       const deleteButton = authen && owned && media !== undefined && media.season_info !== undefined
             && slotNum !== -1 && userSubs !== undefined && userSubs.length > 10 && !isUnsubbed
           ? (
@@ -574,9 +573,7 @@ Average Rating:
       return (
           <body id='bg'>
               <div className='media-default-page'>
-                  <Header />
                   {mediaElems || error}
-                  <Footer />
               </div>
           </body>
       );
