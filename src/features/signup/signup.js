@@ -37,13 +37,13 @@ class Signup extends Component {
     signUp() {
         const { actions } = this.props;
         const { signup } = actions;
-        const { username, name, email, password, card_num } = this.state;
+        const { username, name, email, password, card_num } = this.state; //eslint-disable-line
         signup({
             username,
             name,
             email,
             password,
-            card_num: parseInt(card_num),
+            card_num: parseInt(card_num, 10),
         })
             .then(() => (
                 <Redirect to='/sub-init' />

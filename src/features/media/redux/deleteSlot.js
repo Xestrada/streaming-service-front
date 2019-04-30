@@ -20,11 +20,12 @@ export function deleteSlot(uid, sid) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                user_id: uid,
-                slot_id: sid,
+                user_id: parseInt(uid, 10),
+                slot_id: parseInt(sid, 10),
             }),
         })
             .then(response => response.json()).then((createdJson) => {
+                console.log(createdJson);
                 if (createdJson.success !== undefined && createdJson.success) {
                     dispatch({
                         type: MEDIA_DELETE_SLOT_SUCCESS,
