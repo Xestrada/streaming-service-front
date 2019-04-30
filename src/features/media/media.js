@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import {
-    Alert,
     Button,
     Modal,
     ModalHeader,
@@ -224,6 +223,10 @@ export class Media extends Component {
                   tv_show_id: media.tv_show_id,
               }).then(() => this.getComments(title));
           }
+
+          this.setState({
+              comment: '',
+          });
       }
   }
 

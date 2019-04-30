@@ -172,7 +172,7 @@ class Header extends React.Component {
                 </ModalBody>
                 <ModalFooter>
                     {authenPending && <i className='fa fa-spinner fa-spin authenLoad' />}
-                    <Button className='btn btn-primary btn-md' color='primary' onClick={this.login}>
+                    <Button disabled={authenPending} className='btn btn-primary btn-md' color='primary' onClick={this.login}>
                         login
                         <i className='fas fa-sign-in-alt' />
                     </Button>
