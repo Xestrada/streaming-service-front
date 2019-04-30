@@ -25,7 +25,6 @@ export function addInitialSubs(data = {}) {
             body: values,
         })
             .then(response => response.json()).then((createdJson) => {
-                console.log(createdJson);
                 if (createdJson.success) {
                     dispatch({
                         type: COMMON_ADD_INITIAL_SUBS_SUCCESS,
@@ -76,6 +75,7 @@ export function reducer(state, action) {
             addInitialSubsPending: false,
             addInitialSubsError: null,
             initialSub: true,
+            needToSub: false,
         };
 
     case COMMON_ADD_INITIAL_SUBS_FAILURE:

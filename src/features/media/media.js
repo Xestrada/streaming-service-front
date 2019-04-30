@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Button,
+import {
+    Alert,
+    Button,
     Modal,
     ModalHeader,
     ModalBody,
@@ -305,6 +307,8 @@ export class Media extends Component {
           isUnsubbed,
           getUserRatingPending,
           getUserRatingError,
+          unsubscribePending,
+          deleteSlotPending,
           isMediaOwnedPending,
       } = commonMedia;
 
@@ -323,11 +327,11 @@ export class Media extends Component {
       const deleteButton = authen && owned && media !== undefined && media.season_info !== undefined
             && slotNum !== -1 && userSubs !== undefined && userSubs.length > 10 && !isUnsubbed
           ? (
-              <Button className='userOption' color='danger' onClick={this.deleteToggle}>Delete Slot</Button>
+              <Button disabled={deleteSlotPending} className='userOption' color='danger' onClick={this.deleteToggle}>Delete Slot</Button>
           ) : null;
 
       const unsub = authen && owned && media !== undefined && media.season_info !== undefined ? (
-          <Button className='userOption' color='primary' onClick={this.unsubToggle}>Unsubscribe</Button>
+          <Button disabled={unsubscribePending} className='userOption' color='primary' onClick={this.unsubToggle}>Unsubscribe</Button>
       ) : null;
 
       const unsubOptions = isUnsubbed !== undefined && isUnsubbed ? (
@@ -506,7 +510,7 @@ Season:
               {rentModalElem}
               {unsubModalElem}
               {deleteModalElem}
-              <h1 style={{ textAlign: 'center', fontSize: '3.5em', marginTop: '1%', fontWeight: 'bold' }}>
+              <h1 style={{ textAlign: 'center', fontSize: '3.5em', fontWeight: 'bold' }}>
                   {' '}
                   {media.title}
                   {' '}
