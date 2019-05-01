@@ -160,7 +160,7 @@ export class User extends Component {
       const { userData } = common;
       const { declineRequest } = actions;
       declineRequest({
-          request_to: parseInt(userData.id, 10),
+          user_id: parseInt(userData.id, 10),
           request_from: parseInt(id, 10),
       }).then(this.hasRequestStatus);
   }
@@ -171,7 +171,7 @@ export class User extends Component {
       const { userData } = common;
       const { acceptFreind } = actions;
       acceptFreind({
-          request_to: parseInt(userData.id, 10),
+          user_id: parseInt(userData.id, 10),
           request_from: parseInt(id, 10),
       }).then(() => {
           this.hasRequestStatus();
@@ -215,6 +215,8 @@ export class User extends Component {
           checkFriendshipPending,
           hasFreindRequest,
           sentFriendRequest,
+          acceptFreindPending,
+          declineRequestPending,
       } = common;
 
       const friendAction = (areFriends !== undefined && areFriends) ? (<Button color='danger' onClick={this.removeFriend}>Remove Friend</Button>) : (<Button color='primary' onClick={this.addFriend}>Send Friend Request</Button>);
@@ -224,9 +226,11 @@ export class User extends Component {
       const friendLabel = (sentFriendRequest !== undefined && sentFriendRequest) ? (<h2 className='request'>Friend Request Sent</h2>) : null;
 
       const friendOptions = (hasFreindRequest !== undefined && hasFreindRequest) ? (
-          <div>
-              <Button color='primary' onClick={this.acceptRequest}>Accept Request</Button>
-              <Button color='danger' onClick={this.declineRequest}>Decline Request</Button>
+          <div className='optionButtons'>
+              <Button disabled={acceptFreindPending || declineRequestPending} color='primary' onClick={this.acceptRequest}>Accept Request</Button>
+              <br />
+              <br />
+              <Button disabled={acceptFreindPending || declineRequestPending} color='danger' onClick={this.declineRequest}>Decline Request</Button>
           </div>
       ) : null;
 
