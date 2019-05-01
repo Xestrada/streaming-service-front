@@ -5,8 +5,6 @@ import { Col, Button, Form, FormGroup, Label, Input, Alert } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import * as actions from '../common/redux/actions';
-import Header from '../common/header';
-import Footer from '../common/footer';
 import './signup.scss';
 
 class Signup extends Component {
@@ -24,7 +22,6 @@ class Signup extends Component {
             username: '',
             password: '',
             card_num: '',
-            exp: '',
         };
 
         this.changeState = this.changeState.bind(this);
@@ -40,7 +37,14 @@ class Signup extends Component {
     signUp() {
         const { actions } = this.props;
         const { signup } = actions;
-        signup(this.state)
+        const { username, name, email, password, card_num } = this.state; //eslint-disable-line
+        signup({
+            username,
+            name,
+            email,
+            password,
+            card_num: parseInt(card_num, 10),
+        })
             .then(() => (
                 <Redirect to='/sub-init' />
             ));
@@ -59,10 +63,9 @@ class Signup extends Component {
 
         return (
             <div>
-                <Header />
                 <div className='middle'>
                     <div className='coloring'>
-                        {'Create your account'}
+                        Create your account
                     </div>
                     {redir}
                     {errorMessage}
@@ -95,13 +98,7 @@ class Signup extends Component {
                         <FormGroup row>
                             <Label for='exampleCreditCardID' sm={3}>Credit Card Number</Label>
                             <Col sm={9}>
-                                <Input value={card_num} type='creditcardID' name='creditcardID' id='exampleCreditcardID' placeholder='your credit card #' onChange={e => this.changeState('card_num', e.target.value)} />
-                            </Col>
-                        </FormGroup>
-                        <FormGroup row>
-                            <Label for='exampleCreditCardExp' sm={3}>Credit Card Exp</Label>
-                            <Col sm={9}>
-                                <Input value={exp} type='creditcardExp' name='creditcardExp' id='exampleCreditcardExp' placeholder='your credit card exp' onChange={e => this.changeState('exp', e.target.value)} />
+                                <Input value={card_num} type='number' name='creditcardID' id='exampleCreditcardID' placeholder='your credit card #' onChange={e => this.changeState('card_num', e.target.value)} />
                             </Col>
                         </FormGroup>
                         <FormGroup check row>
@@ -111,7 +108,6 @@ class Signup extends Component {
                         </FormGroup>
                     </Form>
                 </div>
-                <Footer />
             </div>
         );
     }

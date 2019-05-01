@@ -14,9 +14,7 @@ import {
 import * as actions from '../common/redux/actions';
 import * as profileActions from '../profile/redux/actions';
 import background from '../../images/homePageBackground.jpg';
-import Header from '../common/header';
 import Results from '../common/results';
-import Footer from '../common/footer';
 import ContentBox from '../common/contenBox';
 import SearchBar from '../common/SearchBar';
 import TimelinePost from '../common/timelinePost';
@@ -239,9 +237,10 @@ export class Home extends Component {
             </CarouselItem>
         ));
         const postElems = authen && timeline !== undefined && !getTimelinePending ? timeline.map(post => (
-            <div className='post'>
+            <div>
                 <TimelinePost //eslint-disable-line
                     isTimeline //eslint-disable-line
+                    postedTo={post.username} //eslint-disable-line
                     name={post.post_username} //eslint-disable-line
                     message={post.post} //eslint-disable-line
                     comments={post.comments} //eslint-disable-line
@@ -275,19 +274,23 @@ export class Home extends Component {
 
         const homeMain = authen === undefined || !authen ? homeAds : (
             <div>
+                <h1 className='tlTitle'>Timeline</h1>
+                <br />
+                <div className='postContainer'>
+                    <CommentContainer
+                        comment={userPost} //eslint-disable-line
+                        title='Post to Timeline' //eslint-disable-line
+                        buttonText='Post' //eslint-disable-line
+                        placeHolderText='Enter your comment here...' //eslint-disable-line
+                        buttonFunc={this.postOnTimeline} //eslint-disable-line
+                        changeFunc={(value) => { //eslint-disable-line
+                            this.setState({
+                                userPost: value,
+                            });
+                        }}
+                    />
+                </div>
                 {postElems}
-                <CommentContainer
-                    comment={userPost} //eslint-disable-line
-                    title='Post to Timeline' //eslint-disable-line
-                    buttonText='Post' //eslint-disable-line
-                    placeHolderText='Enter your comment here...' //eslint-disable-line
-                    buttonFunc={this.postOnTimeline} //eslint-disable-line
-                    changeFunc={(value) => { //eslint-disable-line
-                        this.setState({
-                            userPost: value,
-                        });
-                    }}
-                />
             </div>
         );
 
@@ -298,7 +301,6 @@ export class Home extends Component {
         return (
             <body className='background-color'>
                 <div className='home-root'>
-                    <Header />
                     <br />
                     {homeMain}
                     <br />
@@ -307,7 +309,6 @@ export class Home extends Component {
                     <br />
                     <br />
                     <Results loading={searchPending} error={error} boxes={boxes} page={page} loadingGrid={loadingGrid} maxPages={maxPages} nextPage={this.nextPage} backPage={this.backPage} />
-                    <Footer />
                 </div>
             </body>
         );

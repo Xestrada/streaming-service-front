@@ -23,6 +23,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import * as actions from './redux/actions';
+import * as profileActions from '../profile/redux/actions';
 import userImg from '../../images/blank-user.jpg';
 import './header.scss';
 
@@ -51,6 +52,8 @@ class Header extends React.Component {
         this.login = this.login.bind(this);
         this.signOut = this.signOut.bind(this);
         this.updateState = this.updateState.bind(this);
+        this.updateDatabase = this.updateDatabase.bind(this);
+        this.checkSlots = this.checkSlots.bind(this);
     }
 
     componentDidMount() {
@@ -65,7 +68,25 @@ class Header extends React.Component {
                 id,
                 username,
                 email,
-            });
+            }).then(this.updateDatabase);
+        }
+    }
+
+    checkSlots() {
+        const { actions, common } = this.props;
+        const { hasAllSlots } = actions;
+        const { userData } = common;
+        if (userData !== undefined) {
+            hasAllSlots(userData.id);
+        }
+    }
+
+    updateDatabase() {
+        const { actions, common } = this.props;
+        const { updateUserMedia } = actions;
+        const { userData } = common;
+        if (userData !== undefined) {
+            updateUserMedia(userData.id).then(this.checkSlots);
         }
     }
 
@@ -110,8 +131,9 @@ class Header extends React.Component {
 
     signOut() {
         const { actions } = this.props;
-        const { signOut } = actions;
+        const { signOut, clearUserProfile } = actions;
         signOut();
+        clearUserProfile();
     }
 
     updateState(name, value) {
@@ -149,8 +171,8 @@ class Header extends React.Component {
                     <input value={pass} type='password' id='userPassword' className='form-control input-sm chat-input' placeholder='password' onChange={e => this.updateState('pass', e.target.value)} />
                 </ModalBody>
                 <ModalFooter>
-                    {authenPending && <i className='fa fa-spinner fa-spin loadIcon' />}
-                    <Button className='btn btn-primary btn-md' color='primary' onClick={this.login}>
+                    {authenPending && <i className='fa fa-spinner fa-spin authenLoad' />}
+                    <Button disabled={authenPending} className='btn btn-primary btn-md' color='primary' onClick={this.login}>
                         login
                         <i className='fas fa-sign-in-alt' />
                     </Button>
@@ -167,7 +189,6 @@ class Header extends React.Component {
                     </Media>
                 </DropdownToggle>
                 <DropdownMenu right>
-                    <DropdownItem><Link to='/account'>Account</Link></DropdownItem>
                     <DropdownItem onClick={this.signOut}>Sign Out</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
@@ -251,7 +272,7 @@ function mapStateToProps(state) {
 /* istanbul ignore next */
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators({ ...actions }, dispatch),
+        actions: bindActionCreators({ ...actions, ...profileActions }, dispatch),
     };
 }
 

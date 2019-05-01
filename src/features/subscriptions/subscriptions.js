@@ -4,9 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import * as actions from '../common/redux/actions';
-import Header from '../common/header';
 import ContentBox from '../common/contenBox';
-import Footer from '../common/footer';
 import emptyImg from '../../images/noimage.png';
 import './subscriptions.scss';
 
@@ -62,7 +60,12 @@ class Subscriptions extends Component {
 
         const subbedTV = subs !== undefined ? subs.map(content => (
             <div className='media'>
-                <ContentBox title={content.tv_show_title} url={`/media/${content.tv_show_title}`} image={content.image_url || emptyImg} />
+                <ContentBox
+                    title={content.tv_show_title} //eslint-disable-line
+                    url={`/media/${content.tv_show_title}`} //eslint-disable-line
+                    image={content.image_url || emptyImg} //eslint-disable-line
+                    pageData={content.slot_num} //eslint-disable-line
+                />
             </div>
         )) : null;
 
@@ -78,23 +81,20 @@ class Subscriptions extends Component {
 
         return (
             <div className='background-color'>
-                <div>
-                    {redir}
-                    <Header />
-                    <div className='gridContainer'>
-                        <h1>Slots</h1>
-                        <div className='section'>
-                            {subsPending ? loading : (subbedTV || empty)}
-                        </div>
+                {redir}
+                <br />
+                <div className='gridContainer'>
+                    <h1>Slots</h1>
+                    <div className='section'>
+                        {subsPending ? loading : (subbedTV || empty)}
                     </div>
+                </div>
 
-                    <div className='gridContainer'>
-                        <h1>Rented</h1>
-                        <div className='section'>
-                            {getRentedPending ? loading : (rentedList || empty)}
-                        </div>
+                <div className='gridContainer'>
+                    <h1>Rented</h1>
+                    <div className='section'>
+                        {getRentedPending ? loading : (rentedList || empty)}
                     </div>
-                    <Footer />
                 </div>
             </div>
         );

@@ -51,7 +51,7 @@ export function signOut() {
         dispatch({
             type: 'Sign Out',
             data: false,
-            userData: null,
+            userData: undefined,
         });
 
     };
@@ -92,7 +92,13 @@ export function reducer(state, action) {
             authenPending: false,
             authenError: action.error,
             authen: false,
-            userData: null,
+            userData: undefined,
+            subs: undefined,
+            userSubs: undefined,
+            friends: undefined,
+            rentedMovies: undefined,
+            ratedMovies: undefined,
+            ratedTV: undefined,
         };
 
     case COMMON_AUTHEN_DISMISS_ERROR:
@@ -109,7 +115,7 @@ export function reducer(state, action) {
             authenError: null,
             authenPending: false,
             authen: false,
-            userData: null,
+            userData: undefined,
         };
 
     default:

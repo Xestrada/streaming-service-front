@@ -11,12 +11,14 @@ import { reducer as getWallReducer } from './getWall';
 import { reducer as getTimelineReducer } from './getTimeline';
 import { reducer as postTimelineReducer } from './postTimeline';
 import { reducer as commentPostReducer } from './commentPost';
+import { reducer as clearUserProfileReducer } from './clearUserProfile';
 
 const reducers = [
     getWallReducer,
     getTimelineReducer,
     postTimelineReducer,
     commentPostReducer,
+  clearUserProfileReducer,
 ];
 
 export default function reducer(state = initialState, action) {

@@ -1,7 +1,16 @@
-i {
+.loadIcon {
+    width: 10em;
+    height: 15em;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 15em;
+    color: white;
+  }
+
+.pageCounter {
     color: white;
 }
 
-.pageCounter {
+.searchError {
     color: white;
 }

@@ -8,14 +8,10 @@
   justify-content: center;
   width: 100%;
 
-  .loadIcon {
-    width: 10em;
-    height: 15em;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 15em;
-  }
+}
 
+.tlTitle {
+  color: white;
 }
 
 html{
@@ -119,13 +115,7 @@ html{
   margin-bottom: 1em; 
 }
 
-.post{
-
-  margin-left: 3%;
-  margin-bottom: 1%;
-  color:white;
-  background: #4a4a4a;
-  border: 0.1em ridge white;
-  width: 40em;
-  padding: 0.5em;
+.postContainer {
+  width: 40rem;
+  margin: auto;
 }

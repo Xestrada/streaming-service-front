@@ -17,24 +17,20 @@ class CommentContainer extends React.Component {
         const { title, buttonText, placeHolderText, buttonFunc, changeFunc, comment } = this.props;
 
         const commentContainer = (
-            <div id='comment-container'>
-                <div id='comment-header'>
-                    <label htmlFor='Comment' style={{ textDecoration: 'underline', fontFamily: 'Apple Chancery, cursive' }}>
-                        { title }
-                    </label>
-                </div>
-                <textarea
-
+            <div className='comment-container'>
+                <label htmlFor='Comment' className='comment-label'>
+                    { `${title}: ` }
+                </label>
+                <input
+                  maxlength='250' //eslint-disable-line
                   onChange={e => changeFunc(e.target.value)} //eslint-disable-line
                   id='subject' //eslint-disable-line
                   name='subject' //eslint-disable-line
                   value={comment} //eslint-disable-line
                   placeholder={placeHolderText} //eslint-disable-line
-                  style={{ borderStyle: 'inset', width: '600px', height: '90px' }} //eslint-disable-line
+                  className='textArea' //eslint-disable-line
                 />
-                <div className='row'>
-                    <input style={{ marginLeft: '52%' }} type='submit' value={buttonText} onClick={buttonFunc} />
-                </div>
+                <input className='postButton' type='button' value={buttonText} onClick={buttonFunc} />
             </div>
         );
 

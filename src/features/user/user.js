@@ -5,9 +5,7 @@ import { connect } from 'react-redux';
 import { Button } from 'reactstrap';
 import * as actions from '../common/redux/actions';
 import * as profileActions from '../profile/redux/actions';
-import Header from '../common/header';
 import ContentBox from '../common/contenBox';
-import Footer from '../common/footer';
 import Rating from '../common/rating';
 import TimelinePost from '../common/timelinePost';
 import CommentContainer from '../common/commentContainer';
@@ -116,7 +114,9 @@ export class User extends Component {
       const { userData } = common;
       const { hasFreindRequest } = actions;
       if (userData !== undefined) {
-          hasFreindRequest(userData.id, id);
+          hasFreindRequest(
+              parseInt(userData.id, 10), parseInt(id, 10),
+          );
       }
   }
 
@@ -126,7 +126,9 @@ export class User extends Component {
       const { userData } = common;
       const { sentFriendRequest } = actions;
       if (userData !== undefined) {
-          sentFriendRequest(userData.id, id);
+          sentFriendRequest(
+              parseInt(userData.id, 10), parseInt(id, 10),
+          );
       }
   }
 
@@ -136,8 +138,8 @@ export class User extends Component {
       const { userData } = common;
       const { addFriend } = actions;
       addFriend({
-          request_from: userData.id,
-          request_to: id,
+          request_from: parseInt(userData.id, 10),
+          request_to: parseInt(id, 10),
       }).then(this.sentFriendRequest);
   }
 
@@ -258,8 +260,9 @@ export class User extends Component {
       )) : null;
 
       const userWall = wall !== undefined && !getWallPending ? wall.map(post => (
-          <div className='post'>
+          <div>
               <TimelinePost
+                    postedTo={post.username} //eslint-disable-line
                     name={post.post_username} //eslint-disable-line
                     message={post.post} //eslint-disable-line
                     comments={post.comments} //eslint-disable-line
@@ -283,7 +286,6 @@ export class User extends Component {
       return (
           <div className='background-color'>
               <div>
-                  <Header />
                   <div className='userInfo'>
                       <div className='userHolder'>
                           <img src={userImg} alt='User' />
@@ -293,22 +295,24 @@ export class User extends Component {
                   </div>
                   <div className='gridContainer'>
                       <h1>Wall</h1>
+                      <div className='postContainer'>
+                          {areFriends
+                            && (
+                                <CommentContainer
+                                    comment={userPost} //eslint-disable-line
+                                    title='Post to Timeline' //eslint-disable-line
+                                    buttonText='Post' //eslint-disable-line
+                                    placeHolderText='Enter your comment here...' //eslint-disable-line
+                                    buttonFunc={this.postOnTimeline} //eslint-disable-line
+                                    changeFunc={(value) => { //eslint-disable-line
+                                        this.setState({
+                                            userPost: value,
+                                        });
+                                    }}
+                                />
+                            )}
+                      </div>
                       {userWall}
-                      {areFriends
-                      && (
-                          <CommentContainer
-                            comment={userPost} //eslint-disable-line
-                            title='Post to Timeline' //eslint-disable-line
-                            buttonText='Post' //eslint-disable-line
-                            placeHolderText='Enter your comment here...' //eslint-disable-line
-                            buttonFunc={this.postOnTimeline} //eslint-disable-line
-                            changeFunc={(value) => { //eslint-disable-line
-                                  this.setState({
-                                      userPost: value,
-                                  });
-                              }}
-                          />
-                      )}
                   </div>
                   <br />
                   <div className='gridContainer'>
@@ -338,8 +342,6 @@ export class User extends Component {
                           {ratedTvPending ? loading : (ratedTVList || empty)}
                       </div>
                   </div>
-
-                  <Footer />
               </div>
           </div>
       );

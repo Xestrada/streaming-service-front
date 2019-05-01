@@ -19,11 +19,15 @@ export default class Results extends Component {
 
         const { error, boxes, loadingGrid, backPage, nextPage, maxPages, page, loading } = this.props;
 
+        const errorElem = error === null || error === undefined ? null : (
+            <h1 className='searchError'>Search Error</h1>
+        );
+
         return (
             <div>
                 <div className='main'>
                     {loading && loadingGrid}
-                    {error !== null && error}
+                    {errorElem}
                     {boxes}
 
                 </div>

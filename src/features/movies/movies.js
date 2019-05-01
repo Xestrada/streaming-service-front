@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from '../common/redux/actions';
-import Header from '../common/header';
 import Results from '../common/results';
-import Footer from '../common/footer';
 import ContentBox from '../common/contenBox';
 import SearchBar from '../common/SearchBar';
 import emptyImg from '../../images/noimage.png';
@@ -116,14 +114,12 @@ class Movies extends Component {
         return (
             <body className='background-color'>
                 <div className='home-root'>
-                    <Header />
                     <br />
                     <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />
                     <br />
                     <br />
                     <br />
                     <Results loading={moviesPending} error={error} boxes={boxes} page={page} loadingGrid={loadingGrid} maxPages={maxPages} nextPage={this.nextPage} backPage={this.backPage} />
-                    <Footer />
                 </div>
             </body>
         );

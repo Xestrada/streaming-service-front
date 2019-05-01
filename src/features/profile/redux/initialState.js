@@ -14,6 +14,8 @@ const initialState = {
     postTimelineError: null,
     commentPostPending: false,
     commentPostError: null,
+  clearUserProfilePending: false,
+  clearUserProfileError: null,
 };
 
 export default initialState;

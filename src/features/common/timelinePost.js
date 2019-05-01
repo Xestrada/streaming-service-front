@@ -12,6 +12,7 @@ class TimelinePost extends React.Component {
         postId: PropTypes.number.isRequired, // id of the post being commented on
         refreshFunc: PropTypes.func.isRequired, // funcion run after posting on timeline
         name: PropTypes.string.isRequired,
+        postedTo: PropTypes.string.isRequired,
         message: PropTypes.string.isRequired,
         common: PropTypes.object.isRequired,
         actions: PropTypes.object.isRequired,
@@ -46,25 +47,30 @@ class TimelinePost extends React.Component {
 
     render() {
 
-        const { name, message, comments, areFriends } = this.props;
+        const { name, message, comments, areFriends, postedTo } = this.props;
         const { userComment } = this.state;
 
         const commentElems = comments !== undefined ? comments.map(comment => (
             <UserComment comment={comment.comment} user={comment.username} date={comment.date_of_comment} />
         )) : null;
 
+        const postTitle = name === postedTo ? name : `${name} --> ${postedTo}:`;
+
         return (
-            <div>
-                {name}
-                <div className='spacing'>
+            <div className='post'>
+                <h5 className='postTitle'>
+                    {postTitle}
+                </h5>
+                <p className='message'>
                     {message}
-                </div>
+                </p>
+                <h5>Comments:</h5>
                 {commentElems}
                 {areFriends && (
                     <CommentContainer
                     comment={userComment} //eslint-disable-line
-                    title='Leave a Comment' //eslint-disable-line
-                    buttonText='Post Comment' //eslint-disable-line
+                    title='Comment' //eslint-disable-line
+                    buttonText='Post' //eslint-disable-line
                     placeHolderText='Enter your comment here...' //eslint-disable-line
                     buttonFunc={this.commentOnPost} //eslint-disable-line
                     changeFunc={(value) => { //eslint-disable-line
