@@ -149,8 +149,8 @@ export class User extends Component {
       const { userData } = common;
       const { removeFriend, checkFriendship } = actions;
       removeFriend(
-        parseInt(userData.id, 10),
-        parseInt(id, 10)
+          parseInt(userData.id, 10),
+          parseInt(id, 10),
       ).then(() => checkFriendship(userData.id, id));
   }
 
@@ -200,7 +200,7 @@ export class User extends Component {
 
       const { common, profile } = this.props;
       const { username, userPost } = this.state;
-      const { wall, getWallPending } = profile;
+      const { wall, getWallPending, getWallError } = profile;
       const {
           authen,
           subs,
@@ -221,9 +221,9 @@ export class User extends Component {
           addFriendPending,
       } = common;
 
-      const friendAction = (areFriends !== undefined && areFriends) 
-      ? (<Button disabled={removeFriendPending} color='danger' onClick={this.removeFriend}>Remove Friend</Button>) 
-      : (<Button  disabled={addFriendPending} color='primary' onClick={this.addFriend}>Send Friend Request</Button>);
+      const friendAction = (areFriends !== undefined && areFriends)
+          ? (<Button disabled={removeFriendPending} color='danger' onClick={this.removeFriend}>Remove Friend</Button>)
+          : (<Button disabled={addFriendPending} color='primary' onClick={this.addFriend}>Send Friend Request</Button>);
 
       const friendButton = (authen !== undefined && authen) ? friendAction : null;
 
@@ -323,7 +323,8 @@ export class User extends Component {
                                 />
                             )}
                       </div>
-                      {userWall}
+                      {getWallPending ? loading : userWall}
+                      {getWallError && (<h1>Wall Error</h1>)}
                   </div>
                   <br />
                   <div className='gridContainer'>

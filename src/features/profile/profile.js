@@ -195,7 +195,8 @@ class Profile extends Component {
                             }}
                         />
                     </div>
-                    {postElems}
+                    {getWallPending ? loading : postElems}
+                    {getWallError && (<h1>Wall Error</h1>)}
                 </div>
                 {friendRequests !== undefined && friendRequests.length > 0 ? (
                     <div className='gridContainer'>

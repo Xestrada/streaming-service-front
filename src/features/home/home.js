@@ -290,7 +290,8 @@ export class Home extends Component {
                         }}
                     />
                 </div>
-                {postElems}
+                {getTimelinePending ? (<i className='fa fa-spinner fa-spin loadIcon' />) : postElems}
+                {getTimelineError && (<h1>Timeline Error</h1>)}
             </div>
         );
 
