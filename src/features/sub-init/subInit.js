@@ -59,6 +59,7 @@ export class SubInit extends Component {
           .then(() => {
               const { common } = this.props;
               const { userSubs } = common;
+              console.log(userSubs);
               userSubs.map(sub => this.selectFilm(sub.id, sub.title, sub.image_url));
           });
   }
@@ -174,6 +175,10 @@ export class SubInit extends Component {
           areSlotsFull,
           getUserSubsPending,
       } = common;
+
+      if(authen !== undefined && !authen) {
+          return (<Redirect to='/' />)
+      }
 
 
       const error = tvShowsError !== undefined ? (<h1>Error</h1>) : null;
