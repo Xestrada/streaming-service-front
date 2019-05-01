@@ -16,7 +16,6 @@ export function getSubs(id) {
         return fetch(`https://videovaultusers.herokuapp.com/user=${id}/slots`)
             .then(response => response.json())
             .then((createdJson) => {
-                console.log(createdJson);
                 dispatch({
                     type: COMMON_SUBS_SUCCESS,
                     data: createdJson.user_slots.slots,

@@ -45,14 +45,13 @@ export class SubInit extends Component {
       const { page, searchFunc } = this.state;
       const { common } = this.props;
       const { userData } = common;
-      if(userData !== undefined && userData.num_slots === undefined) {
-            this.getSlots();
-      }else {
-        this.setState({
-            amountToChoose: userData.num_slots,
-        });
+      if (userData !== undefined && userData.num_slots === undefined) {
+          this.getSlots();
+      } else {
+          this.setState({
+              amountToChoose: userData.num_slots,
+          }, this.getSubs);
       }
-      this.getSubs();
       searchFunc(page);
   }
 
@@ -69,19 +68,19 @@ export class SubInit extends Component {
   }
 
   getSlots() {
-    const { actions, common } = this.props;
-    const { getSubs } = actions;
-    const { userData } = common;
-    getSubs(userData.id)
-    .then(() => {
-        const { common } = this.props;
-        const { subs } = common;
-        if(subs !== undefined){
-            this.setState({
-                amountToChoose: subs.length,
-            });
-        }
-    });
+      const { actions, common } = this.props;
+      const { getSubs } = actions;
+      const { userData } = common;
+      getSubs(userData.id)
+          .then(() => {
+              const { common } = this.props;
+              const { subs } = common;
+              if (subs !== undefined) {
+                  this.setState({
+                      amountToChoose: subs.length,
+                  }, this.getSubs);
+              }
+          });
   }
 
   getRecentlyAdded(pageNum) {
@@ -193,13 +192,12 @@ export class SubInit extends Component {
           tvShowsPending,
           initialSub,
           areSlotsFull,
-          getUserSubsPending,
           userData,
           addInitialSubsPending,
       } = common;
 
-      if((authen !== undefined && !authen) || userData === undefined) {
-          return (<Redirect to='/' />)
+      if ((authen !== undefined && !authen) || userData === undefined) {
+          return (<Redirect to='/' />);
       }
 
 
@@ -224,7 +222,7 @@ export class SubInit extends Component {
 
       const selectButton = chosenFilms.length === amountToChoose ? (<Button disabled={addInitialSubsPending} color='primary' className='centerSub' onClick={this.selectSlots}>Subscribe</Button>) : null;
 
-      const mainPage = getUserSubsPending ? (<h1>Loading</h1>) : (
+      const mainPage = (
           <div>
               <br />
               <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />
