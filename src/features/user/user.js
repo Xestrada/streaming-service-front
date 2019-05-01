@@ -148,7 +148,10 @@ export class User extends Component {
       const { id } = this.state;
       const { userData } = common;
       const { removeFriend, checkFriendship } = actions;
-      removeFriend(userData.id, id).then(() => checkFriendship(userData.id, id));
+      removeFriend(
+        parseInt(userData.id, 10),
+        parseInt(id, 10)
+      ).then(() => checkFriendship(userData.id, id));
   }
 
   declineRequest() {
@@ -157,8 +160,8 @@ export class User extends Component {
       const { userData } = common;
       const { declineRequest } = actions;
       declineRequest({
-          request_to: userData.id,
-          request_from: id,
+          request_to: parseInt(userData.id, 10),
+          request_from: parseInt(id, 10),
       }).then(this.hasRequestStatus);
   }
 
@@ -168,8 +171,8 @@ export class User extends Component {
       const { userData } = common;
       const { acceptFreind } = actions;
       acceptFreind({
-          request_to: userData.id,
-          request_from: id,
+          request_to: parseInt(userData.id, 10),
+          request_from: parseInt(id, 10),
       }).then(() => {
           this.hasRequestStatus();
           this.getFriendship();
@@ -182,8 +185,8 @@ export class User extends Component {
       const { userData } = common;
       const { postTimeline } = profileActions;
       postTimeline({
-          wall_id: id,
-          user_id: userData.id,
+          wall_id: parseInt(id, 10),
+          user_id: parseInt(userData.id, 10),
           post: userPost,
       }).then(() => {
           this.getWall();
