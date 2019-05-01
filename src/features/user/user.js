@@ -217,9 +217,13 @@ export class User extends Component {
           sentFriendRequest,
           acceptFreindPending,
           declineRequestPending,
+          removeFriendPending,
+          addFriendPending,
       } = common;
 
-      const friendAction = (areFriends !== undefined && areFriends) ? (<Button color='danger' onClick={this.removeFriend}>Remove Friend</Button>) : (<Button color='primary' onClick={this.addFriend}>Send Friend Request</Button>);
+      const friendAction = (areFriends !== undefined && areFriends) 
+      ? (<Button disabled={removeFriendPending} color='danger' onClick={this.removeFriend}>Remove Friend</Button>) 
+      : (<Button  disabled={addFriendPending} color='primary' onClick={this.addFriend}>Send Friend Request</Button>);
 
       const friendButton = (authen !== undefined && authen) ? friendAction : null;
 
