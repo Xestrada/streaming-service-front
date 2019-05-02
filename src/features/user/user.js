@@ -4,10 +4,13 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button } from 'reactstrap';
 import * as actions from '../common/redux/actions';
+import * as profileActions from '../profile/redux/actions';
 import Header from '../common/header';
 import ContentBox from '../common/contenBox';
 import Footer from '../common/footer';
 import Rating from '../common/rating';
+import TimelinePost from '../common/timelinePost';
+import CommentContainer from '../common/commentContainer';
 import emptyImg from '../../images/noimage.png';
 import userImg from '../../images/blank-user.jpg';
 import './user.scss';
@@ -17,6 +20,8 @@ export class User extends Component {
       actions: PropTypes.object.isRequired,
       match: PropTypes.object.isRequired,
       common: PropTypes.object.isRequired,
+      profile: PropTypes.object.isRequired,
+      profileActions: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -29,6 +34,7 @@ export class User extends Component {
       this.state = {
           username,
           id,
+          userPost: '',
       };
 
       this.getUserShows = this.getUserShows.bind(this);
@@ -38,7 +44,12 @@ export class User extends Component {
       this.getFriendship = this.getFriendship.bind(this);
       this.removeFriend = this.removeFriend.bind(this);
       this.addFriend = this.addFriend.bind(this);
-      this.checkRequestStatus = this.checkRequestStatus.bind(this);
+      this.hasRequestStatus = this.hasRequestStatus.bind(this);
+      this.sentFriendRequest = this.sentFriendRequest.bind(this);
+      this.declineRequest = this.declineRequest.bind(this);
+      this.acceptRequest = this.acceptRequest.bind(this);
+      this.getWall = this.getWall.bind(this);
+      this.postOnTimeline = this.postOnTimeline.bind(this);
 
   }
 
@@ -48,7 +59,9 @@ export class User extends Component {
       this.getRatedTV();
       this.getRentedMovies();
       this.getFriendship();
-      this.checkRequestStatus();
+      this.hasRequestStatus();
+      this.sentFriendRequest();
+      this.getWall();
   }
 
   getUserShows() {
@@ -90,27 +103,14 @@ export class User extends Component {
       }
   }
 
-  removeFriend() {
-      const { actions, common } = this.props;
+  getWall() {
+      const { profileActions } = this.props;
       const { id } = this.state;
-      const { userData } = common;
-      const { removeFriend, checkFriendship } = actions;
-
-      removeFriend(userData.id, id).then(() => checkFriendship(userData.id, id));
+      const { getWall } = profileActions;
+      getWall(id);
   }
 
-  addFriend() {
-      const { actions, common } = this.props;
-      const { id } = this.state;
-      const { userData } = common;
-      const { addFriend } = actions;
-      addFriend({
-          user_id: userData.id,
-          pending_friend_id: id,
-      }).then(this.checkRequestStatus);
-  }
-
-  checkRequestStatus() {
+  hasRequestStatus() {
       const { actions, common } = this.props;
       const { id } = this.state;
       const { userData } = common;
@@ -120,11 +120,82 @@ export class User extends Component {
       }
   }
 
+  sentFriendRequest() {
+      const { actions, common } = this.props;
+      const { id } = this.state;
+      const { userData } = common;
+      const { sentFriendRequest } = actions;
+      if (userData !== undefined) {
+          sentFriendRequest(userData.id, id);
+      }
+  }
+
+  addFriend() {
+      const { actions, common } = this.props;
+      const { id } = this.state;
+      const { userData } = common;
+      const { addFriend } = actions;
+      addFriend({
+          request_from: userData.id,
+          request_to: id,
+      }).then(this.sentFriendRequest);
+  }
+
+  removeFriend() {
+      const { actions, common } = this.props;
+      const { id } = this.state;
+      const { userData } = common;
+      const { removeFriend, checkFriendship } = actions;
+      removeFriend(userData.id, id).then(() => checkFriendship(userData.id, id));
+  }
+
+  declineRequest() {
+      const { actions, common } = this.props;
+      const { id } = this.state;
+      const { userData } = common;
+      const { declineRequest } = actions;
+      declineRequest({
+          request_to: userData.id,
+          request_from: id,
+      }).then(this.hasRequestStatus);
+  }
+
+  acceptRequest() {
+      const { actions, common } = this.props;
+      const { id } = this.state;
+      const { userData } = common;
+      const { acceptFreind } = actions;
+      acceptFreind({
+          request_to: userData.id,
+          request_from: id,
+      }).then(() => {
+          this.hasRequestStatus();
+          this.getFriendship();
+      });
+  }
+
+  postOnTimeline() {
+      const { common, profileActions } = this.props;
+      const { userPost, id } = this.state;
+      const { userData } = common;
+      const { postTimeline } = profileActions;
+      postTimeline({
+          wall_id: id,
+          user_id: userData.id,
+          post: userPost,
+      }).then(() => {
+          this.getWall();
+          this.setState({
+              userPost: '',
+          });
+      });
+  }
 
   render() {
 
-      const { common } = this.props;
-      const { username } = this.state;
+      const { common, profile } = this.props;
+      const { username, userPost } = this.state;
+      const { wall, getWallPending } = profile;
       const {
           authen,
           subs,
@@ -138,13 +209,21 @@ export class User extends Component {
           areFriends,
           checkFriendshipPending,
           hasFreindRequest,
+          sentFriendRequest,
       } = common;
 
       const friendAction = (areFriends !== undefined && areFriends) ? (<Button color='danger' onClick={this.removeFriend}>Remove Friend</Button>) : (<Button color='primary' onClick={this.addFriend}>Send Friend Request</Button>);
 
       const friendButton = (authen !== undefined && authen) ? friendAction : null;
 
-      const friendLabel = (hasFreindRequest !== undefined && hasFreindRequest) ? (<h2 className='request'>Friend Request Sent</h2>) : friendButton;
+      const friendLabel = (sentFriendRequest !== undefined && sentFriendRequest) ? (<h2 className='request'>Friend Request Sent</h2>) : null;
+
+      const friendOptions = (hasFreindRequest !== undefined && hasFreindRequest) ? (
+          <div>
+              <Button color='primary' onClick={this.acceptRequest}>Accept Request</Button>
+              <Button color='danger' onClick={this.declineRequest}>Decline Request</Button>
+          </div>
+      ) : null;
 
       const subbedTV = subs !== undefined ? subs.map(content => (
           <div className='media'>
@@ -178,13 +257,28 @@ export class User extends Component {
           <ContentBox title={movie.title} url={`/media/${movie.title}`} image={movie.image_url || emptyImg} />
       )) : null;
 
+      const userWall = wall !== undefined && !getWallPending ? wall.map(post => (
+          <div>
+              <TimelinePost
+                    postedTo={post.username} //eslint-disable-line
+                    name={post.post_username} //eslint-disable-line
+                    message={post.post} //eslint-disable-line
+                    comments={post.comments} //eslint-disable-line
+                    postId={post.post_id} //eslint-disable-line
+                    refreshFunc={this.getWall} //eslint-disable-line
+                    areFriends={areFriends !== undefined && areFriends} //eslint-disable-line
+              />
+          </div>
+      )) : null;
+
       const empty = (<h2>No Content</h2>);
 
       const loading = <i className='fa fa-spinner fa-spin loadIcon loadingSpinner' />;
 
       if (authen && areFriends === undefined && !checkFriendshipPending) {
           this.getFriendship();
-          this.checkRequestStatus();
+          this.hasRequestStatus();
+          this.sentFriendRequest();
       }
 
       return (
@@ -195,8 +289,29 @@ export class User extends Component {
                       <div className='userHolder'>
                           <img src={userImg} alt='User' />
                           <h5>{username}</h5>
-                          {friendLabel}
+                          {friendOptions || friendLabel || friendButton}
                       </div>
+                  </div>
+                  <div className='gridContainer'>
+                      <h1>Wall</h1>
+                      <div className='postContainer'>
+                          {areFriends
+                            && (
+                                <CommentContainer
+                                    comment={userPost} //eslint-disable-line
+                                    title='Post to Timeline' //eslint-disable-line
+                                    buttonText='Post' //eslint-disable-line
+                                    placeHolderText='Enter your comment here...' //eslint-disable-line
+                                    buttonFunc={this.postOnTimeline} //eslint-disable-line
+                                    changeFunc={(value) => { //eslint-disable-line
+                                        this.setState({
+                                            userPost: value,
+                                        });
+                                    }}
+                                />
+                            )}
+                      </div>
+                      {userWall}
                   </div>
                   <br />
                   <div className='gridContainer'>
@@ -239,6 +354,7 @@ function mapStateToProps(state) {
     return {
         user: state.user,
         common: state.common,
+        profile: state.profile,
     };
 }
 
@@ -246,6 +362,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({ ...actions }, dispatch),
+        profileActions: bindActionCreators({ ...profileActions }, dispatch),
     };
 }
 

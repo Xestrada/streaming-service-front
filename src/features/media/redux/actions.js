@@ -11,3 +11,4 @@ export { getUserRating, dismissGetUserRatingError } from './getUserRating';
 export { unsubscribe, dismissUnsubscribeError } from './unsubscribe';
 export { resubscribe, dismissResubscribeError } from './resubscribe';
 export { deleteSlot, dismissDeleteSlotError } from './deleteSlot';
+export { isUnsubbed, dismissIsUnsubbedError } from './isUnsubbed';

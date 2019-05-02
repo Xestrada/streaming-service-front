@@ -1,3 +1,26 @@
-.commentBox {
-    
+.commentBox{
+
+    margin-bottom: 1rem;
+    color:white;
+    background: #4a4a4a;
+    border: 0.1em ridge white;
+    width: 44em;;
+    padding: 0.5em;
+
+    .user {
+        text-decoration: underline;
+        font-size: 0.9rem;
+    }
+
+    .comment {
+        font-size: 1.5rem;
+        line-height: 3rem;
+    }
+
+    .date {
+        float: right;
+        line-height: 0.01rem;
+        margin-bottom: 0.1rem;
+    }
+
 }
