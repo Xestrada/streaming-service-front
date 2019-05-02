@@ -412,7 +412,7 @@ Season:
               <ModalHeader toggle={this.rentToggle} className='centerModalHeader'>Are you sure?</ModalHeader>
               <ModalBody className='modalBody'>
               Do you wish to rent this movie?
-              (You will be charged $1.25 for a 24hr rental)
+              (You will be charged $0.50 for a 24hr rental)
               </ModalBody>
               <ModalFooter>
                   <Button className='btn btn-primary btn-md' color='primary' onClick={() => { this.rentMovie(); this.rentToggle(); }}>
