@@ -36,7 +36,6 @@ export class Media extends Component {
           slotNum,
           title,
           comment: '',
-          rating: 0,
           collapse: false,
           stored: '',
           eps: '',
@@ -96,19 +95,13 @@ export class Media extends Component {
   }
 
   getUserRating(media) {
-      const { common, commonMedia, actions } = this.props;
+      const { common, actions } = this.props;
       const { getUserRating } = actions;
       const { userData } = common;
       const isMovie = media.season_info === undefined;
       getUserRating(isMovie,
           parseInt(userData.id, 10),
-          isMovie ? parseInt(media.movie_id, 10) : parseInt(media.tv_show_id, 10))
-          .then(() => {
-              const { userRating } = commonMedia;
-              this.setState({
-                  rating: userRating,
-              });
-          });
+          isMovie ? parseInt(media.movie_id, 10) : parseInt(media.tv_show_id, 10));
   }
 
   deleteSlot() {
@@ -176,22 +169,18 @@ export class Media extends Component {
       const { media, userData } = common;
       const { rateMovie, rateTv } = actions;
 
-      this.setState({
-          rating,
-      });
-
       if (media.season_info === undefined) {
           rateMovie({
               rating,
               user_id: parseInt(userData.id, 10),
               movie_id: parseInt(media.movie_id, 10),
-          });
+          }).then(this.getUserRating);
       } else {
           rateTv({
               rating,
               user_id: parseInt(userData.id, 10),
               tv_show_id: parseInt(media.tv_show_id, 10),
-          });
+          }).then(this.getUserRating);
       }
   }
 
@@ -292,7 +281,6 @@ export class Media extends Component {
           slotNum,
           title,
           comment,
-          rating,
           videoURL,
           collapse,
           stored,
@@ -305,7 +293,7 @@ export class Media extends Component {
           ownershipChecked,
       } = this.state;
       const { common, commonMedia } = this.props;
-      const { media, mediaError, authen, userSubs, isSlotDeletable } = common;
+      const { media, mediaError, authen, isSlotDeletable } = common;
       const { comments,
           userRating,
           isUnsubbed,
@@ -476,15 +464,15 @@ Season:
 
       const StarRating = (authen !== undefined && authen && media !== undefined) ? (
           <div className='rate'>
-              <input type='radio' id='star5' name='rate' value='5' checked={rating === 5 || onclick} onClick={() => this.rateMedia(5)} />
+              <input type='radio' id='star5' name='rate' value='5' checked={userRating === 5 || onclick} onClick={() => this.rateMedia(5)} />
               <label htmlFor='star5' title='text'>5 stars</label>
-              <input type='radio' id='star4' name='rate' value='4' checked={rating === 4 || onclick} onClick={() => this.rateMedia(4)} />
+              <input type='radio' id='star4' name='rate' value='4' checked={userRating === 4 || onclick} onClick={() => this.rateMedia(4)} />
               <label htmlFor='star4' title='text'>4 stars</label>
-              <input type='radio' id='star3' name='rate' value='3' checked={rating === 3 || onclick} onClick={() => this.rateMedia(3)} />
+              <input type='radio' id='star3' name='rate' value='3' checked={userRating === 3 || onclick} onClick={() => this.rateMedia(3)} />
               <label htmlFor='star3' title='text'>3 stars</label>
-              <input type='radio' id='star2' name='rate' value='2' checked={rating === 2 || onclick} onClick={() => this.rateMedia(2)} />
+              <input type='radio' id='star2' name='rate' value='2' checked={userRating === 2 || onclick} onClick={() => this.rateMedia(2)} />
               <label htmlFor='star2' title='text'>2 stars</label>
-              <input type='radio' id='star1' name='rate' value='1' checked={rating === 1 || onclick} onClick={() => this.rateMedia(1)} />
+              <input type='radio' id='star1' name='rate' value='1' checked={userRating === 1 || onclick} onClick={() => this.rateMedia(1)} />
               <label htmlFor='star1' title='text'>1 star</label>
           </div>
       ) : null;
