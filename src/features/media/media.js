@@ -64,6 +64,7 @@ export class Media extends Component {
       this.deleteToggle = this.deleteToggle.bind(this);
       this.getSubs = this.getSubs.bind(this);
       this.deleteSlot = this.deleteSlot.bind(this);
+      this.checkIfDeletable = this.checkIfDeletable.bind(this);
   }
 
 
@@ -131,6 +132,7 @@ export class Media extends Component {
               .then(() => {
                   this.checkIfUnsub();
                   this.getSubs();
+                  this.checkIfDeletable();
               });
       }
   }
@@ -276,6 +278,13 @@ export class Media extends Component {
       isUnsubbed(parseInt(userData.id, 10), parseInt(media.tv_show_id, 10));
   }
 
+  checkIfDeletable() {
+      const { common, actions } = this.props;
+      const { isSlotDeletable } = actions;
+      const { userData } = common;
+      isSlotDeletable(parseInt(userData.id, 10));
+  }
+
   unsubscribeToShow() {
       const { common, actions } = this.props;
       const { media, userData } = common;
@@ -285,6 +294,7 @@ export class Media extends Component {
               .then(() => {
                   this.checkIfUnsub();
                   this.unsubToggle();
+                  this.checkIfDeletable();
               });
       }
   }
@@ -307,7 +317,7 @@ export class Media extends Component {
           ownershipChecked,
       } = this.state;
       const { common, commonMedia } = this.props;
-      const { media, mediaError, authen, userSubs } = common;
+      const { media, mediaError, authen, userSubs, isSlotDeletable } = common;
       const { comments,
           userRating,
           isUnsubbed,
@@ -328,10 +338,11 @@ export class Media extends Component {
       if (media !== undefined && authen && !ownershipChecked && !isMediaOwnedPending && media.title === title) {
           this.checkOwnership();
           this.checkIfUnsub();
+          this.checkIfDeletable();
       }
 
       const deleteButton = authen && owned && media !== undefined && media.season_info !== undefined
-            && slotNum !== -1 && userSubs !== undefined && userSubs.length > 10 && !isUnsubbed
+            && slotNum !== -1 && userSubs !== undefined && isSlotDeletable
           ? (
               <Button disabled={deleteSlotPending} className='userOption' color='danger' onClick={this.deleteToggle}>Delete Slot</Button>
           ) : null;

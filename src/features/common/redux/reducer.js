@@ -33,6 +33,7 @@ import { reducer as hasFreindRequestReducer } from './hasFreindRequest';
 import { reducer as sentFriendRequestReducer } from './sentFriendRequest';
 import { reducer as getUserSubsReducer } from './getUserSubs';
 import { reducer as updateUserMediaReducer } from './updateUserMedia';
+import { reducer as isSlotDeletableReducer } from './isSlotDeletable';
 
 const reducers = [
     actorsReducer,
@@ -58,9 +59,10 @@ const reducers = [
     declineRequestReducer,
     deleteAccountReducer,
     hasFreindRequestReducer,
-  sentFriendRequestReducer,
-  getUserSubsReducer,
-  updateUserMediaReducer,
+    sentFriendRequestReducer,
+    getUserSubsReducer,
+    updateUserMediaReducer,
+    isSlotDeletableReducer,
 ];
 
 export default function reducer(state = initialState, action) {
