@@ -62,7 +62,6 @@ export class Media extends Component {
       this.unsubscribeToShow = this.unsubscribeToShow.bind(this);
       this.checkIfUnsub = this.checkIfUnsub.bind(this);
       this.deleteToggle = this.deleteToggle.bind(this);
-      this.getSubs = this.getSubs.bind(this);
       this.deleteSlot = this.deleteSlot.bind(this);
       this.checkIfDeletable = this.checkIfDeletable.bind(this);
   }
@@ -79,7 +78,6 @@ export class Media extends Component {
               if (authen) {
                   this.getUserRating(media);
                   this.checkIfUnsub();
-                  this.getSubs();
               }
           });
   }
@@ -113,15 +111,6 @@ export class Media extends Component {
           });
   }
 
-  getSubs() {
-      const { actions, common } = this.props;
-      const { getUserSubs } = actions;
-      const { userData, userSubs } = common;
-      if (userData.id !== undefined && userSubs === undefined) {
-          getUserSubs(parseInt(userData.id, 10));
-      }
-  }
-
   deleteSlot() {
       const { actions, common } = this.props;
       const { slotNum } = this.state;
@@ -131,7 +120,6 @@ export class Media extends Component {
           deleteSlot(parseInt(userData.id, 10), parseInt(slotNum, 10))
               .then(() => {
                   this.checkIfUnsub();
-                  this.getSubs();
                   this.checkIfDeletable();
               });
       }
@@ -342,7 +330,7 @@ export class Media extends Component {
       }
 
       const deleteButton = authen && owned && media !== undefined && media.season_info !== undefined
-            && slotNum !== -1 && userSubs !== undefined && isSlotDeletable
+            && slotNum !== -1 && isSlotDeletable
           ? (
               <Button disabled={deleteSlotPending} className='userOption' color='danger' onClick={this.deleteToggle}>Delete Slot</Button>
           ) : null;
