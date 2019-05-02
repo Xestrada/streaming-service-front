@@ -323,7 +323,28 @@ export class User extends Component {
                                 />
                             )}
                       </div>
-                      {getWallPending ? loading : userWall}
+                      {getWallPending ? loading : (
+                          <div>
+                              <div className='postContainer'>
+                                  {areFriends
+                                    && (
+                                        <CommentContainer
+                                            comment={userPost} //eslint-disable-line
+                                            title='Post to Timeline' //eslint-disable-line
+                                            buttonText='Post' //eslint-disable-line
+                                            placeHolderText='Enter your comment here...' //eslint-disable-line
+                                            buttonFunc={this.postOnTimeline} //eslint-disable-line
+                                            changeFunc={(value) => { //eslint-disable-line
+                                                this.setState({
+                                                    userPost: value,
+                                                });
+                                            }}
+                                        />
+                                    )}
+                              </div>
+                              {userWall}
+                          </div>
+                      )}
                       {getWallError && (<h1>Wall Error</h1>)}
                   </div>
                   <br />
