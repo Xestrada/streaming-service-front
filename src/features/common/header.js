@@ -28,6 +28,7 @@ import userImg from '../../images/blank-user.jpg';
 import './header.scss';
 
 class Header extends React.Component {
+    
     static propTypes = {
         actions: PropTypes.object.isRequired,
         common: PropTypes.object.isRequired,
@@ -53,6 +54,9 @@ class Header extends React.Component {
         this.updateState = this.updateState.bind(this);
         this.updateDatabase = this.updateDatabase.bind(this);
         this.checkSlots = this.checkSlots.bind(this);
+    }
+    myClickFunc = () => {
+        console.log('clickity clickcty')
     }
 
     componentDidMount() {
