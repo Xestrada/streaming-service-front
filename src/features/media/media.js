@@ -101,7 +101,9 @@ export class Media extends Component {
       const { getUserRating } = actions;
       const { userData } = common;
       const isMovie = media.season_info === undefined;
-      getUserRating(isMovie, userData.id, isMovie ? media.movie_id : media.tv_show_id)
+      getUserRating(isMovie,
+          parseInt(userData.id, 10),
+          isMovie ? parseInt(media.movie_id, 10) : parseInt(media.tv_show_id, 10))
           .then(() => {
               const { userRating } = commonMedia;
               this.setState({
@@ -115,7 +117,7 @@ export class Media extends Component {
       const { getUserSubs } = actions;
       const { userData, userSubs } = common;
       if (userData.id !== undefined && userSubs === undefined) {
-          getUserSubs(userData.id);
+          getUserSubs(parseInt(userData.id, 10));
       }
   }
 
@@ -125,7 +127,7 @@ export class Media extends Component {
       const { deleteSlot } = actions;
       const { userData } = common;
       if (userData !== undefined && slotNum !== -1) {
-          deleteSlot(userData.id, slotNum)
+          deleteSlot(parseInt(userData.id, 10), parseInt(slotNum, 10))
               .then(() => {
                   this.checkIfUnsub();
                   this.getSubs();
@@ -163,8 +165,8 @@ export class Media extends Component {
       const { rentMovie } = actions;
 
       rentMovie({
-          movie_id: media.movie_id,
-          user_id: userData.id,
+          movie_id: parseInt(media.movie_id, 10),
+          user_id: parseInt(userData.id, 10),
       }).then(this.checkOwnership);
   }
 
@@ -174,8 +176,8 @@ export class Media extends Component {
       const { subTv } = actions;
 
       subTv({
-          tv_show_id: media.tv_show_id,
-          user_id: userData.id,
+          tv_show_id: parseInt(media.tv_show_id, 10),
+          user_id: parseInt(userData.id, 10),
       }).then(this.checkOwnership);
   }
 
@@ -191,14 +193,14 @@ export class Media extends Component {
       if (media.season_info === undefined) {
           rateMovie({
               rating,
-              user_id: userData.id,
-              movie_id: media.movie_id,
+              user_id: parseInt(userData.id, 10),
+              movie_id: parseInt(media.movie_id, 10),
           });
       } else {
           rateTv({
               rating,
-              user_id: userData.id,
-              tv_show_id: media.tv_show_id,
+              user_id: parseInt(userData.id, 10),
+              tv_show_id: parseInt(media.tv_show_id, 10),
           });
       }
   }
@@ -213,14 +215,14 @@ export class Media extends Component {
           if (media.season_info === undefined) {
               makeMovieComment({
                   comment,
-                  user_id: userData.id,
-                  movie_id: media.movie_id,
+                  user_id: parseInt(userData.id, 10),
+                  movie_id: parseInt(media.movie_id, 10),
               }).then(() => this.getComments(title));
           } else {
               makeTvComment({
                   comment,
-                  user_id: userData.id,
-                  tv_show_id: media.tv_show_id,
+                  user_id: parseInt(userData.id, 10),
+                  tv_show_id: parseInt(media.tv_show_id, 10),
               }).then(() => this.getComments(title));
           }
 
@@ -255,7 +257,8 @@ export class Media extends Component {
       const { media, userData } = common;
       const { isMediaOwned } = actions;
       const isMovie = media.season_info === undefined;
-      isMediaOwned(isMovie, userData.id, isMovie ? media.movie_id : media.tv_show_id)
+      isMediaOwned(isMovie, parseInt(userData.id, 10),
+          isMovie ? parseInt(media.movie_id, 10) : parseInt(media.tv_show_id, 10))
           .then(() => {
               const { commonMedia } = this.props;
               const { mediaOwned } = commonMedia;
@@ -270,7 +273,7 @@ export class Media extends Component {
       const { common, actions } = this.props;
       const { media, userData } = common;
       const { isUnsubbed } = actions;
-      isUnsubbed(userData.id, media.tv_show_id);
+      isUnsubbed(parseInt(userData.id, 10), parseInt(media.tv_show_id, 10));
   }
 
   unsubscribeToShow() {
@@ -278,7 +281,7 @@ export class Media extends Component {
       const { media, userData } = common;
       const { unsubscribe } = actions;
       if (userData !== undefined) {
-          unsubscribe(userData.id, media.tv_show_id)
+          unsubscribe(parseInt(userData.id, 10), parseInt(media.tv_show_id, 10))
               .then(() => {
                   this.checkIfUnsub();
                   this.unsubToggle();
