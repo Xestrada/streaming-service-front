@@ -138,7 +138,7 @@ class Header extends React.Component {
     render() {
         const { modal, username, pass, isOpen, userDropdown } = this.state;
         const { common, location } = this.props;
-        const { authen, authenError, authenPending, userData, areSlotsFull} = common;
+        const { authen, authenError, authenPending, userData, areSlotsFull } = common;
         const { pathname } = location;
 
         if (authen && modal) this.modalToggle();
