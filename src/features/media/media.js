@@ -36,7 +36,6 @@ export class Media extends Component {
           slotNum,
           title,
           comment: '',
-          rating: 0,
           collapse: false,
           stored: '',
           eps: '',
@@ -62,8 +61,8 @@ export class Media extends Component {
       this.unsubscribeToShow = this.unsubscribeToShow.bind(this);
       this.checkIfUnsub = this.checkIfUnsub.bind(this);
       this.deleteToggle = this.deleteToggle.bind(this);
-      this.getSubs = this.getSubs.bind(this);
       this.deleteSlot = this.deleteSlot.bind(this);
+      this.checkIfDeletable = this.checkIfDeletable.bind(this);
   }
 
 
@@ -78,7 +77,6 @@ export class Media extends Component {
               if (authen) {
                   this.getUserRating(media);
                   this.checkIfUnsub();
-                  this.getSubs();
               }
           });
   }
@@ -97,26 +95,13 @@ export class Media extends Component {
   }
 
   getUserRating(media) {
-      const { common, commonMedia, actions } = this.props;
+      const { common, actions } = this.props;
       const { getUserRating } = actions;
       const { userData } = common;
       const isMovie = media.season_info === undefined;
-      getUserRating(isMovie, userData.id, isMovie ? media.movie_id : media.tv_show_id)
-          .then(() => {
-              const { userRating } = commonMedia;
-              this.setState({
-                  rating: userRating,
-              });
-          });
-  }
-
-  getSubs() {
-      const { actions, common } = this.props;
-      const { getUserSubs } = actions;
-      const { userData, userSubs } = common;
-      if (userData.id !== undefined && userSubs === undefined) {
-          getUserSubs(userData.id);
-      }
+      getUserRating(isMovie,
+          parseInt(userData.id, 10),
+          isMovie ? parseInt(media.movie_id, 10) : parseInt(media.tv_show_id, 10));
   }
 
   deleteSlot() {
@@ -125,10 +110,10 @@ export class Media extends Component {
       const { deleteSlot } = actions;
       const { userData } = common;
       if (userData !== undefined && slotNum !== -1) {
-          deleteSlot(userData.id, slotNum)
+          deleteSlot(parseInt(userData.id, 10), parseInt(slotNum, 10))
               .then(() => {
                   this.checkIfUnsub();
-                  this.getSubs();
+                  this.checkIfDeletable();
               });
       }
   }
@@ -163,8 +148,8 @@ export class Media extends Component {
       const { rentMovie } = actions;
 
       rentMovie({
-          movie_id: media.movie_id,
-          user_id: userData.id,
+          movie_id: parseInt(media.movie_id, 10),
+          user_id: parseInt(userData.id, 10),
       }).then(this.checkOwnership);
   }
 
@@ -174,8 +159,8 @@ export class Media extends Component {
       const { subTv } = actions;
 
       subTv({
-          tv_show_id: media.tv_show_id,
-          user_id: userData.id,
+          tv_show_id: parseInt(media.tv_show_id, 10),
+          user_id: parseInt(userData.id, 10),
       }).then(this.checkOwnership);
   }
 
@@ -184,22 +169,18 @@ export class Media extends Component {
       const { media, userData } = common;
       const { rateMovie, rateTv } = actions;
 
-      this.setState({
-          rating,
-      });
-
       if (media.season_info === undefined) {
           rateMovie({
               rating,
-              user_id: userData.id,
-              movie_id: media.movie_id,
-          });
+              user_id: parseInt(userData.id, 10),
+              movie_id: parseInt(media.movie_id, 10),
+          }).then(this.getUserRating);
       } else {
           rateTv({
               rating,
-              user_id: userData.id,
-              tv_show_id: media.tv_show_id,
-          });
+              user_id: parseInt(userData.id, 10),
+              tv_show_id: parseInt(media.tv_show_id, 10),
+          }).then(this.getUserRating);
       }
   }
 
@@ -213,14 +194,14 @@ export class Media extends Component {
           if (media.season_info === undefined) {
               makeMovieComment({
                   comment,
-                  user_id: userData.id,
-                  movie_id: media.movie_id,
+                  user_id: parseInt(userData.id, 10),
+                  movie_id: parseInt(media.movie_id, 10),
               }).then(() => this.getComments(title));
           } else {
               makeTvComment({
                   comment,
-                  user_id: userData.id,
-                  tv_show_id: media.tv_show_id,
+                  user_id: parseInt(userData.id, 10),
+                  tv_show_id: parseInt(media.tv_show_id, 10),
               }).then(() => this.getComments(title));
           }
 
@@ -255,7 +236,8 @@ export class Media extends Component {
       const { media, userData } = common;
       const { isMediaOwned } = actions;
       const isMovie = media.season_info === undefined;
-      isMediaOwned(isMovie, userData.id, isMovie ? media.movie_id : media.tv_show_id)
+      isMediaOwned(isMovie, parseInt(userData.id, 10),
+          isMovie ? parseInt(media.movie_id, 10) : parseInt(media.tv_show_id, 10))
           .then(() => {
               const { commonMedia } = this.props;
               const { mediaOwned } = commonMedia;
@@ -270,7 +252,14 @@ export class Media extends Component {
       const { common, actions } = this.props;
       const { media, userData } = common;
       const { isUnsubbed } = actions;
-      isUnsubbed(userData.id, media.tv_show_id);
+      isUnsubbed(parseInt(userData.id, 10), parseInt(media.tv_show_id, 10));
+  }
+
+  checkIfDeletable() {
+      const { common, actions } = this.props;
+      const { isSlotDeletable } = actions;
+      const { userData } = common;
+      isSlotDeletable(parseInt(userData.id, 10));
   }
 
   unsubscribeToShow() {
@@ -278,10 +267,11 @@ export class Media extends Component {
       const { media, userData } = common;
       const { unsubscribe } = actions;
       if (userData !== undefined) {
-          unsubscribe(userData.id, media.tv_show_id)
+          unsubscribe(parseInt(userData.id, 10), parseInt(media.tv_show_id, 10))
               .then(() => {
                   this.checkIfUnsub();
                   this.unsubToggle();
+                  this.checkIfDeletable();
               });
       }
   }
@@ -291,7 +281,6 @@ export class Media extends Component {
           slotNum,
           title,
           comment,
-          rating,
           videoURL,
           collapse,
           stored,
@@ -304,7 +293,7 @@ export class Media extends Component {
           ownershipChecked,
       } = this.state;
       const { common, commonMedia } = this.props;
-      const { media, mediaError, authen, userSubs } = common;
+      const { media, mediaError, authen, isSlotDeletable } = common;
       const { comments,
           userRating,
           isUnsubbed,
@@ -325,10 +314,11 @@ export class Media extends Component {
       if (media !== undefined && authen && !ownershipChecked && !isMediaOwnedPending && media.title === title) {
           this.checkOwnership();
           this.checkIfUnsub();
+          this.checkIfDeletable();
       }
 
       const deleteButton = authen && owned && media !== undefined && media.season_info !== undefined
-            && slotNum !== -1 && userSubs !== undefined && userSubs.length > 10 && !isUnsubbed
+            && slotNum !== -1 && isSlotDeletable
           ? (
               <Button disabled={deleteSlotPending} className='userOption' color='danger' onClick={this.deleteToggle}>Delete Slot</Button>
           ) : null;
@@ -422,7 +412,7 @@ Season:
               <ModalHeader toggle={this.rentToggle} className='centerModalHeader'>Are you sure?</ModalHeader>
               <ModalBody className='modalBody'>
               Do you wish to rent this movie?
-              (You will be charged $1.25 for a 24hr rental)
+              (You will be charged $0.50 for a 24hr rental)
               </ModalBody>
               <ModalFooter>
                   <Button className='btn btn-primary btn-md' color='primary' onClick={() => { this.rentMovie(); this.rentToggle(); }}>
@@ -474,15 +464,15 @@ Season:
 
       const StarRating = (authen !== undefined && authen && media !== undefined) ? (
           <div className='rate'>
-              <input type='radio' id='star5' name='rate' value='5' checked={rating === 5 || onclick} onClick={() => this.rateMedia(5)} />
+              <input type='radio' id='star5' name='rate' value='5' checked={userRating === 5 || onclick} onClick={() => this.rateMedia(5)} />
               <label htmlFor='star5' title='text'>5 stars</label>
-              <input type='radio' id='star4' name='rate' value='4' checked={rating === 4 || onclick} onClick={() => this.rateMedia(4)} />
+              <input type='radio' id='star4' name='rate' value='4' checked={userRating === 4 || onclick} onClick={() => this.rateMedia(4)} />
               <label htmlFor='star4' title='text'>4 stars</label>
-              <input type='radio' id='star3' name='rate' value='3' checked={rating === 3 || onclick} onClick={() => this.rateMedia(3)} />
+              <input type='radio' id='star3' name='rate' value='3' checked={userRating === 3 || onclick} onClick={() => this.rateMedia(3)} />
               <label htmlFor='star3' title='text'>3 stars</label>
-              <input type='radio' id='star2' name='rate' value='2' checked={rating === 2 || onclick} onClick={() => this.rateMedia(2)} />
+              <input type='radio' id='star2' name='rate' value='2' checked={userRating === 2 || onclick} onClick={() => this.rateMedia(2)} />
               <label htmlFor='star2' title='text'>2 stars</label>
-              <input type='radio' id='star1' name='rate' value='1' checked={rating === 1 || onclick} onClick={() => this.rateMedia(1)} />
+              <input type='radio' id='star1' name='rate' value='1' checked={userRating === 1 || onclick} onClick={() => this.rateMedia(1)} />
               <label htmlFor='star1' title='text'>1 star</label>
           </div>
       ) : null;

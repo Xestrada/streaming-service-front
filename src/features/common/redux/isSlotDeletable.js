@@ -1,80 +1,75 @@
 import {
-    COMMON_SUBS_BEGIN,
-    COMMON_SUBS_SUCCESS,
-    COMMON_SUBS_FAILURE,
-    COMMON_SUBS_DISMISS_ERROR,
+    COMMON_IS_SLOT_DELETABLE_BEGIN,
+    COMMON_IS_SLOT_DELETABLE_SUCCESS,
+    COMMON_IS_SLOT_DELETABLE_FAILURE,
+    COMMON_IS_SLOT_DELETABLE_DISMISS_ERROR,
 } from './constants';
 
 // Rekit uses redux-thunk for async actions by default: https://github.com/gaearon/redux-thunk
 // If you prefer redux-saga, you can use rekit-plugin-redux-saga: https://github.com/supnate/rekit-plugin-redux-saga
-export function getSubs(id) {
+export function isSlotDeletable(id) {
     return (dispatch) => { // optionally you can have getState as the second argument
         dispatch({
-            type: COMMON_SUBS_BEGIN,
+            type: COMMON_IS_SLOT_DELETABLE_BEGIN,
         });
 
-        return fetch(`https://videovaultusers.herokuapp.com/user=${id}/slots`)
+        return fetch(`https://videovaultusers.herokuapp.com//is_slot_deletable/user=${id}`)
             .then(response => response.json())
             .then((createdJson) => {
                 dispatch({
-                    type: COMMON_SUBS_SUCCESS,
-                    data: createdJson.user_slots.slots,
+                    type: COMMON_IS_SLOT_DELETABLE_SUCCESS,
+                    data: createdJson.is_slot_deletable,
                 });
             })
             .catch((error) => {
-                console.log(error);
                 dispatch({
-                    type: COMMON_SUBS_FAILURE,
-                    data: error,
+                    type: COMMON_IS_SLOT_DELETABLE_FAILURE,
+                    error,
                 });
             });
-
-
     };
 }
 
 // Async action saves request error by default, this method is used to dismiss the error info.
 // If you don't want errors to be saved in Redux store, just ignore this method.
-export function dismissSubsError() {
+export function dismissIsSlotDeletableError() {
     return {
-        type: COMMON_SUBS_DISMISS_ERROR,
+        type: COMMON_IS_SLOT_DELETABLE_DISMISS_ERROR,
     };
 }
 
 export function reducer(state, action) {
     switch (action.type) {
-    case COMMON_SUBS_BEGIN:
+    case COMMON_IS_SLOT_DELETABLE_BEGIN:
         // Just after a request is sent
         return {
             ...state,
-            subsPending: true,
-            subsError: null,
-            subs: undefined,
+            isSlotDeletablePending: true,
+            isSlotDeletableError: null,
         };
 
-    case COMMON_SUBS_SUCCESS:
+    case COMMON_IS_SLOT_DELETABLE_SUCCESS:
         // The request is success
         return {
             ...state,
-            subsPending: false,
-            subsError: null,
-            subs: action.data,
+            isSlotDeletablePending: false,
+            isSlotDeletableError: null,
+            isSlotDeletable: action.data,
         };
 
-    case COMMON_SUBS_FAILURE:
+    case COMMON_IS_SLOT_DELETABLE_FAILURE:
         // The request is failed
         return {
             ...state,
-            subsPending: false,
-            subsError: action.data,
-            subs: undefined,
+            isSlotDeletablePending: false,
+            isSlotDeletableError: action.data.error,
         };
 
-    case COMMON_SUBS_DISMISS_ERROR:
+    case COMMON_IS_SLOT_DELETABLE_DISMISS_ERROR:
         // Dismiss the request failure error
         return {
             ...state,
-            subsError: null,
+            isSlotDeletableError: null,
         };
 
     default:

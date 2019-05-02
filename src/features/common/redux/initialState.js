@@ -59,6 +59,8 @@ const initialState = {
     getUserSubsError: null,
     updateUserMediaPending: false,
     updateUserMediaError: null,
+    isSlotDeletablePending: false,
+    isSlotDeletableError: null,
 };
 
 export default initialState;

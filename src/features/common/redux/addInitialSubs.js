@@ -76,6 +76,7 @@ export function reducer(state, action) {
             addInitialSubsError: null,
             initialSub: true,
             needToSub: false,
+            areSlotsFull: true,
         };
 
     case COMMON_ADD_INITIAL_SUBS_FAILURE:

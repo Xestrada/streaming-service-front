@@ -38,16 +38,20 @@ export class SubInit extends Component {
       this.selectFilm = this.selectFilm.bind(this);
       this.selectSlots = this.selectSlots.bind(this);
       this.getSubs = this.getSubs.bind(this);
+      this.getSlots = this.getSlots.bind(this);
   }
 
   componentDidMount() {
       const { page, searchFunc } = this.state;
       const { common } = this.props;
       const { userData } = common;
-      this.setState({
-          amountToChoose: userData.num_slots,
-      });
-      this.getSubs();
+      if (userData !== undefined && userData.num_slots === undefined) {
+          this.getSlots();
+      } else {
+          this.setState({
+              amountToChoose: userData.num_slots,
+          }, this.getSubs);
+      }
       searchFunc(page);
   }
 
@@ -60,6 +64,22 @@ export class SubInit extends Component {
               const { common } = this.props;
               const { userSubs } = common;
               userSubs.map(sub => this.selectFilm(sub.id, sub.title, sub.image_url));
+          });
+  }
+
+  getSlots() {
+      const { actions, common } = this.props;
+      const { getSubs } = actions;
+      const { userData } = common;
+      getSubs(userData.id)
+          .then(() => {
+              const { common } = this.props;
+              const { subs } = common;
+              if (subs !== undefined) {
+                  this.setState({
+                      amountToChoose: subs.length,
+                  }, this.getSubs);
+              }
           });
   }
 
@@ -172,8 +192,13 @@ export class SubInit extends Component {
           tvShowsPending,
           initialSub,
           areSlotsFull,
-          getUserSubsPending,
+          userData,
+          addInitialSubsPending,
       } = common;
+
+      if ((authen !== undefined && !authen) || userData === undefined) {
+          return (<Redirect to='/' />);
+      }
 
 
       const error = tvShowsError !== undefined ? (<h1>Error</h1>) : null;
@@ -195,9 +220,9 @@ export class SubInit extends Component {
 
       const subRedir = initialSub ? (<Redirect to='/' />) : null;
 
-      const selectButton = chosenFilms.length === amountToChoose ? (<Button color='primary' className='centerSub' onClick={this.selectSlots}>Subscribe</Button>) : null;
+      const selectButton = chosenFilms.length === amountToChoose ? (<Button disabled={addInitialSubsPending} color='primary' className='centerSub' onClick={this.selectSlots}>Subscribe</Button>) : null;
 
-      const mainPage = getUserSubsPending ? (<h1>Loading</h1>) : (
+      const mainPage = (
           <div>
               <br />
               <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />

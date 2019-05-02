@@ -12,7 +12,7 @@ export function declineRequest(info = {}) {
         dispatch({
             type: COMMON_DECLINE_REQUEST_BEGIN,
         });
-
+        
         const values = JSON.stringify(info);
 
         return fetch('https://videovaultusers.herokuapp.com/decline_friend_request', {

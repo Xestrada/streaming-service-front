@@ -24,3 +24,4 @@ export { hasFreindRequest, dismissHasFreindRequestError } from './hasFreindReque
 export { sentFriendRequest, dismissSentFriendRequestError } from './sentFriendRequest';
 export { getUserSubs, dismissGetUserSubsError } from './getUserSubs';
 export { updateUserMedia, dismissUpdateUserMediaError } from './updateUserMedia';
+export { isSlotDeletable, dismissIsSlotDeletableError } from './isSlotDeletable';

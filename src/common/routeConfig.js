@@ -10,7 +10,6 @@ import signUpRoute from '../features/signup/route';
 import moviesRoute from '../features/movies/route';
 import aboutRoute from '../features/about/route';
 import mediaRoute from '../features/media/route';
-import accountRoute from '../features/account/route';
 import userRoute from '../features/user/route';
 import subInitRoute from '../features/sub-init/route';
 import profileRoute from '../features/profile/route';
@@ -27,7 +26,6 @@ const childRoutes = [
     moviesRoute,
     aboutRoute,
     mediaRoute,
-    accountRoute,
     userRoute,
     subInitRoute,
     profileRoute,

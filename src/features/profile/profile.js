@@ -181,21 +181,26 @@ class Profile extends Component {
                 <br />
                 <div className='gridContainer'>
                     <h1>Wall</h1>
-                    <div className='postContainer'>
-                        <CommentContainer
-                                comment={userPost} //eslint-disable-line
-                                title='Post to Timeline' //eslint-disable-line
-                                buttonText='Post' //eslint-disable-line
-                                placeHolderText='Enter your comment here...' //eslint-disable-line
-                                buttonFunc={this.postOnTimeline} //eslint-disable-line
-                                changeFunc={(value) => { //eslint-disable-line
-                                this.setState({
-                                    userPost: value,
-                                });
-                            }}
-                        />
-                    </div>
-                    {postElems}
+                    {getWallPending ? loading : (
+                        <div>
+                            <div className='postContainer'>
+                                <CommentContainer
+                                    comment={userPost} //eslint-disable-line
+                                    title='Post to Timeline' //eslint-disable-line
+                                    buttonText='Post' //eslint-disable-line
+                                    placeHolderText='Enter your comment here...' //eslint-disable-line
+                                    buttonFunc={this.postOnTimeline} //eslint-disable-line
+                                    changeFunc={(value) => { //eslint-disable-line
+                                        this.setState({
+                                            userPost: value,
+                                        });
+                                    }}
+                                />
+                            </div>
+                            {postElems}
+                        </div>
+                    )}
+                    {getWallError && (<h1>Wall Error</h1>)}
                 </div>
                 {friendRequests !== undefined && friendRequests.length > 0 ? (
                     <div className='gridContainer'>

@@ -55,7 +55,7 @@ class Signup extends Component {
 
         const { username, password, email, card_num, exp, name } = this.state; //eslint-disable-line
         const { common } = this.props;
-        const { authen, initialSub, signupError } = common;
+        const { authen, initialSub, signupError, signUpPending } = common;
 
         const errorMessage = (signupError === null) ? null : (<Alert color='danger'>There was an error during Sign Up</Alert>);
 
@@ -103,7 +103,7 @@ class Signup extends Component {
                         </FormGroup>
                         <FormGroup check row>
                             <Col sm={{ size: 10, offset: 5 }}>
-                                <Button onClick={this.signUp}>Submit</Button>
+                                <Button disabled={signUpPending} onClick={this.signUp}>Submit</Button>
                             </Col>
                         </FormGroup>
                     </Form>

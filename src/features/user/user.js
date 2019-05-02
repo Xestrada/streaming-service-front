@@ -148,7 +148,10 @@ export class User extends Component {
       const { id } = this.state;
       const { userData } = common;
       const { removeFriend, checkFriendship } = actions;
-      removeFriend(userData.id, id).then(() => checkFriendship(userData.id, id));
+      removeFriend(
+          parseInt(userData.id, 10),
+          parseInt(id, 10),
+      ).then(() => checkFriendship(userData.id, id));
   }
 
   declineRequest() {
@@ -157,8 +160,8 @@ export class User extends Component {
       const { userData } = common;
       const { declineRequest } = actions;
       declineRequest({
-          request_to: userData.id,
-          request_from: id,
+          user_id: parseInt(userData.id, 10),
+          request_from: parseInt(id, 10),
       }).then(this.hasRequestStatus);
   }
 
@@ -168,8 +171,8 @@ export class User extends Component {
       const { userData } = common;
       const { acceptFreind } = actions;
       acceptFreind({
-          request_to: userData.id,
-          request_from: id,
+          user_id: parseInt(userData.id, 10),
+          request_from: parseInt(id, 10),
       }).then(() => {
           this.hasRequestStatus();
           this.getFriendship();
@@ -182,8 +185,8 @@ export class User extends Component {
       const { userData } = common;
       const { postTimeline } = profileActions;
       postTimeline({
-          wall_id: id,
-          user_id: userData.id,
+          wall_id: parseInt(id, 10),
+          user_id: parseInt(userData.id, 10),
           post: userPost,
       }).then(() => {
           this.getWall();
@@ -197,7 +200,7 @@ export class User extends Component {
 
       const { common, profile } = this.props;
       const { username, userPost } = this.state;
-      const { wall, getWallPending } = profile;
+      const { wall, getWallPending, getWallError } = profile;
       const {
           authen,
           subs,
@@ -212,18 +215,26 @@ export class User extends Component {
           checkFriendshipPending,
           hasFreindRequest,
           sentFriendRequest,
+          acceptFreindPending,
+          declineRequestPending,
+          removeFriendPending,
+          addFriendPending,
       } = common;
 
-      const friendAction = (areFriends !== undefined && areFriends) ? (<Button color='danger' onClick={this.removeFriend}>Remove Friend</Button>) : (<Button color='primary' onClick={this.addFriend}>Send Friend Request</Button>);
+      const friendAction = (areFriends !== undefined && areFriends)
+          ? (<Button disabled={removeFriendPending} color='danger' onClick={this.removeFriend}>Remove Friend</Button>)
+          : (<Button disabled={addFriendPending} color='primary' onClick={this.addFriend}>Send Friend Request</Button>);
 
       const friendButton = (authen !== undefined && authen) ? friendAction : null;
 
       const friendLabel = (sentFriendRequest !== undefined && sentFriendRequest) ? (<h2 className='request'>Friend Request Sent</h2>) : null;
 
       const friendOptions = (hasFreindRequest !== undefined && hasFreindRequest) ? (
-          <div>
-              <Button color='primary' onClick={this.acceptRequest}>Accept Request</Button>
-              <Button color='danger' onClick={this.declineRequest}>Decline Request</Button>
+          <div className='optionButtons'>
+              <Button disabled={acceptFreindPending || declineRequestPending} color='primary' onClick={this.acceptRequest}>Accept Request</Button>
+              <br />
+              <br />
+              <Button disabled={acceptFreindPending || declineRequestPending} color='danger' onClick={this.declineRequest}>Decline Request</Button>
           </div>
       ) : null;
 
@@ -312,7 +323,29 @@ export class User extends Component {
                                 />
                             )}
                       </div>
-                      {userWall}
+                      {getWallPending ? loading : (
+                          <div>
+                              <div className='postContainer'>
+                                  {areFriends
+                                    && (
+                                        <CommentContainer
+                                            comment={userPost} //eslint-disable-line
+                                            title='Post to Timeline' //eslint-disable-line
+                                            buttonText='Post' //eslint-disable-line
+                                            placeHolderText='Enter your comment here...' //eslint-disable-line
+                                            buttonFunc={this.postOnTimeline} //eslint-disable-line
+                                            changeFunc={(value) => { //eslint-disable-line
+                                                this.setState({
+                                                    userPost: value,
+                                                });
+                                            }}
+                                        />
+                                    )}
+                              </div>
+                              {userWall}
+                          </div>
+                      )}
+                      {getWallError && (<h1>Wall Error</h1>)}
                   </div>
                   <br />
                   <div className='gridContainer'>

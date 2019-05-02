@@ -28,6 +28,7 @@ import userImg from '../../images/blank-user.jpg';
 import './header.scss';
 
 class Header extends React.Component {
+
     static propTypes = {
         actions: PropTypes.object.isRequired,
         common: PropTypes.object.isRequired,
@@ -43,7 +44,6 @@ class Header extends React.Component {
             userDropdown: false,
             username: '',
             pass: '',
-            needToSub: false,
         };
 
         this.navToggle = this.navToggle.bind(this);
@@ -117,13 +117,7 @@ class Header extends React.Component {
             const { authen, userData } = common;
             const { hasAllSlots } = actions;
             if (authen) {
-                hasAllSlots(userData.id).then(() => {
-                    const { common } = this.props;
-                    const { areSlotsFull } = common;
-                    this.setState({
-                        needToSub: !areSlotsFull,
-                    });
-                });
+                hasAllSlots(parseInt(userData.id, 10));
             }
         });
 
@@ -143,14 +137,14 @@ class Header extends React.Component {
     }
 
     render() {
-        const { modal, username, pass, isOpen, userDropdown, needToSub } = this.state;
+        const { modal, username, pass, isOpen, userDropdown } = this.state;
         const { common, location } = this.props;
-        const { authen, authenError, authenPending, userData } = common;
+        const { authen, authenError, authenPending, userData, areSlotsFull } = common;
         const { pathname } = location;
 
         if (authen && modal) this.modalToggle();
 
-        if (needToSub && pathname !== '/sub-init') {
+        if (areSlotsFull !== undefined && !areSlotsFull && pathname !== '/sub-init') {
             return (<Redirect to='/sub-init' />);
         }
 
@@ -193,13 +187,19 @@ class Header extends React.Component {
                 </DropdownMenu>
             </Dropdown>
         ) : (
-            <div>
-                <Button className='color-me link' color='white' onClick={this.modalToggle}>
-                Login
-                </Button>
+            <Nav className='ml-auto'>
+                <NavItem>
+                    <Button className='color-me' color='white' onClick={this.modalToggle}>
+                        Login
+                    </Button>
+                </NavItem>
 
-                <Link className='color-me link' to='/signup'>Sign Up</Link>
-            </div>
+                <NavItem>
+                    <Button className='color-me' color='white'>
+                        <Link className='color-me' color='white' to='/signup'>Sign Up</Link>
+                    </Button>
+                </NavItem>
+            </Nav>
         );
 
         return (
@@ -244,8 +244,7 @@ class Header extends React.Component {
                             </NavItem>
 
                         </Nav>
-                        <Nav className='spacing' />
-                        <Nav className='ml-auto' navbar>
+                        <Nav className='ml-auto'>
                             <NavItem>
                                 <Link className='color-me link username' to='/subscriptions'>{userData === undefined || userData === null ? '' : userData.username}</Link>
                             </NavItem>
