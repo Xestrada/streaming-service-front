@@ -28,7 +28,7 @@ import userImg from '../../images/blank-user.jpg';
 import './header.scss';
 
 class Header extends React.Component {
-    
+
     static propTypes = {
         actions: PropTypes.object.isRequired,
         common: PropTypes.object.isRequired,
@@ -54,9 +54,6 @@ class Header extends React.Component {
         this.updateState = this.updateState.bind(this);
         this.updateDatabase = this.updateDatabase.bind(this);
         this.checkSlots = this.checkSlots.bind(this);
-    }
-    myClickFunc = () => {
-        console.log('clickity clickcty')
     }
 
     componentDidMount() {
@@ -190,13 +187,19 @@ class Header extends React.Component {
                 </DropdownMenu>
             </Dropdown>
         ) : (
-            <div>
-                <Button className='color-me link' color='white' onClick={this.modalToggle}>
-                Login
-                </Button>
+            <Nav className='ml-auto'>
+                <NavItem>
+                    <Button className='color-me' color='white' onClick={this.modalToggle}>
+                        Login
+                    </Button>
+                </NavItem>
 
-                <Link className='color-me link' to='/signup'>Sign Up</Link>
-            </div>
+                <NavItem>
+                    <Button className='color-me' color='white'>
+                        <Link className='color-me' color='white' to='/signup'>Sign Up</Link>
+                    </Button>
+                </NavItem>
+            </Nav>
         );
 
         return (
@@ -241,8 +244,7 @@ class Header extends React.Component {
                             </NavItem>
 
                         </Nav>
-                        <Nav className='spacing' />
-                        <Nav className='ml-auto' navbar>
+                        <Nav className='ml-auto'>
                             <NavItem>
                                 <Link className='color-me link username' to='/subscriptions'>{userData === undefined || userData === null ? '' : userData.username}</Link>
                             </NavItem>
