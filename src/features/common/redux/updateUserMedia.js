@@ -23,7 +23,8 @@ export function updateUserMedia(id) {
             body: JSON.stringify({ user_id: id }),
         })
             .then(response => response.json()).then((createdJson) => {
-                if (createdJson.success) {
+                console.log(createdJson);
+                if (createdJson.valid_user_id) {
                     dispatch({
                         type: COMMON_UPDATE_USER_MEDIA_SUCCESS,
                     });

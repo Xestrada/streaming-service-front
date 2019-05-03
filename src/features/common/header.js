@@ -77,7 +77,7 @@ class Header extends React.Component {
         const { hasAllSlots } = actions;
         const { userData } = common;
         if (userData !== undefined) {
-            hasAllSlots(userData.id);
+            hasAllSlots(parseInt(userData.id, 10));
         }
     }
 
@@ -86,7 +86,7 @@ class Header extends React.Component {
         const { updateUserMedia } = actions;
         const { userData } = common;
         if (userData !== undefined) {
-            updateUserMedia(userData.id).then(this.checkSlots);
+            updateUserMedia(parseInt(userData.id, 10)).then(this.checkSlots);
         }
     }
 
