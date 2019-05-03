@@ -98,12 +98,11 @@ export class Media extends Component {
       const { common, actions } = this.props;
       const { getUserRating } = actions;
       const { userData } = common;
-      if(media !== undefined && media.season_info !== undefined)
-      {
-      const isMovie = media.season_info === undefined;
-      getUserRating(isMovie,
-          parseInt(userData.id, 10),
-          isMovie ? parseInt(media.movie_id, 10) : parseInt(media.tv_show_id, 10));
+      if (media !== undefined && media.season_info !== undefined) {
+          const isMovie = media.season_info === undefined;
+          getUserRating(isMovie,
+              parseInt(userData.id, 10),
+              isMovie ? parseInt(media.movie_id, 10) : parseInt(media.tv_show_id, 10));
       }
   }
 
@@ -306,9 +305,6 @@ export class Media extends Component {
           deleteSlotPending,
           isMediaOwnedPending,
       } = commonMedia;
-
-
-      console.log(media);
 
       // Get user rating if we havent requested it yet.
       if (media !== undefined && authen && userRating === undefined
