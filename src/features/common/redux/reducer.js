@@ -19,7 +19,6 @@ import { reducer as ratedMoviesReducer } from './ratedMovies';
 import { reducer as ratedTvReducer } from './ratedTv';
 import { reducer as getRentedReducer } from './getRented';
 import { reducer as getFriendsReducer } from './getFriends';
-import { reducer as addSlotReducer } from './addSlot';
 import { reducer as addInitialSubsReducer } from './addInitialSubs';
 import { reducer as addFriendReducer } from './addFriend';
 import { reducer as removeFriendReducer } from './removeFriend';
@@ -48,7 +47,6 @@ const reducers = [
     ratedTvReducer,
     getRentedReducer,
     getFriendsReducer,
-    addSlotReducer,
     addInitialSubsReducer,
     addFriendReducer,
     removeFriendReducer,

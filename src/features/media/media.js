@@ -98,10 +98,12 @@ export class Media extends Component {
       const { common, actions } = this.props;
       const { getUserRating } = actions;
       const { userData } = common;
-      const isMovie = media.season_info === undefined;
-      getUserRating(isMovie,
-          parseInt(userData.id, 10),
-          isMovie ? parseInt(media.movie_id, 10) : parseInt(media.tv_show_id, 10));
+      if (media !== undefined && media.season_info !== undefined) {
+          const isMovie = media.season_info === undefined;
+          getUserRating(isMovie,
+              parseInt(userData.id, 10),
+              isMovie ? parseInt(media.movie_id, 10) : parseInt(media.tv_show_id, 10));
+      }
   }
 
   deleteSlot() {
@@ -486,7 +488,7 @@ Season:
           </span>
       )) : null;
 
-      const starInfo = (media !== undefined && media.genres !== undefined) ? media.stars.map((item, index) => (
+      const starInfo = (media !== undefined && media.genres !== undefined && media.stars !== undefined && media.stars !== null) ? media.stars.map((item, index) => (
           <span
               style={{ color: 'whitesmoke', fontSize: '1em' }} //eslint-disable-line
               key={`demo_snap_${index}`} //eslint-disable-line
