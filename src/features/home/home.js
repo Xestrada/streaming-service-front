@@ -226,7 +226,7 @@ export class Home extends Component {
         )) : null;
 
         const loadingGrid = [];
-        const searchFilters = ['All', 'Movies', 'TV Shows', 'Actors', 'Users'];
+        const searchFilters = ['All', 'Movies', 'TV Shows', 'Users'];
 
         const { activeIndex } = this.state;
 

@@ -7,7 +7,7 @@ import {
 
 // Rekit uses redux-thunk for async actions by default: https://github.com/gaearon/redux-thunk
 // If you prefer redux-saga, you can use rekit-plugin-redux-saga: https://github.com/supnate/rekit-plugin-redux-saga
-export function clearUserProfile(args = {}) {
+export function clearUserProfile() {
   return (dispatch) => { // optionally you can have getState as the second argument
     dispatch({
       type: PROFILE_CLEAR_USER_PROFILE_BEGIN,
