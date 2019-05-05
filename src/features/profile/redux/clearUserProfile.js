@@ -46,6 +46,8 @@ export function reducer(state, action) {
         clearUserProfileError: null,
         wall: undefined,
         timeline: undefined,
+        getTimelineError: undefined,
+        getWallError: undefined,
       };
 
     case PROFILE_CLEAR_USER_PROFILE_FAILURE:
