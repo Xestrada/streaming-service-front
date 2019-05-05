@@ -296,7 +296,7 @@ export class Home extends Component {
                     </div>
 
                 )}
-                {getTimelineError && (<h1>Timeline Error</h1>)}
+                {getTimelineError && (<h1 className='color-me'>Timeline Error</h1>)}
             </div>
         );
 
