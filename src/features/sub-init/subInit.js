@@ -200,7 +200,6 @@ export class SubInit extends Component {
           return (<Redirect to='/' />);
       }
 
-
       const error = tvShowsError !== undefined ? (<h1>Error</h1>) : null;
 
       const boxes = (tvShows !== undefined) ? tvShows.map(content => (

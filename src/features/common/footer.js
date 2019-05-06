@@ -17,9 +17,6 @@ export default class Footer extends React.Component {
         };
         this.toggle = this.toggle.bind(this);
     }
-    myClickFunc = () => {
-        console.log('clickity clickcty')
-    }
 
     toggle() {
         this.setState(prevState => ({
@@ -43,7 +40,7 @@ export default class Footer extends React.Component {
                     </Media>
                 </div>
                 <div className='relative'>
-                
+
                     <Link router='' to='/privacy'>Privacy Policy</Link>
                 </div>
 
