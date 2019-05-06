@@ -116,6 +116,13 @@ export function reducer(state, action) {
             authenPending: false,
             authen: false,
             userData: undefined,
+            subs: undefined,
+            userSubs: undefined,
+            friends: undefined,
+            rentedMovies: undefined,
+            ratedMovies: undefined,
+            ratedTV: undefined,
+            areSlotsFull: undefined,
         };
 
     default:

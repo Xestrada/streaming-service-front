@@ -183,7 +183,7 @@ class Header extends React.Component {
                     </Media>
                 </DropdownToggle>
                 <DropdownMenu right>
-                    <DropdownItem onClick={this.signOut}>Sign Out</DropdownItem>
+                    <DropdownItem disabled={authenPending} onClick={this.signOut}>Sign Out</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
         ) : (
