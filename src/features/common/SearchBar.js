@@ -6,7 +6,8 @@ import './SearchBar.scss';
 
 export default class SearchBar extends React.Component {
     static propTypes = {
-        filters: PropTypes.array.isRequired,
+        nofilter: PropTypes.bool,
+        filters: PropTypes.array,
         searchFunc: PropTypes.func.isRequired,
     };
 
@@ -41,7 +42,7 @@ export default class SearchBar extends React.Component {
     }
 
     render() {
-        const { filters, searchFunc } = this.props;
+        const { filters, searchFunc, nofilter } = this.props;
         const { filter, query } = this.state;
 
         const searchOptions = filters.map(filter => (
@@ -54,14 +55,16 @@ export default class SearchBar extends React.Component {
                     <div className='col-xs-8 col-xs-offset-2'>
                         <div className='input-group'>
                             <div className='input-group-btn search-panel'>
-                                <Input
-                                  type='select' // eslint-disable-line indent
-                                  name='select' // eslint-disable-line indent
-                                  id='exampleSelect' // eslint-disable-line indent
-                                  onChange={e => this.changeState('filter', e.target.value)} // eslint-disable-line indent
-                                >
-                                    {searchOptions}
-                                </Input>
+                                {!nofilter && (
+                                    <Input
+                                      type='select' // eslint-disable-line indent
+                                      name='select' // eslint-disable-line indent
+                                      id='exampleSelect' // eslint-disable-line indent
+                                      onChange={e => this.changeState('filter', e.target.value)} // eslint-disable-line indent
+                                    >
+                                        {searchOptions}
+                                    </Input>
+                                )}
                             </div>
 
                             <input type='hidden' name='search_param' value='all' id='search_param' />
@@ -77,3 +80,8 @@ export default class SearchBar extends React.Component {
 
     }
 }
+
+SearchBar.defaultProps = {
+    nofilter: false,
+    filters: [],
+};
