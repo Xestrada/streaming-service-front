@@ -55,7 +55,7 @@ class Signup extends Component {
 
         const { username, password, email, card_num, name } = this.state; //eslint-disable-line
         const { common } = this.props;
-        const { authen, initialSub, signupError, signUpPending } = common;
+        const { authen, initialSub, signupError, signupPending } = common;
 
         const errorMessage = (signupError === null) ? null : (<Alert color='danger'>There was an error during Sign Up</Alert>);
 
@@ -98,12 +98,19 @@ class Signup extends Component {
                         <FormGroup row>
                             <Label for='exampleCreditCardID' sm={3}>Credit Card Number</Label>
                             <Col sm={9}>
-                                <Input value={card_num} type='number' name='creditcardID' id='exampleCreditcardID' placeholder='your credit card #' onChange={e => this.changeState('card_num', e.target.value)} />
+                                <Input
+                                    value={card_num} //eslint-disable-line
+                                    type='number' //eslint-disable-line
+                                    name='creditcardID' //eslint-disable-line
+                                    id='exampleCreditcardID' //eslint-disable-line
+                                    placeholder='your credit card #' //eslint-disable-line
+                                    onChange={e => this.changeState('card_num', e.target.value)} //eslint-disable-line
+                                />
                             </Col>
                         </FormGroup>
                         <FormGroup check row>
                             <Col sm={{ size: 10, offset: 5 }}>
-                                <Button disabled={signUpPending} onClick={this.signUp}>Submit</Button>
+                                <Button disabled={signupPending} onClick={this.signUp}>Submit</Button>
                             </Col>
                         </FormGroup>
                     </Form>
