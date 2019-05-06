@@ -176,13 +176,25 @@ export class Media extends Component {
               rating,
               user_id: parseInt(userData.id, 10),
               movie_id: parseInt(media.movie_id, 10),
-          }).then(this.getUserRating);
+          }).then(() => {
+                const { actions } = this.props;
+                const { getMedia } = actions;
+                const { title } = this.state;
+                this.getUserRating();
+                getMedia(title);
+          });
       } else {
           rateTv({
               rating,
               user_id: parseInt(userData.id, 10),
               tv_show_id: parseInt(media.tv_show_id, 10),
-          }).then(this.getUserRating);
+          }).then(() => {
+                const { actions } = this.props;
+                const { getMedia } = actions;
+                const { title } = this.state;
+                this.getUserRating();
+                getMedia(title);
+        });
       }
   }
 
