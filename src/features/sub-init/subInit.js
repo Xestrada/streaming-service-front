@@ -45,12 +45,15 @@ export class SubInit extends Component {
       const { page, searchFunc } = this.state;
       const { common } = this.props;
       const { userData } = common;
-      if (userData !== undefined && userData.num_slots === undefined) {
-          this.getSlots();
-      } else {
-          this.setState({
-              amountToChoose: userData.num_slots,
-          }, this.getSubs);
+      if (userData !== undefined) {
+          if (userData.num_slots === undefined) {
+              this.getSlots();
+          } else {
+              this.setState({
+                  amountToChoose: userData.num_slots,
+              }, this.getSubs);
+          }
+
       }
       searchFunc(page);
   }
