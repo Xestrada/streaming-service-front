@@ -76,6 +76,7 @@ export function reducer(state, action) {
             authen: true,
             userData: action.userData,
             initialSub: false,
+            areSlotsFull: false,
         };
 
     case COMMON_SIGNUP_FAILURE:

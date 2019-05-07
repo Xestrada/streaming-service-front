@@ -45,12 +45,15 @@ export class SubInit extends Component {
       const { page, searchFunc } = this.state;
       const { common } = this.props;
       const { userData } = common;
-      if (userData !== undefined && userData.num_slots === undefined) {
-          this.getSlots();
-      } else {
-          this.setState({
-              amountToChoose: userData.num_slots,
-          }, this.getSubs);
+      if (userData !== undefined) {
+          if (userData.num_slots === undefined) {
+              this.getSlots();
+          } else {
+              this.setState({
+                  amountToChoose: userData.num_slots,
+              }, this.getSubs);
+          }
+
       }
       searchFunc(page);
   }
@@ -213,7 +216,6 @@ export class SubInit extends Component {
       ));
 
       const loadingGrid = [];
-      const searchFilters = ['All', 'Movies', 'TV Shows', 'Actors'];
 
       const redir = authen && (initialSub !== undefined || (areSlotsFull !== undefined && !areSlotsFull)) ? null : (<Redirect to='/' />);
 
@@ -224,7 +226,7 @@ export class SubInit extends Component {
       const mainPage = (
           <div>
               <br />
-              <SearchBar filters={searchFilters} searchFunc={this.setSearchParams} />
+              <SearchBar nofilter searchFunc={this.setSearchParams} />
               <br />
               <h1 style={{ color: 'white' }}>{`Select ${amountToChoose} Shows`}</h1>
               <h1 style={{ textAlign: 'center', color: 'whitesmoke' }}>
