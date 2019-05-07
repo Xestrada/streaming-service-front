@@ -247,7 +247,7 @@ export class SubInit extends Component {
           </div>
       );
 
-      for (let i = 0; i < 20; i += 1) {
+      for (let i = 0; i < 8; i += 1) {
           loadingGrid.push(<i className='fa fa-spinner fa-spin loadIcon' key={i} />);
       }
 
