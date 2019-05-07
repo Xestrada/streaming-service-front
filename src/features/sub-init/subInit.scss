@@ -13,6 +13,7 @@ body {
 
 .chosen {
     background: #efff61;
+    width: fit-content;
     .contentBox{
         background-color: white;
         display:inline-block;
@@ -26,6 +27,11 @@ body {
     .contentBox img:hover {
         opacity: 0.5;
     }
+}
+
+.locked {
+    width: fit-content;
+    border: 0.2em solid #007bff;
 }
 
 .centerText{
