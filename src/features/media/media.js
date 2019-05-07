@@ -177,11 +177,12 @@ export class Media extends Component {
               user_id: parseInt(userData.id, 10),
               movie_id: parseInt(media.movie_id, 10),
           }).then(() => {
-                const { actions } = this.props;
-                const { getMedia } = actions;
-                const { title } = this.state;
-                this.getUserRating();
-                getMedia(title);
+              const { actions, common } = this.props;
+              const { media } = common;
+              const { getMedia } = actions;
+              const { title } = this.state;
+              this.getUserRating(media);
+              getMedia(title);
           });
       } else {
           rateTv({
@@ -189,12 +190,13 @@ export class Media extends Component {
               user_id: parseInt(userData.id, 10),
               tv_show_id: parseInt(media.tv_show_id, 10),
           }).then(() => {
-                const { actions } = this.props;
-                const { getMedia } = actions;
-                const { title } = this.state;
-                this.getUserRating();
-                getMedia(title);
-        });
+              const { actions, common } = this.props;
+              const { media } = common;
+              const { getMedia } = actions;
+              const { title } = this.state;
+              this.getUserRating(media);
+              getMedia(title);
+          });
       }
   }
 
@@ -316,6 +318,8 @@ export class Media extends Component {
           unsubscribePending,
           deleteSlotPending,
           isMediaOwnedPending,
+          rateTvPending,
+          rateMoviePending,
       } = commonMedia;
 
       // Get user rating if we havent requested it yet.
@@ -330,6 +334,8 @@ export class Media extends Component {
           this.checkIfUnsub();
           this.checkIfDeletable();
       }
+
+      const ratePending = (rateTvPending || rateMoviePending);
 
       const deleteButton = authen && owned && media !== undefined && media.season_info !== undefined
             && slotNum !== -1 && isSlotDeletable
@@ -478,16 +484,16 @@ Season:
 
       const StarRating = (authen !== undefined && authen && media !== undefined) ? (
           <div className='rate'>
-              <input type='radio' id='star5' name='rate' value='5' checked={userRating === 5 || onclick} onClick={() => this.rateMedia(5)} />
-              <label htmlFor='star5' title='text'>5 stars</label>
-              <input type='radio' id='star4' name='rate' value='4' checked={userRating === 4 || onclick} onClick={() => this.rateMedia(4)} />
-              <label htmlFor='star4' title='text'>4 stars</label>
-              <input type='radio' id='star3' name='rate' value='3' checked={userRating === 3 || onclick} onClick={() => this.rateMedia(3)} />
-              <label htmlFor='star3' title='text'>3 stars</label>
-              <input type='radio' id='star2' name='rate' value='2' checked={userRating === 2 || onclick} onClick={() => this.rateMedia(2)} />
-              <label htmlFor='star2' title='text'>2 stars</label>
-              <input type='radio' id='star1' name='rate' value='1' checked={userRating === 1 || onclick} onClick={() => this.rateMedia(1)} />
-              <label htmlFor='star1' title='text'>1 star</label>
+              <input disabled={ratePending} type='radio' id='star5' name='rate' value='5' checked={userRating === 5 || onclick} onClick={() => this.rateMedia(5)} />
+              <label htmlFor='star5'>5 stars</label>
+              <input disabled={ratePending} type='radio' id='star4' name='rate' value='4' checked={userRating === 4 || onclick} onClick={() => this.rateMedia(4)} />
+              <label htmlFor='star4'>4 stars</label>
+              <input disabled={ratePending} type='radio' id='star3' name='rate' value='3' checked={userRating === 3 || onclick} onClick={() => this.rateMedia(3)} />
+              <label htmlFor='star3'>3 stars</label>
+              <input disabled={ratePending} type='radio' id='star2' name='rate' value='2' checked={userRating === 2 || onclick} onClick={() => this.rateMedia(2)} />
+              <label htmlFor='star2'>2 stars</label>
+              <input disabled={ratePending} type='radio' id='star1' name='rate' value='1' checked={userRating === 1 || onclick} onClick={() => this.rateMedia(1)} />
+              <label htmlFor='star1'>1 star</label>
           </div>
       ) : null;
 

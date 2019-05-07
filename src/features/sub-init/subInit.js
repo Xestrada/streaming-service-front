@@ -27,6 +27,7 @@ export class SubInit extends Component {
           searchFunc: p => this.getRecentlyAdded(p),
           chosenFilms: [],
           savedElems: [],
+          lockedFilms: [],
       };
 
       this.getRecentlyAdded = this.getRecentlyAdded.bind(this);
@@ -35,6 +36,7 @@ export class SubInit extends Component {
       this.nextPage = this.nextPage.bind(this);
       this.backPage = this.backPage.bind(this);
       this.chosenContains = this.chosenContains.bind(this);
+      this.lockedContains = this.lockedContains.bind(this);
       this.selectFilm = this.selectFilm.bind(this);
       this.selectSlots = this.selectSlots.bind(this);
       this.getSubs = this.getSubs.bind(this);
@@ -66,7 +68,7 @@ export class SubInit extends Component {
           .then(() => {
               const { common } = this.props;
               const { userSubs } = common;
-              userSubs.map(sub => this.selectFilm(sub.id, sub.title, sub.image_url));
+              userSubs.map(sub => this.selectFilm(sub.id, sub.title, sub.image_url, true));
           });
   }
 
@@ -121,19 +123,34 @@ export class SubInit extends Component {
       this.setState(prevState => ({ page: prevState.page - 1 }));
   }
 
-  selectFilm(num, title, url) {
-      const { chosenFilms, savedElems, amountToChoose } = this.state;
+  selectFilm(num, title, url, shouldLock) {
+      const { common } = this.props;
+      const { getUserSubsPending, getSubsPending } = common;
+
+      if (getUserSubsPending || getSubsPending) {
+          return;
+      }
+
+      const { chosenFilms, savedElems, amountToChoose, lockedFilms } = this.state;
       const array = chosenFilms;
       const elemArray = savedElems;
+      const lock = lockedFilms;
       const index = array.indexOf(num);
       if (this.chosenContains(num)) {
-          array.splice(index, 1);
-          elemArray.splice(index, 1);
-          this.setState({
-              chosenFilms: array,
-              savedElems: elemArray,
-          });
+          if (!this.lockedContains(num)) {
+              array.splice(index, 1);
+              elemArray.splice(index, 1);
+              this.setState({
+                  chosenFilms: array,
+                  savedElems: elemArray,
+              });
+          }
       } else if (chosenFilms.length < amountToChoose) {
+
+          if (shouldLock) {
+              lock.push(num);
+          }
+
           elemArray.push(
               {
                   id: num,
@@ -145,6 +162,7 @@ export class SubInit extends Component {
           this.setState({
               chosenFilms: array,
               savedElems: elemArray,
+              lockedFilms: lock,
           });
       }
   }
@@ -152,6 +170,11 @@ export class SubInit extends Component {
   chosenContains(num) {
       const { chosenFilms } = this.state;
       return chosenFilms.includes(num);
+  }
+
+  lockedContains(num) {
+      const { lockedFilms } = this.state;
+      return lockedFilms.includes(num);
   }
 
   selectSlots() {
@@ -203,13 +226,25 @@ export class SubInit extends Component {
           return (<Redirect to='/' />);
       }
 
+
       const error = tvShowsError !== undefined ? (<h1>Error</h1>) : null;
 
-      const boxes = (tvShows !== undefined) ? tvShows.map(content => (
-          <div className={this.chosenContains(content.id) ? 'chosen' : ''} onClick={() => this.selectFilm(content.id, content.title, content.image_url)}> {/*eslint-disable-line*/}
-              <ContentBox shouldLink={false} title={content.title || content.full_name} url={`/media/${content.title}`} image={content.image_url || emptyImg} key={content.id} />
-          </div>
-      )) : null;
+      const boxes = (tvShows !== undefined) ? tvShows.map((content) => {
+          const chosenStyle = this.chosenContains(content.id) ? 'chosen' : '';
+          const lockedStyle = this.lockedContains(content.id) ? 'locked' : '';
+          const styles = `${chosenStyle} ${lockedStyle}`;
+          return (
+          <div //eslint-disable-line
+                className={styles} //eslint-disable-line
+                onClick={() => { //eslint-disable-line
+                        this.selectFilm(content.id, content.title, content.image_url, false); //eslint-disable-line
+                    } //eslint-disable-line
+                  }
+          >{/*eslint-disable-line*/}
+                  <ContentBox shouldLink={false} title={content.title || content.full_name} url={`/media/${content.title}`} image={content.image_url || emptyImg} key={content.id} />
+          </div> //eslint-disable-line
+          );
+      }) : null;
 
       const selectedList = savedElems.map(content => (
           <ContentBox shouldLink={false} title={content.title} url='' image={content.url || emptyImg} key={content.id} />
@@ -247,7 +282,7 @@ export class SubInit extends Component {
           </div>
       );
 
-      for (let i = 0; i < 20; i += 1) {
+      for (let i = 0; i < 8; i += 1) {
           loadingGrid.push(<i className='fa fa-spinner fa-spin loadIcon' key={i} />);
       }
 

@@ -107,7 +107,7 @@ class Movies extends Component {
         const searchFilters = ['All', 'Title', 'Genre', 'Year', 'Service', 'Actors'];
 
 
-        for (let i = 0; i < 20; i += 1) {
+        for (let i = 0; i < 8; i += 1) {
             loadingGrid.push(<i className='fa fa-spinner fa-spin loadIcon' key={i} />);
         }
 

@@ -21,31 +21,47 @@ class ContentBox extends React.Component {
 
       const { image, title, url, shouldLink, pageData } = this.props;
 
-      const link = shouldLink ? (
-          <Link to={
-              {
-                  pathname: url,
-                  state: {
-                      title,
-                      pageData,
-                  },
+      const page = shouldLink ? (
+          <div className='contentBox'>
+              <Link to={
+                  {
+                      pathname: url,
+                      state: {
+                          title,
+                          pageData,
+                      },
+                  }
               }
-          }
-          >
+              >
+                  <img src={image} alt='default' className='imgDiv' />
+              </Link>
+              <Link to={
+                  {
+                      pathname: url,
+                      state: {
+                          title,
+                          pageData,
+                      },
+                  }
+              }
+              >
+                  <h6 className='centerText'>
+                      {title}
+                  </h6>
+              </Link>
+          </div>
+      ) : (
+          <div className='contentBox'>
+              <img src={image} alt='default' className='imgDiv' />
               <h6 className='centerText'>
                   {title}
               </h6>
-          </Link>
-      ) : (
-          <h6 className='centerText'>
-              {title}
-          </h6>
+          </div>
       );
 
       return (
-          <div className='contentBox'>
-              <img src={image} alt='default' className='imgDiv' />
-              {link}
+          <div>
+              {page}
           </div>
       );
   }
