@@ -57,7 +57,11 @@ class Signup extends Component {
         const { common } = this.props;
         const { authen, initialSub, signupError, signupPending } = common;
 
-        const errorMessage = (signupError === null) ? null : (<Alert color='danger'>There was an error during Sign Up</Alert>);
+        const emailError = (signupError === null || signupError.valid_email) ? null : (<Alert color='danger'>Invalid Email</Alert>);
+        const nameError = (signupError === null || signupError.valid_name) ? null : (<Alert color='danger'>Invalid Name</Alert>);
+        const usernameError = (signupError === null || signupError.valid_username) ? null : (<Alert color='danger'>Invalid Username</Alert>);
+        const passError = (signupError === null || signupError.valid_password) ? null : (<Alert color='danger'>Invalid Password</Alert>);
+        const cardError = (signupError === null || signupError.valid_card_num) ? null : (<Alert color='danger'>Invalid Card Number</Alert>);
 
         const redir = authen !== undefined && authen && !initialSub ? (<Redirect to='/sub-init' />) : null;
 
@@ -68,30 +72,34 @@ class Signup extends Component {
                         Create your account
                     </div>
                     {redir}
-                    {errorMessage}
+                    {nameError}
+                    {emailError}
+                    {usernameError}
+                    {passError}
+                    {cardError}
                     <Form>
                         <FormGroup row>
                             <Label for='name' sm={3}>Name: </Label>
                             <Col sm={8}>
-                                <Input value={name} type='name' name='name' id='name' placeholder='your name' onChange={e => this.changeState('name', e.target.value)} />
+                                <Input invalid={nameError !== null} value={name} type='name' name='name' id='name' placeholder='your name' onChange={e => this.changeState('name', e.target.value)} />
                             </Col>
                         </FormGroup>
                         <FormGroup row>
                             <Label for='exampleEmail' sm={3}>Email</Label>
                             <Col sm={8}>
-                                <Input value={email} type='email' name='email' id='exampleEmail' placeholder='your email' onChange={e => this.changeState('email', e.target.value)} />
+                                <Input invalid={emailError !== null} value={email} type='email' name='email' id='exampleEmail' placeholder='your email' onChange={e => this.changeState('email', e.target.value)} />
                             </Col>
                         </FormGroup>
                         <FormGroup row>
                             <Label for='exampleUsername' sm={3}>Username</Label>
                             <Col sm={8}>
-                                <Input value={username} type='username' name='username' id='exampleUsername' placeholder='your username' onChange={e => this.changeState('username', e.target.value)} />
+                                <Input invalid={usernameError !== null} value={username} type='username' name='username' id='exampleUsername' placeholder='your username' onChange={e => this.changeState('username', e.target.value)} />
                             </Col>
                         </FormGroup>
                         <FormGroup row>
                             <Label for='examplePassword' sm={3}>Password</Label>
                             <Col sm={9}>
-                                <Input value={password} type='password' name='password' id='examplePassword' placeholder='your password' onChange={e => this.changeState('password', e.target.value)} />
+                                <Input invalid={passError !== null} value={password} type='password' name='password' id='examplePassword' placeholder='your password' onChange={e => this.changeState('password', e.target.value)} />
 
                             </Col>
                         </FormGroup>
@@ -99,6 +107,7 @@ class Signup extends Component {
                             <Label for='exampleCreditCardID' sm={3}>Credit Card Number</Label>
                             <Col sm={9}>
                                 <Input
+                                    invalid={cardError !== null} //eslint-disable-line
                                     value={card_num} //eslint-disable-line
                                     type='number' //eslint-disable-line
                                     name='creditcardID' //eslint-disable-line
