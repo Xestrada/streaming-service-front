@@ -16,6 +16,7 @@ class TimelinePost extends React.Component {
         message: PropTypes.string.isRequired,
         common: PropTypes.object.isRequired,
         actions: PropTypes.object.isRequired,
+        commonProfile: PropTypes.object.isRequired,
         comments: PropTypes.object,
         areFriends: PropTypes.bool,
     };
@@ -35,19 +36,28 @@ class TimelinePost extends React.Component {
         const { commentPost } = actions;
         const { userData } = common;
         const { userComment } = this.state;
+        if (userComment === '') {
+            return;
+        }
         if (userData !== undefined) {
             commentPost({
                 user_id: userData.id,
                 comment: userComment,
                 post_id: postId,
-            }).then(refreshFunc);
+            }).then(() => {
+                refreshFunc();
+                this.setState({
+                    userComment: '',
+                });
+            });
         }
     }
 
 
     render() {
 
-        const { name, message, comments, areFriends, postedTo } = this.props;
+        const { name, message, comments, areFriends, postedTo, commonProfile } = this.props;
+        const { commentPostPending } = commonProfile;
         const { userComment } = this.state;
 
         const commentElems = comments !== undefined ? comments.map(comment => (
@@ -68,12 +78,13 @@ class TimelinePost extends React.Component {
                 {commentElems}
                 {areFriends && (
                     <CommentContainer
-                    comment={userComment} //eslint-disable-line
-                    title='Comment' //eslint-disable-line
-                    buttonText='Post' //eslint-disable-line
-                    placeHolderText='Enter your comment here...' //eslint-disable-line
-                    buttonFunc={this.commentOnPost} //eslint-disable-line
-                    changeFunc={(value) => { //eslint-disable-line
+                        disabled={commentPostPending} //eslint-disable-line
+                        comment={userComment} //eslint-disable-line
+                        title='Comment' //eslint-disable-line
+                        buttonText='Post' //eslint-disable-line
+                        placeHolderText='Enter your comment here...' //eslint-disable-line
+                        buttonFunc={this.commentOnPost} //eslint-disable-line
+                        changeFunc={(value) => { //eslint-disable-line
                             this.setState({
                                 userComment: value,
                             });
@@ -95,6 +106,7 @@ TimelinePost.defaultProps = {
 /* istanbul ignore next */
 function mapStateToProps(state) {
     return {
+        commonProfile: state.profile,
         common: state.common,
     };
 }

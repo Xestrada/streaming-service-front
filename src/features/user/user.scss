@@ -5,11 +5,17 @@
     .userHolder {
 
         width: 10rem;
+        margin: auto;
 
         .request {
             color: white;
             font-size: 1.0rem;
             margin: auto;
+        }
+
+        .userName {
+            text-decoration: underline;
+            margin: 0.4rem auto 0.4rem auto;
         }
 
         img {
@@ -21,6 +27,11 @@
             color: white;
             margin: auto;
             text-align: center;
+            width: 10rem;
+        }
+
+        button {
+            margin: auto;
             width: 10rem;
         }
 

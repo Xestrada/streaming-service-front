@@ -5,11 +5,6 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {
     Button,
-    Carousel,
-    CarouselItem,
-    CarouselControl,
-    CarouselIndicators,
-    CarouselCaption,
 } from 'reactstrap';
 import * as actions from '../common/redux/actions';
 import * as profileActions from '../profile/redux/actions';
@@ -21,21 +16,6 @@ import TimelinePost from '../common/timelinePost';
 import CommentContainer from '../common/commentContainer';
 import emptyImg from '../../images/noimage.png';
 import './home.scss';
-
-const items = [
-    {
-        src: 'https://cdn.vox-cdn.com/uploads/chorus_image/image/49531115/20151006-silicon-valley-tv-show.0.jpg',
-        header: 'Slide 1 Header',
-    },
-    {
-        src: 'https://i.redd.it/9kzcg7xk4q321.png',
-        header: 'Slide 2 Header',
-    },
-    {
-        src: 'https://www.dreadcentral.com/wp-content/uploads/2018/06/pyewacketbanner1200x627.jpg',
-        header: 'Slide 3 Header',
-    },
-];
 
 export class Home extends Component {
     static propTypes = {
@@ -52,7 +32,6 @@ export class Home extends Component {
             filter: 'all',
             query: '',
             searchFunc: p => this.getRecentlyAdded(p),
-            activeIndex: 0,
             userPost: '',
         };
 
@@ -65,11 +44,6 @@ export class Home extends Component {
         this.search = this.search.bind(this);
         this.nextPage = this.nextPage.bind(this);
         this.backPage = this.backPage.bind(this);
-        this.next = this.next.bind(this);
-        this.previous = this.previous.bind(this);
-        this.goToIndex = this.goToIndex.bind(this);
-        this.onExiting = this.onExiting.bind(this);
-        this.onExited = this.onExited.bind(this);
         this.postOnTimeline = this.postOnTimeline.bind(this);
     }
 
@@ -78,15 +52,6 @@ export class Home extends Component {
         searchFunc(page);
         this.getTimeline();
     }
-
-    onExiting() {
-        this.animating = true;
-    }
-
-    onExited() {
-        this.animating = false;
-    }
-
 
     getMovieList() {
         const { actions } = this.props;
@@ -134,6 +99,9 @@ export class Home extends Component {
     postOnTimeline() {
         const { common, profileActions } = this.props;
         const { userPost } = this.state;
+        if (userPost === '') {
+            return;
+        }
         const { userData } = common;
         const { postTimeline } = profileActions;
         postTimeline({
@@ -146,25 +114,6 @@ export class Home extends Component {
                 userPost: '',
             });
         });
-    }
-
-    next() {
-        if (this.animating) return;
-        const { activeIndex } = this.state;
-        const nextIndex = activeIndex === items.length - 1 ? 0 : activeIndex + 1;
-        this.setState({ activeIndex: nextIndex });
-    }
-
-    previous() {
-        if (this.animating) return;
-        const { activeIndex } = this.state;
-        const nextIndex = activeIndex === 0 ? items.length - 1 : activeIndex - 1;
-        this.setState({ activeIndex: nextIndex });
-    }
-
-    goToIndex(newIndex) {
-        if (this.animating) return;
-        this.setState({ activeIndex: newIndex });
     }
 
     createSearchURL(filter) {
@@ -207,7 +156,7 @@ export class Home extends Component {
     render() {
         const { common, profile } = this.props;
         const { page, userPost } = this.state;
-        const { data, maxPages, searchError, searchPending, authen, userData } = common;
+        const { data, maxPages, searchError, searchPending, authen, userData, postTimelinePending } = common;
         const { getTimelinePending, getTimelineError, timeline } = profile;
 
         if (authen && timeline === undefined && userData !== undefined && !getTimelinePending && (getTimelineError === null || getTimelineError === undefined)) {
@@ -228,14 +177,6 @@ export class Home extends Component {
         const loadingGrid = [];
         const searchFilters = ['All', 'Movies', 'TV Shows', 'Users'];
 
-        const { activeIndex } = this.state;
-
-        const slides = items.map(item => (
-            <CarouselItem onExiting={this.onExiting} onExited={this.onExited} key={item.src}>
-                <img src={item.src} alt={item.altText} />
-                <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
-            </CarouselItem>
-        ));
         const postElems = authen && timeline !== undefined && !getTimelinePending ? timeline.map(post => (
             <div>
                 <TimelinePost //eslint-disable-line
@@ -261,14 +202,6 @@ export class Home extends Component {
                         <Button color='primary' className='signup-button'> SIGN UP NOW</Button>
                     </Link>
                 </div>
-                <div className='moveCarousel'>
-                    <Carousel activeIndex={activeIndex} next={this.next} previous={this.previous}>
-                        <CarouselIndicators items={items} activeIndex={activeIndex} onClickHandler={this.goToIndex} />
-                        {slides}
-                        <CarouselControl direction='prev' directionText='Previous' onClickHandler={this.previous} />
-                        <CarouselControl direction='next' directionText='Next' onClickHandler={this.next} />
-                    </Carousel>
-                </div>
             </div>
         );
 
@@ -280,6 +213,7 @@ export class Home extends Component {
                     <div>
                         <div className='postContainer'>
                             <CommentContainer
+                                disabled={postTimelinePending} //eslint-disable-line
                                 comment={userPost} //eslint-disable-line
                                 title='Post to Timeline' //eslint-disable-line
                                 buttonText='Post' //eslint-disable-line
