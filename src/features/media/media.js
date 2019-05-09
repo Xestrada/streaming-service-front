@@ -320,6 +320,8 @@ export class Media extends Component {
           isMediaOwnedPending,
           rateTvPending,
           rateMoviePending,
+          rentMoviePending,
+          subTvPending,
       } = commonMedia;
 
       // Get user rating if we havent requested it yet.
@@ -435,7 +437,7 @@ Season:
               (You will be charged $0.50 for a 24hr rental)
               </ModalBody>
               <ModalFooter>
-                  <Button className='btn btn-primary btn-md' color='primary' onClick={() => { this.rentMovie(); this.rentToggle(); }}>
+                  <Button disabled={rentMoviePending} className='btn btn-primary btn-md' color='primary' onClick={() => { this.rentMovie(); this.rentToggle(); }}>
                     Yes, rent this movie
                   </Button>
                   <Button color='secondary' onClick={this.rentToggle}>Cancel</Button>
@@ -451,7 +453,7 @@ Season:
               (You will be charged $1.50 extra each month for this slot)
               </ModalBody>
               <ModalFooter>
-                  <Button className='btn btn-primary btn-md' color='primary' onClick={() => { this.addSlot(); this.subToggle(); }}>
+                  <Button disabled={subTvPending} className='btn btn-primary btn-md' color='primary' onClick={() => { this.addSlot(); this.subToggle(); }}>
                   Yes, subscribe this tv show
                   </Button>
                   <Button color='secondary' onClick={this.subToggle}>Cancel</Button>
@@ -528,6 +530,7 @@ Season:
                   {media.title}
                   {' '}
               </h1>
+
               {stored !== '' && eps !== '' && (
                   <h1 style={{ textAlign: 'center', fontSize: '1.5em' }}>
                     Episode
@@ -538,6 +541,7 @@ Season:
                       {stored}
                   </h1>
               )}
+
               <ReactPlayer id='media-box' url={authen && owned ? mediaURL : ''} controls />
               <div id='clearFix'>
                   <h1>
@@ -564,18 +568,18 @@ Season:
               </div>
               <div id='media-info'>
                   <h2>
-STARS:
+                    STARS:
                       {' '}
                       {starInfo}
                   </h2>
 
                   <h2>
-Genres:
+                    Genres:
                       {' '}
                       {genreInfo}
                   </h2>
                   <h2>
-Average Rating:
+                    Average Rating:
                       {' '}
                       <span style={{ color: 'white' }}>{media.avg_rating}</span>
                   </h2>
