@@ -300,7 +300,7 @@ export class User extends Component {
                   <div className='userInfo'>
                       <div className='userHolder'>
                           <img src={userImg} alt='User' />
-                          <h5>{username}</h5>
+                          <h5 className='userName'>{username}</h5>
                           {friendOptions || friendLabel || friendButton}
                       </div>
                   </div>
