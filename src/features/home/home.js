@@ -44,11 +44,6 @@ export class Home extends Component {
         this.search = this.search.bind(this);
         this.nextPage = this.nextPage.bind(this);
         this.backPage = this.backPage.bind(this);
-        this.next = this.next.bind(this);
-        this.previous = this.previous.bind(this);
-        this.goToIndex = this.goToIndex.bind(this);
-        this.onExiting = this.onExiting.bind(this);
-        this.onExited = this.onExited.bind(this);
         this.postOnTimeline = this.postOnTimeline.bind(this);
     }
 
@@ -57,15 +52,6 @@ export class Home extends Component {
         searchFunc(page);
         this.getTimeline();
     }
-
-    onExiting() {
-        this.animating = true;
-    }
-
-    onExited() {
-        this.animating = false;
-    }
-
 
     getMovieList() {
         const { actions } = this.props;
