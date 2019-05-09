@@ -218,11 +218,10 @@ export class SubInit extends Component {
           tvShowsPending,
           initialSub,
           areSlotsFull,
-          userData,
           addInitialSubsPending,
       } = common;
 
-      if ((authen !== undefined && !authen) || userData === undefined) {
+      if ((authen !== undefined && !authen) || (areSlotsFull !== undefined && areSlotsFull)) {
           return (<Redirect to='/' />);
       }
 
