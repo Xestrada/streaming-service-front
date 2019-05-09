@@ -322,6 +322,8 @@ export class Media extends Component {
           rateMoviePending,
           rentMoviePending,
           subTvPending,
+          makeMovieCommentPending,
+          makeTvCommentPending,
       } = commonMedia;
 
       // Get user rating if we havent requested it yet.
@@ -479,7 +481,7 @@ Season:
                   style={{ borderStyle: 'inset', width: '38.5rem', height: '7rem' }} //eslint-disable-line
               />
               <div className='row'>
-                  <input style={{ float: 'right' }} type='submit' value='Post Comment' onClick={this.makeComment} />
+                  <input disabled={makeTvCommentPending || makeMovieCommentPending} style={{ float: 'right' }} type='submit' value='Post Comment' onClick={this.makeComment} />
               </div>
           </div>
       ) : null;
