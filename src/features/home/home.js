@@ -99,6 +99,9 @@ export class Home extends Component {
     postOnTimeline() {
         const { common, profileActions } = this.props;
         const { userPost } = this.state;
+        if (userPost === '') {
+            return;
+        }
         const { userData } = common;
         const { postTimeline } = profileActions;
         postTimeline({
@@ -153,7 +156,7 @@ export class Home extends Component {
     render() {
         const { common, profile } = this.props;
         const { page, userPost } = this.state;
-        const { data, maxPages, searchError, searchPending, authen, userData } = common;
+        const { data, maxPages, searchError, searchPending, authen, userData, postTimelinePending } = common;
         const { getTimelinePending, getTimelineError, timeline } = profile;
 
         if (authen && timeline === undefined && userData !== undefined && !getTimelinePending && (getTimelineError === null || getTimelineError === undefined)) {
@@ -210,6 +213,7 @@ export class Home extends Component {
                     <div>
                         <div className='postContainer'>
                             <CommentContainer
+                                disabled={postTimelinePending} //eslint-disable-line
                                 comment={userPost} //eslint-disable-line
                                 title='Post to Timeline' //eslint-disable-line
                                 buttonText='Post' //eslint-disable-line

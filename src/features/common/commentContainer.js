@@ -11,10 +11,11 @@ class CommentContainer extends React.Component {
         placeHolderText: PropTypes.shape.isRequired,
         buttonFunc: PropTypes.func.isRequired,
         changeFunc: PropTypes.func.isRequired,
+        disabled: PropTypes.bool,
     };
 
     render() {
-        const { title, buttonText, placeHolderText, buttonFunc, changeFunc, comment } = this.props;
+        const { title, buttonText, placeHolderText, buttonFunc, changeFunc, comment, disabled } = this.props;
 
         const commentContainer = (
             <div className='comment-container'>
@@ -30,7 +31,7 @@ class CommentContainer extends React.Component {
                   placeholder={placeHolderText} //eslint-disable-line
                   className='textArea' //eslint-disable-line
                 />
-                <input className='postButton' type='button' value={buttonText} onClick={buttonFunc} />
+                <input disabled={disabled} className='postButton' type='button' value={buttonText} onClick={buttonFunc} />
             </div>
         );
 
@@ -42,5 +43,9 @@ class CommentContainer extends React.Component {
     }
 
 }
+
+CommentContainer.defaultProps = {
+    disabled: false,
+};
 
 export default CommentContainer;
